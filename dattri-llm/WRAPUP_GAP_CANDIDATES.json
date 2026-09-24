@@ -1,0 +1,104 @@
+{
+  "repo": "TRAIS-Lab/dattri-llm",
+  "branch": "dev",
+  "paper": "hub-stage/dattri-llm/paper/paper.pdf",
+  "generated": "2026-09-24",
+  "candidates": [
+    {
+      "id": "W1",
+      "category": "style",
+      "title": "Abstract 'and and' typo",
+      "effort": "S",
+      "paper_risk": "none",
+      "priority": 1
+    },
+    {
+      "id": "I1",
+      "category": "inconsistency",
+      "title": "Curvature speedup 1.3\u20132.5\u00d7 vs 1.4\u20133.1\u00d7",
+      "effort": "S",
+      "paper_risk": "none",
+      "priority": 2
+    },
+    {
+      "id": "I2",
+      "category": "inconsistency",
+      "title": "Abstract 'similarity at parity' vs GradDot throughput gains",
+      "effort": "S",
+      "paper_risk": "low",
+      "priority": 3
+    },
+    {
+      "id": "I3",
+      "category": "inconsistency",
+      "title": "GradDot/GradCos/TracIn naming vs TracInAttributor labels",
+      "effort": "S",
+      "paper_risk": "low",
+      "priority": 4
+    },
+    {
+      "id": "N1",
+      "category": "style",
+      "title": "Paper 'Attributor' vs BaseAttributor",
+      "effort": "S",
+      "paper_risk": "none",
+      "priority": 5
+    },
+    {
+      "id": "G1",
+      "category": "gap",
+      "title": "README dattri.task/functional_call vs dattri_llm.task",
+      "effort": "S",
+      "paper_risk": "none",
+      "priority": 6
+    },
+    {
+      "id": "W2",
+      "category": "style",
+      "title": "introduct + motivates grammar",
+      "effort": "S",
+      "paper_risk": "none",
+      "priority": 7
+    },
+    {
+      "id": "S1",
+      "category": "short-fall",
+      "title": "Fig.1 omits LESS/AdamWInfluence",
+      "effort": "S",
+      "paper_risk": "none",
+      "priority": 8
+    },
+    {
+      "id": "G2",
+      "category": "gap",
+      "title": "FLOP routing under-documented vs claim",
+      "effort": "M",
+      "paper_risk": "none",
+      "priority": 9
+    },
+    {
+      "id": "S2",
+      "category": "short-fall",
+      "title": "No docs/ site; README-only API surface",
+      "effort": "M",
+      "paper_risk": "none",
+      "priority": 10
+    },
+    {
+      "id": "I4",
+      "category": "inconsistency",
+      "title": "pip install -e . insufficient for TracIn demo",
+      "effort": "S",
+      "paper_risk": "none",
+      "priority": 11
+    },
+    {
+      "id": "N2",
+      "category": "style",
+      "title": "dattri-LLM vs dattri-llm vs dattri_llm triad",
+      "effort": "S",
+      "paper_risk": "none",
+      "priority": 12
+    }
+  ]
+}
