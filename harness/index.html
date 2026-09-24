@@ -237,7 +237,7 @@
         <tr><td>Product owner</td><td>Tongli</td><td>Accepts <code>intent.md</code> / <code>spec.md</code>; only merge &amp; production gate</td></tr>
         <tr><td>EM</td><td>Github Bot <span class="pill gap">not yet</span> (Manage holds interim)</td><td>Commits artifacts, fires the next play, triages review, starts the next independent slice; heartbeat babysitter</td></tr>
         <tr><td>Implementer</td><td>Claude / Fable (default) or Muse/DSH</td><td>Implements from accepted <code>plan.md</code>; opens PR; cannot be a dual-LGTM reviewer on the same PR</td></tr>
-        <tr><td>Reviewers</td><td>Astra (Codex) + Fable (Claude)</td><td>Blind dual LGTM on the PR (each sees PR + intent/spec/plan only — never each other’s reviews); dual LGTM = agent-complete, not shipped</td></tr>
+        <tr><td>Reviewers</td><td>Astra (Codex) + second seat</td><td>Blind dual LGTM (each sees PR + intent/spec/plan only — never each other’s reviews). Second seat = Fable if Fable did not implement; else Kimi. Dual LGTM = agent-complete, not shipped</td></tr>
         <tr><td>Research originator</td><td>human or scout bot</td><td>Writes Stage‑1 <code>intent.md</code> — not a coding task</td></tr>
       </tbody>
     </table>
@@ -250,7 +250,7 @@
       <li>An accepted <code>intent.md</code> triggers design.</li>
       <li>An accepted <code>spec.md</code> triggers plan mode.</li>
       <li>An accepted <code>plan.md</code> triggers Claude implementation.</li>
-      <li>A PR URL existing triggers Astra + Fable blind dual-LGTM (never before; implementer ≠ reviewer).</li>
+      <li>A PR URL existing triggers Astra + second-seat blind dual-LGTM (never before; implementer ≠ reviewer).</li>
       <li>Dual LGTM + product-owner merge triggers ship. Dual LGTM alone is <strong>not</strong> merged.</li>
     </ul>
 
@@ -277,7 +277,7 @@
       <li><strong>Tongli accepts</strong> intent/spec when the change is consequential.</li>
       <li><strong>EM launches implementer</strong> via durable Mac launch (tmux + stream + watchdog when stood up); prompt points at the committed <code>plan.md</code>.</li>
       <li><strong>Implementer</strong> builds, runs the repo’s one-command tests, commits, pushes, opens the PR — does not wait for reviewers.</li>
-      <li><strong>EM requests Astra + Fable</strong> on the PR URL independently (blind dual-LGTM).</li>
+      <li><strong>EM requests Astra + second seat</strong> on the PR URL independently (blind dual-LGTM).</li>
       <li><strong>EM triages</strong> — P0/P1 block dual LGTM; P2s get a fix pass on the same branch/session id.</li>
       <li><strong>Dual LGTM</strong> → ping product owner. Merge only if Tongli asked (or a standing order for that repo).</li>
       <li><strong>File proof</strong> — note with PR URL, session ids, follow-ups.</li>
@@ -322,7 +322,7 @@
     <p>AI-native Plan → Design → Build → Test → Deploy → Maintain. Detailed EM playbook is in <a href="#em-loop">§5</a>.</p>
     <ul>
       <li><strong>Implementer (default):</strong> Claude Code / Fable (or Muse/DSH when Fable is needed on review)</li>
-      <li><strong>Reviewers:</strong> Astra + Fable (blind dual LGTM on the critical path; implementer ≠ reviewer) — <span class="pill target">target roles named; loop not standing</span></li>
+      <li><strong>Reviewers:</strong> Astra + second seat (Fable if not implementer; else Kimi); implementer ≠ reviewer — <span class="pill target">pilot clay + PR; full EM loop not standing</span></li>
       <li><strong>Optional parallel:</strong> Muse Spark or DSH when Tongli asks</li>
       <li><strong>Merge:</strong> Tongli only</li>
       <li><strong>CR-Harness:</strong> keep issue-first Claude CONTRIBUTING; fleet contract grows beside it</li>
@@ -500,7 +500,7 @@
       <li>☐ Long jobs: prefer tmux + stream + watchdog when helpers exist</li>
       <li>☐ <a href="/research/usage/">Usage</a> cards green / explained</li>
       <li>☐ No secrets in vault notes or hub commits</li>
-      <li>☐ Blind dual-LGTM pilot: review <code>CLAUDE.md</code> + <code>docs/REVIEW.md</code> on the open PR; Tongli merges after Astra+Fable LGTM</li>
+      <li>☐ Blind dual-LGTM pilot: review <code>CLAUDE.md</code> + <code>docs/REVIEW.md</code> on the open PR; Tongli merges after Astra + second-seat LGTM (Fable only if not implementer; else Kimi)</li>
       <li>☐ Gaps below still true? Update this page when a gap closes.</li>
     </ul>
   </section>
@@ -519,7 +519,7 @@
         <tr><td>Field Brief 6h watch</td><td><span class="pill gap">paused</span></td></tr>
         <tr><td>Weekday usage refresh</td><td><span class="pill gap">paused</span></td></tr>
         <tr><td>Lab collect 09:00 / KEEP 16:30 ET</td><td><span class="pill live">enabled after Three-Run Proof + populate</span></td></tr>
-        <tr><td>Blind dual-LGTM babysitter loop</td><td><span class="pill target">pilot PR open · clay CLAUDE.md + docs/REVIEW.md; Tongli merge after dual LGTM</span></td></tr>
+        <tr><td>Blind dual-LGTM babysitter loop</td><td><span class="pill target">pilot PR open · clay CLAUDE.md + docs/REVIEW.md; full EM loop not standing; Tongli merge after dual LGTM</span></td></tr>
         <tr><td>Agy</td><td><span class="pill target">installed 1.2.9 · auth deferred (Tongli)</span></td></tr>
       </tbody>
     </table>
