@@ -1,1 +1,8 @@
-hub-stage is the staged GitHub Pages tree for TonyZhou05/research (publish target: https://tonyzhou05.github.io/research/usage/).
+hub-stage is the staged GitHub Pages tree for TonyZhou05/research.
+
+Live:
+- https://tonyzhou05.github.io/research/
+- https://tonyzhou05.github.io/research/usage/
+- https://tonyzhou05.github.io/research/harness-lab/
+
+Local tooling: ~/Documents/Tonys-agent-playground/{usage-dashboard,harness-lab}/
