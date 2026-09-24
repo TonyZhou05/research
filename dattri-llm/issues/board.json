@@ -1,0 +1,61 @@
+{
+  "title": "Dattri-llm wrap-up board",
+  "blurb": "Hub-local tracker for TRAIS-Lab/dattri-llm wrap-up. Never create GitHub issues from this board.",
+  "sourceRepo": "TRAIS-Lab/dattri-llm",
+  "sourceRepoPrivate": false,
+  "sourceRepoUrl": "https://github.com/TRAIS-Lab/dattri-llm",
+  "hubLocalOnly": true,
+  "neverCreateGitHubIssues": true,
+  "updatedAt": "2026-09-24 ~02:52 ET",
+  "openIssues": [
+    {
+      "number": "H1",
+      "state": "open",
+      "author": "TonyZhou05",
+      "html_url": null,
+      "labels": [
+        "hub-only",
+        "wrap-up"
+      ],
+      "title": "Polish README and installation docs for the final public handoff",
+      "notes": "Clarify the supported workflows, companion dattri relationship, and the minimal install path."
+    },
+    {
+      "number": "H2",
+      "state": "open",
+      "author": "TonyZhou05",
+      "html_url": null,
+      "labels": [
+        "hub-only",
+        "wrap-up"
+      ],
+      "title": "Run a release checklist against supported examples and trainer wrappers",
+      "notes": "Check representative TracIn/K-FAC paths, Hugging Face Trainer / OLMo notes, and known environment assumptions."
+    },
+    {
+      "number": "H3",
+      "state": "open",
+      "author": "TonyZhou05",
+      "html_url": null,
+      "labels": [
+        "hub-only",
+        "wrap-up"
+      ],
+      "title": "Make example scripts reproducible and mark any non-maintained paths",
+      "notes": "Audit examples for current imports, small-model smoke tests, and an explicit wrap-up maintenance boundary."
+    },
+    {
+      "number": "H4",
+      "state": "open",
+      "author": "TonyZhou05",
+      "html_url": null,
+      "labels": [
+        "hub-only",
+        "wrap-up"
+      ],
+      "title": "Record final attribution-method and compatibility notes for archival use",
+      "notes": "Capture the supported algorithms, layer coverage, distributed-training status, and limitations without opening a GitHub issue."
+    }
+  ],
+  "openPullRequests": []
+}

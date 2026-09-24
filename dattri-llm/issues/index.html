@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hub-local Dattri-llm wrap-up board. Never create GitHub issues for TRAIS-Lab/dattri-llm.">
+  <meta name="theme-color" content="#101828"><meta name="author" content="Tongli Zhou">
+  <title>Dattri-llm Wrap-up Board — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/dattri-llm/issues/">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --paper:#f4efe6; --paper-2:#ebe4d8; --cream:#fbf7f0; --ink:#161410; --ink-soft:#5c564c; --ink-faint:#8a8378; --line:#d9d0c3; --accent:#e87324; --accent-dark:#b7480d; --serif:"Fraunces",Iowan Old Style,Charter,Georgia,serif; --sans:"IBM Plex Sans",Inter,ui-sans-serif,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace; }
+    * { box-sizing:border-box; } body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased; } a { color:var(--accent-dark); text-underline-offset:2px; } a:hover { color:var(--ink); }
+    .topnav { border-bottom:1px solid var(--line); background:var(--cream); } .topnav-inner,.shell { width:min(860px,calc(100% - 40px)); margin:0 auto; } .topnav-inner { display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; padding:12px 0; font-size:.92rem; } .topnav .brand { font-family:var(--mono); font-weight:600; font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink); text-decoration:none; } .topnav a { color:var(--ink-soft); text-decoration:none; } .topnav a:hover,.topnav a[aria-current="page"] { color:var(--accent-dark); }
+    header.hero { padding:36px 0 8px; } .kicker { font-family:var(--mono); font-size:.78rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--accent-dark); margin:0 0 8px; } h1 { font-family:var(--serif); font-size:clamp(1.9rem,3.2vw,2.6rem); font-weight:600; margin:0 0 12px; letter-spacing:-.02em; } .lede { color:var(--ink-soft); max-width:66ch; margin:0 0 12px; } .meta { display:flex; flex-wrap:wrap; gap:10px 18px; font-size:.9rem; color:var(--ink-soft); margin-bottom:22px; } .meta strong { color:var(--ink); }
+    .callout { background:#fef2f2; border:1px solid #fecaca; border-radius:12px; padding:14px 16px; margin:0 0 18px; color:var(--ink-soft); font-size:.95rem; } .callout strong { color:var(--ink); } .howto { background:var(--cream); border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin:0 0 28px; color:var(--ink-soft); } .howto h2 { font-family:var(--serif); font-size:1.15rem; font-weight:600; margin:0 0 8px; color:var(--ink); } .howto p { margin:0; } .howto ol { margin:8px 0 0; padding-left:1.25rem; } .howto li { margin:4px 0; }
+    h2.sec { font-family:var(--serif); font-size:1.35rem; font-weight:600; margin:8px 0 14px; } .list { display:flex; flex-direction:column; gap:12px; padding-bottom:28px; } .card { background:var(--cream); border:1px solid var(--line); border-radius:14px; padding:14px 16px; } .card .src { display:flex; flex-wrap:wrap; gap:8px 14px; font-family:var(--mono); font-size:.72rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 6px; } .card h3 { font-family:var(--serif); font-size:1.08rem; font-weight:600; margin:0 0 6px; line-height:1.3; } .card h3 a { color:var(--ink); text-decoration:none; } .card h3 a:hover { color:var(--accent-dark); text-decoration:underline; } .card .meta-line,.card .notes { font-size:.9rem; color:var(--ink-soft); margin:0; } .card .notes { margin-top:8px; } .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; } .tag { display:inline-block; font-family:var(--mono); font-size:.7rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase; background:var(--paper-2); border:1px solid var(--line); border-radius:999px; padding:3px 9px; color:var(--ink-soft); } .tag.open { background:#d1fae5; border-color:#a7f3d0; color:#065f46; } .tag.hub-only { background:#ffedd5; border-color:#fed7aa; color:#9a3412; } .empty { color:var(--ink-faint); padding:16px 0; } footer { border-top:1px solid var(--line); padding:22px 0 48px; color:var(--ink-faint); font-size:.88rem; } code { font-family:var(--mono); font-size:.86em; background:var(--paper-2); padding:1px 5px; border-radius:4px; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub"><div class="topnav-inner">
+    <a class="brand" href="/research/">TZ / Research</a><a href="/research/">Hub</a><a href="/research/usage/">Usage</a><a href="/research/harness/">Harness</a><a href="/research/harness-lab/">Lab</a><a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/" aria-current="page">Dattri-llm</a>
+  </div></nav>
+  <main class="shell">
+    <header class="hero"><p class="kicker">Dattri-llm · hub-local wrap-up</p><h1 id="title">Dattri-llm wrap-up board</h1><p class="lede" id="blurb">Loading…</p><div class="meta" id="meta"></div></header>
+    <div class="callout"><strong>Hub-local board only. Do not open GitHub issues for dattri-llm.</strong> These cards are intentionally tracked in this research hub, not in <code>TRAIS-Lab/dattri-llm</code>.</div>
+    <div class="howto"><h2>How to update this board</h2><p>Add or edit items in <code>board.json</code> on the research hub. Keep hub-local cards clearly tagged; <strong>Tongli decides if anything ever becomes a real GitHub issue or PR.</strong></p></div>
+    <h2 class="sec">Open wrap-up items</h2><section class="list" id="issues" aria-live="polite"><p class="empty">Loading…</p></section>
+    <h2 class="sec">Open pull requests</h2><section class="list" id="prs" aria-live="polite"><p class="empty">Loading…</p></section>
+  </main>
+  <footer><div class="shell">Public research hub · Dattri-llm wrap-up board · Tongli Zhou (TonyZhou05) · <a href="/research/dattri-llm/">Dattri-llm</a> · <a href="/research/">Hub</a> · <a href="/research/harness/">Harness</a> · <a href="/research/CR-harness/">CR-Harness</a></div></footer>
+  <script>
+  (function () {
+    "use strict";
+    function esc(s) { return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
+    function card(item, kind) {
+      var id = esc(item.number), label = esc((item.number ? item.number + " · " : "") + (item.title || "Untitled"));
+      var title = item.html_url ? '<a href="' + esc(item.html_url) + '" rel="noopener noreferrer">' + label + '</a>' : '<span>' + label + '</span>';
+      var tags = '<span class="tag open">' + esc(item.state || "open") + '</span>';
+      (item.labels || []).forEach(function (t) { tags += '<span class="tag ' + (t === "hub-only" ? "hub-only" : "") + '">' + esc(t) + '</span>'; });
+      if (!item.html_url && !(item.labels || []).some(function (t) { return t === "hub-only"; })) tags += '<span class="tag hub-only">hub-only</span>';
+      return '<article class="card" id="' + (kind + "-" + id) + '"><div class="src"><span>' + (kind === "pr" ? "Pull request" : "Hub item") + '</span>' + (item.updated_display || item.updated_at ? '<span>' + esc(item.updated_display || item.updated_at) + '</span>' : '') + '</div><h3>' + title + '</h3><p class="meta-line">by <strong>' + esc(item.author || "") + '</strong></p>' + (item.notes ? '<p class="notes">' + esc(item.notes) + '</p>' : '') + '<div class="tags">' + tags + '</div></article>';
+    }
+    fetch("board.json", {cache:"no-store"}).then(function (r) { if (!r.ok) throw new Error("board.json " + r.status); return r.json(); }).then(function (data) {
+      document.getElementById("title").textContent = data.title || "Dattri-llm wrap-up board";
+      document.getElementById("blurb").textContent = data.blurb || "";
+      var issues = data.openIssues || [], prs = data.openPullRequests || [];
+      document.getElementById("meta").innerHTML = '<span>' + issues.length + ' <strong>open items</strong></span><span>' + prs.length + ' <strong>open PRs</strong></span>' + (data.updatedAt ? '<span>Snapshot <strong>' + esc(data.updatedAt) + '</strong></span>' : '') + (data.sourceRepo ? '<span>Source <strong>' + esc(data.sourceRepo) + '</strong> (public)</span>' : '');
+      document.getElementById("issues").innerHTML = issues.length ? issues.map(function (i) { return card(i,"issue"); }).join("") : '<p class="empty">No open wrap-up items in this snapshot.</p>';
+      document.getElementById("prs").innerHTML = prs.length ? prs.map(function (p) { return card(p,"pr"); }).join("") : '<p class="empty">No open pull requests in this snapshot.</p>';
+    }).catch(function (err) { document.getElementById("issues").innerHTML = '<p class="empty">Failed to load board.json (' + esc(err.message) + ').</p>'; document.getElementById("prs").innerHTML = ""; });
+  })();
+  </script>
+</body>
+</html>
