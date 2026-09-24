@@ -6,7 +6,7 @@
   "sourceRepoUrl": "https://github.com/TRAIS-Lab/dattri-llm",
   "hubLocalOnly": true,
   "neverCreateGitHubIssues": true,
-  "updatedAt": "2026-09-24 ~02:52 ET",
+  "updatedAt": "2026-09-24 ~03:15 ET",
   "openIssues": [
     {
       "number": "H1",
@@ -15,10 +15,11 @@
       "html_url": null,
       "labels": [
         "hub-only",
-        "wrap-up"
+        "wrap-up",
+        "agreed"
       ],
       "title": "Polish README and installation docs for the final public handoff",
-      "notes": "Clarify the supported workflows, companion dattri relationship, and the minimal install path."
+      "notes": "Agreed C1–C3: align the README hero with `dattri_llm.task` (`model, batch`) for DDP/FSDP—not `dattri.task` + `functional_call`; document pyproject extras `attribution`, `trl`, `olmo`, and `dev` beyond `[transformers]`; and document the Hugging Face Llama/Qwen RMSNorm recipe (`layer_types` + `rms_norm_module_kwargs`)."
     },
     {
       "number": "H2",
@@ -30,7 +31,7 @@
         "wrap-up"
       ],
       "title": "Run a release checklist against supported examples and trainer wrappers",
-      "notes": "Check representative TracIn/K-FAC paths, Hugging Face Trainer / OLMo notes, and known environment assumptions."
+      "notes": "Check representative TracIn/K-FAC paths, Hugging Face Trainer / OLMo notes, and known environment assumptions. C6 is deferred and is not an agreed item."
     },
     {
       "number": "H3",
@@ -39,10 +40,11 @@
       "html_url": null,
       "labels": [
         "hub-only",
-        "wrap-up"
+        "wrap-up",
+        "agreed"
       ],
       "title": "Make example scripts reproducible and mark any non-maintained paths",
-      "notes": "Audit examples for current imports, small-model smoke tests, and an explicit wrap-up maintenance boundary."
+      "notes": "Agreed C5: fix the examples README so `attribution_on_the_fly` requires only Torch + `dattri_llm`. Audit examples for current imports, small-model smoke tests, and an explicit wrap-up maintenance boundary. C6 is deferred and is not an agreed item."
     },
     {
       "number": "H4",
@@ -51,10 +53,11 @@
       "html_url": null,
       "labels": [
         "hub-only",
-        "wrap-up"
+        "wrap-up",
+        "agreed"
       ],
       "title": "Record final attribution-method and compatibility notes for archival use",
-      "notes": "Capture the supported algorithms, layer coverage, distributed-training status, and limitations without opening a GitHub issue."
+      "notes": "Agreed C4: export `OptimizerStateCallback` and siblings, and document the capture contract (LESS vs AdamW). Capture the supported algorithms, layer coverage, distributed-training status, and limitations without opening a GitHub issue."
     }
   ],
   "openPullRequests": []

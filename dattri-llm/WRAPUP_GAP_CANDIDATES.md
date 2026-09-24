@@ -1,3 +1,7 @@
+# Dual-LGTM agreement (2026-09-24)
+
+C1–C5 are agreed for hub-local wrap-up tracking; C6 is not agreed and is deferred. No TRAIS-Lab GitHub issue or pull request is created from this board.
+
 # dattri-llm wrap-up gap candidates (paper ↔ `dev`)
 
 **Scope:** ICLR 2027 PDF `hub-stage/dattri-llm/paper/paper.pdf` vs public `TRAIS-Lab/dattri-llm` branch **`dev`** (tree SHA tip at analysis: `f46496040d97…`; 166 blobs; no GitHub releases).  
