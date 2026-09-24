@@ -1,0 +1,111 @@
+{
+  "title": "CR-Harness Resources & News",
+  "blurb": "Curated pointers for Mini Royale / CR-Harness — an AI/LLM control research platform built around a simplified Clash Royale–style 1v1 simulator.",
+  "updatedAt": "2026-09-24 00:41 ET",
+  "resources": [
+    {
+      "id": "official-docs",
+      "title": "Official bilingual docs site (README-linked)",
+      "href": "https://TeachFakerPlayingMid.github.io/CR-Harness-main/",
+      "why": "Canonical public documentation promised by the project README (EN + 中文). As of 2026-09-24 the Pages site returned 404 — keep the link; it may go live when Pages is enabled.",
+      "tags": [
+        "official",
+        "docs"
+      ],
+      "date": "2026-09-24"
+    },
+    {
+      "id": "private-repo",
+      "title": "CR-Harness-main (private GitHub repo)",
+      "href": "https://github.com/TeachFakerPlayingMid/CR-Harness-main",
+      "why": "Python research codebase: mini_royale core engine, ai_control translation layer (:8787), web cockpit (:8080), ETL metrics (EDR / KVR / whiff rate). Access required.",
+      "tags": [
+        "source",
+        "private"
+      ],
+      "date": "2026-09-24"
+    },
+    {
+      "id": "readme-protocol",
+      "title": "Decision-point / legal_actions control protocol",
+      "href": "https://github.com/TeachFakerPlayingMid/CR-Harness-main",
+      "why": "Core research idea from the README: the game emits decision_point snapshots with a legal_actions whitelist; the LLM may only pick action_ids (no invented coordinates). Invalid IDs drop; empty/timeout → noop. Async requests; engine revalidates on apply.",
+      "tags": [
+        "protocol",
+        "ai-control"
+      ],
+      "date": "2026-09-24"
+    },
+    {
+      "id": "readme-etl",
+      "title": "ETL + agent evaluation loop",
+      "href": "https://github.com/TeachFakerPlayingMid/CR-Harness-main",
+      "why": "Every match writes raw JSONL then ETL CSVs (timeseries, deploys, decisions, combos, decision_context, events) plus aggregate.csv. evaluate_agents.py runs batch matches → JSON report + HTML dashboard.",
+      "tags": [
+        "eval",
+        "metrics"
+      ],
+      "date": "2026-09-24"
+    },
+    {
+      "id": "contributing",
+      "title": "Contribution workflow: issue → AI implementation → PR review",
+      "href": "https://github.com/TeachFakerPlayingMid/CR-Harness-main",
+      "why": "Repo norm (docs/CONTRIBUTING.en.md): humans file issues; AI (Claude Code) plans + implements + opens PRs; humans review/approve/merge. Prefer squash merge. Private + free-plan so branch protection is voluntary discipline.",
+      "tags": [
+        "process",
+        "contributing"
+      ],
+      "date": "2026-09-24"
+    },
+    {
+      "id": "aisi-control",
+      "title": "AI Control (UK AISI / Redwood research lineage)",
+      "href": "https://www.alignmentforum.org/posts/kcKrTCDk8TeJbNMgj/ai-control-improving-safety-despite-intentional-subversion",
+      "why": "Public research framing for evaluating protocols that keep useful work flowing from untrusted models — conceptually adjacent to CR-Harness’s whitelist / decision_point control surface (not a code dependency).",
+      "tags": [
+        "related",
+        "paper"
+      ],
+      "date": "2024-01-01"
+    },
+    {
+      "id": "inspect-ai",
+      "title": "Inspect AI — UK AISI evaluation framework",
+      "href": "https://inspect.aisi.org.uk/",
+      "why": "Open evaluation harness for LLM agents/tasks. Useful companion reading when designing batch evals and decision logging around CR-Harness.",
+      "tags": [
+        "related",
+        "tool"
+      ],
+      "date": "2024-01-01"
+    },
+    {
+      "id": "openai-evals",
+      "title": "OpenAI Evals",
+      "href": "https://github.com/openai/evals",
+      "why": "Public eval scaffolding for model behavior. Relevant when comparing CR-Harness batch agent evaluation patterns to broader LLM eval practice.",
+      "tags": [
+        "related",
+        "tool"
+      ],
+      "date": "2023-01-01"
+    }
+  ],
+  "news": [
+    {
+      "id": "hub-launch",
+      "date": "2026-09-24",
+      "displayDate": "2026-09-24",
+      "title": "CR-Harness section added to TonyZhou05 research hub",
+      "summary": "Public hub pages for resources/news and a mirrored issues/PR board, without publishing private code or credentials. Source of truth remains the private CR-Harness-main repo."
+    },
+    {
+      "id": "open-board",
+      "date": "2026-09-24",
+      "displayDate": "2026-09-24",
+      "title": "Open board snapshot: 8 issues, 2 PRs",
+      "summary": "Active threads include deployment-grid whitelist anchors (#256), sampled delta-mode parallelism (#251), orphaned cockpit poll / error_category (#245→PR #246), card-manual harness plugin (#201/#200), batch LLM-call diagnostics (#67→draft PR #68), lane_bonus fix (#23), and pause-during-inference (#3)."
+    }
+  ]
+}

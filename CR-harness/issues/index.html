@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public working board of open issues and PR proposals for private CR-Harness-main.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>CR-Harness Issues &amp; PRs — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/issues/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d; --mint: #0f766e;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.9rem, 3.2vw, 2.6rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); font-size: 0.95rem; }
+    .callout.private { background: #fef2f2; border-color: #fecaca; }
+    .callout strong { color: var(--ink); }
+    h2.sec { font-family: var(--serif); font-size: 1.35rem; font-weight: 600; margin: 8px 0 14px; }
+    .howto { background: var(--cream); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin: 0 0 28px; color: var(--ink-soft); }
+    .howto h2 { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; margin: 0 0 8px; color: var(--ink); }
+    .howto ol { margin: 8px 0 0; padding-left: 1.25rem; }
+    .howto li { margin: 4px 0; }
+    .list { display: flex; flex-direction: column; gap: 12px; padding-bottom: 28px; }
+    .card { background: var(--cream); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+    .card .src { display: flex; flex-wrap: wrap; gap: 8px 14px; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 6px; }
+    .card h3 { font-family: var(--serif); font-size: 1.08rem; font-weight: 600; margin: 0 0 6px; line-height: 1.3; }
+    .card h3 a { color: var(--ink); text-decoration: none; }
+    .card h3 a:hover { color: var(--accent-dark); text-decoration: underline; }
+    .card .meta-line { font-size: 0.9rem; color: var(--ink-soft); margin: 0; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag { display: inline-block; font-family: var(--mono); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; background: var(--paper-2); border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; color: var(--ink-soft); }
+    .tag.open { background: #d1fae5; border-color: #a7f3d0; color: #065f46; }
+    .tag.draft { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .empty { color: var(--ink-faint); padding: 16px 0; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/" aria-current="page">CR-Harness</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">CR-Harness · working board</p>
+    <h1 id="title">Issues &amp; PR proposals</h1>
+    <p class="lede" id="blurb">Loading…</p>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <div class="callout private">
+    <strong>Private source repo.</strong>
+    Items below are mirrored from <code>TeachFakerPlayingMid/CR-Harness-main</code>, which is <strong>private</strong>.
+    Anonymous visitors (and anyone without collaborator access) cannot open the GitHub issue/PR links.
+    This page is still useful as Tongli’s public working board — titles, state, authors, and labels are visible here.
+  </div>
+
+  <div class="howto">
+    <h2>How to propose a PR (repo norms)</h2>
+    <p>Aligned with <code>docs/CONTRIBUTING.en.md</code> in the private repo:</p>
+    <ol>
+      <li><strong>File a GitHub issue</strong> describing the ask (a one-line title is enough). Do not open a PR first.</li>
+      <li>Hand the issue link to the AI implementer (Claude Code). It creates a branch, posts a plan comment on the issue, waits for a human “confirmed / go ahead”, then implements, tests, and opens the PR — posting the PR link back on the issue.</li>
+      <li><strong>Human review</strong> on the PR (Approve / Request changes / Comment). Prefer <code>gh pr merge &lt;n&gt; --squash</code> after review. Merging is not hard-gated on the free private plan — wait for review before merging.</li>
+      <li>You usually do <em>not</em> create the branch or open the PR yourself; watch the issue as the single entry point.</li>
+    </ol>
+  </div>
+
+  <h2 class="sec">Open pull requests</h2>
+  <section class="list" id="prs" aria-live="polite"><p class="empty">Loading…</p></section>
+
+  <h2 class="sec">Open issues</h2>
+  <section class="list" id="issues" aria-live="polite"><p class="empty">Loading…</p></section>
+</main>
+
+<footer>
+  <div class="shell">
+    Public research hub · CR-Harness board · Tongli Zhou (TonyZhou05) ·
+    <a href="/research/CR-harness/">CR-Harness</a> ·
+    <a href="/research/CR-harness/resources/">Resources</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+  function card(item, kind) {
+    var num = "#" + item.number;
+    var title = '<a href="' + esc(item.html_url) + '" rel="noopener noreferrer">' +
+      esc(num + " · " + item.title) + "</a>";
+    var tags = '<span class="tag open">' + esc(item.state || "open") + "</span>";
+    if (kind === "pr" && item.draft) tags += '<span class="tag draft">draft</span>';
+    (item.labels || []).forEach(function (t) {
+      tags += '<span class="tag">' + esc(t) + "</span>";
+    });
+    return '<article class="card" id="' + kind + "-" + esc(item.number) + '">' +
+      '<div class="src"><span>' + (kind === "pr" ? "Pull request" : "Issue") + "</span>" +
+      "<span>" + esc(item.updated_display || item.updated_at || "") + "</span></div>" +
+      "<h3>" + title + "</h3>" +
+      '<p class="meta-line">by <strong>' + esc(item.author || "") + "</strong>" +
+      (item.created_display ? " · opened " + esc(item.created_display) : "") + "</p>" +
+      '<div class="tags">' + tags + "</div>" +
+      "</article>";
+  }
+  fetch("board.json", { cache: "no-store" })
+    .then(function (r) { if (!r.ok) throw new Error("board.json " + r.status); return r.json(); })
+    .then(function (data) {
+      document.getElementById("title").textContent = data.title || "Issues & PR proposals";
+      document.getElementById("blurb").textContent = data.blurb || "";
+      var issues = data.openIssues || [];
+      var prs = data.openPullRequests || [];
+      document.getElementById("meta").innerHTML =
+        "<span>" + issues.length + " <strong>open issues</strong></span>" +
+        "<span>" + prs.length + " <strong>open PRs</strong></span>" +
+        (data.updatedAt ? "<span>Snapshot <strong>" + esc(data.updatedAt) + "</strong></span>" : "") +
+        (data.sourceRepo ? "<span>Source <strong>" + esc(data.sourceRepo) + "</strong> (private)</span>" : "");
+      document.getElementById("prs").innerHTML = prs.length
+        ? prs.map(function (p) { return card(p, "pr"); }).join("")
+        : '<p class="empty">No open pull requests in this snapshot.</p>';
+      document.getElementById("issues").innerHTML = issues.length
+        ? issues.map(function (i) { return card(i, "issue"); }).join("")
+        : '<p class="empty">No open issues in this snapshot.</p>';
+    })
+    .catch(function (err) {
+      document.getElementById("issues").innerHTML =
+        '<p class="empty">Failed to load board.json (' + esc(err.message) + ").</p>";
+      document.getElementById("prs").innerHTML = "";
+    });
+})();
+</script>
+</body>
+</html>

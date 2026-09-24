@@ -1,0 +1,134 @@
+{
+  "title": "CR-Harness Issues & PR Proposals",
+  "blurb": "Public working board mirrored from the private TeachFakerPlayingMid/CR-Harness-main repo. Anonymous visitors cannot open GitHub links without access.",
+  "sourceRepo": "TeachFakerPlayingMid/CR-Harness-main",
+  "sourceRepoPrivate": true,
+  "sourceRepoUrl": "https://github.com/TeachFakerPlayingMid/CR-Harness-main",
+  "updatedAt": "2026-09-24 00:41 ET",
+  "openIssues": [
+    {
+      "author": "TeachFakerPlayingMid",
+      "created_at": "2026-09-20T04:34:04Z",
+      "html_url": "https://github.com/TeachFakerPlayingMid/CR-Harness-main/issues/256",
+      "labels": [],
+      "number": 256,
+      "state": "open",
+      "title": "[TYS]引擎部署白名单粒度：增加正中列 / 命名锚点（当前 4×4 网格没有中间列）",
+      "updated_at": "2026-09-20T16:09:01Z",
+      "updated_display": "2026-09-20 12:09 ET",
+      "created_display": "2026-09-20 00:34 ET"
+    },
+    {
+      "author": "TeachFakerPlayingMid",
+      "created_at": "2026-09-19T11:45:59Z",
+      "html_url": "https://github.com/TeachFakerPlayingMid/CR-Harness-main/issues/251",
+      "labels": [],
+      "number": 251,
+      "state": "open",
+      "title": "新增 --delta-mode sampled：Δt 与本次调用实测值解耦，真正解锁并行",
+      "updated_at": "2026-09-19T12:07:03Z",
+      "updated_display": "2026-09-19 08:07 ET",
+      "created_display": "2026-09-19 07:45 ET"
+    },
+    {
+      "author": "TonyZhou05",
+      "created_at": "2026-09-18T02:57:13Z",
+      "html_url": "https://github.com/TeachFakerPlayingMid/CR-Harness-main/issues/245",
+      "labels": [],
+      "number": 245,
+      "state": "open",
+      "title": "[TZ]Orphaned experiment records spin the cockpit UI; batch runner drops error_category",
+      "updated_at": "2026-09-21T04:34:19Z",
+      "updated_display": "2026-09-21 00:34 ET",
+      "created_display": "2026-09-17 22:57 ET"
+    },
+    {
+      "author": "TeachFakerPlayingMid",
+      "created_at": "2026-09-13T01:09:57Z",
+      "html_url": "https://github.com/TeachFakerPlayingMid/CR-Harness-main/issues/201",
+      "labels": [],
+      "number": 201,
+      "state": "open",
+      "title": "[TYS]lookup_card 工具：把卡牌手册做成 harness 插件，作为静态手册的延迟对照臂",
+      "updated_at": "2026-09-13T01:09:57Z",
+      "updated_display": "2026-09-12 21:09 ET",
+      "created_display": "2026-09-12 21:09 ET"
+    },
+    {
+      "author": "TeachFakerPlayingMid",
+      "created_at": "2026-09-13T01:09:55Z",
+      "html_url": "https://github.com/TeachFakerPlayingMid/CR-Harness-main/issues/200",
+      "labels": [],
+      "number": 200,
+      "state": "open",
+      "title": "[TYS]卡牌手册 L1b：manual_level 作为与 alias 正交的 per-request 参数（论文 3 主自变量）",
+      "updated_at": "2026-09-13T01:09:55Z",
+      "updated_display": "2026-09-12 21:09 ET",
+      "created_display": "2026-09-12 21:09 ET"
+    },
+    {
+      "author": "jzjzhou16",
+      "created_at": "2026-08-20T16:54:01Z",
+      "html_url": "https://github.com/TeachFakerPlayingMid/CR-Harness-main/issues/67",
+      "labels": [],
+      "number": 67,
+      "state": "open",
+      "title": "batch experiment: diagnose excessive LLM calls and long experiment runtime",
+      "updated_at": "2026-08-21T09:45:33Z",
+      "updated_display": "2026-08-21 05:45 ET",
+      "created_display": "2026-08-20 12:54 ET"
+    },
+    {
+      "author": "TeachFakerPlayingMid",
+      "created_at": "2026-08-16T06:34:20Z",
+      "html_url": "https://github.com/TeachFakerPlayingMid/CR-Harness-main/issues/23",
+      "labels": [],
+      "number": 23,
+      "state": "open",
+      "title": "[TYS]修复lane_bonus 写法让跨路侦测在数学上不可能触发",
+      "updated_at": "2026-08-16T06:34:20Z",
+      "updated_display": "2026-08-16 02:34 ET",
+      "created_display": "2026-08-16 02:34 ET"
+    },
+    {
+      "author": "nezc",
+      "created_at": "2026-08-10T11:47:58Z",
+      "html_url": "https://github.com/TeachFakerPlayingMid/CR-Harness-main/issues/3",
+      "labels": [],
+      "number": 3,
+      "state": "open",
+      "title": "[CZ] 建议增加游戏暂停功能，支持模型推理阶段游戏暂停",
+      "updated_at": "2026-08-10T11:48:37Z",
+      "updated_display": "2026-08-10 07:48 ET",
+      "created_display": "2026-08-10 07:47 ET"
+    }
+  ],
+  "openPullRequests": [
+    {
+      "author": "TonyZhou05",
+      "created_at": "2026-09-18T03:13:30Z",
+      "draft": false,
+      "html_url": "https://github.com/TeachFakerPlayingMid/CR-Harness-main/pull/246",
+      "labels": [],
+      "number": 246,
+      "state": "open",
+      "title": "Fix orphaned-run poll loop and capture decision error categories",
+      "updated_at": "2026-09-21T04:34:57Z",
+      "updated_display": "2026-09-21 00:34 ET",
+      "created_display": "2026-09-17 23:13 ET"
+    },
+    {
+      "author": "Copilot",
+      "created_at": "2026-08-20T16:59:07Z",
+      "draft": true,
+      "html_url": "https://github.com/TeachFakerPlayingMid/CR-Harness-main/pull/68",
+      "labels": [],
+      "number": 68,
+      "state": "open",
+      "title": "Add evidence-grade batch eval diagnostics for LLM call volume, runtime split, and follow-up design guidance",
+      "updated_at": "2026-08-20T17:04:51Z",
+      "updated_display": "2026-08-20 13:04 ET",
+      "created_display": "2026-08-20 12:59 ET"
+    }
+  ]
+}

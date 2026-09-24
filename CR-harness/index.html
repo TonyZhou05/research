@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CR-Harness / Mini Royale — AI and large-model control research platform hub on Tongli Zhou's research pages.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>CR-Harness — Tongli Zhou Research</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --navy-2: #17233a; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d; --mint: #0f766e;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.9rem, 3.2vw, 2.6rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); font-size: 0.95rem; }
+    .callout strong { color: var(--ink); }
+    .grid { display: grid; gap: 14px; grid-template-columns: 1fr; padding-bottom: 28px; }
+    @media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+    .card { background: var(--cream); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; box-shadow: 0 1px 0 rgba(16,24,40,0.03); }
+    .card .src { font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 8px; }
+    .card h2 { font-family: var(--serif); font-size: 1.2rem; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.01em; line-height: 1.25; }
+    .card h2 a { color: var(--ink); text-decoration: none; }
+    .card h2 a:hover { color: var(--accent-dark); text-decoration: underline; }
+    .card p { margin: 0; color: var(--ink-soft); }
+    .links { list-style: none; padding: 0; margin: 0 0 36px; display: flex; flex-direction: column; gap: 10px; }
+    .links li { background: var(--cream); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+    .links a { font-weight: 600; text-decoration: none; }
+    .links a:hover { text-decoration: underline; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin-top: 6px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/" aria-current="page">CR-Harness</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Mini Royale · AI control research</p>
+    <h1>CR-Harness</h1>
+    <p class="lede">
+      A simplified Clash Royale–style 1v1 battle simulator that doubles as an
+      <strong>AI / large-model control research platform</strong>: LLM agents pick from a
+      <code>legal_actions</code> whitelist at each <code>decision_point</code>, matches auto-record
+      for ETL, and a web cockpit orchestrates live play plus batch evals.
+    </p>
+    <p class="zh">简化版「皇室战争」风格对战模拟 + 大模型控制研究平台（双语 README / 文档）。</p>
+    <div class="meta">
+      <span>Language <strong>Python</strong></span>
+      <span>Repo <strong>private</strong></span>
+      <span>Hub pages <strong>public</strong></span>
+    </div>
+  </header>
+
+  <div class="callout">
+    <strong>Scope.</strong> This section is Tongli’s public working surface for CR-Harness —
+    curated resources/news and a mirrored issues/PR board.
+    Source of truth: private repo <code>TeachFakerPlayingMid/CR-Harness-main</code>.
+    No API keys, tokens, or private code are published here.
+  </div>
+
+  <section class="grid" aria-label="Section pages">
+    <article class="card">
+      <div class="src">Section · 1</div>
+      <h2><a href="/research/CR-harness/resources/">Resources &amp; news →</a></h2>
+      <p>Official docs pointers, README highlights (protocol, ETL, cockpit), related public papers/tools, and a short news feed.</p>
+    </article>
+    <article class="card">
+      <div class="src">Section · 2</div>
+      <h2><a href="/research/CR-harness/issues/">Issues &amp; PR proposals →</a></h2>
+      <p>Open issues and open PRs mirrored from the private repo, plus a short “how to propose a PR” note aligned with project contributing norms.</p>
+    </article>
+  </section>
+
+  <h2 style="font-family:var(--serif);font-size:1.25rem;margin:0 0 12px;">External links</h2>
+  <ul class="links">
+    <li>
+      <a href="https://github.com/TeachFakerPlayingMid/CR-Harness-main" rel="noopener noreferrer">Private GitHub repo</a>
+      — <code>TeachFakerPlayingMid/CR-Harness-main</code> (access required)
+    </li>
+    <li>
+      <a href="https://TeachFakerPlayingMid.github.io/CR-Harness-main/" rel="noopener noreferrer">Public docs site (README-linked)</a>
+      — bilingual; may 404 until GitHub Pages is enabled on that repo
+    </li>
+  </ul>
+</main>
+
+<footer>
+  <div class="shell">
+    Public research hub · CR-Harness · Tongli Zhou (TonyZhou05) ·
+    <a href="/research/">Hub</a> ·
+    <a href="/research/harness-lab/">Lab</a> ·
+    <a href="/research/usage/">Usage</a>
+  </div>
+</footer>
+</body>
+</html>
