@@ -1,0 +1,224 @@
+{
+  "updatedAt": "2026-09-24 ~04:10 ET",
+  "updatedAtISO": "2026-09-24T04:10:00-04:00",
+  "tipSha": "a5c08fc2d386c9f24f7b8df9600b789132bdd7eb",
+  "tipShaShort": "a5c08fc",
+  "source": {
+    "mergedDual": "merged-dual-lgtm-round2.md|.json",
+    "candidates": "ROUND2_GAP_CANDIDATES.json (NOT modified)",
+    "priorBoard": "hub-stage/dattri-llm/issues/board.json (NOT overwritten)",
+    "proposedBoard": "hub-stage/dattri-llm/issues/board.proposed.json"
+  },
+  "constraintReminders": [
+    "Hub-local only \u2014 never create TRAIS-Lab GitHub issues from this board",
+    "Do not publish/commit to GH Pages unless files are only local drafts under hub-stage",
+    "Do not change ROUND2_GAP_CANDIDATES.* (keep R2-1\u2026R2-28)",
+    "Manage Bot lands/publishes; board.proposed.json is the draft"
+  ],
+  "counts": {
+    "agreedR2": 22,
+    "notDualYesR2": 6,
+    "updatedCards": 4,
+    "newCards": 4,
+    "totalOpenIssues": 8
+  },
+  "updatedCards": [
+    {
+      "id": "H1",
+      "title": "Polish README and installation docs for the final public handoff",
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed"
+      ],
+      "sourceR2": [
+        "R2-1",
+        "R2-3",
+        "R2-4"
+      ],
+      "r1Map": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "change": "notes refreshed with R2 dual-YES; C1 OPEN / C2 PARTIAL / C3 OPEN retained"
+    },
+    {
+      "id": "H2",
+      "title": "Run a release checklist against supported examples and trainer wrappers",
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed"
+      ],
+      "sourceR2": [
+        "R2-19",
+        "R2-24"
+      ],
+      "r1Map": [
+        "C6\u2192now dual-YES as R2-19"
+      ],
+      "change": "added agreed label; C6 deferred \u2192 R2-19 dual-YES + R2-24 CI"
+    },
+    {
+      "id": "H3",
+      "title": "Document live-path dependency honesty and keep examples maintainable",
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed",
+        "reversed-r1"
+      ],
+      "sourceR2": [
+        "R2-25"
+      ],
+      "r1Map": [
+        "C5 REVERSED by R2-2 both-NO"
+      ],
+      "change": "title/notes rewritten; C5 torch-only agreed framing removed; R2-25 agreed dependency honesty; label reversed-r1"
+    },
+    {
+      "id": "H4",
+      "title": "Record final attribution-method and compatibility notes for archival use",
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed"
+      ],
+      "sourceR2": [
+        "R2-18"
+      ],
+      "r1Map": [
+        "C4 DONE"
+      ],
+      "change": "C4 DONE retained; R2-18 TrajectoryAttributor export gap added"
+    }
+  ],
+  "newCards": [
+    {
+      "id": "H5",
+      "title": "Camera-ready paper copyedit and claim/number consistency",
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed",
+        "paper"
+      ],
+      "sourceR2": [
+        "R2-5",
+        "R2-6",
+        "R2-7",
+        "R2-8",
+        "R2-27"
+      ]
+    },
+    {
+      "id": "H6",
+      "title": "Align paper method naming and coverage with shipped attributors",
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed",
+        "paper"
+      ],
+      "sourceR2": [
+        "R2-9",
+        "R2-10",
+        "R2-11",
+        "R2-26"
+      ]
+    },
+    {
+      "id": "H7",
+      "title": "Surface FLOP-aware routing and a minimal API docs index",
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed"
+      ],
+      "sourceR2": [
+        "R2-12",
+        "R2-13"
+      ]
+    },
+    {
+      "id": "H8",
+      "title": "Align OLMo/fidelity/hardware notes and add a paper-table runbook",
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed",
+        "repro"
+      ],
+      "sourceR2": [
+        "R2-17",
+        "R2-20",
+        "R2-21",
+        "R2-28"
+      ]
+    }
+  ],
+  "h3C5Reverse": {
+    "summary": "R2-2 both-NO refutes R1 C5 torch-only / examples-README barrier claim; transformers hard-required via streaming.py:~670 at tip a5c08fc. H3 no longer carries agreed-C5; rephrased around R2-25 dual-YES dependency documentation.",
+    "priorClaim": "C5 dual-YES: fix examples README so attribution_on_the_fly requires only Torch + dattri_llm",
+    "refutation": "R2-2 Opus=NO Astra=NO \u2014 streaming.py:~670 imports transformers unconditionally",
+    "replacementAgreed": "R2-25 \u2014 document live GradientStreamer transformers hard-require; README Compatibility understates TRL",
+    "tipSha": "a5c08fc2d386c9f24f7b8df9600b789132bdd7eb"
+  },
+  "notAgreed": [
+    {
+      "id": "R2-2",
+      "reason": "both-NO",
+      "note": "C5 refuted: transformers hard-required via streaming.py:~670; do not mark agreed"
+    },
+    {
+      "id": "R2-16",
+      "reason": "both-NO",
+      "note": "No OLMo Trainer.train() in tree; example vs fidelity APIs differ \u2014 claim refuted"
+    },
+    {
+      "id": "R2-22",
+      "reason": "both-NO",
+      "note": "dattri_llm/{algorithm,trainers} are untracked __pycache__ leftovers, not stale packages in HEAD"
+    },
+    {
+      "id": "R2-14",
+      "reason": "split Opus-YES/Astra-NO",
+      "note": "Install extras already covered; combining install commands not established as gap"
+    },
+    {
+      "id": "R2-15",
+      "reason": "split Opus-YES/Astra-NO",
+      "note": "Naming triad (dattri-LLM / dattri-llm / dattri_llm) is legitimate product vs distro vs import"
+    },
+    {
+      "id": "R2-23",
+      "reason": "split Opus-YES/Astra-NO",
+      "note": "experiments/efficiency (+ offload) untracked / not in HEAD \u2014 local presence alone insufficient"
+    }
+  ],
+  "agreedR2Coverage": {
+    "R2-1": "H8",
+    "R2-3": "H1",
+    "R2-4": "H1",
+    "R2-5": "H5",
+    "R2-6": "H5",
+    "R2-7": "H5",
+    "R2-8": "H5",
+    "R2-9": "H6",
+    "R2-10": "H6",
+    "R2-11": "H6",
+    "R2-12": "H7",
+    "R2-13": "H7",
+    "R2-17": "H8",
+    "R2-18": "H4",
+    "R2-19": "H2",
+    "R2-20": "H8",
+    "R2-21": "H8",
+    "R2-24": "H2",
+    "R2-25": "H3",
+    "R2-26": "H6",
+    "R2-27": "H5",
+    "R2-28": "H8"
+  }
+}

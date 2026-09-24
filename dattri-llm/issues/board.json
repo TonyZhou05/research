@@ -1,12 +1,13 @@
 {
   "title": "Dattri-llm wrap-up board",
-  "blurb": "Hub-local tracker for TRAIS-Lab/dattri-llm wrap-up. Never create GitHub issues from this board.",
+  "blurb": "Hub-local tracker for TRAIS-Lab/dattri-llm wrap-up. Never create GitHub issues from this board. Round-2 dual-LGTM (Opus + Astra) applied at tip a5c08fc; live board.json is landed by Manage Bot from board.proposed.json drafts only.",
   "sourceRepo": "TRAIS-Lab/dattri-llm",
   "sourceRepoPrivate": false,
   "sourceRepoUrl": "https://github.com/TRAIS-Lab/dattri-llm",
   "hubLocalOnly": true,
   "neverCreateGitHubIssues": true,
-  "updatedAt": "2026-09-24 ~03:15 ET",
+  "updatedAt": "2026-09-24 ~04:10 ET",
+  "tipSha": "a5c08fc2d386c9f24f7b8df9600b789132bdd7eb",
   "openIssues": [
     {
       "number": "H1",
@@ -19,7 +20,7 @@
         "agreed"
       ],
       "title": "Polish README and installation docs for the final public handoff",
-      "notes": "Agreed C1–C3: align the README hero with `dattri_llm.task` (`model, batch`) for DDP/FSDP—not `dattri.task` + `functional_call`; document pyproject extras `attribution`, `trl`, `olmo`, and `dev` beyond `[transformers]`; and document the Hugging Face Llama/Qwen RMSNorm recipe (`layer_types` + `rms_norm_module_kwargs`)."
+      "notes": "Round-2 dual-YES (tip a5c08fc): R2-1=C1 OPEN \u2014 swap README hero (lines ~33/50/144) from dattri.task + functional_call to dattri_llm.task (model, batch) for DDP/FSDP. R2-3=C2 PARTIAL \u2014 document pyproject extras trl / olmo / dev (and attribution) beyond [transformers] in the install block. R2-4=C3 OPEN \u2014 surface HF Llama/Qwen RMSNorm recipe (layer_types + rms_norm_module_kwargs / variance_epsilon) from config.py / examples/projection into a README subsection. Prior R1 C1\u2013C3 agreed framing retained; statuses unchanged (OPEN/PARTIAL/OPEN)."
     },
     {
       "number": "H2",
@@ -28,10 +29,11 @@
       "html_url": null,
       "labels": [
         "hub-only",
-        "wrap-up"
+        "wrap-up",
+        "agreed"
       ],
       "title": "Run a release checklist against supported examples and trainer wrappers",
-      "notes": "Check representative TracIn/K-FAC paths, Hugging Face Trainer / OLMo notes, and known environment assumptions. C6 is deferred and is not an agreed item."
+      "notes": "Round-2 dual-YES elevates former C6: R2-19 \u2014 add compact runnable examples for LESS / AdamW-influence / DVEmb / EK-FAC (APIs+tests exist; examples/ is TracIn-heavy). R2-24 \u2014 include token_attribution.py in examples_test / CI (tiny-gpt2 path). Still check representative TracIn/K-FAC paths, Hugging Face Trainer / OLMo notes, and known environment assumptions. R1 C6 was deferred (not dual-agreed); R2-19 is now dual-YES \u2014 treat as agreed wrap-up work, not a TRAIS-Lab GitHub issue."
     },
     {
       "number": "H3",
@@ -41,10 +43,11 @@
       "labels": [
         "hub-only",
         "wrap-up",
-        "agreed"
+        "agreed",
+        "reversed-r1"
       ],
-      "title": "Make example scripts reproducible and mark any non-maintained paths",
-      "notes": "Agreed C5: fix the examples README so `attribution_on_the_fly` requires only Torch + `dattri_llm`. Audit examples for current imports, small-model smoke tests, and an explicit wrap-up maintenance boundary. C6 is deferred and is not an agreed item."
+      "title": "Document live-path dependency honesty and keep examples maintainable",
+      "notes": "H3/C5 REVERSE (critical): Round-1 dual-YES on C5 claimed attribution_on_the_fly is torch-only and that examples README wrongly required transformers. Round-2 R2-2 is BOTH-NO (Opus NO / Astra NO) at tip a5c08fc \u2014 transformers is hard-required via dattri_llm streaming.py (~line 670) unconditional import; the prior torch-only / C5-agreed framing is refuted. Do NOT treat C5 as agreed. Round-2 dual-YES replacement: R2-25 \u2014 document clearly that live GradientStreamer requires transformers; root README Compatibility understates TRL (lists HF Trainer + OLMo; TRL appears only later). Capture/disk path may stay torch-core; live LLM attribute() path must declare transformers (+ TRL/OLMo as applicable). Also continue auditing examples for current imports, small-model smoke tests, and an explicit wrap-up maintenance boundary \u2014 without reopening the false C5 torch-only claim."
     },
     {
       "number": "H4",
@@ -57,7 +60,62 @@
         "agreed"
       ],
       "title": "Record final attribution-method and compatibility notes for archival use",
-      "notes": "Agreed C4: export `OptimizerStateCallback` and siblings, and document the capture contract (LESS vs AdamW). Capture the supported algorithms, layer coverage, distributed-training status, and limitations without opening a GitHub issue."
+      "notes": "R1 C4 DONE on tip a5c08fc: OptimizerStateCallback (+ ParameterSnapshotCallback, KroneckerCovarianceCallback) eager-exported; README Capture requirements table documents LESS/AdamW/DVEmb/KFAC. Round-2 dual-YES add-on: R2-18 \u2014 TrajectoryAttributor / ReplayGradientSource / TrajectorySnapshots are documented extension bases but unexported at package levels; export or document the extension surface. Keep capturing supported algorithms, layer coverage, distributed-training status, and limitations without opening a GitHub issue."
+    },
+    {
+      "number": "H5",
+      "state": "open",
+      "author": "TonyZhou05",
+      "html_url": null,
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed",
+        "paper"
+      ],
+      "title": "Camera-ready paper copyedit and claim/number consistency",
+      "notes": "Round-2 dual-YES (tip a5c08fc): R2-5 (W1) abstract 'and and'; R2-6 (I1) reconcile curvature speedup 1.3\u20132.5\u00d7 abstract vs 1.4\u20133.1\u00d7 body / Table-9 prose; R2-7 (I2) clarify or fix 'gradient similarity at parity' vs GradDot 2.7\u20133.4\u00d7 / 1.4\u20138.9\u00d7; R2-8 (W2) introduct / motivates / 'Eq. equation N' / 'the the'; R2-27 invasive-capture naming 'invasive linear io' vs code invasive_linear_io. Hub-local paper edits only; no TRAIS-Lab issues."
+    },
+    {
+      "number": "H6",
+      "state": "open",
+      "author": "TonyZhou05",
+      "html_url": null,
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed",
+        "paper"
+      ],
+      "title": "Align paper method naming and coverage with shipped attributors",
+      "notes": "Round-2 dual-YES: R2-9 (I3) GradDot paper/tables vs tracin.py algorithm label never emitting 'GradDot' \u2014 prefer documented alias; R2-10 (N1) paper 'subclass Attributor' vs public ABC BaseAttributor \u2014 one-token rename or README Attributor-family note; R2-11 (S1) Fig.1 strip omits LESS/AdamW-influence that README ships and \u00a74.2 evaluates; R2-26 \u00a73.1 five-family list under-claims vs \u00a74.2 / README (same LESS/AdamW-influence gap). Caption/footnote or one-line list edits."
+    },
+    {
+      "number": "H7",
+      "state": "open",
+      "author": "TonyZhou05",
+      "html_url": null,
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed"
+      ],
+      "title": "Surface FLOP-aware routing and a minimal API docs index",
+      "notes": "Round-2 dual-YES: R2-12 (G2) routing is a pillar claim but only one README sentence + docstring; score-time pin lives as adaptive internals \u2014 add a short how-to-inspect/force-route subsection pointing at maybe_use_materialized_* / should_materialize. R2-13 (S2) no docs/ or mkdocs.yml at tip while ruff still excludes docs/; add a minimal API index (README section or thin docs/) for HookManager / Attributor family / callbacks / streamer."
+    },
+    {
+      "number": "H8",
+      "state": "open",
+      "author": "TonyZhou05",
+      "html_url": null,
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed",
+        "repro"
+      ],
+      "title": "Align OLMo/fidelity/hardware notes and add a paper-table runbook",
+      "notes": "Round-2 dual-YES: R2-17 \u2014 olmo extra pins ai2-olmo while fidelity/README needs ai2-olmo-core 2.6.0 (paper credits OLMo-core); reconcile pins/docs. R2-20 \u2014 fidelity README ladder (Qwen 0.5/3B, OLMo-2-1B) exceeds paper \u00a74.2 trio; label extras as extended / not in paper. R2-21 \u2014 Table 10/B.6 one L40S (48GB) vs capture/README one A40 for same experiment; align hardware claims. R2-28 \u2014 no figure/table\u2192command mapping; add a centralized reproduction runbook (med risk acceptable as docs)."
     }
   ],
   "openPullRequests": []

@@ -1,0 +1,453 @@
+{
+  "tip_sha": "a5c08fc2d386c9f24f7b8df9600b789132bdd7eb",
+  "generated_at": "2026-09-24 America/Toronto",
+  "restored_at": "2026-09-24 ~04:00 ET America/Toronto",
+  "r1_status": [
+    {
+      "id": "C1",
+      "title": "README hero / on-the-fly \u2192 dattri_llm.task",
+      "agreed": true,
+      "status": "OPEN",
+      "evidence": "README.md:33 and :144 still `from dattri.task import AttributionTask`; hero loss_fn still `(params, batch)` + functional_call. examples/attribution/attribution_on_the_fly.py correctly uses dattri_llm.task."
+    },
+    {
+      "id": "C2",
+      "title": "Document pyproject extras beyond [transformers]",
+      "agreed": true,
+      "status": "PARTIAL",
+      "evidence": "README install documents `.[transformers]` and `.[attribution]` only. pyproject.toml also has `trl`, `olmo`, `dev`, `test` \u2014 not listed in the install block (examples/README does mention trl/ai2-olmo per-script)."
+    },
+    {
+      "id": "C3",
+      "title": "Document HF Llama/Qwen RMSNorm recipe",
+      "agreed": true,
+      "status": "OPEN",
+      "evidence": "README only names RMSNorm in the layer-coverage bullet. Full recipe (layer_types + rms_norm_module_kwargs / variance_epsilon) lives in dattri_llm/gradient/hooks/config.py docstring and examples/projection/; not surfaced in root README."
+    },
+    {
+      "id": "C4",
+      "title": "Export OptimizerStateCallback (+ siblings) + capture contract",
+      "agreed": true,
+      "status": "DONE",
+      "evidence": "Commit a5c08fc: OptimizerStateCallback, ParameterSnapshotCallback, KroneckerCovarianceCallback eager-exported in dattri_llm/__init__.py; README 'Capture requirements' table documents LESS/AdamW/DVEmb/KFAC needs."
+    },
+    {
+      "id": "C5",
+      "title": "examples README barrier: on_the_fly torch-only",
+      "agreed": true,
+      "status": "PARTIAL",
+      "evidence": "examples/README.md still lists attribution_on_the_fly as needing `transformers`. Script is a torch-only MLP using dattri_llm.task (no transformers import). 74d5488 fixed install wording elsewhere but table row remains wrong."
+    },
+    {
+      "id": "C6",
+      "title": "LESS/AdamW/DVEmb/EKFAC smoke examples",
+      "agreed": false,
+      "status": "DECLINED",
+      "evidence": "Dual-declined (Opus effort veto). Still no examples/* for those methods; revisit only as optional short-fall."
+    }
+  ],
+  "candidates": [
+    {
+      "id": "R2-1",
+      "category": "gap",
+      "effort": "S",
+      "paper_risk": "none",
+      "status": "r1-agreed-open",
+      "title": "C1 \u2014 README hero still imports dattri.task + functional_call",
+      "r1_overlap": "C1 / G1",
+      "evidence_paper": "\u00a73.3 / Abstract: live capture from any `.backward()` including DDP/FSDP; closed-loop Attributor over live model.",
+      "evidence_code": "README.md:33,144 `from dattri.task import AttributionTask`; hero loss_fn(params, batch)+functional_call. Contrasts dattri_llm/task.py (model,batch) contract and examples/attribution/attribution_on_the_fly.py.",
+      "proposed_fix": "Replace both README snippets with `from dattri_llm import AttributionTask` (or `from dattri_llm.task import \u2026`) and a `(model, batch) -> loss` that calls the live model; mention `AttributionTask.from_dattri` as the adapter for dattri-style losses.",
+      "why_effective": "Highest-traffic copy-paste path still contradicts the paper's distributed/live-hook story and the library's own task contract."
+    },
+    {
+      "id": "R2-2",
+      "category": "inconsistency",
+      "effort": "S",
+      "paper_risk": "none",
+      "status": "r1-agreed-open",
+      "title": "C5 \u2014 examples README marks on_the_fly as needing transformers",
+      "r1_overlap": "C5",
+      "evidence_paper": "N/A (docs). Paper 'few lines' framing assumes minimal deps for basic attribution.",
+      "evidence_code": "examples/README.md table: attribution_on_the_fly \u2192 `transformers`. Script uses only torch + dattri_llm MLP; CI still installs transformers before running it.",
+      "proposed_fix": "Change Extra requirements to `\u2014` (torch-only). Optionally add a one-line note that live HF/LLM demos need `.[transformers]`.",
+      "why_effective": "False barrier; users think the smallest end-to-end demo needs HF when it does not."
+    },
+    {
+      "id": "R2-3",
+      "category": "short-fall",
+      "effort": "S",
+      "paper_risk": "none",
+      "status": "r1-agreed-open",
+      "title": "C2 \u2014 README install omits trl / olmo / dev extras",
+      "r1_overlap": "C2 / I4",
+      "evidence_paper": "Abstract + \u00a73.3 claim Transformers, TRL, and OLMo integrations.",
+      "evidence_code": "pyproject.toml extras: attribution, transformers, trl, olmo, dev, test. README install block only shows transformers + attribution.",
+      "proposed_fix": "Extend install subsection with `.[trl]`, `.[olmo]`, `.[dev]` (and `.[test]`) one-liners pointing at examples/trainers/*.",
+      "why_effective": "Paper-named frameworks are installable but invisible from the README install story."
+    },
+    {
+      "id": "R2-4",
+      "category": "gap",
+      "effort": "S",
+      "paper_risk": "low",
+      "status": "r1-agreed-open",
+      "title": "C3 \u2014 HF LlamaRMSNorm recipe missing from root README",
+      "r1_overlap": "C3",
+      "evidence_paper": "Appendix A.1: normalization layers (LayerNorm, RMSNorm, \u2026) are first-class factorized types.",
+      "evidence_code": "README only lists RMSNorm in Key Features. Recipe with layer_types + module_kwargs / rms_norm_module_kwargs is in hooks/config.py and examples/projection/README.md + gradient_projection.py \u2014 not linked from root.",
+      "proposed_fix": "Add a short 'Custom / HF norm layers' subsection (or link) showing LlamaRMSNorm \u2192 nn.RMSNorm declaration with rms_norm_module_kwargs(variance_epsilon=\u2026).",
+      "why_effective": "Llama/Qwen users hit unrecognized RMSNorm classes; the fix exists but is buried."
+    },
+    {
+      "id": "R2-5",
+      "category": "style",
+      "effort": "S",
+      "paper_risk": "none",
+      "status": "parked-elevated",
+      "title": "W1 \u2014 Abstract 'and and'",
+      "r1_overlap": "W1",
+      "evidence_paper": "Abstract: '\u2026across four GPUs, and and delivers faster and more faithful attribution\u2026 at 7B scale.'",
+      "evidence_code": "N/A (paper-only).",
+      "proposed_fix": "Delete the duplicated 'and'.",
+      "why_effective": "Highest-visibility grammar glitch in the abstract."
+    },
+    {
+      "id": "R2-6",
+      "category": "inconsistency",
+      "effort": "S",
+      "paper_risk": "none",
+      "status": "parked-elevated",
+      "title": "I1 \u2014 Curvature speedup 1.3\u20132.5\u00d7 (abstract) vs 1.4\u20133.1\u00d7 (body)",
+      "r1_overlap": "I1",
+      "evidence_paper": "Abstract: curvature 1.3\u20132.5\u00d7. Intro Efficiency / conclusion: 1.4\u20133.1\u00d7 (\u00a7B.3). Appendix also cites projected K-/EK-FAC 1.6\u20132.5\u00d7 and full-dim 1.2\u20131.6\u00d7 / 1.4\u20132.1\u00d7 vs specific libs.",
+      "evidence_code": "experiments/benchmark/{throughput,routing,benchmark}.py measure cells; do not encode abstract range.",
+      "proposed_fix": "Reconcile abstract to one audited table slice (or qualify 'vs fastest baseline on completed projected-curvature cells').",
+      "why_effective": "Reviewers read abstract first; mismatched \u00d7 ranges look unreconciled."
+    },
+    {
+      "id": "R2-7",
+      "category": "claim",
+      "effort": "S",
+      "paper_risk": "low",
+      "status": "parked-elevated",
+      "title": "I2 \u2014 'gradient similarity at parity' vs GradDot 2.7\u20133.4\u00d7 / 1.4\u20138.9\u00d7",
+      "r1_overlap": "I2",
+      "evidence_paper": "Abstract: 'gradient similarity at parity.' \u00a74: GradDot achieves 2.7\u20133.4\u00d7 Kronfluence and 1.4\u20138.9\u00d7 Bergson on completed scales.",
+      "evidence_code": "experiments/benchmark/throughput.py; README maps Grad-Dot \u2192 TracInAttributor.",
+      "proposed_fix": "Replace 'at parity' with the measured range, or define parity as a specific matched-hardware row and move the \u00d7 gains into the same sentence.",
+      "why_effective": "Direct abstract\u2194results contradiction."
+    },
+    {
+      "id": "R2-8",
+      "category": "style",
+      "effort": "S",
+      "paper_risk": "none",
+      "status": "parked-elevated",
+      "title": "W2 \u2014 'introduct' + 'motivates' + latex 'Eq. equation N'",
+      "r1_overlap": "W2 (elevated with more typos)",
+      "evidence_paper": "'we will introduct in \u00a73.2'; Related Work 'building blocks motivates'; repeated 'Eq. equation 1/2/3/4' and 'Equation equation 1' (A.1); A.3 'moments the coming optimizer.step()'.",
+      "evidence_code": "N/A.",
+      "proposed_fix": "introduct\u2192introduce; motivates\u2192motivate; fix equation refs to 'Eq. (N)'; repair 'moments the coming' grammar.",
+      "why_effective": "Cheap camera-ready polish; latex doubling is systematic in the extract."
+    },
+    {
+      "id": "R2-9",
+      "category": "inconsistency",
+      "effort": "S",
+      "paper_risk": "low",
+      "status": "parked-elevated",
+      "title": "I3 \u2014 GradDot paper name vs algorithm label 'TracIn'",
+      "r1_overlap": "I3",
+      "evidence_paper": "Fig.1 lists TracIn \u00b7 GradDot \u00b7 GradCos; benchmarks name GradDot; Related Work distinguishes single-ckpt Grad-Dot from multi-ckpt TracIn.",
+      "evidence_code": "tracin.py: algorithm='GradCos' if normalized_grad else 'TracIn' \u2014 never 'GradDot'. README table: Grad-Dot / Grad-Cos | TracInAttributor.",
+      "proposed_fix": "Set algorithm='GradDot' for single-checkpoint raw dot (or document alias in score metadata + paper footnote).",
+      "why_effective": "Artifacts grepping `algorithm` disagree with paper method names."
+    },
+    {
+      "id": "R2-10",
+      "category": "style",
+      "effort": "S",
+      "paper_risk": "none",
+      "status": "parked-elevated",
+      "title": "N1 \u2014 paper 'Attributor' vs code BaseAttributor",
+      "r1_overlap": "N1",
+      "evidence_paper": "Fig.1 caption: 'subclassing Attributor'; entry API 'Attributor vs HookManager'.",
+      "evidence_code": "Public ABC is BaseAttributor / BaseInnerProductAttributor; no class named Attributor. TrajectoryAttributor exists but is also unexported (see R2-18).",
+      "proposed_fix": "Paper: 'subclassing BaseAttributor' (or 'an *Attributor'). Optional README gloss: 'Attributor family'.",
+      "why_effective": "Removes 'where is Attributor?' friction after Fig.1."
+    },
+    {
+      "id": "R2-11",
+      "category": "short-fall",
+      "effort": "S",
+      "paper_risk": "none",
+      "status": "parked-elevated",
+      "title": "S1 \u2014 Fig.1 / \u00a73.1 method strip omits shipped LESS & AdamW-influence",
+      "r1_overlap": "S1",
+      "evidence_paper": "Fig.1: TracIn \u00b7 GradDot \u00b7 GradCos \u00b7 K-FAC \u00b7 EK-FAC \u00b7 DVEmb. \u00a73.1 closed-loop list matches. Body/A.3 and \u00a74.2 evaluate LESS transform and AdamW-influence heavily.",
+      "evidence_code": "LESSAttributor, AdamWInfluenceAttributor exported + README Supported Algorithms + tests.",
+      "proposed_fix": "Add LESS \u00b7 AdamW-influence to Fig.1 strip or a caption footnote 'also: LESS, AdamW-influence (A.3)'. Align \u00a73.1 sentence.",
+      "why_effective": "Stops 'paper under-sells the library' / figure incomplete vs README."
+    },
+    {
+      "id": "R2-12",
+      "category": "gap",
+      "effort": "M",
+      "paper_risk": "none",
+      "status": "parked-elevated",
+      "title": "G2 \u2014 FLOP-aware routing weakly surfaced for users",
+      "r1_overlap": "G2",
+      "evidence_paper": "Efficiency pillar + \u00a73.2 + Appendix A.4 + B.4 routing ablation.",
+      "evidence_code": "Realized as maybe_use_materialized_gram/norm, should_materialize in gradient/ops/{dot,projection}.py. Root README mentions dynamic routing once; no user-facing 'force/inspect route' section. capture_style auto/factorized/materialized is in HookManagerConfig docstring only.",
+      "proposed_fix": "README subsection: cost-model symbols, HookManagerConfig(capture_style=...), how experiments/benchmark/routing.py pins routes; optional debug log of chosen mode.",
+      "why_effective": "Ties the paper's main systems claim to grep-able knobs reviewers can verify."
+    },
+    {
+      "id": "R2-13",
+      "category": "short-fall",
+      "effort": "M",
+      "paper_risk": "none",
+      "status": "parked-elevated",
+      "title": "S2 \u2014 No docs/ tree (Sphinx/MkDocs); ruff excludes docs/ that does not exist",
+      "r1_overlap": "S2",
+      "evidence_paper": "Positions dattri-LLM as a library with HookManager, Attributor, callbacks, AttributionArguments, GradientStreamer, AttributionScore.",
+      "evidence_code": "Tree: README + examples/**/README + CLAUDE.md + rich docstrings. No docs/. pyproject.toml ruff.exclude lists 'docs/'.",
+      "proposed_fix": "Minimal MkDocs/Sphinx API index from docstrings, or expand README API index; remove stale docs/ exclude if deferred.",
+      "why_effective": "ICLR systems/library papers invite 'is this research code?' risk without a stable API page."
+    },
+    {
+      "id": "R2-14",
+      "category": "inconsistency",
+      "effort": "S",
+      "paper_risk": "none",
+      "status": "parked-elevated",
+      "title": "I4 \u2014 Install story vs 'few lines' hero (extras + wrong task)",
+      "r1_overlap": "I4 (+C1)",
+      "evidence_paper": "'few lines' / practical library framing (Abstract, \u00a73.4, \u00a75).",
+      "evidence_code": "Hard dep only torch; hero needs transformers + (as written) dattri AttributionTask. Install shows pip install -e . then immediately a snippet that needs extras and currently wrong import.",
+      "proposed_fix": "Hero install one-liner `pip install -e \".[transformers,attribution]\"` OR rewrite hero to torch-only MLP path matching attribution_on_the_fly.",
+      "why_effective": "Makes the abstract claim true on a clean machine."
+    },
+    {
+      "id": "R2-15",
+      "category": "style",
+      "effort": "S",
+      "paper_risk": "none",
+      "status": "parked-elevated",
+      "title": "N2 \u2014 naming triad dattri-LLM / dattri-llm / dattri_llm",
+      "r1_overlap": "N2",
+      "evidence_paper": "Product name dattri-LLM almost everywhere; rare dattri-llm / dattri_llm.",
+      "evidence_code": "Engineering names consistent (dattri-llm, dattri_llm); README title dattri-llm.",
+      "proposed_fix": "Camera-ready first-mention footnote: dattri-LLM (`pip install dattri-llm`, `import dattri_llm`).",
+      "why_effective": "Prevents naming bikesheds in review."
+    },
+    {
+      "id": "R2-16",
+      "category": "inconsistency",
+      "effort": "S",
+      "paper_risk": "low",
+      "status": "new",
+      "title": "OLMo integration: paper/\u00a73 says trainer.train() vs fidelity fit()",
+      "r1_overlap": "none (new)",
+      "evidence_paper": "\u00a73.3: wrapping trainer.train() with hm.collect() for HF/TRL/OLMo. \u00a74.2 / B.2: OLMo-3-7B capture by wrapping fit().",
+      "evidence_code": "examples/trainers/olmo_trainer.py uses ai2-olmo Trainer; experiments/fidelity uses OLMo-core fit(). Two different OLMo stacks.",
+      "proposed_fix": "Paper: distinguish ai2-olmo Trainer.train vs OLMo-core Trainer.fit; README/examples clarify which extra covers which demo.",
+      "why_effective": "Reviewers reproducing \u00a74.2 will look for train() and hit the wrong package API."
+    },
+    {
+      "id": "R2-17",
+      "category": "repro",
+      "effort": "M",
+      "paper_risk": "med",
+      "status": "new",
+      "title": "olmo extra pins ai2-olmo but fidelity needs ai2-olmo-core 2.6.0",
+      "r1_overlap": "none",
+      "evidence_paper": "\u00a74.2 / B.2 claim unmodified OLMo-core trainer for OLMo-3-7B fidelity.",
+      "evidence_code": "pyproject.toml olmo/dev \u2192 `ai2-olmo`. experiments/fidelity/README.md: need ai2-olmo-core (2.6.0). examples/trainers/olmo_trainer.py imports olmo.* from ai2-olmo.",
+      "proposed_fix": "Split extras (olmo vs olmo-core) or document both; pin versions used in paper tables; add to repro appendix.",
+      "why_effective": "Paper's headline 7B fidelity path is not what `pip install -e \".[olmo]\"` installs."
+    },
+    {
+      "id": "R2-18",
+      "category": "gap",
+      "effort": "S",
+      "paper_risk": "none",
+      "status": "new",
+      "title": "TrajectoryAttributor / ReplayGradientSource / TrajectorySnapshots not public exports",
+      "r1_overlap": "none (related to N1)",
+      "evidence_paper": "\u00a73.4 extensibility: subclass Attributor over uniform gradient stream; trajectory methods (DVEmb, AdamW-influence) central in \u00a74.2.",
+      "evidence_code": "trajectory.py defines TrajectoryAttributor used by AdamW/DVEmb; ReplayGradientSource in streaming.py; neither in dattri_llm/__init__.py _LAZY_EXPORTS / __all__. Extenders must deep-import.",
+      "proposed_fix": "Export TrajectoryAttributor (+ optionally ReplayGradientSource, TrajectorySnapshots) from package root with docstring pointers.",
+      "why_effective": "Matches paper extension-point story for trajectory methods beyond copying LESS/AdamW."
+    },
+    {
+      "id": "R2-19",
+      "category": "short-fall",
+      "effort": "M",
+      "paper_risk": "low",
+      "status": "r1-declined-revisit",
+      "title": "No runnable examples for LESS / AdamW-influence / DVEmb / EK-FAC",
+      "r1_overlap": "C6 (r1-declined-revisit)",
+      "evidence_paper": "\u00a74.2 / Fig.3 center AdamW-influence & EK-FAC; A.3 LESS; methods are first-class in design.",
+      "evidence_code": "examples/ only TracIn (+ token GradDot/KFAC). Tests exist (test_less, test_adamw_influence, test_dvemb, test_kronecker) but no examples/* scripts. Dual declined C6 as not-small.",
+      "proposed_fix": "Add compact CPU smokes derived from tests (or one multi-method script) behind examples/attribution/; keep CI optional if heavy.",
+      "why_effective": "Paper's fidelity heroes are invisible in examples/; raises 'research-only method' risk despite shipped APIs."
+    },
+    {
+      "id": "R2-20",
+      "category": "repro",
+      "effort": "M",
+      "paper_risk": "med",
+      "status": "new",
+      "title": "Fidelity model ladder: paper \u00a74.2 trio vs experiments broader ladder",
+      "r1_overlap": "none",
+      "evidence_paper": "\u00a74.2 Setup: GPT-2, Qwen2.5-1.5B, OLMo-3-7B. B.2 repeats the trio.",
+      "evidence_code": "experiments/fidelity/README.md evaluates also Qwen2.5-0.5B/3B and OLMo-2-1B; resource table mentions those scales. Main-text figures may omit them.",
+      "proposed_fix": "Either promote appendix table for extra scales or trim experiment README to paper trio; explicitly mark appendix-only scales.",
+      "why_effective": "Repro readers chasing every README model will not find matching paper claims/figures."
+    },
+    {
+      "id": "R2-21",
+      "category": "repro",
+      "effort": "S",
+      "paper_risk": "low",
+      "status": "new",
+      "title": "B.6 invasive-capture hardware: paper L40S vs experiment README A40",
+      "r1_overlap": "none",
+      "evidence_paper": "Table 10 (B.6): Pythia-0.5B on one L40S (48 GB).",
+      "evidence_code": "experiments/capture/README.md: one A40; shares benchmark workload. experiments/efficiency/ untracked local tree.",
+      "proposed_fix": "Align paper hardware string with the launcher that produced Table 10, or note both; ensure capture results provenance path is documented.",
+      "why_effective": "Small but checkable reproducibility mismatch on a dedicated ablation."
+    },
+    {
+      "id": "R2-22",
+      "category": "gap",
+      "effort": "S",
+      "paper_risk": "none",
+      "status": "new",
+      "title": "Stale empty packages: dattri_llm/{algorithm,trainers} and gradient/trainers",
+      "r1_overlap": "none",
+      "evidence_paper": "Fig.1 architecture shows clean gradient/attribution tiers.",
+      "evidence_code": "Three directories contain only __pycache__ (old trainers/algorithm layouts); no .py sources. setuptools include=dattri_llm* may still package them.",
+      "proposed_fix": "Delete empty dirs / pycache leftovers; confirm packages.find does not ship hollow namespaces.",
+      "why_effective": "Confuses contributors grepping trainers next to examples/trainers; looks like incomplete move."
+    },
+    {
+      "id": "R2-23",
+      "category": "repro",
+      "effort": "M",
+      "paper_risk": "low",
+      "status": "new",
+      "title": "experiments/efficiency (+ offload) absent from experiments README / mostly untracked",
+      "r1_overlap": "none",
+      "evidence_paper": "Efficiency claims cite benchmark/routing/throughput; capture ablation in B.6.",
+      "evidence_code": "experiments/README indexes benchmark/, fidelity/, capture/ only. experiments/efficiency/ is untracked (??); experiments/offload/ has results.jsonl, no README.",
+      "proposed_fix": "Either add to index with purpose/protocol or exclude from release tree; do not leave orphan result dumps unexplained.",
+      "why_effective": "Repro hygiene: shadowed experiment dirs invite divergent numbers."
+    },
+    {
+      "id": "R2-24",
+      "category": "gap",
+      "effort": "S",
+      "paper_risk": "none",
+      "status": "new",
+      "title": "token_attribution example not in CI (fast or expensive)",
+      "r1_overlap": "none",
+      "evidence_paper": "Abstract + \u00a73.2 claim token-level attribution; B.5 documents examples.",
+      "evidence_code": "examples/attribution/token_attribution.py exists; .github/workflows/examples_test.yml and expensive-examples omit it (only gpt2_data_selection + olmo on expensive).",
+      "proposed_fix": "Add to expensive-examples (downloads gpt2) or a tiny synthetic token smoke in fast CI.",
+      "why_effective": "Paper feature with an example but no automated guardrail."
+    },
+    {
+      "id": "R2-25",
+      "category": "inconsistency",
+      "effort": "S",
+      "paper_risk": "low",
+      "status": "new",
+      "title": "Live GradientStreamer hard-requires transformers; README Compatibility understates TRL",
+      "r1_overlap": "partial I4",
+      "evidence_paper": "Abstract/\u00a73.3 list Transformers, TRL, OLMo equally. Closed-loop attribute() is a primary entry.",
+      "evidence_code": "streaming.py imports transformers (set_seed, get_scheduler, Trainer-like step). README Key Features Compatibility bullet lists Hugging Face Trainer and OLMo \u2014 omits TRL (TRL appears later under Frameworks). Torch-only disk path works; live LLM path does not.",
+      "proposed_fix": "Document clearly: capture core = torch; live streamer = transformers extra; TRL/OLMo in Compatibility bullets. Consider lazy import errors with install hint.",
+      "why_effective": "Aligns dependency story with paper's three-framework claim and avoids silent ImportError on `pip install -e .`."
+    },
+    {
+      "id": "R2-26",
+      "category": "claim",
+      "effort": "S",
+      "paper_risk": "low",
+      "status": "new",
+      "title": "\u00a73.1 Attributor method list under-claims vs README / evaluations",
+      "r1_overlap": "S1 (related)",
+      "evidence_paper": "\u00a73.1: Attributor directly returns scores for TracIn, gradient dot/cosine, K-FAC and EK-FAC, and data-value embeddings \u2014 no LESS/AdamW.",
+      "evidence_code": "Seven attributors exported; \u00a74.2 evaluates AdamW-influence as a dattri-LLM method.",
+      "proposed_fix": "Extend \u00a73.1 list or add 'plus optimizer-aware methods (LESS, AdamW-influence; A.3)'.",
+      "why_effective": "Design section should match what \u00a74 claims the library implements."
+    },
+    {
+      "id": "R2-27",
+      "category": "style",
+      "effort": "S",
+      "paper_risk": "none",
+      "status": "new",
+      "title": "Invasive capture naming: paper 'invasive linear io' vs code invasive_linear_io",
+      "r1_overlap": "none",
+      "evidence_paper": "B.6: optional capture mode (invasive linear io).",
+      "evidence_code": "Hook family string `invasive_linear_io` in hooks + experiments/capture.",
+      "proposed_fix": "Use monospace `invasive_linear_io` in paper; cross-link experiments/capture/README.md.",
+      "why_effective": "Lets readers grep the exact API token from the appendix."
+    },
+    {
+      "id": "R2-28",
+      "category": "repro",
+      "effort": "L",
+      "paper_risk": "med",
+      "status": "new",
+      "title": "End-to-end paper-table reproduction runbook not centralized",
+      "r1_overlap": "none",
+      "evidence_paper": "Reproducibility paragraph points to Appendix B.1\u2013B.7 for protocols.",
+      "evidence_code": "Strong per-dir READMEs (benchmark, fidelity, capture) + pinned baselines in versions.py (bergson 0.26.1, kronfluence 1.0.1, logix 0.1.1). No single top-level mapping Fig.X / Table.Y \u2192 exact launcher flags + expected jsonl. Modal launchers exist but are tribal knowledge.",
+      "proposed_fix": "Add experiments/PAPER_FIGURES.md (or appendix mirror) mapping each main figure/table to command, hardware, seed, and result artifact path.",
+      "why_effective": "Converts good local READMEs into reviewer-usable camera-ready repro."
+    }
+  ],
+  "rejected": [
+    {
+      "id": "RJ-1",
+      "why": "C4 already DONE on a5c08fc \u2014 do not re-open as new gap."
+    },
+    {
+      "id": "RJ-2",
+      "why": "C6 dual-declined \u2014 only listed as optional R2-19 revisit."
+    },
+    {
+      "id": "RJ-3",
+      "why": "Core HookManager / DDP / FSDP / factorized ops / token granularity \u2014 still aligned."
+    },
+    {
+      "id": "RJ-4",
+      "why": "Opening TRAIS-Lab GitHub issues/PRs \u2014 hard out of scope."
+    },
+    {
+      "id": "RJ-5",
+      "why": "Publishing paper.pdf to public hub \u2014 hard out of scope; private ship paths only."
+    },
+    {
+      "id": "RJ-6",
+      "why": "Implementing missing TDA methods named only as related work (TrackStar, SOURCE, MAGIC, TRAK) \u2014 paper compares against them, does not claim to ship them."
+    }
+  ],
+  "aligned_checks_summary": [
+    "HookManager/collect",
+    "callbacks",
+    "C4 done",
+    "DDP/FSDP tests",
+    "factorized+routing impl",
+    "all attributors+tests",
+    "token example",
+    "HF/TRL/OLMo examples",
+    "110B harness",
+    "baseline pins"
+  ]
+}
