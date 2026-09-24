@@ -4,7 +4,7 @@
   "sourceRepo": "TeachFakerPlayingMid/CR-Harness-main",
   "sourceRepoPrivate": true,
   "sourceRepoUrl": "https://github.com/TeachFakerPlayingMid/CR-Harness-main",
-  "updatedAt": "2026-09-24 03:15 ET",
+  "updatedAt": "2026-09-24 03:17 ET",
   "openIssues": [
     {
       "author": "TonyZhou05",
@@ -13,9 +13,9 @@
       "labels": [],
       "number": 259,
       "state": "open",
-      "title": "[TZ] Integrate Jev into gameplay decision-making step",
-      "updated_at": "2026-09-24T07:14:13Z",
-      "updated_display": "2026-09-24 03:14 ET",
+      "title": "[TZ] Speed up CR gameplay decisions with Jev",
+      "updated_at": "2026-09-24T03:17:53-0400",
+      "updated_display": "2026-09-24 03:17 ET",
       "created_display": "2026-09-24 03:14 ET"
     },
     {
@@ -25,7 +25,7 @@
       "labels": [],
       "number": 256,
       "state": "open",
-      "title": "[TYS]引擎部署白名单粒度：增加正中列 / 命名锚点（当前 4×4 网格没有中间列）",
+      "title": "[TYS]\u5f15\u64ce\u90e8\u7f72\u767d\u540d\u5355\u7c92\u5ea6\uff1a\u589e\u52a0\u6b63\u4e2d\u5217 / \u547d\u540d\u951a\u70b9\uff08\u5f53\u524d 4\u00d74 \u7f51\u683c\u6ca1\u6709\u4e2d\u95f4\u5217\uff09",
       "updated_at": "2026-09-20T16:09:01Z",
       "updated_display": "2026-09-20 12:09 ET",
       "created_display": "2026-09-20 00:34 ET"
@@ -37,7 +37,7 @@
       "labels": [],
       "number": 251,
       "state": "open",
-      "title": "新增 --delta-mode sampled：Δt 与本次调用实测值解耦，真正解锁并行",
+      "title": "\u65b0\u589e --delta-mode sampled\uff1a\u0394t \u4e0e\u672c\u6b21\u8c03\u7528\u5b9e\u6d4b\u503c\u89e3\u8026\uff0c\u771f\u6b63\u89e3\u9501\u5e76\u884c",
       "updated_at": "2026-09-19T12:07:03Z",
       "updated_display": "2026-09-19 08:07 ET",
       "created_display": "2026-09-19 07:45 ET"
@@ -49,7 +49,7 @@
       "labels": [],
       "number": 201,
       "state": "open",
-      "title": "[TYS]lookup_card 工具：把卡牌手册做成 harness 插件，作为静态手册的延迟对照臂",
+      "title": "[TYS]lookup_card \u5de5\u5177\uff1a\u628a\u5361\u724c\u624b\u518c\u505a\u6210 harness \u63d2\u4ef6\uff0c\u4f5c\u4e3a\u9759\u6001\u624b\u518c\u7684\u5ef6\u8fdf\u5bf9\u7167\u81c2",
       "updated_at": "2026-09-13T01:09:57Z",
       "updated_display": "2026-09-12 21:09 ET",
       "created_display": "2026-09-12 21:09 ET"
@@ -61,7 +61,7 @@
       "labels": [],
       "number": 200,
       "state": "open",
-      "title": "[TYS]卡牌手册 L1b：manual_level 作为与 alias 正交的 per-request 参数（论文 3 主自变量）",
+      "title": "[TYS]\u5361\u724c\u624b\u518c L1b\uff1amanual_level \u4f5c\u4e3a\u4e0e alias \u6b63\u4ea4\u7684 per-request \u53c2\u6570\uff08\u8bba\u6587 3 \u4e3b\u81ea\u53d8\u91cf\uff09",
       "updated_at": "2026-09-13T01:09:55Z",
       "updated_display": "2026-09-12 21:09 ET",
       "created_display": "2026-09-12 21:09 ET"
@@ -85,7 +85,7 @@
       "labels": [],
       "number": 23,
       "state": "open",
-      "title": "[TYS]修复lane_bonus 写法让跨路侦测在数学上不可能触发",
+      "title": "[TYS]\u4fee\u590dlane_bonus \u5199\u6cd5\u8ba9\u8de8\u8def\u4fa6\u6d4b\u5728\u6570\u5b66\u4e0a\u4e0d\u53ef\u80fd\u89e6\u53d1",
       "updated_at": "2026-08-16T06:34:20Z",
       "updated_display": "2026-08-16 02:34 ET",
       "created_display": "2026-08-16 02:34 ET"
@@ -97,7 +97,7 @@
       "labels": [],
       "number": 3,
       "state": "open",
-      "title": "[CZ] 建议增加游戏暂停功能，支持模型推理阶段游戏暂停",
+      "title": "[CZ] \u5efa\u8bae\u589e\u52a0\u6e38\u620f\u6682\u505c\u529f\u80fd\uff0c\u652f\u6301\u6a21\u578b\u63a8\u7406\u9636\u6bb5\u6e38\u620f\u6682\u505c",
       "updated_at": "2026-08-10T11:48:37Z",
       "updated_display": "2026-08-10 07:48 ET",
       "created_display": "2026-08-10 07:47 ET"
