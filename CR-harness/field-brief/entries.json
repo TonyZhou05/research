@@ -1,11 +1,35 @@
 {
   "title": "The Field Brief",
-  "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily.",
-  "updatedAt": "2026-09-24T02:39:34-04:00",
+  "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
+  "updatedAt": "2026-09-24T03:15:29-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
   "briefEdition": "briefs/2026-09-24.html",
   "entries": [
+    {
+      "id": "jev-gameplay-decision-router",
+      "title": "Jev at decision_point: typed Choice/Noul gate over legal_actions",
+      "date": "2026-09-24",
+      "summary": "TypeSafe Jev (OpenRouter typesafe/jev-1.13) returns Choice/Noul/Score with probabilities — no prose. Already LIVE on the fleet harness at confidence_floor 0.55 for CoS routing. Scout ask: wire the same router into Mini Royale gameplay at decision_point (legal_actions whitelist + cockpit path), not hub routing only. Prior art: AutoHarness/PTCG legal masks, R2V residual-risk escalate, confidence-gate act/ask/abstain, HarnessBridge reject-with-feedback.",
+      "tags": [
+        "Jev",
+        "decision_point",
+        "legal_actions",
+        "confidence",
+        "CR-adjacent",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://openrouter.ai/docs/guides/community/jev",
+        "https://openrouter.ai/typesafe/jev-1.13",
+        "https://arxiv.org/abs/2603.03329",
+        "https://ar5iv.labs.arxiv.org/html/2605.16604",
+        "https://github.com/vinimabreu/confidence-gate"
+      ],
+      "why_it_matters_for_cr": "CR already emits decision_point + legal_actions; Jev can Choice among legal ids or Noul-gate escalate/noop when conf<floor, with ETL logging of conf/fallback — reusable eval surface for latency vs false-escalate.",
+      "status": "candidate_intent",
+      "thin": false
+    },
     {
       "id": "autoharness-textarena",
       "title": "AutoHarness: synthesize code that blocks illegal moves",
