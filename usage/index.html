@@ -181,7 +181,7 @@
         Scaffold for this Eastern fleet (Tongli Zhou / Tony).
       </p>
       <div class="meta">
-        <span>Collected <strong>2026-09-23 23:46:54 EDT</strong></span>
+        <span>Collected <strong>2026-09-24 00:06:12 EDT</strong></span>
         <span>Owner <strong>Tongli Zhou (Tony)</strong></span>
         <span>Publish target <strong><a href="https://tonyzhou05.github.io/research/usage/" style="color:inherit">https://tonyzhou05.github.io/research/usage/</a></strong></span>
       </div>
@@ -197,54 +197,75 @@
         <h2>Claude</h2>
         <p class="sub"><code>claude -p /usage</code> · soft probe</p>
         <span class="status-chip warn">SOFT-FAIL</span>
-        <p class="muted">claude -p /usage returned session cost summary, not plan quota bars (OAuth /usage may need interactive auth). Soft-fail.</p>
+        <p class="muted">Claude OAuth expired / not logged in (keychain=present, ~/.claude/.credentials.json=absent). Plan quota bars need a valid Claude.ai subscription login. Persistent storage: `claude auth login` writes OAuth tokens to macOS Keychain (service &#x27;Claude Code-credentials&#x27;) and refreshes them automatically until expiry/revoke. Run: claude auth login</p>
         
       <div class="metric">
-        <div class="metric-label">Session probe (not plan quota)</div>
+        <div class="metric-label">Quota (auth required)</div>
         <div class="bar-row">
           <div class="bar-track"><div class="bar-fill unk" style="width:8%"></div></div>
           <div class="bar-pct unk">—</div>
         </div>
-        <div class="metric-reset">quota bars unavailable</div>
+        <div class="metric-reset">run: claude auth login</div>
       </div>
       </section>
 
       
     <section class="card">
       <h2>Codex / Astra</h2>
-      <p class="sub"><code>codex</code> · codex-cli 0.156.1 · auth soft-probe</p>
-      <span class="status-chip ok">AUTH_OK · ChatGPT</span>
-      <p class="muted">Logged in using ChatGPT. Version: codex-cli 0.156.1. No countable usage bars yet.</p>
+      <p class="sub"><code>codex</code> · codex-cli 0.156.1 · wham/usage</p>
+      <span class="status-chip ok">OK · plan plus</span>
+      <p class="muted">wham/usage · plan=plus · gpt-6-astra: available · credits has=False balance=0 unlimited=False. Version: codex-cli 0.156.1.</p>
+      
+      <div class="metric">
+        <div class="metric-label">Primary window (5h)</div>
+        <div class="bar-row">
+          <div class="bar-track"><div class="bar-fill ok" style="width:1.0%"></div></div>
+          <div class="bar-pct ok">1%</div>
+        </div>
+        <div class="metric-reset">Resets 2026-09-24 04:09 EDT</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Weekly window</div>
+        <div class="bar-row">
+          <div class="bar-track"><div class="bar-fill ok" style="width:38.0%"></div></div>
+          <div class="bar-pct ok">38%</div>
+        </div>
+        <div class="metric-reset">Resets 2026-09-27 10:22 EDT</div>
+      </div>
     </section>
     <section class="card">
       <h2>Kimi</h2>
-      <p class="sub"><code>kimi</code> · 2.1.0 · auth soft-probe</p>
-      <span class="status-chip ok">AUTH_OK</span>
-      <p class="muted">Kimi 2.1.0 AUTH_OK via configured provider. default_model=moonshot-cn/kimi-k3 No countable usage bars yet.</p>
+      <p class="sub"><code>kimi</code> · 2.1.0 · auth/balance soft-probe</p>
+      <span class="status-chip ok">AUTH_OK · Open Platform</span>
+      
+      <p class="muted">Kimi 2.1.0 AUTH_OK via moonshot-cn API key. default_model=moonshot-cn/kimi-k3 Open Platform available_balance=64.5977 (prepaid PAYG — no coding-plan quota bars; /usages needs Kimi Code membership token via `kimi login`).</p>
     </section>
     <section class="card">
       <h2>Agy</h2>
       <p class="sub"><code>agy</code> · pending onboard</p>
       <span class="status-chip unk">NOT INSTALLED / pending onboard</span>
+      
       <p class="muted">Agy CLI not installed — pending onboard.</p>
     </section>
     <section class="card">
       <h2>Muse / Muse Spark</h2>
-      <p class="sub"><code>muse</code> · Muse Code 1.3.0 (1.3.0-R3401.1) · auth soft-probe</p>
-      <span class="status-chip ok">AUTH_OK</span>
-      <p class="muted">Muse Muse Code 1.3.0 (1.3.0-R3401.1) AUTH_OK via Meta OAuth. No countable usage bars yet.</p>
+      <p class="sub"><code>muse</code> · Muse Code 1.3.0 (1.3.0-R3401.1) · auth soft-probe (no quota bars)</p>
+      <span class="status-chip ok">AUTH_OK · no quota API</span>
+      
+      <p class="muted">Muse Muse Code 1.3.0 (1.3.0-R3401.1) AUTH_OK via Meta OAuth. No documented muse /usage or quota API — plan/limits live in Meta Accounts Center (web). Card shows install + auth health only (no invented %).</p>
     </section>
     <section class="card">
       <h2>DSH / DeepSeek Harness</h2>
-      <p class="sub"><code>dsh</code> · 0.1.5-rc.3 · auth soft-probe</p>
-      <span class="status-chip ok">AUTH_OK</span>
-      <p class="muted">DSH 0.1.5-rc.3 AUTH_OK via DEEPSEEK_API_KEY in ~/.dsh/.env. Node nvm default v22.23.3. No countable usage bars yet.</p>
+      <p class="sub"><code>dsh</code> · 0.1.5-rc.3 · balance soft-probe</p>
+      <span class="status-chip ok">AUTH_OK · prepaid credits</span>
+      
+      <p class="muted">DSH 0.1.5-rc.3 AUTH_OK via DEEPSEEK_API_KEY in ~/.dsh/.env. Node nvm default v22.23.3. DeepSeek balance: USD 0.00; CNY 47.88 (PAYG prepaid credits — no Coding Plan quota bars; no invented %).</p>
     </section>
 
       <section class="card wide">
         <h2>Overall Grok Bots</h2>
         <p class="sub">activity from local transcripts · not plan dollars</p>
-        <p class="pill">Fleet messages 0 · share = assistant+tool · collected 2026-09-23 23:46:57 EDT</p>
+        <p class="pill">Fleet messages 0 · share = assistant+tool · collected 2026-09-24 00:06:17 EDT</p>
         <div class="stack-track"><div class="stack-seg empty" style="width:100%"></div></div><div class="muted">No activity share yet (all zeros).</div>
         <div class="table-wrap">
           <table class="bots">
