@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-24T04:33:11Z",
+  "updatedAt": "2026-09-24T04:33:26Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
@@ -53,6 +53,23 @@
       "appliedToPlaybook": false
     },
     {
+      "id": "session-bandit-redacted-md-handoff-2026-09-24",
+      "date": "2026-09-24",
+      "displayDate": "Sep 24, 2026",
+      "title": "session-bandit \u2014 redacted Markdown handoff from local transcripts",
+      "href": "https://github.com/janole/session-bandit",
+      "why": "Indexes Claude Code / Codex local JSONL offline (no API) and export-md writes a redacted, provenance-linked Markdown artifact plus redaction report. Candidate machine-checkable half for box\u2194Mac EM continuation and vault handoff notes; inspect before filing; backlog/smoke. appliedToPlaybook false.",
+      "source": "packs/2026-09-24-web-populate-harness-lab-pack",
+      "tags": [
+        "handoffs",
+        "EM",
+        "Mac CLI",
+        "vault",
+        "backlog"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
       "id": "pi-tmux-agents-awaiting-review-gate-2026-09-24",
       "date": "2026-09-24",
       "displayDate": "Sep 24, 2026",
@@ -65,6 +82,23 @@
         "CoS",
         "EM",
         "handoffs",
+        "backlog"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "orch-tmux-full-harness-panes-2026-09-24",
+      "date": "2026-09-24",
+      "displayDate": "Sep 24, 2026",
+      "title": "orch \u2014 full harness panes on tmux with heartbeats",
+      "href": "https://github.com/danmestas/orch",
+      "why": "Spawns independent Claude/Codex/Pi/Gemini harnesses in tmux panes (full seats, not shared-turn subagents) with heartbeats and addressable prompts. Closest public substrate idea for future grok-tmux-run lanes; Lab backlog only \u2014 do not install as fleet replace. appliedToPlaybook false.",
+      "source": "packs/2026-09-24-web-populate-harness-lab-pack",
+      "tags": [
+        "tmux",
+        "EM",
+        "Mac CLI",
+        "orchestration",
         "backlog"
       ],
       "appliedToPlaybook": false
@@ -83,6 +117,22 @@
         "usage",
         "CoS",
         "backlog"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "fowler-harness-sensors-feedforward-2026-09-24",
+      "date": "2026-09-24",
+      "displayDate": "Sep 24, 2026",
+      "title": "Harness sensors \u2014 LLM-optimized feedback before human review",
+      "href": "https://martinfowler.com/articles/harness-engineering.html",
+      "why": "Martin Fowler: outer harness raises first-pass correctness and adds sensors whose signals are optimized for LLM self-correction before human eyes. Maps to CoS evidence\u2260instruction, usage miss-watch, and Three-Run Proof as a named sensor on Lab automation. Process KEEP; appliedToPlaybook false until harness playbook page exists.",
+      "source": "packs/2026-09-24-web-populate-harness-lab-pack",
+      "tags": [
+        "harness",
+        "CoS",
+        "EM",
+        "proof"
       ],
       "appliedToPlaybook": false
     },
