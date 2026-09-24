@@ -1,0 +1,40 @@
+{
+  "updatedAt": "2026-09-24T04:30:13Z",
+  "title": "Harness Lab",
+  "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
+  "entries": [
+    {
+      "id": "workmux-resurrect-crash-recovery-2026-09-24",
+      "date": "2026-09-24",
+      "displayDate": "Sep 24, 2026",
+      "title": "workmux resurrect \u2014 crash-recovery resume for agent worktrees",
+      "href": "https://workmux.raine.dev/reference/commands/resurrect/",
+      "why": "Restores tmux/worktree agent sessions after crash from persisted state with agent-specific resume args (Codex resume, etc.). Candidate pattern for Mac CLI relaunch-vs-resume before grok-tmux-run; dry-run first. Lab backlog/smoke \u2014 do not replace fleet watchdog. appliedToPlaybook false.",
+      "source": "packs/2026-09-24-web-harness-lab-pack",
+      "tags": [
+        "tmux",
+        "watchdog",
+        "Mac CLI",
+        "recovery",
+        "backlog"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "three-run-proof-observe-correct-release-2026-09-24",
+      "date": "2026-09-24",
+      "displayDate": "Sep 24, 2026",
+      "title": "Three-Run Proof \u2014 Observe \u2192 Correct \u2192 Release before Lab automation",
+      "href": "https://openai.com/index/harness-engineering/",
+      "why": "OpenAI harness engineering treats agent work as incomplete until checkable proof (review loops, live artifacts). For Harness Lab: require three independent scout seats (Observe bugs surfaced, Correct fixes pipeline, Release clean E2E) and live Pages verify before enabling daily collect/curate routines. Lab process KEEP; appliedToPlaybook false until harness playbook page exists.",
+      "source": "packs/2026-09-24-web-harness-lab-pack",
+      "tags": [
+        "proof",
+        "EM",
+        "harness",
+        "routines"
+      ],
+      "appliedToPlaybook": false
+    }
+  ]
+}
