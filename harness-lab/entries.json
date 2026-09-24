@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-24T04:30:13Z",
+  "updatedAt": "2026-09-24T04:31:50Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
@@ -21,6 +21,22 @@
       "appliedToPlaybook": false
     },
     {
+      "id": "usage-surfaces-status-vs-quota-honesty-2026-09-24",
+      "date": "2026-09-24",
+      "displayDate": "Sep 24, 2026",
+      "title": "Usage honesty \u2014 session /status \u2260 plan /usage \u2260 API spend",
+      "href": "https://developers.openai.com/codex/subagents",
+      "why": "Codex subagents add model/tool cost beyond a single seat; CLI surfaces differ: session context (/status), plan quota (/usage), and Platform API org spend are not the same meter. For Tongli usage dashboard: keep PROXY labels when estimating routine fires; prefer live CLI quota bars when a seat exposes them; never invent dollar costs. Correct-step KEEP after Muse false-friend Vault noise. appliedToPlaybook false.",
+      "source": "packs/2026-09-24-muse-harness-lab-pack",
+      "tags": [
+        "usage",
+        "honesty",
+        "Codex",
+        "Mac CLI"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
       "id": "three-run-proof-observe-correct-release-2026-09-24",
       "date": "2026-09-24",
       "displayDate": "Sep 24, 2026",
@@ -33,6 +49,23 @@
         "EM",
         "harness",
         "routines"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "pi-tmux-agents-awaiting-review-gate-2026-09-24",
+      "date": "2026-09-24",
+      "displayDate": "Sep 24, 2026",
+      "title": "pi-tmux-agents \u2014 awaiting_review parent gate before accept",
+      "href": "https://github.com/noickare/pi-tmux-agents",
+      "why": "Settled child enters awaiting_review; parent must inspect result/workspace then accept|revise|take_over|dismiss|escalate (human only on escalate). Portable CoS pattern for Mac CLI tmux subagents and complements evidence\u2260instruction. Lab card/backlog \u2014 no fleet replace of grok-tmux-watchdog. appliedToPlaybook false.",
+      "source": "packs/2026-09-24-muse-harness-lab-pack",
+      "tags": [
+        "tmux",
+        "CoS",
+        "EM",
+        "handoffs",
+        "backlog"
       ],
       "appliedToPlaybook": false
     }
