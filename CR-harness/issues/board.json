@@ -1,6 +1,6 @@
 {
   "title": "CR-Harness Issues & PR Proposals",
-  "blurb": "Public working board mirrored from the private TeachFakerPlayingMid/CR-Harness-main repo. Anonymous visitors cannot open GitHub links without access.",
+  "blurb": "Public working board mirrored from TeachFakerPlayingMid/CR-Harness-main. Collaborators signed into GitHub can open the issue/PR links; anonymous visitors without access cannot.",
   "sourceRepo": "TeachFakerPlayingMid/CR-Harness-main",
   "sourceRepoPrivate": true,
   "sourceRepoUrl": "https://github.com/TeachFakerPlayingMid/CR-Harness-main",
