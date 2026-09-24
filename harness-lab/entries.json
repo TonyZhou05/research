@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-24T04:31:50Z",
+  "updatedAt": "2026-09-24T04:33:11Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
@@ -66,6 +66,40 @@
         "EM",
         "handoffs",
         "backlog"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "hat-tmux-statusline-watchdog-quota-writer-2026-09-24",
+      "date": "2026-09-24",
+      "displayDate": "Sep 24, 2026",
+      "title": "hat-tmux workbench \u2014 status-line watchdog + single quota writer",
+      "href": "https://github.com/HatCloud/hat-tmux-agent-workbench/blob/main/docs/ARCHITECTURE.md",
+      "why": "Public workbench turns tmux status-line redraw into a launchd tracker-server watchdog (\u226430s self-heal) and enforces a single writer for the quota cache so handoff state and limit resets stay truthful. Pattern idea for Mac CoS/EM panes before grok-tmux-run; backlog/smoke only. appliedToPlaybook false.",
+      "source": "packs/2026-09-24-dsh-harness-lab-pack",
+      "tags": [
+        "tmux",
+        "watchdog",
+        "usage",
+        "CoS",
+        "backlog"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-gateway-credential-usage-honesty-2026-09-24",
+      "date": "2026-09-24",
+      "displayDate": "Sep 24, 2026",
+      "title": "Claude gateway \u2014 BASE_URL alone under-counts usage",
+      "href": "https://code.claude.com/docs/en/gateways",
+      "why": "Claude Code docs: setting only ANTHROPIC_BASE_URL still uses the saved claude.ai subscription credential, so a usage proxy can silently under-count. Honest fleet metering needs a gateway credential (gateway /login or ANTHROPIC_AUTH_TOKEN for a self-hosted gateway) when routing through a proxy. Lab KEEP for usage-dashboard honesty; no secrets published. appliedToPlaybook false.",
+      "source": "packs/2026-09-24-dsh-harness-lab-pack",
+      "tags": [
+        "usage",
+        "honesty",
+        "Claude",
+        "Mac CLI",
+        "proxy"
       ],
       "appliedToPlaybook": false
     }
