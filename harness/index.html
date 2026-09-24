@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="How Tongli Zhou runs a dual-layer agent team: Grok bots + Mac CLIs, EM loop intent/spec/plan.md, vault target, Field Brief pipeline intent, Mac launch standards, Three-Run Proof, and honest gaps.">
+  <meta name="description" content="How Tongli Zhou runs a dual-layer agent team: Grok bots + Mac CLIs, EM loop intent/spec/plan.md, vault target, CR-Harness Field Brief pipeline intent, Mac launch standards, Three-Run Proof, and honest gaps.">
   <meta name="theme-color" content="#101828">
   <meta name="author" content="Tongli Zhou">
   <title>Agent Harness Playbook — Tongli Zhou</title>
@@ -78,7 +78,6 @@
       <a href="/research/harness/" aria-current="page">Harness</a>
       <a href="/research/harness-lab/">Lab</a>
       <a href="/research/CR-harness/">CR-Harness</a>
-      <a href="/research/field-brief/">Field Brief</a>
     </div>
   </nav>
 
@@ -91,8 +90,8 @@
     <div class="meta">
       <span>Owner <strong>Tongli Zhou (TonyZhou05)</strong></span>
       <span>Timezone <strong>America/Toronto (ET)</strong></span>
-      <span>Updated <strong>2026-09-24 · Field Brief LIVE (daily); Collection daily; 6h watch → daily miss-watch</strong></span>
-      <span>Live <a href="/research/usage/">usage</a> · <a href="/research/harness-lab/">lab</a> · <a href="/research/CR-harness/">CR-Harness</a> · <a href="/research/field-brief/">Field Brief</a></span>
+      <span>Updated <strong>2026-09-24 · Field Brief under CR-Harness (daily LIVE); Collection daily; miss-watch daily; Jev LIVE</strong></span>
+      <span>Live <a href="/research/usage/">usage</a> · <a href="/research/harness-lab/">lab</a> · <a href="/research/CR-harness/">CR-Harness</a></span>
     </div>
   </header>
 
@@ -102,7 +101,7 @@
 
   <div class="callout gap">
     <strong>Honesty banner — gaps still real.</strong>
-    <a href="/research/field-brief/">Field Brief surface LIVE</a> (daily cadence, not hourly Cao-style; first populate 2026-09-24) · Collection pipeline standing as <strong>daily</strong> (not hourly) · former Field Brief 6h watch <strong>retargeted</strong> to a daily miss-watch (still not an Active cron until Three-Run Proof) · Obsidian vault <strong>scaffolded</strong> · <code>grok-tmux-run</code> + watchdog <strong>installed</strong> · Github Bot EM room status per gap register · <strong>Jev router not installed</strong> (Manage Bot owns separately) · weekday usage refresh per gap register · blind dual-LGTM piloted; standing EM babysitter still thin · Agy installed · Lab collect/KEEP slots per usage dashboard.
+    <a href="/research/CR-harness/field-brief/">Field Brief LIVE</a> under project surfaces (CR-Harness <code>/CR-harness/field-brief/</code>; daily cadence, not hourly Cao-style; first populate 2026-09-24) · Collection pipeline standing as <strong>daily</strong> (not hourly) · former Field Brief 6h watch <strong>retargeted</strong> to a daily miss-watch · Obsidian vault <strong>scaffolded</strong> · <code>grok-tmux-run</code> + watchdog <strong>installed</strong> · Github Bot EM room status per gap register · <strong>Jev router LIVE active</strong> (<code>jev-route</code>, floor 0.55) · weekday usage refresh per gap register · blind dual-LGTM piloted; standing EM babysitter still thin · Agy installed · Lab collect/KEEP slots per usage dashboard.
   </div>
 
   <nav class="toc" aria-label="Contents">
@@ -178,7 +177,7 @@
         <tr><td>Agent Manage Bot</td><td>Chief of staff; create/organize teammates; onboard Mac CLIs; Lab collect→KEEP; usage cards; playbook sync</td><td>Destroy agents, merge, pay, or send without Tongli</td></tr>
         <tr><td>Github Bot EM <span class="pill gap">not yet</span></td><td>Target: EM for fleet coding; commit artifacts; fire implementer; triage dual-LGTM</td><td>Merge without Tongli</td></tr>
         <tr><td>Collection Bot <span class="pill live">daily</span></td><td>Field Brief packs → synthesize → hub publish (daily; surface live)</td><td>Desk/SDK PRs; invent hourly cadences; skip Three-Run Proof</td></tr>
-        <tr><td>Jev <span class="pill target">target</span></td><td>TypeSafe System One decision layer — Choice/Score/Noul routing</td><td>Chat authorship; coding implement; merge/pay/send</td></tr>
+        <tr><td>Jev <span class="pill live">LIVE</span></td><td>TypeSafe System One decision layer — Choice/Score/Noul routing</td><td>Chat authorship; coding implement; merge/pay/send</td></tr>
       </tbody>
     </table>
     <h3>Mac CLIs</h3>
@@ -298,7 +297,7 @@
 
   <section id="pipeline">
     <h2>6. Field Brief pipeline <span class="pill live">surface LIVE · daily</span></h2>
-    <p>Public scout surface: <a href="/research/field-brief/">/research/field-brief/</a> — first populate 2026-09-24. <strong>Daily cadence (token-light), not hourly.</strong> Collection Bot still synthesizes packs on a daily loop; do not invent an hourly Cao-style feed.</p>
+    <p>Public scout surface under <strong>project surfaces</strong> (not the hub homepage): <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> — first populate 2026-09-24. <strong>Daily cadence (token-light), not hourly.</strong> Collection Bot still synthesizes packs on a daily loop; do not invent an hourly Cao-style feed.</p>
     <h3>Daily source collect (standing intent)</h3>
     <p>Capacity balance among installed collectors (Agy when AUTH_OK):</p>
     <table>
@@ -315,7 +314,7 @@
       <li>Deep writer (Claude preferred; Kimi fallback; Astra last-resort) synthesizes packs since the last slot.</li>
       <li>Collection Bot (when stood) publishes HTML + push to the hub.</li>
     </ol>
-    <p class="note">Former Field Brief <strong>6h</strong> miss-watch is <strong>retargeted</strong> to a <strong>daily</strong> miss-watch (enabled weekdays 11:36 ET; Three-Run Proof). Homepage links the live Field Brief surface — not a fake hourly ticker.</p>
+    <p class="note">Former Field Brief <strong>6h</strong> miss-watch is <strong>retargeted</strong> to a <strong>daily</strong> miss-watch (enabled weekdays 11:36 ET; Three-Run Proof). Field Brief is linked from CR-Harness project pages (not as a hub homepage card) — not a fake hourly ticker.</p>
   </section>
 
   <section id="coding">
@@ -402,7 +401,7 @@
     <table>
       <thead><tr><th>Room</th><th>Members</th><th>Use</th><th>Status</th></tr></thead>
       <tbody>
-        <tr><td>Field Brief</td><td>Collection, Manage</td><td>Pack / brief handoffs; hub <a href="/research/field-brief/">/field-brief/</a></td><td><span class="pill live">surface LIVE · room optional</span></td></tr>
+        <tr><td>Field Brief</td><td>Collection, Manage</td><td>Pack / brief handoffs; project <a href="/research/CR-harness/field-brief/">/CR-harness/field-brief/</a></td><td><span class="pill live">surface LIVE · room optional</span></td></tr>
         <tr><td>Coding EM</td><td>Github Bot, Manage</td><td>PR / slice / dual-LGTM coordination</td><td><span class="pill gap">not yet</span></td></tr>
       </tbody>
     </table>
@@ -415,7 +414,7 @@
       <li>Harness Lab collect — 09:00 ET daily — <span class="pill live">enabled after Three-Run Proof</span></li>
       <li>Harness Lab KEEP curate/publish — 16:30 ET daily — <span class="pill live">enabled after Three-Run Proof</span></li>
       <li>Weekday usage integrity — <span class="pill gap">paused</span></li>
-      <li>Field Brief surface (hub) — <span class="pill live">LIVE daily</span> · <a href="/research/field-brief/">/field-brief/</a></li>
+      <li>Field Brief (CR-Harness project) — <span class="pill live">LIVE daily</span> · <a href="/research/CR-harness/field-brief/">/CR-harness/field-brief/</a></li>
       <li>Collection Bot daily collect / deep brief — <span class="pill live">standing as daily</span> (not hourly)</li>
       <li>Field Brief daily miss-watch (was 6h) — <span class="pill live">enabled · weekdays 11:36 ET</span></li>
       <li>Hourly Field Brief collect — <span class="pill gap">explicitly out of scope</span></li>
@@ -430,7 +429,7 @@
     <h2>13. Jev decision layer <span class="pill live">LIVE · active</span></h2>
     <p>TypeSafe <strong>Jev</strong> is a System One model: you send <code>state</code> + typed questions; it returns a Choice / Score / Noul with calibrated confidence — <strong>not prose</strong>. Target: sit in front of Manage’s CoS routing so expensive fan-outs only run when the route is clear.</p>
     <div class="flow">ask → Manage Bot
-  → jev-route '&lt;state&gt;' [gate]     [not installed]
+  → jev-route '&lt;state&gt;' [gate]     [LIVE · floor 0.55]
   → if primary confidence ≥ floor and mode=active → honor
   → else fallback=cos → normal CoS / ask Tongli
   → Grok room or Mac CLI executes</div>
@@ -445,7 +444,7 @@
         <tr><td><code>pre_tool</code></td><td>Before high-risk MCP / Shell mutations</td><td>allow | ask | deny</td></tr>
       </tbody>
     </table>
-    <p class="note">Jev never authorizes merge/pay/send. Do not invent a live session table until the router exists on this fleet.</p>
+    <p class="note">Jev never authorizes merge/pay/send. Router is LIVE on this fleet (<code>jev-route</code>); do not invent a parallel session table.</p>
   </section>
 
   <section id="proof-ops">
@@ -518,7 +517,7 @@
         <tr><td>Obsidian <code>~/Documents/agent-context</code></td><td><span class="pill live">scaffolded 2026-09-24</span></td></tr>
         <tr><td><code>grok-tmux-run</code> + watchdog</td><td><span class="pill live">installed ~/bin · smoke OK</span></td></tr>
         <tr><td>Jev router</td><td><span class="pill live">LIVE · <code>jev-route</code> active · floor 0.55</span></td></tr>
-        <tr><td>Field Brief public surface</td><td><span class="pill live">LIVE · daily · <a href="/research/field-brief/">/field-brief/</a></span></td></tr>
+        <tr><td>Field Brief public surface (under CR-Harness)</td><td><span class="pill live">LIVE · daily · <a href="/research/CR-harness/field-brief/">/CR-harness/field-brief/</a></span></td></tr>
         <tr><td>Collection Bot Field Brief pipeline</td><td><span class="pill live">standing as daily (not hourly)</span></td></tr>
         <tr><td>Field Brief miss-watch (was 6h)</td><td><span class="pill live">enabled · weekdays 11:36 ET</span></td></tr>
         <tr><td>Hourly Field Brief collect</td><td><span class="pill gap">out of scope (daily only)</span></td></tr>
@@ -538,7 +537,6 @@
     <a href="/research/usage/">Usage</a> ·
     <a href="/research/harness-lab/">Lab</a> ·
     <a href="/research/CR-harness/">CR-Harness</a> ·
-    <a href="/research/field-brief/">Field Brief</a> ·
     <a href="https://github.com/TonyZhou05/research">source</a>
   </div>
 </footer>
