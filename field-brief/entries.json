@@ -1,0 +1,215 @@
+{
+  "title": "The Field Brief",
+  "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily.",
+  "updatedAt": "2026-09-24T02:39:34-04:00",
+  "timezone": "America/Toronto",
+  "cadence": "daily",
+  "briefEdition": "briefs/2026-09-24.html",
+  "entries": [
+    {
+      "id": "autoharness-textarena",
+      "title": "AutoHarness: synthesize code that blocks illegal moves",
+      "date": "2026-09-24",
+      "summary": "DeepMind (Lou et al.): Gemini-2.5-Flash iteratively synthesizes an is_legal_action / propose_action code harness via Thompson-sampling tree search over environment feedback. Claims 100% legal-action rate across 145 TextArena games; smaller Flash+harness beats larger Pro on many 1P/2P evals. Direct analogue to CR-Harness legal_actions at decision_point.",
+      "tags": [
+        "legal_actions",
+        "games",
+        "code-harness",
+        "TextArena",
+        "CR-adjacent"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2603.03329",
+        "https://github.com/textarena/textarena",
+        "https://www.textarena.ai/"
+      ],
+      "why_it_matters_for_cr": "CR already whitelists legal_actions — AutoHarness shows how to auto-build or regression-test that verifier from env feedback, and how illegal-move rate dominates LLM game losses.",
+      "status": "candidate_intent",
+      "thin": false
+    },
+    {
+      "id": "ptcg-bench-harness-ablation",
+      "title": "PTCG-Bench: legal-action masking swings card-game ratings",
+      "date": "2026-09-24",
+      "summary": "Hua et al.: Pokémon TCG benchmark for LLM agents with modular harness ablations (structured obs, legal-action masking, history). Removing legal-action masking drops Glicko-2 by ~118 points and raises invalid-action rate to ~16%. Self-evolution across rounds stays unstable. Closest public TCG analogue to Mini Royale decision_points.",
+      "tags": [
+        "card-game",
+        "legal_actions",
+        "harness-ablation",
+        "eval",
+        "CR-adjacent"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2605.29653",
+        "https://github.com/zjunet/PTCG-Bench"
+      ],
+      "why_it_matters_for_cr": "Quantifies how much of ‘LLM skill’ is really the mask + observation schema — exactly what CR’s legal_actions + ETL should report per model–harness pair.",
+      "status": "candidate_intent",
+      "thin": false
+    },
+    {
+      "id": "adversarial-review-dual-lgtm",
+      "title": "Adversarial Review: structured disagreement beats naive dual LGTM",
+      "date": "2026-09-24",
+      "summary": "Qiu & Gill (arXiv:2608.18167): reviewer + critic protocol; naive AR collapses into false consensus; three-way critic verdicts (AGREE / DISAGREE_EVIDENCE / DISAGREE_CONCERN) lift SWE-PRBench F1. Portable as SKILL.md. Maps onto fleet blind dual-LGTM (Astra + second seat).",
+      "tags": [
+        "dual-LGTM",
+        "multi-agent",
+        "code-review",
+        "fleet"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2608.18167"
+      ],
+      "why_it_matters_for_cr": "Fleet coding loop already wants blind dual LGTM; AR’s typed disagreement is a concrete protocol upgrade for Github Bot EM / Manage review babysitting — also useful when reviewing CR cockpit/eval PRs.",
+      "status": "candidate_intent",
+      "thin": false
+    },
+    {
+      "id": "harness-bench-config",
+      "title": "Harness-Bench: report model–harness pairs, not models alone",
+      "date": "2026-09-24",
+      "summary": "Qihoo360 Harness-Bench (arXiv:2605.27922): 106 sandboxed agent tasks; 5194 trajectories show large variance across model–harness pairings. Flags execution-alignment failures (reasoning decoupled from tool feedback / workspace state).",
+      "tags": [
+        "eval",
+        "harness",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/pdf/2605.27922",
+        "https://github.com/Qihoo360/harness-bench"
+      ],
+      "why_it_matters_for_cr": "CR batch evals should score (model, prompt, legal_actions schema, retry policy) as one config — not attribute wins to the LLM alone.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "harbor-index-eval-infra",
+      "title": "Harbor Adapters + Harbor-Index: unified agentic eval infra",
+      "date": "2026-09-24",
+      "summary": "arXiv:2609.04298 — adapters for 80+ agentic benchmarks; Harbor-Index curated hard subset (82 tasks / 29 benches). Strongest reported config ~28% pass. Useful pattern for wrapping CR sim + external benches under one runner.",
+      "tags": [
+        "eval",
+        "infra",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.04298"
+      ],
+      "why_it_matters_for_cr": "Inspiration for a thin CR eval adapter that can sit beside TextArena/PTCG-style benches without rewriting the cockpit.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "memarbiter-decision-memory",
+      "title": "MemArbiter: decision-time memory arbitration (Memory-Action Gap)",
+      "date": "2026-09-24",
+      "summary": "arXiv:2608.02113 — five functional memory banks (Goal, Task State, Constraint, Episodic, Reference) with focal/ambient presentation gated per step. Large ALFWorld gains under tight token budgets; reduces failed-action repetition.",
+      "tags": [
+        "memory",
+        "decision_point",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2608.02113",
+        "https://arxiv.org/html/2608.02113"
+      ],
+      "why_it_matters_for_cr": "Match memory at each decision_point should be budgeted (elixir history, last N plays, constraints) rather than dumping full ETL into the prompt.",
+      "status": "idea",
+      "thin": false
+    },
+    {
+      "id": "textarena-suite",
+      "title": "TextArena: 100+ text games + show_valid legal-move hints",
+      "date": "2026-09-24",
+      "summary": "Public Gym-style suite (Guertler et al.; github.com/textarena/textarena). Environments expose validation, set_invalid_move, optional show_valid legal lists. Used by AutoHarness; also hosts MindGames / SPIRAL self-play work.",
+      "tags": [
+        "games",
+        "eval",
+        "legal_actions",
+        "open-source"
+      ],
+      "source_urls": [
+        "https://github.com/textarena/textarena",
+        "https://www.textarena.ai/",
+        "https://arxiv.org/abs/2504.11442"
+      ],
+      "why_it_matters_for_cr": "Cheap public sandbox to prototype legal_actions UX and illegal-move telemetry before touching private Mini Royale.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "hasty-cr-sim-mask",
+      "title": "Hasty-CR: CR simulator with legal-tile masks (RL, not LLM)",
+      "date": "2026-09-24",
+      "summary": "Public Clash Royale–style simulator + Maskable PPO agent (hastylmao/Hasty-CR). Explicit legal-tile masking so policy cannot place illegally; exploit_probe hunts simulator bugs that look like wins. Honest: no LLM in the decision path.",
+      "tags": [
+        "Clash-Royale",
+        "simulator",
+        "legal_actions",
+        "RL"
+      ],
+      "source_urls": [
+        "https://github.com/hastylmao/Hasty-CR"
+      ],
+      "why_it_matters_for_cr": "Pattern reference for CR’s spatial legal mask + anti-cheating eval probes — transfer ideas, not the RL stack.",
+      "status": "watch",
+      "thin": true
+    },
+    {
+      "id": "clashgpt-cv-rl",
+      "title": "ClashGPT: CV + Maskable PPO on live Clash Royale (pixels)",
+      "date": "2026-09-24",
+      "summary": "EzraGil08/ClashGPT — dual YOLOv11 + SORT + Maskable PPO via emulator clicks. Real CR, not a clean sim. Thin for LLM control research; useful as existence proof of action-masking in CR-shaped spaces.",
+      "tags": [
+        "Clash-Royale",
+        "CV",
+        "RL",
+        "thin"
+      ],
+      "source_urls": [
+        "https://github.com/EzraGil08/ClashGPT-Autonomous-Clash-Royale-Artificial-Intelligence"
+      ],
+      "why_it_matters_for_cr": "Contrast case: pixel bots need masks too. CR-Harness’s structured state + legal_actions is the cleaner research surface.",
+      "status": "idea",
+      "thin": true
+    },
+    {
+      "id": "board-game-arena-openspiel",
+      "title": "Board Game Arena: LLM agents on OpenSpiel with illegal-move metrics",
+      "date": "2026-09-24",
+      "summary": "arXiv:2508.03368 — wraps OpenSpiel board/matrix games for LLM agents (LiteLLM/vLLM/Ray). Tracks illegal/suboptimal moves and decision optimality vs equilibrium policies.",
+      "tags": [
+        "games",
+        "eval",
+        "OpenSpiel"
+      ],
+      "source_urls": [
+        "https://arxiv.org/html/2508.03368v1",
+        "https://board-game-arena.readthedocs.io/"
+      ],
+      "why_it_matters_for_cr": "Metric vocabulary (illegal rate, optimality vs baseline) to borrow for CR cockpit batch reports.",
+      "status": "idea",
+      "thin": false
+    },
+    {
+      "id": "harnessdev-evo-bench",
+      "title": "HarnessDev / Evo-Bench: can models evolve their own harness?",
+      "date": "2026-09-24",
+      "summary": "HarnessDev (arXiv PDF 2609.01437) and Evo-Bench (2608.09096) shift eval from task outputs to runnable harness creation/evolution. Gains are unstable and transfer partially across models — cautionary for auto-rewriting CR’s control loop.",
+      "tags": [
+        "harness-evolution",
+        "meta",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/pdf/2609.01437",
+        "https://arxiv.org/html/2608.09096",
+        "https://self-developing-agents.github.io/"
+      ],
+      "why_it_matters_for_cr": "Watch-list only: fleet should not auto-mutate CR legal_actions / ETL without human gate + Three-Run Proof.",
+      "status": "idea",
+      "thin": false
+    }
+  ]
+}
