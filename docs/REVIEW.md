@@ -1,12 +1,14 @@
 # REVIEW.md — blind dual-LGTM checklist
 
-Identical reviewer pass for every PR. Reviewers: **Astra = Codex**, **Fable = Claude**.
+Identical reviewer pass for every PR.
+Reviewers: **Astra = Codex** + **second seat** (Fable/Claude if not implementer; else Kimi).
 Each reviewer sees **PR + intent/spec/plan only** — never the other reviewer’s notes.
 
 ## Role check
 
 - [ ] I am **not** the implementer on this PR
 - [ ] I have not read the other reviewer’s findings
+- [ ] If I am Fable, confirm Fable did not author this PR’s implementation
 
 ## Against plan / acceptance
 
