@@ -158,7 +158,7 @@
   │    ├─ Agent Manage Bot → CoS / Lab / usage integrity (live)
   │    ├─ Github Bot EM room → Plan–Design–Build–Test–Review  [not yet]
   │    ├─ Collection Bot → Field Brief packs + publish         [daily surface LIVE]
-  │    └─ Jev (OpenRouter) → typed route Choice before fan-out [not yet]
+  │    └─ Jev (OpenRouter) → typed route Choice before fan-out [shadow · key pending]
   └─ Mac CLIs (execute)
        ├─ Claude / Fable  → default implementer (live)
        ├─ Codex / Astra   → RFC / blind dual-LGTM reviewer (live)
@@ -315,7 +315,7 @@
       <li>Deep writer (Claude preferred; Kimi fallback; Astra last-resort) synthesizes packs since the last slot.</li>
       <li>Collection Bot (when stood) publishes HTML + push to the hub.</li>
     </ol>
-    <p class="note">Former Field Brief <strong>6h</strong> miss-watch is <strong>retargeted</strong> to a <strong>daily</strong> miss-watch (not Active until Three-Run Proof). Homepage links the live Field Brief surface — not a fake hourly ticker.</p>
+    <p class="note">Former Field Brief <strong>6h</strong> miss-watch is <strong>retargeted</strong> to a <strong>daily</strong> miss-watch (enabled weekdays 11:36 ET; Three-Run Proof). Homepage links the live Field Brief surface — not a fake hourly ticker.</p>
   </section>
 
   <section id="coding">
@@ -417,7 +417,7 @@
       <li>Weekday usage integrity — <span class="pill gap">paused</span></li>
       <li>Field Brief surface (hub) — <span class="pill live">LIVE daily</span> · <a href="/research/field-brief/">/field-brief/</a></li>
       <li>Collection Bot daily collect / deep brief — <span class="pill live">standing as daily</span> (not hourly)</li>
-      <li>Field Brief daily miss-watch (was 6h) — <span class="pill target">retargeted · not Active until Three-Run Proof</span></li>
+      <li>Field Brief daily miss-watch (was 6h) — <span class="pill live">enabled · weekdays 11:36 ET</span></li>
       <li>Hourly Field Brief collect — <span class="pill gap">explicitly out of scope</span></li>
     </ul>
     <p><strong>Policy:</strong> Three-Run Proof before Active — never automate the first success. Prefer event triggers over tight crons. Mondays: playbook↔card sync <strong>plus weekly kill review</strong>.</p>
@@ -427,7 +427,7 @@
   </section>
 
   <section id="jev">
-    <h2>13. Jev decision layer <span class="pill gap">not installed</span></h2>
+    <h2>13. Jev decision layer <span class="pill target">shadow scaffold</span></h2>
     <p>TypeSafe <strong>Jev</strong> is a System One model: you send <code>state</code> + typed questions; it returns a Choice / Score / Noul with calibrated confidence — <strong>not prose</strong>. Target: sit in front of Manage’s CoS routing so expensive fan-outs only run when the route is clear.</p>
     <div class="flow">ask → Manage Bot
   → jev-route '&lt;state&gt;' [gate]     [not installed]
@@ -517,10 +517,10 @@
         <tr><td>Github Bot EM room</td><td><span class="pill live">Coding EM bot + room wired</span></td></tr>
         <tr><td>Obsidian <code>~/Documents/agent-context</code></td><td><span class="pill live">scaffolded 2026-09-24</span></td></tr>
         <tr><td><code>grok-tmux-run</code> + watchdog</td><td><span class="pill live">installed ~/bin · smoke OK</span></td></tr>
-        <tr><td>Jev router</td><td><span class="pill gap">not installed</span></td></tr>
+        <tr><td>Jev router</td><td><span class="pill target">shadow <code>jev-route</code> · needs OPENROUTER_API_KEY</span></td></tr>
         <tr><td>Field Brief public surface</td><td><span class="pill live">LIVE · daily · <a href="/research/field-brief/">/field-brief/</a></span></td></tr>
         <tr><td>Collection Bot Field Brief pipeline</td><td><span class="pill live">standing as daily (not hourly)</span></td></tr>
-        <tr><td>Field Brief miss-watch (was 6h)</td><td><span class="pill target">retargeted daily · not Active until Three-Run Proof</span></td></tr>
+        <tr><td>Field Brief miss-watch (was 6h)</td><td><span class="pill live">enabled · weekdays 11:36 ET</span></td></tr>
         <tr><td>Hourly Field Brief collect</td><td><span class="pill gap">out of scope (daily only)</span></td></tr>
         <tr><td>Weekday usage refresh</td><td><span class="pill live">enabled · weekdays 9:05 ET</span></td></tr>
         <tr><td>Lab collect 09:00 / KEEP 16:30 ET</td><td><span class="pill live">enabled after Three-Run Proof + populate</span></td></tr>
