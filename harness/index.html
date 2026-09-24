@@ -90,7 +90,7 @@
     <div class="meta">
       <span>Owner <strong>Tongli Zhou (TonyZhou05)</strong></span>
       <span>Timezone <strong>America/Toronto (ET)</strong></span>
-      <span>Updated <strong>2026-09-24 · first public playbook ship</strong></span>
+      <span>Updated <strong>2026-09-24 · gaps 2–3 stood; Agy binary; dual-LGTM pilot PR</strong></span>
       <span>Live <a href="/research/usage/">usage</a> · <a href="/research/harness-lab/">lab</a> · <a href="/research/CR-harness/">CR-Harness</a></span>
     </div>
   </header>
@@ -101,7 +101,7 @@
 
   <div class="callout gap">
     <strong>Honesty banner — not yet live.</strong>
-    No Github Bot EM room wired · no Obsidian <code>~/Documents/agent-context</code> vault found · no <code>grok-tmux-run</code> + watchdog · no Jev router · no Collection Bot Field Brief hourly pipeline · Field Brief 6h watch + weekday usage refresh still <strong>paused</strong> · blind dual-LGTM (Astra=Codex / Fable=Claude) named as target but full EM babysitter loop not standing · Agy <strong>not installed</strong>. Lab collect 09:00 ET + KEEP curate 16:30 ET are the standing slots — enable only after <a href="#three-run-proof">Three-Run Proof</a> (usage currently shows them paused).
+    No Github Bot EM room wired · Obsidian <code>~/Documents/agent-context</code> <strong>scaffolded</strong> · <code>grok-tmux-run</code> + watchdog <strong>installed</strong> under <code>~/bin/</code> · no Jev router · no Collection Bot Field Brief hourly pipeline · Field Brief 6h watch + weekday usage refresh still <strong>paused</strong> · blind dual-LGTM pilot clay + PR in flight (full EM babysitter loop not standing) · Agy binary <strong>installed</strong> (1.2.9) — <strong>auth deferred</strong> (needs Tongli). Lab collect 09:00 ET + KEEP curate 16:30 ET are the standing slots — enable only after <a href="#three-run-proof">Three-Run Proof</a> (usage currently shows them paused).
   </div>
 
   <nav class="toc" aria-label="Contents">
@@ -132,9 +132,9 @@
     <p>The harness is not “one mega-agent.” It is a <strong>small company of specialists</strong> with clear ownership, shared memory (when the vault exists), and a few locked pipelines. Chat is a digest; proof of done is an artifact path and/or a live URL.</p>
     <ul>
       <li><strong>Specialize</strong> — Manage Bot owns roster/onboarding/Lab; Mac CLIs are the workers; a future Github Bot owns the coding EM loop.</li>
-      <li><strong>Share context</strong> — target: every agent reads/writes the same Obsidian vault before and after work. <span class="pill gap">not yet</span></li>
+      <li><strong>Share context</strong> — every agent reads/writes the same Obsidian vault before and after work. <span class="pill live">vault scaffolded</span></li>
       <li><strong>Balance capacity</strong> — when Field Brief collect stands, rotate Muse / DSH (and Agy if installed) so no single quota carries the load.</li>
-      <li><strong>Survive reconnects</strong> — long Mac jobs should go through tmux + streaming heartbeats + a stale-log watchdog. <span class="pill gap">not yet</span></li>
+      <li><strong>Survive reconnects</strong> — long Mac jobs go through tmux + streaming heartbeats + a stale-log watchdog. <span class="pill live">helpers installed</span></li>
       <li><strong>Human gates stay human</strong> — merges, payments, sends, deletes, and production require Tongli only.</li>
       <li><strong>Decide cheap, execute expensive</strong> — Jev (typed route) is the target front-door before fan-out. <span class="pill target">target</span></li>
     </ul>
@@ -149,7 +149,7 @@
       </div>
       <div class="card">
         <strong>Layer B — Mac CLIs</strong>
-        Local coding/scout agents on Tongli’s Mac. Live seats: Claude, Codex, Kimi, Muse, DSH. <strong>Agy not installed.</strong> Long runs should eventually kick via <code>grok-tmux-run</code> (not standing yet).
+        Local coding/scout agents on Tongli’s Mac. Live seats: Claude, Codex, Kimi, Muse, DSH. <strong>Agy binary installed — auth deferred.</strong> Long runs kick via <code>grok-tmux-run</code> + watchdog under <code>~/bin/</code>.
       </div>
     </div>
     <div class="flow">Tongli Zhou (TonyZhou05)
@@ -164,7 +164,7 @@
        ├─ Kimi 2.1.0      → deep brief / review fallback (live)
        ├─ Muse 1.3.0      → collect / optional implement (live)
        ├─ DSH 0.1.5-rc.3  → collect / optional implement (live)
-       └─ Agy             → collect packs                     [not installed]</div>
+       └─ Agy             → collect packs                     [installed · auth deferred]</div>
   </section>
 
   <section id="roster">
@@ -189,17 +189,17 @@
         <tr><td>Kimi</td><td><span class="pill live">LIVE</span> 2.1.0 AUTH_OK</td><td>Deep Field Brief writer fallback; optional review</td></tr>
         <tr><td>Muse Code / Muse Spark</td><td><span class="pill live">LIVE</span> 1.3.0 Meta OAuth AUTH_OK</td><td>Collect packs (target rotation); optional implementer</td></tr>
         <tr><td>DSH (DeepSeek Harness)</td><td><span class="pill live">LIVE</span> dsh 0.1.5-rc.3 · Node nvm v22.23.3 AUTH_OK</td><td>Collect packs (target rotation); optional implementer</td></tr>
-        <tr><td>Agy</td><td><span class="pill gap">not installed</span></td><td>Would own social-heavy collect packs when onboarded</td></tr>
+        <tr><td>Agy</td><td><span class="pill target">installed · auth deferred</span></td><td>Binary on PATH; Tongli auth required before AUTH_OK / collect</td></tr>
       </tbody>
     </table>
     <p class="note">Playground root: <code>~/Documents/Tonys-agent-playground/</code>. Hub checkout: <code>hub-stage/</code> → remote <code>TonyZhou05/research</code> <code>main</code> → <a href="https://tonyzhou05.github.io/research/">tonyzhou05.github.io/research</a>.</p>
   </section>
 
   <section id="vault">
-    <h2>4. Context vault <span class="pill gap">not found</span></h2>
+    <h2>4. Context vault <span class="pill live">scaffolded</span></h2>
     <p>Target long-term memory is a shared Obsidian vault on the Mac — a <strong>context repo</strong>, not a chat log.</p>
-    <p><span class="mono">~/Documents/agent-context</span> — <strong>not found</strong> as of 2026-09-24. Do not pretend agents are filing here yet.</p>
-    <h3>Target layout (when stood up)</h3>
+    <p><span class="mono">~/Documents/agent-context</span> — <strong>scaffolded 2026-09-24</strong>. Fleet contract in <code>AGENTS.md</code>; agents should read vault before tasks. Chat remains digest-only.</p>
+    <h3>Layout</h3>
     <table>
       <thead><tr><th>Folder</th><th>What lives there</th></tr></thead>
       <tbody>
@@ -214,15 +214,15 @@
     </table>
     <div class="grid2">
       <div class="card">
-        <strong>Before starting (target)</strong>
+        <strong>Before starting</strong>
         Read <code>AGENTS.md</code> + <code>forbidden.md</code>, recent Hunt/Ship notes, Decisions that touch the work, Roster if ownership is unclear. Prefer vault truth over chat memory.
       </div>
       <div class="card">
-        <strong>After finishing (target)</strong>
+        <strong>After finishing</strong>
         File a short learning note: what/done, learned, pointers (no secrets), follow-ups. Standing rule changes → Decisions lock. Corrections → <code>forbidden.md</code>.
       </div>
     </div>
-    <p class="note">Until the vault exists, proof of done = git commit / PR URL / live hub URL. Chat alone is not proof.</p>
+    <p class="note">Proof of done = vault note path and/or git commit / PR URL / live hub URL. Chat alone is not proof. Soft pointers: <code>~/.claude/READ_VAULT_FIRST.md</code>, <code>~/.codex/READ_VAULT_FIRST.md</code>, playground <code>AGENTS.md</code> symlink.</p>
   </section>
 
   <section id="em-loop">
@@ -331,20 +331,21 @@
   </section>
 
   <section id="launch">
-    <h2>8. Mac launch standards <span class="pill gap">tmux helpers not yet</span></h2>
-    <p>Standing order for <strong>every</strong> long Mac CLI run once helpers exist (Claude, Codex, Kimi, Muse, DSH, Agy):</p>
+    <h2>8. Mac launch standards <span class="pill live">helpers installed</span></h2>
+    <p>Standing order for <strong>every</strong> long Mac CLI run (Claude, Codex, Kimi, Muse, DSH, Agy when authed):</p>
     <ol>
-      <li>Launch via <code>~/bin/grok-tmux-run &lt;session&gt; -- &lt;cmd&gt;</code> (logs under a stable Logs path). Never bare <code>nohup</code> from Grok Shell. <span class="pill gap">not installed</span></li>
+      <li>Launch via <code>~/bin/grok-tmux-run &lt;session&gt; -- &lt;cmd&gt;</code> (logs under a stable Logs path). Logs under <code>~/Library/Logs/grok-tmux/</code>. Never bare <code>nohup</code> from Grok Shell. <span class="pill live">installed</span></li>
       <li><strong>Streaming required</strong> — Claude <code>stream-json</code>, Muse <code>--json</code>, DSH tee stdout/stderr; no long buffered text-only launches.</li>
-      <li>Attach <code>grok-tmux-watchdog</code> (stale-log resume of the same session). <span class="pill gap">not installed</span></li>
+      <li>Attach <code>grok-tmux-watchdog</code> (~540s stale; <code>--on-stale</code> resume of the same session). <span class="pill live">installed</span></li>
       <li>Reuse each tool’s session id per PR/slice; don’t cold-start follow-ups.</li>
     </ol>
-    <pre># Target shape (helpers not on PATH yet — 2026-09-24)
-# grok-tmux-run muse-collect-HH -- \\
+    <pre># Live shape — helpers in ~/bin (ensure PATH includes ~/bin)
+# grok-tmux-run muse-collect-HH -- \
 #   muse exec --json --trust-workspace --disable-approval --prompt-file prompt.md
 #
-# grok-tmux-run dsh-collect-HH -- \\
-#   dsh-collect-pack prompt.md</pre>
+# grok-tmux-watchdog muse-collect-HH --on-stale
+#
+# Docs: vault Wiki/grok-tmux.md</pre>
   </section>
 
   <section id="skills">
@@ -373,7 +374,7 @@
         <tr><td>Kimi</td><td>Vendor CLI 2.1.0</td><td>AUTH_OK</td></tr>
         <tr><td>Muse</td><td>Meta Muse Spark 1.3.0</td><td>Meta OAuth AUTH_OK</td></tr>
         <tr><td>DSH</td><td>DeepSeek harness 0.1.5-rc.3</td><td>Node nvm v22.23.3 · AUTH_OK</td></tr>
-        <tr><td>Agy</td><td>—</td><td>Not installed</td></tr>
+        <tr><td>Agy</td><td>Antigravity CLI 1.2.9 (brew cask)</td><td>Installed; auth deferred — run <code>agy</code> (browser) or Gemini API key per docs</td></tr>
       </tbody>
     </table>
   </section>
@@ -510,15 +511,15 @@
       <tbody>
         <tr><td>Public harness playbook page</td><td><span class="pill live">this page — shipping</span></td></tr>
         <tr><td>Github Bot EM room</td><td><span class="pill gap">not wired</span></td></tr>
-        <tr><td>Obsidian <code>~/Documents/agent-context</code></td><td><span class="pill gap">not found</span></td></tr>
-        <tr><td><code>grok-tmux-run</code> + watchdog</td><td><span class="pill gap">not installed</span></td></tr>
+        <tr><td>Obsidian <code>~/Documents/agent-context</code></td><td><span class="pill live">scaffolded 2026-09-24</span></td></tr>
+        <tr><td><code>grok-tmux-run</code> + watchdog</td><td><span class="pill live">installed ~/bin · smoke OK</span></td></tr>
         <tr><td>Jev router</td><td><span class="pill gap">not installed</span></td></tr>
         <tr><td>Collection Bot Field Brief hourly pipeline</td><td><span class="pill gap">not standing</span></td></tr>
         <tr><td>Field Brief 6h watch</td><td><span class="pill gap">paused</span></td></tr>
         <tr><td>Weekday usage refresh</td><td><span class="pill gap">paused</span></td></tr>
         <tr><td>Lab collect 09:00 / KEEP 16:30 ET</td><td><span class="pill live">enabled after Three-Run Proof + populate</span></td></tr>
-        <tr><td>Blind dual-LGTM babysitter loop</td><td><span class="pill target">roles named; loop not standing</span></td></tr>
-        <tr><td>Agy</td><td><span class="pill gap">not installed</span></td></tr>
+        <tr><td>Blind dual-LGTM babysitter loop</td><td><span class="pill target">clay + pilot PR; full EM loop not standing</span></td></tr>
+        <tr><td>Agy</td><td><span class="pill target">installed 1.2.9 · auth deferred (Tongli)</span></td></tr>
       </tbody>
     </table>
   </section>
