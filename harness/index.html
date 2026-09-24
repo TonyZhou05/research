@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How Tongli Zhou runs a dual-layer agent team: Grok bots + Mac CLIs, EM loop intent/spec/plan.md, vault target, Field Brief pipeline intent, Mac launch standards, Three-Run Proof, and honest gaps.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Agent Harness Playbook — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/harness/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --navy-2: #17233a; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d; --mint: #0f766e;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.9rem, 3.2vw, 2.6rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 62ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 28px; }
+    .meta strong { color: var(--ink); }
+    .toc { background: var(--cream); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin: 0 0 36px; }
+    .toc h2 { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; margin: 0 0 10px; color: var(--ink-faint); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 1.2rem; }
+    .toc li { margin: 4px 0; }
+    .toc a { color: var(--ink); text-decoration: none; }
+    .toc a:hover { color: var(--accent-dark); text-decoration: underline; }
+    section { margin: 0 0 42px; }
+    h2 { font-family: var(--serif); font-size: 1.55rem; font-weight: 600; margin: 0 0 12px; letter-spacing: -0.01em; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 22px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul, ol { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    code, .mono { font-family: var(--mono); font-size: 0.88em; }
+    pre { background: var(--navy); color: #e8eef6; border-radius: 10px; padding: 14px 16px; overflow-x: auto; font-family: var(--mono); font-size: 0.82rem; line-height: 1.45; margin: 0 0 16px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin: 0 0 16px; }
+    th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    th { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; }
+    .card { background: var(--cream); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin: 0 0 14px; }
+    .card strong { display: block; margin-bottom: 4px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 16px; }
+    @media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; } }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: var(--paper-2); border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: var(--ink-soft); }
+    .pill.live { background: #d1fae5; border-color: #a7f3d0; color: #065f46; }
+    .pill.target { background: #ffedd5; border-color: #fed7aa; color: #9a3412; }
+    .pill.gap { background: #fee2e2; border-color: #fecaca; color: #991b1b; }
+    .flow { font-family: var(--mono); font-size: 0.82rem; background: var(--navy-2); color: #d7e0ec; border-radius: 10px; padding: 14px 16px; margin: 0 0 16px; white-space: pre-wrap; }
+    .note { border-left: 3px solid var(--accent); padding: 2px 0 2px 12px; color: var(--ink-soft); margin: 0 0 16px; }
+    footer { border-top: 1px solid var(--line); padding: 24px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 20px; }
+    .callout.gap { background: #fef2f2; border-color: #fecaca; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/" aria-current="page">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Playbook · agent team</p>
+    <h1>Agent harness playbook</h1>
+    <p class="lede">How this Eastern fleet is built and (honestly) where it still is: a dual-layer harness (Grok bots + Mac CLIs), an EM loop driven by intent/spec/plan markdown as the <strong>target contract</strong>, Agent Manage Bot as chief of staff, live hub surfaces, and hard human gates. Gaps are labeled — not papered over.</p>
+    <p class="zh">东方舰队双层 harness 操作手册 · 目标合同与现状诚实并列。</p>
+    <div class="meta">
+      <span>Owner <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Timezone <strong>America/Toronto (ET)</strong></span>
+      <span>Updated <strong>2026-09-24 · first public playbook ship</strong></span>
+      <span>Live <a href="/research/usage/">usage</a> · <a href="/research/harness-lab/">lab</a> · <a href="/research/CR-harness/">CR-Harness</a></span>
+    </div>
+  </header>
+
+  <div class="callout">
+    <strong>Public contract.</strong> Architecture and operating rules only. No secrets, API keys, tokens, Keychain material, or private CR-Harness code. Quotas live on the <a href="/research/usage/">usage dashboard</a>. Private notes belong in a vault when one exists — not here.
+  </div>
+
+  <div class="callout gap">
+    <strong>Honesty banner — not yet live.</strong>
+    No Github Bot EM room wired · no Obsidian <code>~/Documents/agent-context</code> vault found · no <code>grok-tmux-run</code> + watchdog · no Jev router · no Collection Bot Field Brief hourly pipeline · Field Brief 6h watch + weekday usage refresh still <strong>paused</strong> · blind dual-LGTM (Astra=Codex / Fable=Claude) named as target but full EM babysitter loop not standing · Agy <strong>not installed</strong>. Lab collect 09:00 ET + KEEP curate 16:30 ET are the standing slots — enable only after <a href="#three-run-proof">Three-Run Proof</a> (usage currently shows them paused).
+  </div>
+
+  <nav class="toc" aria-label="Contents">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#thesis">Thesis</a></li>
+      <li><a href="#layers">Two layers</a></li>
+      <li><a href="#roster">Roster</a></li>
+      <li><a href="#vault">Context vault (target)</a></li>
+      <li><a href="#em-loop">EM task loop (intent → plan → PR)</a></li>
+      <li><a href="#pipeline">Field Brief pipeline</a></li>
+      <li><a href="#coding">Coding loop (SDLC)</a></li>
+      <li><a href="#launch">Mac launch standards</a></li>
+      <li><a href="#skills">Skills &amp; hooks</a></li>
+      <li><a href="#providers">Model providers</a></li>
+      <li><a href="#usage">Usage visibility</a></li>
+      <li><a href="#grok-patterns">Grok Bot team patterns</a></li>
+      <li><a href="#jev">Jev decision layer (target)</a></li>
+      <li><a href="#proof-ops">Three-Run Proof · kill review · GYR</a></li>
+      <li><a href="#extend">How to extend the team</a></li>
+      <li><a href="#checklist">Operator checklist</a></li>
+      <li><a href="#gaps">Gap register</a></li>
+    </ol>
+  </nav>
+
+  <section id="thesis">
+    <h2>1. Thesis</h2>
+    <p>The harness is not “one mega-agent.” It is a <strong>small company of specialists</strong> with clear ownership, shared memory (when the vault exists), and a few locked pipelines. Chat is a digest; proof of done is an artifact path and/or a live URL.</p>
+    <ul>
+      <li><strong>Specialize</strong> — Manage Bot owns roster/onboarding/Lab; Mac CLIs are the workers; a future Github Bot owns the coding EM loop.</li>
+      <li><strong>Share context</strong> — target: every agent reads/writes the same Obsidian vault before and after work. <span class="pill gap">not yet</span></li>
+      <li><strong>Balance capacity</strong> — when Field Brief collect stands, rotate Muse / DSH (and Agy if installed) so no single quota carries the load.</li>
+      <li><strong>Survive reconnects</strong> — long Mac jobs should go through tmux + streaming heartbeats + a stale-log watchdog. <span class="pill gap">not yet</span></li>
+      <li><strong>Human gates stay human</strong> — merges, payments, sends, deletes, and production require Tongli only.</li>
+      <li><strong>Decide cheap, execute expensive</strong> — Jev (typed route) is the target front-door before fan-out. <span class="pill target">target</span></li>
+    </ul>
+  </section>
+
+  <section id="layers">
+    <h2>2. Two layers</h2>
+    <div class="grid2">
+      <div class="card">
+        <strong>Layer A — Grok bots</strong>
+        Always-on assistants in the Grok Bot sidebar. They schedule routines, babysit Mac workers, publish hub HTML, and talk to each other. Today: <strong>Agent Manage Bot</strong> (chief of staff). Target: Collection Bot, Github Bot EM room, optional specialist rooms.
+      </div>
+      <div class="card">
+        <strong>Layer B — Mac CLIs</strong>
+        Local coding/scout agents on Tongli’s Mac. Live seats: Claude, Codex, Kimi, Muse, DSH. <strong>Agy not installed.</strong> Long runs should eventually kick via <code>grok-tmux-run</code> (not standing yet).
+      </div>
+    </div>
+    <div class="flow">Tongli Zhou (TonyZhou05)
+  ├─ Grok bots (orchestrate, publish, EM, roster)
+  │    ├─ Agent Manage Bot → CoS / Lab / usage integrity (live)
+  │    ├─ Github Bot EM room → Plan–Design–Build–Test–Review  [not yet]
+  │    ├─ Collection Bot → Field Brief packs + publish         [not yet]
+  │    └─ Jev (OpenRouter) → typed route Choice before fan-out [not yet]
+  └─ Mac CLIs (execute)
+       ├─ Claude / Fable  → default implementer (live)
+       ├─ Codex / Astra   → RFC / blind dual-LGTM reviewer (live)
+       ├─ Kimi 2.1.0      → deep brief / review fallback (live)
+       ├─ Muse 1.3.0      → collect / optional implement (live)
+       ├─ DSH 0.1.5-rc.3  → collect / optional implement (live)
+       └─ Agy             → collect packs                     [not installed]</div>
+  </section>
+
+  <section id="roster">
+    <h2>3. Roster</h2>
+    <h3>Human + Grok bots</h3>
+    <table>
+      <thead><tr><th>Seat</th><th>Owns</th><th>Does not</th></tr></thead>
+      <tbody>
+        <tr><td>Tongli Zhou (TonyZhou05)</td><td>Product owner; only merge / pay / send / delete / production gates</td><td>Hand mid-build approval spam to agents that should own the slice</td></tr>
+        <tr><td>Agent Manage Bot</td><td>Chief of staff; create/organize teammates; onboard Mac CLIs; Lab collect→KEEP; usage cards; playbook sync</td><td>Destroy agents, merge, pay, or send without Tongli</td></tr>
+        <tr><td>Github Bot EM <span class="pill gap">not yet</span></td><td>Target: EM for fleet coding; commit artifacts; fire implementer; triage dual-LGTM</td><td>Merge without Tongli</td></tr>
+        <tr><td>Collection Bot <span class="pill gap">not yet</span></td><td>Target: Field Brief packs → synthesize → hub publish</td><td>Desk/SDK PRs; invent live cadences without Three-Run Proof</td></tr>
+        <tr><td>Jev <span class="pill target">target</span></td><td>TypeSafe System One decision layer — Choice/Score/Noul routing</td><td>Chat authorship; coding implement; merge/pay/send</td></tr>
+      </tbody>
+    </table>
+    <h3>Mac CLIs</h3>
+    <table>
+      <thead><tr><th>Agent</th><th>Status</th><th>Primary job</th></tr></thead>
+      <tbody>
+        <tr><td>Claude Code / Fable</td><td><span class="pill live">LIVE</span> claude.ai pro · Keychain</td><td>Default implementer; dual-LGTM reviewer role when not implementer</td></tr>
+        <tr><td>Codex / Astra</td><td><span class="pill live">LIVE</span> ChatGPT</td><td>RFC / evidence review; blind dual-LGTM peer with Fable</td></tr>
+        <tr><td>Kimi</td><td><span class="pill live">LIVE</span> 2.1.0 AUTH_OK</td><td>Deep Field Brief writer fallback; optional review</td></tr>
+        <tr><td>Muse Code / Muse Spark</td><td><span class="pill live">LIVE</span> 1.3.0 Meta OAuth AUTH_OK</td><td>Collect packs (target rotation); optional implementer</td></tr>
+        <tr><td>DSH (DeepSeek Harness)</td><td><span class="pill live">LIVE</span> dsh 0.1.5-rc.3 · Node nvm v22.23.3 AUTH_OK</td><td>Collect packs (target rotation); optional implementer</td></tr>
+        <tr><td>Agy</td><td><span class="pill gap">not installed</span></td><td>Would own social-heavy collect packs when onboarded</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Playground root: <code>~/Documents/Tonys-agent-playground/</code>. Hub checkout: <code>hub-stage/</code> → remote <code>TonyZhou05/research</code> <code>main</code> → <a href="https://tonyzhou05.github.io/research/">tonyzhou05.github.io/research</a>.</p>
+  </section>
+
+  <section id="vault">
+    <h2>4. Context vault <span class="pill gap">not found</span></h2>
+    <p>Target long-term memory is a shared Obsidian vault on the Mac — a <strong>context repo</strong>, not a chat log.</p>
+    <p><span class="mono">~/Documents/agent-context</span> — <strong>not found</strong> as of 2026-09-24. Do not pretend agents are filing here yet.</p>
+    <h3>Target layout (when stood up)</h3>
+    <table>
+      <thead><tr><th>Folder</th><th>What lives there</th></tr></thead>
+      <tbody>
+        <tr><td><code>Hunt/</code></td><td>Scout packs &amp; research notes</td></tr>
+        <tr><td><code>Ship/</code></td><td>Deliverables: briefs, rfc, builds</td></tr>
+        <tr><td><code>Wiki/</code></td><td>Learning notes, Daily digests</td></tr>
+        <tr><td><code>Maps/</code></td><td>Roster, Decisions locks, TELOS / hooks</td></tr>
+        <tr><td><code>Agents/</code></td><td>Per-agent cards (role, paths, locks)</td></tr>
+        <tr><td><code>AGENTS.md</code></td><td>Fleet-wide contract (read first)</td></tr>
+        <tr><td><code>forbidden.md</code></td><td>Never-again list</td></tr>
+      </tbody>
+    </table>
+    <div class="grid2">
+      <div class="card">
+        <strong>Before starting (target)</strong>
+        Read <code>AGENTS.md</code> + <code>forbidden.md</code>, recent Hunt/Ship notes, Decisions that touch the work, Roster if ownership is unclear. Prefer vault truth over chat memory.
+      </div>
+      <div class="card">
+        <strong>After finishing (target)</strong>
+        File a short learning note: what/done, learned, pointers (no secrets), follow-ups. Standing rule changes → Decisions lock. Corrections → <code>forbidden.md</code>.
+      </div>
+    </div>
+    <p class="note">Until the vault exists, proof of done = git commit / PR URL / live hub URL. Chat alone is not proof.</p>
+  </section>
+
+  <section id="em-loop">
+    <h2>5. EM task loop (intent → plan → PR)</h2>
+    <p>This is the <strong>fleet coding contract</strong> to grow into — same semantics as the reference EM loop. A Github Bot EM room is the intended babysitter; it is <strong>not wired yet</strong>. Until then, Manage Bot + Tongli hold the gates manually.</p>
+    <p class="note"><strong>CR-Harness note:</strong> private repo <code>TeachFakerPlayingMid/CR-Harness-main</code> uses its own issue-first Claude CONTRIBUTING flow (see <a href="/research/CR-harness/">/CR-harness/</a>). That stays. This playbook’s intent→spec→plan→PR is the <em>fleet</em> contract for other work and for growing the EM room — not a rewrite of CR’s local norms.</p>
+
+    <h3>Roles</h3>
+    <table>
+      <thead><tr><th>Role</th><th>Who</th><th>Job</th></tr></thead>
+      <tbody>
+        <tr><td>Product owner</td><td>Tongli</td><td>Accepts <code>intent.md</code> / <code>spec.md</code>; only merge &amp; production gate</td></tr>
+        <tr><td>EM</td><td>Github Bot <span class="pill gap">not yet</span> (Manage holds interim)</td><td>Commits artifacts, fires the next play, triages review, starts the next independent slice; heartbeat babysitter</td></tr>
+        <tr><td>Implementer</td><td>Claude / Fable (default) or Muse/DSH</td><td>Implements from accepted <code>plan.md</code>; opens PR; cannot be a dual-LGTM reviewer on the same PR</td></tr>
+        <tr><td>Reviewers</td><td>Astra (Codex) + Fable (Claude)</td><td>Blind dual LGTM on the PR (each sees PR + intent/spec/plan only — never each other’s reviews); dual LGTM = agent-complete, not shipped</td></tr>
+        <tr><td>Research originator</td><td>human or scout bot</td><td>Writes Stage‑1 <code>intent.md</code> — not a coding task</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Artifact chain</h3>
+    <div class="flow">intent.md  →  spec.md  →  plan.md  →  PR + tests  →  dual review  →  human merge  →  pipeline
+         ↑                                                                    │
+         └──────── incident / broken demo / failed control band ──────────────┘</div>
+    <ul>
+      <li>An accepted <code>intent.md</code> triggers design.</li>
+      <li>An accepted <code>spec.md</code> triggers plan mode.</li>
+      <li>An accepted <code>plan.md</code> triggers Claude implementation.</li>
+      <li>A PR URL existing triggers Astra + Fable blind dual-LGTM (never before; implementer ≠ reviewer).</li>
+      <li>Dual LGTM + product-owner merge triggers ship. Dual LGTM alone is <strong>not</strong> merged.</li>
+    </ul>
+
+    <h3>What each markdown is for</h3>
+    <div class="grid2">
+      <div class="card">
+        <strong>intent.md</strong>
+        Problem, why now, constraints, non-goals, success signal. Written by research/product — not by the implementer inventing scope mid-build.
+      </div>
+      <div class="card">
+        <strong>spec.md</strong>
+        Observable behavior / acceptance criteria the reviewers will check against. Product owner accepts before plan mode.
+      </div>
+    </div>
+    <div class="card">
+      <strong>plan.md</strong>
+      Ordered slices, claim map, files to touch, test plan, and “done” definition. Implementer works <em>from</em> this file; reviewers check the PR against it. Review fix passes append a short record instead of rewriting history silently.
+    </div>
+
+    <h3>Play-by-play (one slice)</h3>
+    <ol>
+      <li><strong>Read context</strong> — EM + implementer pull standing rules, Decisions, prior Ship notes (vault when it exists).</li>
+      <li><strong>Commit intent → spec → plan</strong> if missing (any slice bigger than a one-line fix).</li>
+      <li><strong>Tongli accepts</strong> intent/spec when the change is consequential.</li>
+      <li><strong>EM launches implementer</strong> via durable Mac launch (tmux + stream + watchdog when stood up); prompt points at the committed <code>plan.md</code>.</li>
+      <li><strong>Implementer</strong> builds, runs the repo’s one-command tests, commits, pushes, opens the PR — does not wait for reviewers.</li>
+      <li><strong>EM requests Astra + Fable</strong> on the PR URL independently (blind dual-LGTM).</li>
+      <li><strong>EM triages</strong> — P0/P1 block dual LGTM; P2s get a fix pass on the same branch/session id.</li>
+      <li><strong>Dual LGTM</strong> → ping product owner. Merge only if Tongli asked (or a standing order for that repo).</li>
+      <li><strong>File proof</strong> — note with PR URL, session ids, follow-ups.</li>
+      <li><strong>Next independent slice</strong> starts without waiting on org APPROVE of the previous one.</li>
+    </ol>
+
+    <h3>What the EM does not do</h3>
+    <ul>
+      <li>Start Codex/Kimi review before there is a PR URL.</li>
+      <li>Treat dual LGTM as merged.</li>
+      <li>Stall the next independent slice on org APPROVE.</li>
+      <li>Cold-start Claude/Codex/Kimi when a session id for that PR/slice already exists.</li>
+      <li>Put Tongli back on the critical path of mid-build approval prompts.</li>
+      <li>Forward one reviewer’s findings into the other reviewer’s kickoff (breaks blind dual LGTM).</li>
+    </ul>
+  </section>
+
+  <section id="pipeline">
+    <h2>6. Field Brief pipeline <span class="pill gap">not standing</span></h2>
+    <p>Target cadence for this hub once Collection Bot + pack agents are wired. <strong>No hourly Field Brief pipeline is live today.</strong></p>
+    <h3>Target hourly source collect</h3>
+    <p>Capacity balance among installed collectors (skip Agy until installed):</p>
+    <table>
+      <thead><tr><th>Rotation</th><th>Collector</th><th>Pack file (target)</th></tr></thead>
+      <tbody>
+        <tr><td>slot A</td><td>Muse · <code>muse exec</code></td><td><code>packs/muse-pack-YYYY-MM-DD-HH.md</code></td></tr>
+        <tr><td>slot B</td><td>DSH · collect pack</td><td><code>packs/dsh-pack-…</code></td></tr>
+        <tr><td>slot C (future)</td><td>Agy · when installed</td><td><code>packs/agy-pack-…</code></td></tr>
+      </tbody>
+    </table>
+    <p>Collection only — no catalog HTML from pack agents. Label thin packs before brief.</p>
+    <h3>Target deep brief + publish</h3>
+    <ol>
+      <li>Deep writer (Claude preferred; Kimi fallback; Astra last-resort) synthesizes packs since the last slot.</li>
+      <li>Collection Bot (when stood) publishes HTML + push to the hub.</li>
+    </ol>
+    <p class="note">Field Brief 6h miss-watch routine is still <strong>paused</strong>. Do not invent a live brief feed on the homepage.</p>
+  </section>
+
+  <section id="coding">
+    <h2>7. Coding loop (SDLC)</h2>
+    <p>AI-native Plan → Design → Build → Test → Deploy → Maintain. Detailed EM playbook is in <a href="#em-loop">§5</a>.</p>
+    <ul>
+      <li><strong>Implementer (default):</strong> Claude Code / Fable (or Muse/DSH when Fable is needed on review)</li>
+      <li><strong>Reviewers:</strong> Astra + Fable (blind dual LGTM on the critical path; implementer ≠ reviewer) — <span class="pill target">target roles named; loop not standing</span></li>
+      <li><strong>Optional parallel:</strong> Muse Spark or DSH when Tongli asks</li>
+      <li><strong>Merge:</strong> Tongli only</li>
+      <li><strong>CR-Harness:</strong> keep issue-first Claude CONTRIBUTING; fleet contract grows beside it</li>
+    </ul>
+    <p class="note">No-exit-while-waiting: Mac agents must not end a turn waiting on background CI/live jobs with a dirty tree. Foreground to a durable exit, or hermetic-first push then a second pass.</p>
+  </section>
+
+  <section id="launch">
+    <h2>8. Mac launch standards <span class="pill gap">tmux helpers not yet</span></h2>
+    <p>Standing order for <strong>every</strong> long Mac CLI run once helpers exist (Claude, Codex, Kimi, Muse, DSH, Agy):</p>
+    <ol>
+      <li>Launch via <code>~/bin/grok-tmux-run &lt;session&gt; -- &lt;cmd&gt;</code> (logs under a stable Logs path). Never bare <code>nohup</code> from Grok Shell. <span class="pill gap">not installed</span></li>
+      <li><strong>Streaming required</strong> — Claude <code>stream-json</code>, Muse <code>--json</code>, DSH tee stdout/stderr; no long buffered text-only launches.</li>
+      <li>Attach <code>grok-tmux-watchdog</code> (stale-log resume of the same session). <span class="pill gap">not installed</span></li>
+      <li>Reuse each tool’s session id per PR/slice; don’t cold-start follow-ups.</li>
+    </ol>
+    <pre># Target shape (helpers not on PATH yet — 2026-09-24)
+# grok-tmux-run muse-collect-HH -- \\
+#   muse exec --json --trust-workspace --disable-approval --prompt-file prompt.md
+#
+# grok-tmux-run dsh-collect-HH -- \\
+#   dsh-collect-pack prompt.md</pre>
+  </section>
+
+  <section id="skills">
+    <h2>9. Skills &amp; hooks</h2>
+    <p>Target fleet-wide installer lives next to the vault (<code>agent-context/bin/install-agent-hooks.sh</code>) when the vault exists.</p>
+    <table>
+      <thead><tr><th>Surface</th><th>What gets wired (target)</th></tr></thead>
+      <tbody>
+        <tr><td>Codex / Kimi / Agy</td><td><code>AGENTS.md</code> symlink into each home</td></tr>
+        <tr><td>Claude</td><td>Global <code>CLAUDE.md</code> from vault</td></tr>
+        <tr><td>DSH</td><td><code>~/.dsh/AGENTS.md</code> + skills</td></tr>
+        <tr><td>Muse</td><td>Personal skills under Muse config; project skills via <code>--trust-workspace</code></td></tr>
+        <tr><td>Projects</td><td>Hub + playground get vault <code>AGENTS.md</code> + skill mirrors</td></tr>
+      </tbody>
+    </table>
+    <p>Shared skill themes: vault read/file rules · Field Brief source collect · exception-first Mac launch (symptom → action).</p>
+  </section>
+
+  <section id="providers">
+    <h2>10. Model providers (Mac)</h2>
+    <table>
+      <thead><tr><th>CLI</th><th>Provider shape</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Claude</td><td>claude.ai pro (Keychain)</td><td>Usage cards on the dashboard</td></tr>
+        <tr><td>Codex / Astra</td><td>ChatGPT / Codex CLI</td><td>Usage cards on the dashboard</td></tr>
+        <tr><td>Kimi</td><td>Vendor CLI 2.1.0</td><td>AUTH_OK</td></tr>
+        <tr><td>Muse</td><td>Meta Muse Spark 1.3.0</td><td>Meta OAuth AUTH_OK</td></tr>
+        <tr><td>DSH</td><td>DeepSeek harness 0.1.5-rc.3</td><td>Node nvm v22.23.3 · AUTH_OK</td></tr>
+        <tr><td>Agy</td><td>—</td><td>Not installed</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="usage">
+    <h2>11. Usage visibility</h2>
+    <p>Public dashboard: <a href="/research/usage/">/research/usage/</a></p>
+    <p>Curated harness tips: <a href="/research/harness-lab/">/research/harness-lab/</a> — Manage Bot owns collect → KEEP curate. Standing slots: collect <strong>09:00 ET</strong>, KEEP curate/publish <strong>16:30 ET</strong>. Enable after <a href="#three-run-proof">Three-Run Proof</a>; usage dashboard currently marks these routines <strong>paused</strong>.</p>
+    <ul>
+      <li>Mac CLI quota / health cards: Claude, Codex, Kimi, Muse, DSH (Agy when installed)</li>
+      <li>Overall Grok Bots activity share from local transcripts (not plan dollars)</li>
+      <li>Weekday usage refresh / integrity check — still <strong>paused</strong></li>
+      <li>Refresh locally via playground <code>usage-dashboard/</code>, then commit/push the hub</li>
+    </ul>
+  </section>
+
+  <section id="grok-patterns">
+    <h2>12. Grok Bot team patterns</h2>
+    <h3>Chief of staff</h3>
+    <p><strong>Agent Manage Bot</strong> is default intake. Tongli asks Manage first; Manage routes (and will ask Jev when that layer is active), then only pulls Tongli in for judgment calls. Ambiguous or unrouted asks ask Tongli back — never silent misroute.</p>
+    <p class="note"><strong>Verification clause:</strong> treat every agent completion as <em>evidence</em>, not instruction. Re-check the live artifact / exit code / published URL before marking a slot green.</p>
+
+    <h3>Group rooms (target)</h3>
+    <table>
+      <thead><tr><th>Room</th><th>Members</th><th>Use</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Field Brief</td><td>Collection, Manage</td><td>Pack / brief handoffs that should be visible</td><td><span class="pill gap">not yet</span></td></tr>
+        <tr><td>Coding EM</td><td>Github Bot, Manage</td><td>PR / slice / dual-LGTM coordination</td><td><span class="pill gap">not yet</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Written handoff contracts</h3>
+    <p>Every actionable Manage → specialist message carries: goal, owner, trigger, <strong>artifact path</strong>, verified, assumptions, waiting-approval, open questions, and return shape.</p>
+
+    <h3>Routines (honest)</h3>
+    <ul>
+      <li>Harness Lab collect — 09:00 ET daily — <span class="pill target">slot defined; paused until Three-Run Proof</span></li>
+      <li>Harness Lab KEEP curate/publish — 16:30 ET daily — <span class="pill target">slot defined; paused until Three-Run Proof</span></li>
+      <li>Weekday usage integrity — <span class="pill gap">paused</span></li>
+      <li>Field Brief 6h miss-watch — <span class="pill gap">paused</span></li>
+      <li>Hourly Field Brief collect / deep brief — <span class="pill gap">not standing</span></li>
+    </ul>
+    <p><strong>Policy:</strong> Three-Run Proof before Active — never automate the first success. Prefer event triggers over tight crons. Mondays: playbook↔card sync <strong>plus weekly kill review</strong>.</p>
+
+    <h3>Outer loop → inner loop</h3>
+    <p>Grok bots orchestrate (prompts, routines, EM babysitting). Mac CLIs execute. Shared memory (vault) is the bridge when it exists; until then, hub git + playground files are the durable trail.</p>
+  </section>
+
+  <section id="jev">
+    <h2>13. Jev decision layer <span class="pill gap">not installed</span></h2>
+    <p>TypeSafe <strong>Jev</strong> is a System One model: you send <code>state</code> + typed questions; it returns a Choice / Score / Noul with calibrated confidence — <strong>not prose</strong>. Target: sit in front of Manage’s CoS routing so expensive fan-outs only run when the route is clear.</p>
+    <div class="flow">ask → Manage Bot
+  → jev-route '&lt;state&gt;' [gate]     [not installed]
+  → if primary confidence ≥ floor and mode=active → honor
+  → else fallback=cos → normal CoS / ask Tongli
+  → Grok room or Mac CLI executes</div>
+    <h3>Target gates</h3>
+    <table>
+      <thead><tr><th>Gate</th><th>When</th><th>Primary Choice</th></tr></thead>
+      <tbody>
+        <tr><td><code>intake</code></td><td>Ambiguous route / fan-out</td><td>inline | field_brief | coding_em | escalate</td></tr>
+        <tr><td><code>pre_browser</code></td><td>Before computerUse / browser</td><td>proceed | skip | escalate</td></tr>
+        <tr><td><code>pre_retry</code></td><td>Before expensive Mac CLI retry</td><td>retry | abort | escalate</td></tr>
+        <tr><td><code>pre_research</code></td><td>Before Field Brief / full scout</td><td>skip | light_web | full_scout | escalate</td></tr>
+        <tr><td><code>pre_tool</code></td><td>Before high-risk MCP / Shell mutations</td><td>allow | ask | deny</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Jev never authorizes merge/pay/send. Do not invent a live session table until the router exists on this fleet.</p>
+  </section>
+
+  <section id="proof-ops">
+    <h2>14. Three-Run Proof · kill review · GYR</h2>
+    <h3 id="three-run-proof">Three-Run Proof</h3>
+    <p>Before enabling a new routine: <strong>Observe</strong> (bot charter/handoff/skill, not the artifact by hand) → <strong>Correct</strong> on a second input → <strong>Release</strong> after a third consecutive clean run (or three checkable proofs). Do not automate the first successful run.</p>
+    <h3 id="kill-review">Weekly kill review</h3>
+    <p>Paired with Monday playbook↔card sync. For each Manage routine: did it run? was the output right? would we miss it if killed? Pause or delete zombies. Spot-check one output by hand.</p>
+    <h3 id="gyr-authority">GREEN / YELLOW / RED (reversibility)</h3>
+    <table>
+      <thead><tr><th>Tier</th><th>Rule</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td><strong>GREEN</strong></td><td>Do it; log it</td><td>search, read, summarize, draft, vault note, research</td></tr>
+        <tr><td><strong>YELLOW</strong></td><td>Allowed inside approved tools / lanes</td><td>hub edits under lane, saved routines, Mac CLI on named repos</td></tr>
+        <tr><td><strong>RED</strong></td><td>Always ask Tongli</td><td>send/publish, spend/pay, merge, delete non-junk, permissions, production, accept terms</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Uncertainty: if you cannot undo it in under a minute, park and ask.</p>
+    <h3>Closed proof loop</h3>
+    <p>Checkable proof before “done”: green CI / exit code, live URL, or before/after screenshot. Summaries are intent. Fail-closed: prose “done” cannot pass without a mechanical artifact or an independent read-only check.</p>
+    <h3>Run limits + autonomy</h3>
+    <ul>
+      <li>Long fires inherit defaults: limited items · ≤2 retries · $0 spend · 0 external actions without Tongli approval.</li>
+      <li>Abnormal volume vs last clean run → stop and escalate.</li>
+      <li>Autonomy ladder 0–4 with demotion when quality drops.</li>
+      <li>Park unknown outcomes after crash/dirty exit — do not auto-retry guessing.</li>
+    </ul>
+  </section>
+
+  <section id="extend">
+    <h2>15. How to extend the team</h2>
+    <p class="note">Architecture tips that survive a day get filed in <a href="/research/harness-lab/">Harness Lab</a>; if a KEEP changes how we run, patch this playbook the same day.</p>
+    <ol>
+      <li><strong>Decide the layer</strong> — Grok bot (orchestrator) vs Mac CLI (worker).</li>
+      <li><strong>Agent Manage Bot</strong> creates/organizes Grok bots; onboards Mac CLIs (binary, auth, usage card).</li>
+      <li><strong>Vault</strong> — when stood up: add agent card, update Roster + AGENTS.md, file a Decisions lock.</li>
+      <li><strong>Hooks</strong> — extend installer if the CLI has an AGENTS/skills home.</li>
+      <li><strong>Routines</strong> — owning Grok bot schedules the cron/event listeners; Three-Run Proof before Active.</li>
+      <li><strong>Usage</strong> — add a collector + card in playground usage-dashboard, refresh, push.</li>
+      <li><strong>Never</strong> put keys in the vault or hub HTML. Rotate anything pasted into chat.</li>
+    </ol>
+  </section>
+
+  <section id="checklist">
+    <h2>16. Operator checklist</h2>
+    <ul>
+      <li>☐ Mac online; Grok Bot desktop connected for local-exec</li>
+      <li>☐ Default asks go to Manage Bot</li>
+      <li>☐ New routines pass <strong>Three-Run Proof</strong> before Active; Monday sync includes kill review</li>
+      <li>☐ Bot charters end with <strong>GREEN / YELLOW / RED</strong> (RED = Tongli)</li>
+      <li>☐ Coding slices have committed <code>intent.md</code> / <code>spec.md</code> / <code>plan.md</code> before implement</li>
+      <li>☐ Reviewers only after PR URL; <strong>blind</strong> dual LGTM ≠ merge</li>
+      <li>☐ Ambiguous asks clarified with Tongli (no silent misroute)</li>
+      <li>☐ <a href="/research/harness-lab/">Lab</a> KEEPs applied or filed as follow-up</li>
+      <li>☐ Long jobs: prefer tmux + stream + watchdog when helpers exist</li>
+      <li>☐ <a href="/research/usage/">Usage</a> cards green / explained</li>
+      <li>☐ No secrets in vault notes or hub commits</li>
+      <li>☐ Gaps below still true? Update this page when a gap closes.</li>
+    </ul>
+  </section>
+
+  <section id="gaps">
+    <h2>17. Gap register</h2>
+    <table>
+      <thead><tr><th>Gap</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Public harness playbook page</td><td><span class="pill live">this page — shipping</span></td></tr>
+        <tr><td>Github Bot EM room</td><td><span class="pill gap">not wired</span></td></tr>
+        <tr><td>Obsidian <code>~/Documents/agent-context</code></td><td><span class="pill gap">not found</span></td></tr>
+        <tr><td><code>grok-tmux-run</code> + watchdog</td><td><span class="pill gap">not installed</span></td></tr>
+        <tr><td>Jev router</td><td><span class="pill gap">not installed</span></td></tr>
+        <tr><td>Collection Bot Field Brief hourly pipeline</td><td><span class="pill gap">not standing</span></td></tr>
+        <tr><td>Field Brief 6h watch</td><td><span class="pill gap">paused</span></td></tr>
+        <tr><td>Weekday usage refresh</td><td><span class="pill gap">paused</span></td></tr>
+        <tr><td>Lab collect 09:00 / KEEP 16:30 ET</td><td><span class="pill target">slots defined; paused pending Three-Run Proof</span></td></tr>
+        <tr><td>Blind dual-LGTM babysitter loop</td><td><span class="pill target">roles named; loop not standing</span></td></tr>
+        <tr><td>Agy</td><td><span class="pill gap">not installed</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Public research hub · agent harness playbook · Tongli Zhou (TonyZhou05) ·
+    <a href="/research/">Hub</a> ·
+    <a href="/research/usage/">Usage</a> ·
+    <a href="/research/harness-lab/">Lab</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a> ·
+    <a href="https://github.com/TonyZhou05/research">source</a>
+  </div>
+</footer>
+</body>
+</html>

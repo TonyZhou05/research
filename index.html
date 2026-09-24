@@ -3,19 +3,112 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Tongli Zhou research hub — public surfaces for the dual-layer agent harness: usage, playbook, lab tips, and CR-Harness.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
   <title>Tony Zhou — Agent Research Hub</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body{font-family:system-ui,sans-serif;max-width:40rem;margin:3rem auto;padding:0 1.25rem;line-height:1.5;color:#161410;background:#f4efe6}
-    a{color:#b7480d}
+    :root {
+      --navy: #101828; --navy-2: #17233a; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d; --mint: #0f766e;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.9rem, 3.2vw, 2.6rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 62ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 22px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 28px; }
+    .meta strong { color: var(--ink); }
+    .grid { display: grid; gap: 14px; grid-template-columns: 1fr; padding-bottom: 36px; }
+    @media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+    .card { background: var(--cream); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; box-shadow: 0 1px 0 rgba(16,24,40,0.03); }
+    .card .src { font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 8px; }
+    .card h2 { font-family: var(--serif); font-size: 1.25rem; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.01em; line-height: 1.25; }
+    .card h2 a { color: var(--ink); text-decoration: none; }
+    .card h2 a:hover { color: var(--accent-dark); text-decoration: underline; }
+    .card p { margin: 0; color: var(--ink-soft); }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
   </style>
 </head>
 <body>
-  <h1>Tony Zhou — Agent Research Hub</h1>
-  <p>Public pages for the dual-layer agent harness. Local source of truth: <code>~/Documents/Tonys-agent-playground</code>.</p>
-  <ul>
-    <li><a href="usage/">Agent model usage dashboard →</a></li>
-    <li><a href="harness-lab/">Harness Lab (curated fleet tips) →</a></li>
-    <li><a href="CR-harness/">CR-Harness (Mini Royale / AI control research) →</a></li>
-  </ul>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/" aria-current="page">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Tongli Zhou · America/Toronto</p>
+    <h1>Agent research hub</h1>
+    <p class="lede">
+      Public working surfaces for Tongli’s dual-layer agent harness (Grok bots + Mac CLIs).
+      Local source of truth: <code>~/Documents/Tonys-agent-playground</code>.
+      No fake brief feed — only the pages that actually ship.
+    </p>
+    <p class="zh">公开研究站 · 双层 agent harness · 只链到真实页面。</p>
+    <div class="meta">
+      <span>Owner <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Repo <strong><a href="https://github.com/TonyZhou05/research">TonyZhou05/research</a></strong></span>
+    </div>
+  </header>
+
+  <section class="grid" aria-label="Hub surfaces">
+    <article class="card">
+      <div class="src">Surface · 1</div>
+      <h2><a href="/research/usage/">Usage →</a></h2>
+      <p>At-a-glance Mac CLI + Grok bot quota / health cards for the Eastern fleet.</p>
+    </article>
+    <article class="card">
+      <div class="src">Surface · 2</div>
+      <h2><a href="/research/harness/">Harness playbook →</a></h2>
+      <p>Operating contract: dual layers, roster, EM loop intent→spec→plan→PR, launch standards, Three-Run Proof — with honest gaps.</p>
+    </article>
+    <article class="card">
+      <div class="src">Surface · 3</div>
+      <h2><a href="/research/harness-lab/">Harness Lab →</a></h2>
+      <p>Curated KEEP tips for this fleet. Companion to the playbook; Manage Bot owns the scout.</p>
+    </article>
+    <article class="card">
+      <div class="src">Surface · 4</div>
+      <h2><a href="/research/CR-harness/">CR-Harness →</a></h2>
+      <p>Public resources + issues board for Mini Royale / AI control research (private repo titles mirrored only).</p>
+    </article>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Public research hub · Tongli Zhou (TonyZhou05) ·
+    <a href="/research/usage/">Usage</a> ·
+    <a href="/research/harness/">Harness</a> ·
+    <a href="/research/harness-lab/">Lab</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a>
+  </div>
+</footer>
 </body>
 </html>
