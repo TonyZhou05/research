@@ -1,0 +1,428 @@
+{
+  "tip_sha": "a5c08fc2d386c9f24f7b8df9600b789132bdd7eb",
+  "generated_at": "2026-09-24T21:53-04:00",
+  "seats": {
+    "opus": "Claude Code CLI --model opus (print mode, dontAsk, Read/Grep/Glob)",
+    "astra": "codex exec -m gpt-6-astra -s read-only"
+  },
+  "gate": "effective AND paper_only AND low_med (per seat); AGREED = both seats overall Y",
+  "tip_checked": {
+    "opus": "a5c08fc2d386c9f24f7b8df9600b789132bdd7eb",
+    "astra": "a5c08fc2d386c9f24f7b8df9600b789132bdd7eb"
+  },
+  "agreed": [
+    "R3-1",
+    "R3-2",
+    "R3-4",
+    "R3-5",
+    "R3-6",
+    "R3-7",
+    "R3-8",
+    "R3-10",
+    "R3-11",
+    "R3-12",
+    "R3-13",
+    "R3-14",
+    "R3-15"
+  ],
+  "both_no": [],
+  "split": [
+    "R3-3",
+    "R3-9",
+    "R3-16",
+    "R3-17"
+  ],
+  "items": [
+    {
+      "id": "R3-1",
+      "title": "B.2 EK-FAC query-chunk size on OLMo-3-7B: paper 8, launcher 4",
+      "severity": "low",
+      "category": "number",
+      "opus": {
+        "id": "R3-1",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "fidelity.py:63 EKFAC_CHUNK['olmo3-7b']='4' vs paper l.999-1000 '64, 8, and 8'; number-only manuscript fix"
+      },
+      "astra": {
+        "id": "R3-1",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "Paper l.999 specifies 8; experiments/fidelity/fidelity.py:63,154 specifies 4 for OLMo-3-7B; the manuscript-only replacement fixes it."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R3-2",
+      "title": "Table 7 lists limiting resources for OLMo-3-7B runs the launcher never executes",
+      "severity": "med",
+      "category": "caption",
+      "opus": {
+        "id": "R3-2",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "olmo_attribution (fidelity.py:134-160) + README:70-73 'are not run' vs Table 7 l.976-980 naming a limiting resource; also conflicts with paper l.993-994"
+      },
+      "astra": {
+        "id": "R3-2",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "Paper Table 7 assigns limiting resources to unattempted OLMo cells; experiments/fidelity/README.md:70-73 explicitly says they are not run, matching fidelity.py:134-161."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R3-3",
+      "title": "'Every attribution method covers every supported layer type' overclaims for K-FAC/EK-FAC",
+      "severity": "med",
+      "category": "claim",
+      "opus": {
+        "id": "R3-3",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "types.py:80-90 restricts K-FAC to linear/conv, kronecker.py:199/708-714 ignore norms+embeddings, so A.1 l.688-690 and §6 l.463-465 overclaim"
+      },
+      "astra": {
+        "id": "R3-3",
+        "effective": "N",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "N",
+        "reason": "Paper l.688-690 overclaims, but the proposed blanket embedding exclusion is also wrong: projection.py:456 supports embedding factors, hooks/manager.py:1062 relabels them as linear, and algorithm/kronecker.py:669 admits materialized layers to dense Fisher."
+      },
+      "agreed": false
+    },
+    {
+      "id": "R3-4",
+      "title": "Abstract implies token-level attribution for trajectory-based methods; code supports it only for inner-product/curvature/LESS",
+      "severity": "low",
+      "category": "claim",
+      "opus": {
+        "id": "R3-4",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "attribution_granularity absent from dvemb.py/adamw_influence.py/trajectory.py; abstract l.021-022 extends token level to trajectory methods"
+      },
+      "astra": {
+        "id": "R3-4",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "Abstract l.020-022 extends token granularity across method families; attribution/base.py:800 exposes it, whereas algorithm/dvemb.py:592-607 and adamw_influence.py:452-468 do not."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R3-5",
+      "title": "§3.3 says OLMo is instrumented by wrapping trainer.train(); both OLMo paths wrap trainer.fit()",
+      "severity": "low",
+      "category": "api-usage",
+      "opus": {
+        "id": "R3-5",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "olmo_trainer.py:130 and olmocore.py:445 both wrap fit(); §3.3 l.248 says train() for OLMo, contradicting paper l.318/l.964"
+      },
+      "astra": {
+        "id": "R3-5",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "Paper l.247-248 prescribes train() for OLMo; examples/trainers/olmo_trainer.py:130 and experiments/fidelity/utils/olmocore.py:445 both call fit()."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R3-6",
+      "title": "Fig. 1 / §3.1 dependency tier: dattri is optional (projectors only) and Transformers is required by GradientStreamer",
+      "severity": "low",
+      "category": "dependency",
+      "opus": {
+        "id": "R3-6",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "pyproject.toml:13-24 (torch-only hard dep, dattri optional) + streaming.py:670 transformers import in GradientStreamer.__enter__ vs Fig.1 tier / §3.1 l.164-166"
+      },
+      "astra": {
+        "id": "R3-6",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "Paper l.164-166 and Figure 1 omit the live-streamer dependency distinction: pyproject.toml:13-27 makes extras optional, projection.py:139 lazily imports dattri, and streaming.py:670 requires Transformers."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R3-7",
+      "title": "Pythia/A40 experiments are labelled 'fp32' but every benchmark adapter enables TF32 matmuls",
+      "severity": "low",
+      "category": "hardware",
+      "opus": {
+        "id": "R3-7",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "all benchmark/capture adapters set allow_tf32=True (run_ours.py:53 etc.); only fidelity settings.py:140-141 disables it, so B.3/B.4/B.6 'fp32' is imprecise"
+      },
+      "astra": {
+        "id": "R3-7",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "Paper l.1019,1097,1169,1186 omits enabled TF32; benchmark adapters run_ours.py:53, run_bergson.py:65, run_kronfluence.py:43, run_logix.py:66 and capture adapter run_ours.py:49 enable it."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R3-8",
+      "title": "'Pythia-0.5B' is the Pythia-410M checkpoint",
+      "severity": "low",
+      "category": "method-name",
+      "opus": {
+        "id": "R3-8",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "models.py:24 maps pythia '0.5b' to EleutherAI/pythia-410m (0.41B); paper l.1017 etc. call it Pythia-0.5B"
+      },
+      "astra": {
+        "id": "R3-8",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "Paper l.1017 and subsequent supplementary labels say Pythia-0.5B; experiments/benchmark/utils/models.py:24 resolves that scale to EleutherAI/pythia-410m."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R3-9",
+      "title": "B.1 says only Kronfluence runs unprojected; Bergson K-FAC/EK-FAC also keep full-dimensional factors",
+      "severity": "low",
+      "category": "repro-setup",
+      "opus": {
+        "id": "R3-9",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "throughput.py:49-50 and benchmark.py:29-30 show Bergson K-FAC/EK-FAC unprojected, so B.1 l.901 singling out Kronfluence is incomplete"
+      },
+      "astra": {
+        "id": "R3-9",
+        "effective": "N",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "N",
+        "reason": "Paper l.863/901 already says projection is requested where supported, not that only Kronfluence is unprojected; l.293-294 explicitly identifies Bergson's full-dimensional curvature factors, consistent with throughput.py:49-50."
+      },
+      "agreed": false
+    },
+    {
+      "id": "R3-10",
+      "title": "Benchmark time limits and dash semantics are not stated (timeouts reported as OOM; Table 6 query count)",
+      "severity": "low",
+      "category": "caption",
+      "opus": {
+        "id": "R3-10",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "throughput.py:131 (3600s), scaling.py:55/63 (1800s timeout status) and scaling.py:68-69 (n_test=4) are unstated in §4.1 l.284, Fig.2 and Table 6 caption l.919-922"
+      },
+      "astra": {
+        "id": "R3-10",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "Paper l.349-352/919-922 gives OOM-only failure semantics; throughput.py:131 sets 3600 s, scaling.py:55,63 sets 1800 s, and scaling.py:65-69 gives Bergson's large sharded GradDot cells four queries."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R3-11",
+      "title": "A.3 'every coordinate-wise optimizer in torch.optim' — Rprop and ASGD are not supported",
+      "severity": "low",
+      "category": "claim",
+      "opus": {
+        "id": "R3-11",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "optimizer.py:32-43 lists 10 families, optimizer_state.py:84-88 raises for Rprop/ASGD; A.3 l.740 claims every coordinate-wise torch.optim optimizer"
+      },
+      "astra": {
+        "id": "R3-11",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "Paper l.740 claims every coordinate-wise optimizer; gradient/ops/optimizer.py:32-43 lists supported families without Rprop/ASGD, and gradient/optimizer_state.py:81-88 rejects unmatched families."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R3-12",
+      "title": "A.4 capture-time representation rule is opt-in and global, not automatic/per-layer",
+      "severity": "low",
+      "category": "api-usage",
+      "opus": {
+        "id": "R3-12",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "config.py:309 default 'factorized', :180-191 rule only under 'auto', :399-408 one manager-level string; A.4 l.775-777 says persisted form follows the rule and is a per-layer setting"
+      },
+      "astra": {
+        "id": "R3-12",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "Paper l.775-777 presents storage routing as automatic and configurable per layer; hooks/config.py:188-195,309,400-408 establishes opt-in auto routing under one manager-level string, defaulting to factorized."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R3-13",
+      "title": "A.5 layer selection 'by type' — code selects by explicit name, regex, or REGISTER_ALL",
+      "severity": "low",
+      "category": "api-usage",
+      "opus": {
+        "id": "R3-13",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "config.py:86-117 selects by explicit name map/regex/REGISTER_ALL and :132-143 layer_types only relabels; no type selector as A.5 l.787 states"
+      },
+      "astra": {
+        "id": "R3-13",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "Paper l.787-789 lists selection by type; hooks/config.py:67-71,88-109 implements name assignments, regex and REGISTER_ALL, while type overrides explicitly do not select layers at :140-143."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R3-14",
+      "title": "A.2 says materialized projection is the only reduction for normalization layers; code also allows the random mask",
+      "severity": "low",
+      "category": "claim",
+      "opus": {
+        "id": "R3-14",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "config.py:242-243 'Norm layers must use \"dense\" or \"mask\"' and projection.py:12-14 treat mask as a distinct style; A.2 l.710 says materialized projection is the only option"
+      },
+      "astra": {
+        "id": "R3-14",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "Paper l.710 says materialized projection is the only normalization-layer option; hooks/config.py:240-243 permits masks, implemented directly in gradient/ops/projection.py:738-743."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R3-15",
+      "title": "A.2 seed-comparability claim omits the device caveat (CPU vs CUDA projectors differ; SJLT/GraSS CUDA-only)",
+      "severity": "low",
+      "category": "claim",
+      "opus": {
+        "id": "R3-15",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "config.py:250-256 warns CPU/CUDA projectors differ for the same proj_seed and sjlt/grass are CUDA-only; A.2 l.720-721 and §3.2 l.209-211 omit both caveats"
+      },
+      "astra": {
+        "id": "R3-15",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "Paper l.714-721 omits device restrictions; hooks/config.py:252-256 explicitly documents differing CPU/CUDA maps at equal seeds and CUDA-only SJLT/GraSS."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R3-16",
+      "title": "Fig. 4 snippet's default HookManager hooks embeddings/LM head, unlike the B.7 protocol",
+      "severity": "low",
+      "category": "api-usage",
+      "opus": {
+        "id": "R3-16",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "default config + hooks.py:78-96 hook nn.Embedding and lm_head, unlike B.7 l.1226-1227; data_selection_callback.py:364 layer_wise defaults False, absent from Fig.4"
+      },
+      "astra": {
+        "id": "R3-16",
+        "effective": "N",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "N",
+        "reason": "Paper l.420 explicitly calls Figure 4 the core integration, with experimental selectors specified in B.7 l.1226-1228; the valid defaults in hooks/config.py:128-130 and data_selection_callback.py:364 do not contradict that illustrative scope."
+      },
+      "agreed": false
+    },
+    {
+      "id": "R3-17",
+      "title": "A.1 supported-layer list omits nn.Bilinear and does not note RMSNorm needs PyTorch ≥ 2.4",
+      "severity": "low",
+      "category": "claim",
+      "opus": {
+        "id": "R3-17",
+        "effective": "Y",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "Y",
+        "reason": "types.py:17 / hooks.py:87 support nn.Bilinear and hooks.py:94-96 gates nn.RMSNorm on torch>=2.4 while pyproject.toml:14 allows 2.1; A.1 l.687-688 lists neither"
+      },
+      "astra": {
+        "id": "R3-17",
+        "effective": "N",
+        "paper_only": "Y",
+        "low_med": "Y",
+        "overall": "N",
+        "reason": "The RMSNorm caveat is supported, but the proposed support-list expansion is unsafe: hooks/config.py:654-658 says MultiheadAttention.out_proj bypasses module hooks, and hooks/hooks.py:321 captures only Bilinear's first input."
+      },
+      "agreed": false
+    }
+  ]
+}

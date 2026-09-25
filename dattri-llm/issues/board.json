@@ -1,12 +1,12 @@
 {
   "title": "Dattri-llm wrap-up board",
-  "blurb": "Hub-local tracker for TRAIS-Lab/dattri-llm wrap-up. Never create GitHub issues from this board. Round-2 dual-LGTM (Opus + Astra) applied at tip a5c08fc; live board.json is landed by Manage Bot from board.proposed.json drafts only.",
+  "blurb": "Hub-local tracker for TRAIS-Lab/dattri-llm wrap-up. Never create GitHub issues from this board. Round-2 dual-LGTM (Opus + Astra) applied at tip a5c08fc; live board.json is landed by Manage Bot from board.proposed.json drafts only. Round-3 paper-consistency dual-LGTM (r3-paper) applied at the same tip: 13 agreed items on H6/H8/new H9.",
   "sourceRepo": "TRAIS-Lab/dattri-llm",
   "sourceRepoPrivate": false,
   "sourceRepoUrl": "https://github.com/TRAIS-Lab/dattri-llm",
   "hubLocalOnly": true,
   "neverCreateGitHubIssues": true,
-  "updatedAt": "2026-09-24 ~04:10 ET",
+  "updatedAt": "2026-09-24 ~22:00 ET",
   "tipSha": "a5c08fc2d386c9f24f7b8df9600b789132bdd7eb",
   "openIssues": [
     {
@@ -85,10 +85,11 @@
         "hub-only",
         "wrap-up",
         "agreed",
-        "paper"
+        "paper",
+        "r3-paper"
       ],
       "title": "Align paper method naming and coverage with shipped attributors",
-      "notes": "Round-2 dual-YES: R2-9 (I3) GradDot paper/tables vs tracin.py algorithm label never emitting 'GradDot' \u2014 prefer documented alias; R2-10 (N1) paper 'subclass Attributor' vs public ABC BaseAttributor \u2014 one-token rename or README Attributor-family note; R2-11 (S1) Fig.1 strip omits LESS/AdamW-influence that README ships and \u00a74.2 evaluates; R2-26 \u00a73.1 five-family list under-claims vs \u00a74.2 / README (same LESS/AdamW-influence gap). Caption/footnote or one-line list edits."
+      "notes": "Round-2 dual-YES: R2-9 (I3) GradDot paper/tables vs tracin.py algorithm label never emitting 'GradDot' \u2014 prefer documented alias; R2-10 (N1) paper 'subclass Attributor' vs public ABC BaseAttributor \u2014 one-token rename or README Attributor-family note; R2-11 (S1) Fig.1 strip omits LESS/AdamW-influence that README ships and \u00a74.2 evaluates; R2-26 \u00a73.1 five-family list under-claims vs \u00a74.2 / README (same LESS/AdamW-influence gap). Caption/footnote or one-line list edits. Round-3 paper-consistency dual-YES (tip a5c08fc, manuscript edits only): R3-4 \u2014 abstract implies token-level scores for trajectory methods too; attribution_granularity exists only on inner-product/K-FAC/LESS attributors (base.py:800), not DVEmb/AdamW-influence \u2014 scope the token clause. R3-8 \u2014 'Pythia-0.5B' in B.3\u2013B.6 is EleutherAI/pythia-410m (benchmark utils/models.py:24) \u2014 name the released checkpoint."
     },
     {
       "number": "H7",
@@ -112,10 +113,26 @@
         "hub-only",
         "wrap-up",
         "agreed",
-        "repro"
+        "repro",
+        "r3-paper"
       ],
       "title": "Align OLMo/fidelity/hardware notes and add a paper-table runbook",
-      "notes": "Round-2 dual-YES: R2-17 \u2014 olmo extra pins ai2-olmo while fidelity/README needs ai2-olmo-core 2.6.0 (paper credits OLMo-core); reconcile pins/docs. R2-20 \u2014 fidelity README ladder (Qwen 0.5/3B, OLMo-2-1B) exceeds paper \u00a74.2 trio; label extras as extended / not in paper. R2-21 \u2014 Table 10/B.6 one L40S (48GB) vs capture/README one A40 for same experiment; align hardware claims. R2-28 \u2014 no figure/table\u2192command mapping; add a centralized reproduction runbook (med risk acceptable as docs)."
+      "notes": "Round-2 dual-YES: R2-17 \u2014 olmo extra pins ai2-olmo while fidelity/README needs ai2-olmo-core 2.6.0 (paper credits OLMo-core); reconcile pins/docs. R2-20 \u2014 fidelity README ladder (Qwen 0.5/3B, OLMo-2-1B) exceeds paper \u00a74.2 trio; label extras as extended / not in paper. R2-21 \u2014 Table 10/B.6 one L40S (48GB) vs capture/README one A40 for same experiment; align hardware claims. R2-28 \u2014 no figure/table\u2192command mapping; add a centralized reproduction runbook (med risk acceptable as docs). Round-3 paper-consistency dual-YES (manuscript edits only): R3-1 \u2014 B.2 OLMo-3-7B dattri EK-FAC query chunk is 4 in fidelity.py:63, paper says 8. R3-2 \u2014 Table 7 gives limiting resources for OLMo-3-7B MAGIC/SOURCE/full AdamW-influence/Bergson EK-FAC, but fidelity README:70-73 and olmo_attribution say those are not run \u2014 relabel 'not run'. R3-5 \u2014 \u00a73.3 says OLMo is instrumented via trainer.train(); both OLMo paths call fit() (olmo_trainer.py:130, olmocore.py:445) (prior R2-16, corrected). R3-7 \u2014 B.3/B.4/B.6 + Table 9/10/Fig.6 say fp32 but every benchmark/capture adapter enables TF32 matmuls. R3-10 \u2014 state benchmark time limits (3600 s throughput, 1800 s Kronfluence scaling), treat dashes as OOM-or-timeout, note 4-query sharded 72B/110B GradDot cells in Table 6."
+    },
+    {
+      "number": "H9",
+      "state": "open",
+      "author": "TonyZhou05",
+      "html_url": null,
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed",
+        "paper",
+        "r3-paper"
+      ],
+      "title": "Align Fig. 1 and Appendix A design claims with the shipped capture/projection/optimizer code",
+      "notes": "Round-3 paper-consistency dual-YES (Opus + Astra, tip a5c08fc; manuscript edits only, no code change): R3-6 \u2014 Fig. 1/\u00a73.1 dependency tier: torch is the only hard dep, dattri is an optional projector backend (pyproject.toml:13-23, projection.py:139) and the live GradientStreamer needs Transformers (streaming.py:670) (prior R2-25, paper-side). R3-11 \u2014 A.3 optimizer coverage: supported set is SGD/Adam/AdamW/Adamax/NAdam/RAdam/RMSprop/Adagrad/Adadelta/Lion (ops/optimizer.py:31-42); Rprop/ASGD raise. R3-12 \u2014 A.4 capture-time storage rule applies only with capture_style='auto' (one manager-level setting, default 'factorized'; hooks/config.py:309). R3-13 \u2014 A.5 selection is by explicit name map, regex, or REGISTER_ALL; layer_types only relabels (config.py:66-143). R3-14 \u2014 A.2 norm layers may use dense projection OR the random mask (config.py:240-243). R3-15 \u2014 A.2 seed comparability holds per device type; CPU vs CUDA projectors differ and SJLT/GraSS are CUDA-only (config.py:250-256). Splits not landed: R3-3, R3-9, R3-16, R3-17 (see merged-dual-lgtm-round3.md). Hub-local only; never a TRAIS-Lab issue."
     }
   ],
   "openPullRequests": []
