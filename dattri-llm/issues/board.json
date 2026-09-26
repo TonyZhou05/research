@@ -1,13 +1,13 @@
 {
   "title": "Dattri-llm wrap-up board",
-  "blurb": "Hub-local tracker for TRAIS-Lab/dattri-llm wrap-up. Never create GitHub issues from this board. Round-2 dual-LGTM (Opus + Astra) applied at tip a5c08fc; live board.json is landed by Manage Bot from board.proposed.json drafts only. Round-3 paper-consistency dual-LGTM (r3-paper) applied at the same tip: 13 agreed items on H6/H8/new H9.",
+  "blurb": "Hub-local tracker for TRAIS-Lab/dattri-llm wrap-up. Never create GitHub issues from this board. Round-2 dual-LGTM (Opus + Astra) applied at tip a5c08fc; live board.json is landed by Manage Bot from board.proposed.json drafts only. Round-3 paper-consistency dual-LGTM (r3-paper) applied at the same tip: 13 agreed items on H6/H8/new H9. Round-4 library-readability dual-LGTM (r4-readability) at tip 7f967a5 (dev): 13 agreed items on new H10\u2013H14.",
   "sourceRepo": "TRAIS-Lab/dattri-llm",
   "sourceRepoPrivate": false,
   "sourceRepoUrl": "https://github.com/TRAIS-Lab/dattri-llm",
   "hubLocalOnly": true,
   "neverCreateGitHubIssues": true,
-  "updatedAt": "2026-09-24 ~22:00 ET",
-  "tipSha": "a5c08fc2d386c9f24f7b8df9600b789132bdd7eb",
+  "updatedAt": "2026-09-26 ~16:35 ET",
+  "tipSha": "7f967a591c4539d6c5181b7af2921919d719bbc5",
   "openIssues": [
     {
       "number": "H1",
@@ -133,6 +133,76 @@
       ],
       "title": "Align Fig. 1 and Appendix A design claims with the shipped capture/projection/optimizer code",
       "notes": "Round-3 paper-consistency dual-YES (Opus + Astra, tip a5c08fc; manuscript edits only, no code change): R3-6 \u2014 Fig. 1/\u00a73.1 dependency tier: torch is the only hard dep, dattri is an optional projector backend (pyproject.toml:13-23, projection.py:139) and the live GradientStreamer needs Transformers (streaming.py:670) (prior R2-25, paper-side). R3-11 \u2014 A.3 optimizer coverage: supported set is SGD/Adam/AdamW/Adamax/NAdam/RAdam/RMSprop/Adagrad/Adadelta/Lion (ops/optimizer.py:31-42); Rprop/ASGD raise. R3-12 \u2014 A.4 capture-time storage rule applies only with capture_style='auto' (one manager-level setting, default 'factorized'; hooks/config.py:309). R3-13 \u2014 A.5 selection is by explicit name map, regex, or REGISTER_ALL; layer_types only relabels (config.py:66-143). R3-14 \u2014 A.2 norm layers may use dense projection OR the random mask (config.py:240-243). R3-15 \u2014 A.2 seed comparability holds per device type; CPU vs CUDA projectors differ and SJLT/GraSS are CUDA-only (config.py:250-256). Splits not landed: R3-3, R3-9, R3-16, R3-17 (see merged-dual-lgtm-round3.md). Hub-local only; never a TRAIS-Lab issue."
+    },
+    {
+      "number": "H10",
+      "state": "open",
+      "author": "TonyZhou05",
+      "html_url": null,
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed",
+        "r4-readability"
+      ],
+      "title": "Pin the lint toolchain outside CI (ruff version, dev extra, pre-commit)",
+      "notes": "Round-4 library-readability dual-YES (Opus + Astra, tip 7f967a5; blind gate real + industry_norm + not_taste). R4-1 [lint-format, med/S] \u2014 ruff==0.15.20 is pinned only in lint.yml:35; the dev extra (pyproject.toml:35-42) has no ruff, Makefile:11 runs an unpinned ruff on narrower paths, there is no pre-commit, and CLAUDE.md:85-86 wrongly says CI runs `make check`. Latest ruff 0.16.9 reports 115 errors (RUF105/RUF201) where 0.15.20 is clean. Fix: add ruff==0.15.20 to the dev extra, set [tool.ruff] required-version = \"==0.15.20\", add .pre-commit-config.yaml (astral-sh/ruff-pre-commit v0.15.20, ruff + ruff-format), align `make check` with CI's `ruff check .` / `ruff format --check .`, and correct CLAUDE.md. Splits not landed: R4-10 (layer_name\u2192layer_names), R4-13 (module size/complexity scoping), R4-14 (utils module_kwargs exports) \u2014 see merged-dual-lgtm-round4.md. Hub-local only; never a TRAIS-Lab issue."
+    },
+    {
+      "number": "H11",
+      "state": "open",
+      "author": "TonyZhou05",
+      "html_url": null,
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed",
+        "r4-readability"
+      ],
+      "title": "Complete Google docstring sections and typed public API (Args/Returns/Raises, Literal, py.typed)",
+      "notes": "Round-4 library-readability dual-YES (Opus + Astra, tip 7f967a5; blind gate real + industry_norm + not_taste). R4-2 [med/L] \u2014 Args: present on 97/297 public callables with params, Returns missing on 278, Raises on 20/78; DOC201/DOC501 ignored (pyproject.toml:77-78), darglint strictness=long and run only on PR comment. Fix: add sections to everything reachable from the __all__ lists first, re-enable DOC201/DOC501 (or scope them per-file), and replace darglint with ruff pydoclint rules. R4-3 [low/M] \u2014 47 enumerated options typed as bare str (base.py:710, config.py:309, adamw_influence.py:231\u2026). Fix: Literal aliases (AttributionGranularity, LossReduction, CaptureStyle, HessianMode, Propagation, CacheResidency) next to gradient.py:15-16. R4-4 [med/S] \u2014 no py.typed although return annotations cover 426/426. Fix: add dattri_llm/py.typed plus [tool.setuptools.package-data] dattri_llm = [\"py.typed\"]. Splits not landed: R4-10 (layer_name\u2192layer_names), R4-13 (module size/complexity scoping), R4-14 (utils module_kwargs exports) \u2014 see merged-dual-lgtm-round4.md. Hub-local only; never a TRAIS-Lab issue."
+    },
+    {
+      "number": "H12",
+      "state": "open",
+      "author": "TonyZhou05",
+      "html_url": null,
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed",
+        "r4-readability"
+      ],
+      "title": "Make the public API surface explicit (typed lazy exports, private helpers, examples use top-level imports)",
+      "notes": "Round-4 library-readability dual-YES (Opus + Astra, tip 7f967a5; blind gate real + industry_norm + not_taste). R4-5 [med/S] \u2014 14 lazily exported names (__init__.py:42-57) resolve via `__getattr__ -> object` (:95-99), so they are invisible to type checkers. Fix: add an `if TYPE_CHECKING:` import block and cache the value in globals(). R4-15 [low/S] \u2014 no implementation module defines __all__, and internal helpers have public names (streaming.py:1076 autocast_for, :1087 move_batch, datasets.py:29 identity_collate). Fix: underscore-prefix them or add module __all__. R4-16 [low/S] \u2014 all 11 example scripts use sys.path.insert (e.g. attribution_from_disk.py:11) and deep imports (:17,:21) instead of the README's `from dattri_llm import \u2026`. Fix: switch to top-level imports and drop the sys.path hack (examples_test.yml already pip-installs). Overlaps H3 (examples) only on the import-style angle. Splits not landed: R4-10 (layer_name\u2192layer_names), R4-13 (module size/complexity scoping), R4-14 (utils module_kwargs exports) \u2014 see merged-dual-lgtm-round4.md. Hub-local only; never a TRAIS-Lab issue."
+    },
+    {
+      "number": "H13",
+      "state": "open",
+      "author": "TonyZhou05",
+      "html_url": null,
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed",
+        "r4-readability"
+      ],
+      "title": "Packaging hygiene: declare tqdm, complete pyproject metadata, single-source version, add CONTRIBUTING/CHANGELOG",
+      "notes": "Round-4 library-readability dual-YES (Opus + Astra, tip 7f967a5; blind gate real + industry_norm + not_taste). R4-6 [med/S] \u2014 tqdm is imported at module level (datasets.py:16, trajectory.py:33; reached by every attributor via streaming.py/kronecker.py) but pyproject.toml:13-15 declares only torch. Fix: add tqdm>=4 to dependencies (overlaps H3 dependency honesty). R4-7 [low/S] \u2014 [project] (pyproject.toml:6-15) has no readme, authors, urls, classifiers or keywords. Fix: add readme=\"README.md\", authors, [project.urls], Python-version/Typing :: Typed/Topic classifiers, and no License :: classifier (PEP 639). R4-8 [low/S] \u2014 version is hardcoded in both pyproject.toml:8 and __init__.py:38. Fix: importlib.metadata.version(\"dattri-llm\") or setuptools dynamic version. R4-9 [low/S] \u2014 no CONTRIBUTING/CHANGELOG, so the dev workflow lives only in CLAUDE.md:40-49,83-90. Fix: add CONTRIBUTING.md (linked from README) and a Keep-a-Changelog CHANGELOG.md starting at 0.1.0. Splits not landed: R4-10 (layer_name\u2192layer_names), R4-13 (module size/complexity scoping), R4-14 (utils module_kwargs exports) \u2014 see merged-dual-lgtm-round4.md. Hub-local only; never a TRAIS-Lab issue."
+    },
+    {
+      "number": "H14",
+      "state": "open",
+      "author": "TonyZhou05",
+      "html_url": null,
+      "labels": [
+        "hub-only",
+        "wrap-up",
+        "agreed",
+        "r4-readability"
+      ],
+      "title": "Remove small duplication: contextlib.nullcontext and named default constants",
+      "notes": "Round-4 library-readability dual-YES (Opus + Astra, tip 7f967a5; blind gate real + industry_norm + not_taste). R4-11 [low/S] \u2014 dvemb.py:121-126 hand-rolls `_null_context` (noqa N801) for one use at :678, while streaming.py:1082 already uses contextlib.nullcontext. Fix: delete it and use contextlib.nullcontext(). R4-12 [low/S] \u2014 damping 1e-3 is repeated at kronecker.py:198,1004,1105,1276 and 4096 at :200,910,1006,1110,1279, with inline epsilons at tracin.py:107,125, less.py:69 and optimizer.py:111-112. Fix: DEFAULT_DAMPING, DEFAULT_DIRECT_FIM_MAX_PARAMS, _COSINE_EPS, _NADAM_DECAY_BASE constants. Splits not landed: R4-10 (layer_name\u2192layer_names), R4-13 (module size/complexity scoping), R4-14 (utils module_kwargs exports) \u2014 see merged-dual-lgtm-round4.md. Hub-local only; never a TRAIS-Lab issue."
     }
   ],
   "openPullRequests": []

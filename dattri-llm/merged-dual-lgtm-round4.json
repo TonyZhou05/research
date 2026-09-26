@@ -1,0 +1,420 @@
+{
+  "tip_sha": "7f967a591c4539d6c5181b7af2921919d719bbc5",
+  "generated_at": "2026-09-26T16:29-04:00",
+  "seats": {
+    "opus": "Claude Code CLI --model opus (print mode, dontAsk, Read/Grep/Glob)",
+    "astra": "codex exec -m gpt-6-astra -s read-only"
+  },
+  "gate": "real AND industry_norm AND not_taste (per seat); AGREED = both seats overall Y",
+  "tip_checked": {
+    "opus": "7f967a591c4539d6c5181b7af2921919d719bbc5",
+    "astra": "7f967a591c4539d6c5181b7af2921919d719bbc5"
+  },
+  "agreed": [
+    "R4-1",
+    "R4-2",
+    "R4-3",
+    "R4-4",
+    "R4-5",
+    "R4-6",
+    "R4-7",
+    "R4-8",
+    "R4-9",
+    "R4-11",
+    "R4-12",
+    "R4-15",
+    "R4-16"
+  ],
+  "both_no": [],
+  "split": [
+    "R4-10",
+    "R4-13",
+    "R4-14"
+  ],
+  "items": [
+    {
+      "id": "R4-1",
+      "title": "Lint toolchain is pinned only in CI: dev extra, Makefile and contributor docs use an unpinned ruff, and there is no pre-commit",
+      "severity": "med",
+      "theme": "lint-format",
+      "effort": "S",
+      "opus": {
+        "id": "R4-1",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "lint.yml:35 pins ruff==0.15.20 but pyproject.toml:35-42 dev has no ruff and Makefile:11 is unpinned on a narrower path set; no .pre-commit-config.yaml; required-version + ruff-pre-commit are the documented ruff mechanisms, and CLAUDE.md:85-86's 'make check' claim is wrong."
+      },
+      "astra": {
+        "id": "R4-1",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": ".github/workflows/lint.yml:35 pins Ruff, while pyproject.toml:35 omits it and Makefile:11 uses different paths; synchronizing installation, version enforcement and commands improves reproducibility."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R4-2",
+      "title": "Google docstring sections are mostly missing on the public API, and the checks that would catch it are switched off",
+      "severity": "med",
+      "theme": "docstrings-types",
+      "effort": "L",
+      "opus": {
+        "id": "R4-2",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "kronecker.py:227-246, dot.py:423-430 and adamw_influence.py:435-444 are prose-only on exported callables while pyproject.toml:77-78 ignores DOC201/DOC501 and .darglint:3 strictness=long runs only on PR comment; sections on the public API plus ruff pydoclint replacing unmaintained darglint is the repo's own stated Google convention."
+      },
+      "astra": {
+        "id": "R4-2",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "Docstring counts reproduce; dattri_llm/gradient/ops/dot.py:429 and attribution/algorithm/adamw_influence.py:444 lack parameter/result sections, while pyproject.toml:77 disables relevant checks; documenting applicable public contracts is substantive."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R4-3",
+      "title": "Enumerated string options are typed as bare `str` instead of `Literal` aliases",
+      "severity": "low",
+      "theme": "docstrings-types",
+      "effort": "M",
+      "opus": {
+        "id": "R4-3",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "base.py:710,800,1047 and config.py:309 type enumerated options as bare str while gradient.py:15-16,952 and kronecker.py:82 already use Literal aliases; PEP 586 Literal for closed string sets, consistent with in-repo precedent."
+      },
+      "astra": {
+        "id": "R4-3",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "The 47 string-default parameters reproduce; dattri_llm/attribution/base.py:710 and gradient/hooks/config.py:309 accept finite modes as str; Literal aliases improve static validation without changing runtime behavior."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R4-4",
+      "title": "No PEP 561 py.typed marker, so the package's near-complete type hints are ignored downstream",
+      "severity": "med",
+      "theme": "docstrings-types",
+      "effort": "S",
+      "opus": {
+        "id": "R4-4",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "No py.typed tracked anywhere and pyproject.toml:44-45 ships no package-data, so PEP 561 forces downstream checkers to ignore the 426/426 annotated returns; an empty marker plus package-data is the standard fix."
+      },
+      "astra": {
+        "id": "R4-4",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "No tracked py.typed exists, and pyproject.toml:44 only configures package discovery; the annotation totals reproduce, and shipping the marker is the standard PEP 561 opt-in."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R4-5",
+      "title": "Lazy top-level exports are invisible to type checkers and IDEs (module __getattr__ -> object, no TYPE_CHECKING imports)",
+      "severity": "med",
+      "theme": "api-surface",
+      "effort": "S",
+      "opus": {
+        "id": "R4-5",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "__init__.py:42-57 lists 14 names only as strings and :95-99 resolves them via `__getattr__(name) -> object` (uncached), with F822 suppressed at :125-128; a TYPE_CHECKING import block is the documented PEP 562 lazy-export pattern and costs nothing at runtime."
+      },
+      "astra": {
+        "id": "R4-5",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "dattri_llm/__init__.py:42 contains 14 lazy exports and :95 returns object without static imports; TYPE_CHECKING re-exports expose their actual types while preserving lazy runtime loading."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R4-6",
+      "title": "tqdm is a hard runtime import but is not a declared dependency",
+      "severity": "med",
+      "theme": "repo-hygiene",
+      "effort": "S",
+      "opus": {
+        "id": "R4-6",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "datasets.py:16 and trajectory.py:33 import tqdm at module level (pulled in transitively by streaming.py:49 and kronecker.py:61) while pyproject.toml:13-15 declares only torch>=2.1, so the advertised disk path works only by accident; declaring an imported runtime dep is basic PEP 621 hygiene."
+      },
+      "astra": {
+        "id": "R4-6",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "dattri_llm/gradient/datasets.py:16 and attribution/algorithm/trajectory.py:33 import tqdm unconditionally, but pyproject.toml:13 declares only torch; declaring the direct dependency fixes an installation contract."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R4-7",
+      "title": "pyproject [project] metadata is minimal: no readme, authors, urls, classifiers or keywords",
+      "severity": "low",
+      "theme": "repo-hygiene",
+      "effort": "S",
+      "opus": {
+        "id": "R4-7",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "pyproject.toml:6-15 has no readme/authors/urls/classifiers/keywords, so a build has an empty long description; the additions are exactly what the Packaging User Guide prescribes and the advice to omit `License ::` is correct under PEP 639 given license = \"MIT\" at :10."
+      },
+      "astra": {
+        "id": "R4-7",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "pyproject.toml:6 lacks the cited descriptive metadata, despite README.md:98 providing the repository URL; README and project links materially improve distribution discoverability and identification."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R4-8",
+      "title": "Version string is duplicated between pyproject.toml and __init__.py",
+      "severity": "low",
+      "theme": "repo-hygiene",
+      "effort": "S",
+      "opus": {
+        "id": "R4-8",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "pyproject.toml:8 and dattri_llm/__init__.py:38 both hardcode \"0.1.0\"; single-sourcing via importlib.metadata or setuptools dynamic version is the standard PyPA guidance."
+      },
+      "astra": {
+        "id": "R4-8",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "pyproject.toml:8 and dattri_llm/__init__.py:38 independently hardcode 0.1.0; the proposed setuptools dynamic-version alternative removes a real synchronization obligation."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R4-9",
+      "title": "No CONTRIBUTING.md or CHANGELOG.md; the developer workflow is documented only in the agent file CLAUDE.md",
+      "severity": "low",
+      "theme": "repo-hygiene",
+      "effort": "S",
+      "opus": {
+        "id": "R4-9",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "No CONTRIBUTING/CHANGELOG in the tracked root set and README.md has no Development section (headings 1,63,93,158,194,204,227,233), leaving CLAUDE.md:40-49,83-90 as the only contributor workflow — a discoverability gap for human contributors, not a style preference."
+      },
+      "astra": {
+        "id": "R4-9",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "The tracked tree lacks contribution/release-history files; CLAUDE.md:42 and :88 hold the contributor commands and CI triggers, so linked contributor documentation and release notes improve accessibility."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R4-10",
+      "title": "Layer-filter argument is named `layer_name` (singular) in the attribution API but `layer_names` in the capture layer",
+      "severity": "med",
+      "theme": "naming",
+      "effort": "M",
+      "opus": {
+        "id": "R4-10",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "base.py:165,360,392,1043, kronecker.py:911,1100,1280, streaming.py:122,1186 and score.py:81 all use singular `layer_name` for a list, and HookManager exposes both `layer_names` (manager.py:1631) and an identical `layer_name` (manager.py:1636) — an objective self-inconsistency, and the DeprecationWarning shim keeps the rename non-breaking."
+      },
+      "astra": {
+        "id": "R4-10",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "N",
+        "overall": "N",
+        "reason": "The naming difference exists at dattri_llm/attribution/base.py:165 and gradient/hooks/hooks.py:180, but the former deliberately accepts either one name or a list; renaming this documented API remains a preference."
+      },
+      "agreed": false
+    },
+    {
+      "id": "R4-11",
+      "title": "DVEmb reimplements contextlib.nullcontext as a lowercase class with a naming-rule suppression",
+      "severity": "low",
+      "theme": "structure-duplication",
+      "effort": "S",
+      "opus": {
+        "id": "R4-11",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "dvemb.py:121-126 hand-rolls a lowercase no-op context with `# noqa: N801` for its single use at :678 while streaming.py:1082 already calls contextlib.nullcontext(); deleting it is a strict simplification."
+      },
+      "astra": {
+        "id": "R4-11",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "dattri_llm/attribution/algorithm/dvemb.py:121 implements a no-op context used only at :678; contextlib.nullcontext provides the same required behavior and removes redundant implementation."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R4-12",
+      "title": "Repeated magic-number defaults and unnamed epsilons in the attribution kernels",
+      "severity": "low",
+      "theme": "structure-duplication",
+      "effort": "S",
+      "opus": {
+        "id": "R4-12",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "1e-3 repeated at kronecker.py:198,1004,1105,1276 and 4096 at :200,910,1006,1110,1279 are defaults that must stay in sync across signatures, plus unnamed epsilons at tracin.py:107,125 and optimizer.py:111-112; named module constants are standard and PLR2004's global ignore (pyproject.toml:92) is justified for shape literals, not hyperparameters."
+      },
+      "astra": {
+        "id": "R4-12",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "Repeated defaults are confirmed at dattri_llm/attribution/algorithm/kronecker.py:198, :1004, :1105 and :1276; shared constants prevent drift, while tracin.py:107 and :125 share the same stabilization epsilon."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R4-13",
+      "title": "Very large modules and functions, with the complexity rules disabled globally rather than per-file",
+      "severity": "low",
+      "theme": "structure-duplication",
+      "effort": "L",
+      "opus": {
+        "id": "R4-13",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "Counts are exact (manager.py 1711, kronecker.py 1593, hooks.py:178 register_linear_io_hooks 242 lines) and pyproject.toml:73,93-95 disable C901/PLR0912/PLR0914/PLR0915 package-wide; scoping blanket ignores to the named kernel files via extend-per-file-ignores is normative ruff practice, and the suggested seam (nested _make_forward_hook at hooks.py:314) already exists — the module split is the weaker half but the item stands."
+      },
+      "astra": {
+        "id": "R4-13",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "N",
+        "overall": "N",
+        "reason": "Size counts and pyproject.toml:73,93-95 suppressions are correct, but hooks.py:314 and :360 already isolate hooks as closures; scoped lint exceptions are useful, while the bundled structural splits remain design preferences."
+      },
+      "agreed": false
+    },
+    {
+      "id": "R4-14",
+      "title": "User-facing module_kwargs builders (rms_norm_module_kwargs etc.) are not exported or listed by dattri_llm.utils",
+      "severity": "low",
+      "theme": "api-surface",
+      "effort": "S",
+      "opus": {
+        "id": "R4-14",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "utils/__init__.py:1-12,31-43 lists hashing/distributed/autograd/cache but omits utils.module entirely, so users deep-import (examples/projection/gradient_projection.py:17) a helper set module.py:10-18 tells them to use, and config.py:171-178 spells the raw dict instead; the builder count is 16 rather than the stated 18, which does not affect the finding."
+      },
+      "astra": {
+        "id": "R4-14",
+        "real": "N",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "N",
+        "reason": "dattri_llm/utils/module.py:78-439 defines 16 public builders, not the claimed 18; omission from utils/__init__.py:31 and the raw-dict example at gradient/hooks/config.py:175 are otherwise confirmed."
+      },
+      "agreed": false
+    },
+    {
+      "id": "R4-15",
+      "title": "Internal helpers carry public names in modules that define no __all__",
+      "severity": "low",
+      "theme": "api-surface",
+      "effort": "S",
+      "opus": {
+        "id": "R4-15",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "streaming.py:1076 autocast_for and :1087 move_batch (used only at :824,1073,1290,1294) and datasets.py:29 identity_collate carry public names, and only the 8 __init__.py files define __all__; PEP 8's public/internal-interface rule and the repo's own _conv_module_kwargs precedent both back the underscore."
+      },
+      "astra": {
+        "id": "R4-15",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "The 42-module and 49-definition counts reproduce; dattri_llm/gradient/streaming.py:1076,1087 and gradient/datasets.py:29 contain module-local helpers with public names; explicit boundaries follow PEP 8."
+      },
+      "agreed": true
+    },
+    {
+      "id": "R4-16",
+      "title": "Examples bypass the advertised top-level API: deep implementation imports and a sys.path hack in every script",
+      "severity": "low",
+      "theme": "api-surface",
+      "effort": "S",
+      "opus": {
+        "id": "R4-16",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "sys.path.insert appears in all 11 example scripts (attribution_from_disk.py:11, trl_grpo_trainer.py:31) alongside deep imports (:17,:21) of names README.md:105-150 advertises from the top level, and examples_test.yml:34 already pip-installs the package, so dropping the hack is safe and makes the examples regression-test the public surface."
+      },
+      "astra": {
+        "id": "R4-16",
+        "real": "Y",
+        "industry_norm": "Y",
+        "not_taste": "Y",
+        "overall": "Y",
+        "reason": "All 11 scripts inject sys.path; examples/attribution/attribution_from_disk.py:11,17 bypasses the installed public surface documented at README.md:100,131; public imports make examples exercise the supported entry points."
+      },
+      "agreed": true
+    }
+  ]
+}

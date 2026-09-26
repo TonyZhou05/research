@@ -1,0 +1,303 @@
+{
+  "tip_sha": "7f967a591c4539d6c5181b7af2921919d719bbc5",
+  "prev_tip": "a5c08fc2d386c9f24f7b8df9600b789132bdd7eb",
+  "generated_at": "2026-09-26T16:22:20-04:00",
+  "tooling_run": {
+    "commits_since_prev": [
+      "7f967a5 Update tests (.github/workflows/examples_test.yml)",
+      "015bbd3 Update GRPO example (examples/README.md, examples/trainers/README.md, new examples/trainers/trl_grpo_trainer.py)"
+    ],
+    "runs": [
+      {
+        "cmd": "ruff==0.15.20 (CI pin, .github/workflows/lint.yml) `ruff check .`",
+        "result": "All checks passed (0 errors)"
+      },
+      {
+        "cmd": "ruff==0.15.20 `ruff format --check .`",
+        "result": "108 files already formatted (0 would reformat)"
+      },
+      {
+        "cmd": "ruff==0.15.20 `ruff check --isolated dattri_llm` (ruff defaults)",
+        "result": "All checks passed (0 errors)"
+      },
+      {
+        "cmd": "ruff==0.16.9 (latest) `ruff check --statistics .` with repo config",
+        "result": "115 errors: 61 RUF105 noqa-comments, 54 RUF201 rule-codes-in-selectors (preview meta-rules; no code findings)"
+      },
+      {
+        "cmd": "ruff==0.16.9 `ruff format --check .`",
+        "result": "2 would reformat (README.md, examples/projection/README.md markdown code blocks), 114 already formatted"
+      },
+      {
+        "cmd": "python3 ast_audit.py (public, non-underscore symbols in dattri_llm/)",
+        "result": "470 public symbols (44 classes, 426 functions/methods); docstring 469/470; params fully annotated 412/426 (the 14 gaps are all **proj_kwargs in ops/projection.py, ANN003 ignored); return annotated 426/426; Google 'Args:' present 97/297 functions with params; 'Returns:'/'Yields:' present where a value is returned 148/426 compliant (278 missing); 'Raises:' present 20/78 functions that raise; NumPy-style 0"
+      },
+      {
+        "cmd": "python3 size stats",
+        "result": "793 functions; 19 >100 lines, 1 >200 lines (register_linear_io_hooks, 242); 10 modules >900 lines (max gradient/hooks/manager.py 1711)"
+      },
+      {
+        "cmd": "grep print/logging/warnings in dattri_llm",
+        "result": "0 print(); 2 modules use logging (4 logger calls); 23 warnings.warn; raises: 171 ValueError, 26 RuntimeError, 21 KeyError, 18 TypeError, 16 NotImplementedError"
+      },
+      {
+        "cmd": "find py.typed / CHANGELOG / CONTRIBUTING / .pre-commit-config.yaml / docs/",
+        "result": "none present"
+      }
+    ],
+    "notes": "Repo untouched: tracked-file archive of tip extracted on the box; ruff installed in a throwaway venv. The dirty Mac working tree (untracked experiments/, output/) was not used for counts."
+  },
+  "candidates": [
+    {
+      "id": "R4-1",
+      "title": "Lint toolchain is pinned only in CI: dev extra, Makefile and contributor docs use an unpinned ruff, and there is no pre-commit",
+      "theme": "lint-format",
+      "evidence": [
+        ".github/workflows/lint.yml:32-39 \u2014 installs ruff==0.15.20 with the comment that select=ALL + preview=true is version-sensitive, then runs `ruff check .` / `ruff format --check .`",
+        "pyproject.toml:35-42 \u2014 dev extra lists pytest/dattri/transformers/accelerate/trl/ai2-olmo only; no ruff (or darglint)",
+        "pyproject.toml:47-56 \u2014 [tool.ruff] has no required-version; lint uses preview=true, select=[\"ALL\"]",
+        "Makefile:10-12 \u2014 `$(PYTHON) -m ruff check dattri_llm tests examples` (unpinned, and a narrower path set than CI's `.`)",
+        "CLAUDE.md:85-86 \u2014 says lint.yml runs `make check`, but lint.yml:36-39 runs ruff directly on `.`",
+        "tooling: latest ruff 0.16.9 on the same tree reports 115 errors (RUF105\u00d761, RUF201\u00d754) and 2 files to reformat, while CI's 0.15.20 is clean",
+        "repo root \u2014 no .pre-commit-config.yaml"
+      ],
+      "severity": "med",
+      "effort": "S",
+      "fix": "Add ruff==0.15.20 to the dev extra (or a `lint` extra/dependency group), set `[tool.ruff] required-version = \"==0.15.20\"`, add a .pre-commit-config.yaml using astral-sh/ruff-pre-commit at rev v0.15.20 (ruff + ruff-format hooks), and make `make check` run the same `ruff check .` / `ruff format --check .` as CI (fix the CLAUDE.md sentence).",
+      "overlaps": null
+    },
+    {
+      "id": "R4-2",
+      "title": "Google docstring sections are mostly missing on the public API, and the checks that would catch it are switched off",
+      "theme": "docstrings-types",
+      "evidence": [
+        "tooling: Args: present on 97/297 public functions/methods with params; Returns:/Yields: missing on 278 value-returning public callables; Raises: present on 20/78 that raise",
+        "dattri_llm/attribution/algorithm/kronecker.py:227-246 \u2014 abstract public KroneckerAttributor.fit_factors(train_source, fisher_acc) -> dict: prose only, no Args/Returns",
+        "dattri_llm/gradient/ops/dot.py:423-430 \u2014 exported ops.dot(f1, f2, layer_type, include_bias) has a one-line docstring and no Args/Returns",
+        "dattri_llm/attribution/algorithm/adamw_influence.py:435-444 \u2014 public attribute(train_dataset, test_dataset, *, hook_config, verbose, **kwargs) documented by one line",
+        "pyproject.toml:77-78 \u2014 DOC201 (missing Returns) and DOC501 (missing Raises) ignored; pyproject.toml:130-131 google convention only enables D417 for Args sections that already exist",
+        ".darglint:3 \u2014 strictness = long (accepts docstrings without sections); darglint is run only by PR comment (.github/workflows/darglint-on-comment.yml:17,58, unpinned `pip install darglint`) or `make darglint` (Makefile:14-17, marked optional)"
+      ],
+      "severity": "med",
+      "effort": "L",
+      "fix": "Add Args/Returns/Raises sections to every symbol reachable from dattri_llm.__all__ and the subpackage __all__ lists first (attributors' attribute/attribute_from_cache/cache, HookManager, GradientStorageManager, ops.*). Then remove DOC201/DOC501 from the global ignore, or keep them ignored only via per-file-ignores for private kernels. Replace the unmaintained darglint (.darglint, workflow, Makefile target) with ruff's pydoclint DOC rules so CI enforces it on every push.",
+      "overlaps": null
+    },
+    {
+      "id": "R4-3",
+      "title": "Enumerated string options are typed as bare `str` instead of `Literal` aliases",
+      "theme": "docstrings-types",
+      "evidence": [
+        "tooling: 47 public parameters typed `str = \"<mode>\"`: attribution_granularity\u00d79, mode\u00d79, loss_reduction\u00d77, hessian_mode\u00d74, propagation\u00d73, capture_style\u00d74, residency\u00d72, \u2026",
+        "dattri_llm/attribution/base.py:710,800,1047 \u2014 attribution_granularity: str = \"instance\"",
+        "dattri_llm/attribution/algorithm/adamw_influence.py:231 \u2014 loss_reduction: str = \"mean\"",
+        "dattri_llm/gradient/hooks/config.py:309 \u2014 capture_style: str = \"factorized\" (also hooks.py:186, gradient.py:558, ops/projection.py:886)",
+        "dattri_llm/gradient/gradient.py:15-16 \u2014 the codebase already defines Literal aliases (GradientRepresentation, Indexing), and gradient.py:685 uses Literal[\"batch\", \"token\"]"
+      ],
+      "severity": "low",
+      "effort": "M",
+      "fix": "Define Literal aliases next to GradientRepresentation (for example AttributionGranularity = Literal[\"instance\", \"token\"], LossReduction, CaptureStyle, HessianMode, Propagation, CacheResidency) and use them in the public signatures, keeping the runtime validation. Type checkers and IDEs then show and enforce the allowed values.",
+      "overlaps": null
+    },
+    {
+      "id": "R4-4",
+      "title": "No PEP 561 py.typed marker, so the package's near-complete type hints are ignored downstream",
+      "theme": "docstrings-types",
+      "evidence": [
+        "tooling: public callables have fully annotated params 412/426 and annotated returns 426/426",
+        "dattri_llm/ \u2014 no py.typed file anywhere in the tree (find . -name py.typed \u2192 none)",
+        "pyproject.toml:44-45 \u2014 only [tool.setuptools.packages.find]; no package-data entry that would ship a marker",
+        "CLAUDE.md:55-56 \u2014 the project's stated style is 'type hints on every function'"
+      ],
+      "severity": "med",
+      "effort": "S",
+      "fix": "Add an empty dattri_llm/py.typed and `[tool.setuptools.package-data] dattri_llm = [\"py.typed\"]` (plus the `Typing :: Typed` classifier, see R4-7), so mypy/pyright use the inline annotations for installed dattri-llm.",
+      "overlaps": null
+    },
+    {
+      "id": "R4-5",
+      "title": "Lazy top-level exports are invisible to type checkers and IDEs (module __getattr__ -> object, no TYPE_CHECKING imports)",
+      "theme": "api-surface",
+      "evidence": [
+        "dattri_llm/__init__.py:40-57 \u2014 14 advertised names (all attributors, AttributionArguments, AttributionTask, AttributionScore, GradientStreamer, DiskGradientSource) exist only as strings in _LAZY_EXPORTS",
+        "dattri_llm/__init__.py:95-99 \u2014 `def __getattr__(name: str) -> object` resolves them at runtime, so static analysis types `from dattri_llm import TracInAttributor` as `object` or unresolved; the result is also never cached in globals()",
+        "README.md:35,131,145 \u2014 the documented entry point is exactly `from dattri_llm import AttributionArguments, TracInAttributor`",
+        "pyproject.toml:125-128 \u2014 F822 has to be suppressed because __all__ names are undefined at module level"
+      ],
+      "severity": "med",
+      "effort": "S",
+      "fix": "Add an `if TYPE_CHECKING:` block in dattri_llm/__init__.py that imports the 14 lazy names from their modules (no runtime cost, which keeps the torch-only import). Optionally cache in __getattr__ (`value = getattr(import_module(module), name); globals()[name] = value`). This follows PEP 562 lazy-loading practice (for example scientific-python lazy_loader's stub approach).",
+      "overlaps": null
+    },
+    {
+      "id": "R4-6",
+      "title": "tqdm is a hard runtime import but is not a declared dependency",
+      "theme": "repo-hygiene",
+      "evidence": [
+        "dattri_llm/gradient/datasets.py:16 \u2014 module-level `from tqdm.auto import tqdm`",
+        "dattri_llm/attribution/algorithm/trajectory.py:33 \u2014 module-level `from tqdm.auto import tqdm` (base of AdamW-influence and DVEmb)",
+        "dattri_llm/gradient/streaming.py:50 and attribution/algorithm/kronecker.py:61 \u2014 import dattri_llm.gradient.datasets, so every attributor import pulls in tqdm; streaming.py:1281 also imports it lazily",
+        "pyproject.toml:13-15 \u2014 dependencies = [\"torch>=2.1\"] only; tqdm is in no extra (lines 17-42) and is satisfied only transitively (for example via transformers)"
+      ],
+      "severity": "med",
+      "effort": "S",
+      "fix": "Declare `tqdm>=4` in [project].dependencies (it is used on the disk-attribution path that the README presents as not needing transformers), or move the imports inside the verbose branches and add tqdm to the relevant extra.",
+      "overlaps": [
+        "H3"
+      ]
+    },
+    {
+      "id": "R4-7",
+      "title": "pyproject [project] metadata is minimal: no readme, authors, urls, classifiers or keywords",
+      "theme": "repo-hygiene",
+      "evidence": [
+        "pyproject.toml:6-15 \u2014 [project] has only name, version, description, license, license-files, requires-python, dependencies",
+        "no `readme = \"README.md\"`, so a built sdist/wheel has an empty long description",
+        "no [project.urls] (Homepage/Repository/Issues) although README.md:98 (git clone) points at github.com/TRAIS-Lab/dattri-llm",
+        "no classifiers (Python 3.10+ versions, Typing :: Typed, Topic :: Scientific/Engineering :: Artificial Intelligence), no authors/keywords"
+      ],
+      "severity": "low",
+      "effort": "S",
+      "fix": "Add readme = \"README.md\", authors = [{name = \"TRAIS Lab\"}] (or the maintainers), keywords, [project.urls] Homepage/Repository/Issues, and classifiers for the supported Python versions, Development Status, Intended Audience :: Science/Research, Topic :: Scientific/Engineering :: Artificial Intelligence, and Typing :: Typed. Omit the License :: classifier, which PEP 639 deprecates when `license` is an SPDX string.",
+      "overlaps": null
+    },
+    {
+      "id": "R4-8",
+      "title": "Version string is duplicated between pyproject.toml and __init__.py",
+      "theme": "repo-hygiene",
+      "evidence": [
+        "pyproject.toml:8 \u2014 version = \"0.1.0\"",
+        "dattri_llm/__init__.py:38 \u2014 __version__ = \"0.1.0\" hardcoded separately"
+      ],
+      "severity": "low",
+      "effort": "S",
+      "fix": "Keep one source of truth: either `__version__ = importlib.metadata.version(\"dattri-llm\")` in __init__.py, or `dynamic = [\"version\"]` with `[tool.setuptools.dynamic] version = {attr = \"dattri_llm.__version__\"}`.",
+      "overlaps": null
+    },
+    {
+      "id": "R4-9",
+      "title": "No CONTRIBUTING.md or CHANGELOG.md; the developer workflow is documented only in the agent file CLAUDE.md",
+      "theme": "repo-hygiene",
+      "evidence": [
+        "repo root (tip 7f967a5) \u2014 no CONTRIBUTING*, CHANGELOG*, or HISTORY* files",
+        "CLAUDE.md:40-49 \u2014 the only description of `make check`, `make test`, the `pytest -m \"not gpu\"` marker and 'run make check before every commit'",
+        "CLAUDE.md:83-90 \u2014 the only description of CI and PR-comment triggers (`run gpu test`, `run expensive examples`, `run darglint`)",
+        "README.md headings (1,63,93,158,194,204,227,233) \u2014 no Development/Contributing section"
+      ],
+      "severity": "low",
+      "effort": "S",
+      "fix": "Add CONTRIBUTING.md (dev install `pip install -e \".[dev]\"`, `make check`, test markers, docstring/type-hint conventions, PR-comment CI triggers) with a one-line link from the README, and a Keep-a-Changelog CHANGELOG.md starting at 0.1.0 (including the new GRPO example).",
+      "overlaps": null
+    },
+    {
+      "id": "R4-10",
+      "title": "Layer-filter argument is named `layer_name` (singular) in the attribution API but `layer_names` in the capture layer",
+      "theme": "naming",
+      "evidence": [
+        "dattri_llm/attribution/base.py:165,360,392,1043 \u2014 `layer_name: str | list[str] | None` described as 'Restrict scoring to this subset of the stored layers'",
+        "dattri_llm/attribution/algorithm/kronecker.py:911,1100,1280 and gradient/streaming.py:122,1186 \u2014 same singular name for a list",
+        "dattri_llm/attribution/score.py:81 \u2014 AttributionScore.layer_name: list[str] | None",
+        "dattri_llm/gradient/hooks/hooks.py:180,814,899 \u2014 `layer_names: set[str] | None`; gradient/gradient.py:650 Gradient.select_layers(layer_names: Iterable[str])"
+      ],
+      "severity": "med",
+      "effort": "M",
+      "fix": "Rename the plural-valued parameter and field to `layer_names` across the attribution and streaming API. Accept `layer_name=` for one release through a keyword shim that emits a DeprecationWarning (and a matching AttributionScore property alias).",
+      "overlaps": null
+    },
+    {
+      "id": "R4-11",
+      "title": "DVEmb reimplements contextlib.nullcontext as a lowercase class with a naming-rule suppression",
+      "theme": "structure-duplication",
+      "evidence": [
+        "dattri_llm/attribution/algorithm/dvemb.py:121-126 \u2014 `class _null_context:  # noqa: N801` with no-op __enter__/__exit__",
+        "dattri_llm/attribution/algorithm/dvemb.py:678 \u2014 only use: `else _null_context(),`",
+        "dattri_llm/gradient/streaming.py:1082 \u2014 the same package already uses `contextlib.nullcontext()`"
+      ],
+      "severity": "low",
+      "effort": "S",
+      "fix": "Delete _null_context and use `contextlib.nullcontext()` at dvemb.py:678 (removing the noqa).",
+      "overlaps": null
+    },
+    {
+      "id": "R4-12",
+      "title": "Repeated magic-number defaults and unnamed epsilons in the attribution kernels",
+      "theme": "structure-duplication",
+      "evidence": [
+        "dattri_llm/attribution/algorithm/kronecker.py:198,1004,1105,1276 \u2014 default damping literal 1e-3 repeated four times",
+        "dattri_llm/attribution/algorithm/kronecker.py:200,910,1006,1110,1279 \u2014 direct_fim_max_params default 4096 repeated five times",
+        "dattri_llm/attribution/algorithm/tracin.py:107,125 \u2014 cosine denominator `+ 1e-8` duplicated inline; less.py:69 `clamp_min(1e-16)`",
+        "dattri_llm/gradient/ops/optimizer.py:111-112 \u2014 NAdam's 0.96 momentum-decay base inlined twice",
+        "pyproject.toml:92 \u2014 PLR2004 is ignored globally with the rationale 'tensor rank / dimension literals', but these are hyperparameters, not ranks"
+      ],
+      "severity": "low",
+      "effort": "S",
+      "fix": "Introduce module constants (DEFAULT_DAMPING = 1e-3, DEFAULT_DIRECT_FIM_MAX_PARAMS = 4096 in kronecker.py; _COSINE_EPS in tracin.py; _NADAM_DECAY_BASE = 0.96 in ops/optimizer.py) and reference them in the signatures and bodies. That keeps the defaults in sync and self-documenting.",
+      "overlaps": null
+    },
+    {
+      "id": "R4-13",
+      "title": "Very large modules and functions, with the complexity rules disabled globally rather than per-file",
+      "theme": "structure-duplication",
+      "evidence": [
+        "tooling: 10 modules >900 lines \u2014 gradient/hooks/manager.py 1711, attribution/algorithm/kronecker.py 1593, gradient/callbacks/data_selection_callback.py 1348, gradient/streaming.py 1324, gradient/storage_manager.py 1290, gradient/gradient.py 1221, attribution/base.py 1115",
+        "dattri_llm/gradient/hooks/hooks.py:178 \u2014 register_linear_io_hooks is 242 lines; attribution/algorithm/dvemb.py:700 attribute_from_cache 198; attribution/utils.py:238 score_sources 197; attribution/algorithm/kronecker.py:1094 attribute_from_cache 169; gradient/streaming.py:441 __init__ 161; gradient/hooks/manager.py:197 HookManager.__init__ 150 (19 functions >100 lines in total)",
+        "pyproject.toml:73,93-95 \u2014 C901, PLR0912, PLR0914, PLR0915 ignored for the whole package (rationale: 'dispatch/assembly kernels')"
+      ],
+      "severity": "low",
+      "effort": "L",
+      "fix": "Move the C901/PLR0912/PLR0914/PLR0915 ignores from the global list into extend-per-file-ignores for the specific kernel modules, so new code elsewhere is checked. Split the worst offenders along existing seams: register_linear_io_hooks into _make_forward_hook/_make_backward_hook module helpers, and HookManager's registration vs assembly halves into separate modules.",
+      "overlaps": null
+    },
+    {
+      "id": "R4-14",
+      "title": "User-facing module_kwargs builders (rms_norm_module_kwargs etc.) are not exported or listed by dattri_llm.utils",
+      "theme": "api-surface",
+      "evidence": [
+        "dattri_llm/utils/module.py:78-439 \u2014 18 public keyword-only builders (linear_, embedding_, conv*_, layer_norm_, rms_norm_, group_norm_, instance_norm*_module_kwargs) with full Google docstrings",
+        "dattri_llm/utils/__init__.py:1-12 \u2014 package docstring lists hashing/distributed/autograd/cache but not utils.module; __init__.py:31-43 __all__ omits every builder",
+        "examples/projection/gradient_projection.py:17 and examples/projection/README.md:108 \u2014 users must deep-import `from dattri_llm.utils.module import rms_norm_module_kwargs`",
+        "dattri_llm/gradient/hooks/config.py:171-178 \u2014 the HookManagerConfig RMSNorm example spells the raw dict, while utils/module.py:10-18 recommends the builder"
+      ],
+      "severity": "low",
+      "effort": "S",
+      "fix": "Re-export the builders from dattri_llm.utils (add them to __all__), list utils.module in the package docstring, and make the HookManagerConfig docstring example use rms_norm_module_kwargs(...) like module.py does.",
+      "overlaps": [
+        "R1-C3",
+        "R2-4",
+        "H1"
+      ]
+    },
+    {
+      "id": "R4-15",
+      "title": "Internal helpers carry public names in modules that define no __all__",
+      "theme": "api-surface",
+      "evidence": [
+        "tooling: 0 of 42 non-__init__ modules define __all__; 49 module-level public defs are in no __all__",
+        "dattri_llm/gradient/streaming.py:1076 autocast_for and :1087 move_batch \u2014 used only inside streaming.py (824,1073,1290,1294), not exported, no underscore",
+        "dattri_llm/gradient/datasets.py:29 identity_collate \u2014 used only inside datasets.py",
+        "contrast: the same package does use underscores for internals (e.g. utils/module.py `_conv_module_kwargs`, `_instance_norm_module_kwargs`)"
+      ],
+      "severity": "low",
+      "effort": "S",
+      "fix": "Prefix module-internal helpers with an underscore (_autocast_for, _move_batch, _identity_collate, \u2026), or add a module-level __all__ to each implementation module listing its intended public names, so the private/public boundary is explicit (PEP 8 'Public and internal interfaces').",
+      "overlaps": null
+    },
+    {
+      "id": "R4-16",
+      "title": "Examples bypass the advertised top-level API: deep implementation imports and a sys.path hack in every script",
+      "theme": "api-surface",
+      "evidence": [
+        "examples/attribution/attribution_from_disk.py:11 \u2014 `sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))`; the same line is in all 11 example scripts (including the new examples/trainers/trl_grpo_trainer.py:31)",
+        "examples/attribution/attribution_from_disk.py:17,21 \u2014 `from dattri_llm.attribution.algorithm.tracin import TracInAttributor`, `from dattri_llm.gradient.storage_manager import GradientStorageManager`",
+        "examples/trainers/trl_grpo_trainer.py:44-46 \u2014 imports HookManager/HookManagerConfig/GradientStorageManager from submodules",
+        "README.md:35,111,131,145 and dattri_llm/__init__.py:3-8 \u2014 document `from dattri_llm import HookManager, HookManagerConfig, OffloadCallback, TracInAttributor, \u2026`; README.md:97-101 installs with `pip install -e .`"
+      ],
+      "severity": "low",
+      "effort": "S",
+      "fix": "Switch the examples to the public imports (`from dattri_llm import HookManager, HookManagerConfig, GradientStorageManager, TracInAttributor, \u2026`) and drop the sys.path.insert lines, relying on the README's `pip install -e .`. The examples then show the supported API surface and fail loudly if an export regresses.",
+      "overlaps": [
+        "H3"
+      ]
+    }
+  ]
+}
