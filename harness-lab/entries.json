@@ -1,8 +1,58 @@
 {
-  "updatedAt": "2026-09-24T04:33:26Z",
+  "updatedAt": "2026-09-26T14:47:25Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "launchd-calendar-interval-wake-catchup-2026-09-26",
+      "date": "2026-09-26",
+      "displayDate": "Sep 26, 2026",
+      "title": "launchd StartCalendarInterval \u2014 wake catch-up, but power-off still skips",
+      "href": "https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html",
+      "why": "Apple: a launchd job scheduled with StartCalendarInterval runs when the Mac wakes if it slept through the slot (missed slots coalesce into one run), but is skipped if the Mac was off; cron and other launchd jobs simply skip. Mac-side routines should be StartCalendarInterval agents that are idempotent per date, with the box-side missed-runs ledger as the net for power-off/offline days (the 2026-09-25 gap). appliedToPlaybook false.",
+      "source": "packs/2026-09-26-web-harness-lab-pack",
+      "tags": [
+        "routines",
+        "Mac CLI",
+        "catch-up",
+        "launchd"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "codex-exec-last-message-proof-login-status-2026-09-26",
+      "date": "2026-09-26",
+      "displayDate": "Sep 26, 2026",
+      "title": "codex exec \u2014 --json + --output-last-message proof, exec resume --last, login status probe",
+      "href": "https://developers.openai.com/codex/cli/reference.md",
+      "why": "Codex CLI reference: pair --json with --output-last-message for unattended runs (event stream + final-summary file), continue with codex exec resume --last (cwd-scoped; --all across dirs) instead of relaunching, and codex login status exits 0 when credentials are present. Gives Astra seats a file proof artifact for vault notes, a watchdog resume path, and an exit-code auth probe for the usage dashboard. appliedToPlaybook false.",
+      "source": "packs/2026-09-26-web-harness-lab-pack",
+      "tags": [
+        "Codex",
+        "Mac CLI",
+        "proof",
+        "usage",
+        "honesty"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-print-bg-wait-ceiling-sigint-2026-09-26",
+      "date": "2026-09-26",
+      "displayDate": "Sep 26, 2026",
+      "title": "claude -p drops quiet subagents at 10 min; SIGTERM leaves the turn unfinished",
+      "href": "https://code.claude.com/docs/en/headless",
+      "why": "Claude Code headless docs: -p waits for background subagents but drops partial results after 10 minutes of idle waiting (CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS), and SIGTERM exits 143 with no result for the in-progress turn while SIGINT ends it cleanly. grok-tmux-watchdog flags stale at 540s, just under that ceiling \u2014 treat the 540\u2013600s window explicitly and send SIGINT before any relaunch/resume. appliedToPlaybook false.",
+      "source": "packs/2026-09-26-web-harness-lab-pack",
+      "tags": [
+        "watchdog",
+        "tmux",
+        "Claude",
+        "Mac CLI",
+        "EM"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "workmux-resurrect-crash-recovery-2026-09-24",
       "date": "2026-09-24",
