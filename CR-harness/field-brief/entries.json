@@ -1,11 +1,129 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-09-24T03:15:29-04:00",
+  "updatedAt": "2026-09-26T10:48:43-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-09-24.html",
+  "briefEdition": "briefs/2026-09-25.html",
   "entries": [
+    {
+      "id": "reflex-jev-selective-control",
+      "title": "REFLEX: Jev typed-choice gate + strong-LLM fallback, measured",
+      "date": "2026-09-25",
+      "summary": "Wu & Lim (NTU), arXiv:2609.26532 (submitted 22 Sep 2026). REFLEX uses Jev (jev-1.13.0) as a typed decision layer returning (choice, confidence); execute when c≥τ and executable, else fall back to a strong LLM. Frozen 100-task REFLEX-Sim: 95% success vs 88% strong-only with 72.7% fewer strong-model calls at τ=0.5; 66–72% call reduction across Qwen3.8-Max / Kimi K3 / DeepSeek-V4-Pro fallbacks. Honest limits: on BFCL, choosing which function is 98.4% accurate but deciding whether to call any is 52.0%; on τ²-bench a cheap Flash self-escalation cascade stays competitive. Larger action sets (K 10→50) and near-valid competitors reduce accuracy.",
+      "tags": [
+        "Jev",
+        "confidence-gate",
+        "decision_point",
+        "legal_actions",
+        "abstain",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.26532",
+        "https://openrouter.ai/typesafe/jev-1.13"
+      ],
+      "why_it_matters_for_cr": "First public controlled evaluation of exactly the jev-gameplay-decision-router idea: typed choice over an allowed set + confidence floor + fallback. Gives CR a metric template (GMR, risk–coverage/AURC, strong calls per success, commit-vs-defer error split) and a warning that legal_actions size and near-valid alternatives degrade the gate.",
+      "status": "candidate_intent",
+      "thin": false
+    },
+    {
+      "id": "action-class-calibration-gar",
+      "title": "Action-class diagnostic: Acc ≤ GAR exposes act/ask/refuse miscalibration",
+      "date": "2026-09-25",
+      "summary": "Zhao et al., arXiv:2609.00949 (1 Sep 2026). Decomposes multi-turn tool-calling failures into action-class miscalibration vs execution failure over TOOL_CALL/ASK/REFUSE/CONFIRM, with an upper bound Acc ≤ Gold Action Recall. Bound violations reveal state graders that mask wrong action classes; context-only perturbations can move accuracy +11.5 vs −21.0 pp across families on the same scenario.",
+      "tags": [
+        "eval",
+        "calibration",
+        "abstain",
+        "decision_point",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.00949"
+      ],
+      "why_it_matters_for_cr": "CR decision_points also have action classes (play card / wait-noop / escalate). Logging a gold/expected class separately from the chosen action id lets ETL catch outcome graders that reward lucky wins from the wrong class of decision.",
+      "status": "candidate_intent",
+      "thin": false
+    },
+    {
+      "id": "debate-unanimity-collapse",
+      "title": "One debate round erases the disagreement verification needs",
+      "date": "2026-09-25",
+      "summary": "Shu, arXiv:2609.26145. 7-judge heterogeneous panel on 600 code-correctness candidates: unanimity jumps 39.5% → 95.2% after one debate round while accuracy moves <1 pt; 96.3% of verdict flips follow the displayed peer majority; by round 3 every wrong decision is unanimous. Labels alone (no reasoning) reproduce 91.5% of the collapse. Design rule: verify before any peer exposure; never treat post-debate unanimity as independent evidence.",
+      "tags": [
+        "dual-LGTM",
+        "multi-agent",
+        "code-review",
+        "verification",
+        "fleet"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.26145",
+        "https://arxiv.org/abs/2609.08016"
+      ],
+      "why_it_matters_for_cr": "Strong empirical support for keeping fleet dual-LGTM blind (no reviewer sees the other’s verdict before committing) and for running execution checks before review — complements Adversarial Review’s typed disagreement.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "gameasg-legal-action-spec",
+      "title": "GameASG-Bench: declare legal actions + rejection behavior before generation",
+      "date": "2026-09-25",
+      "summary": "Zhang et al., arXiv:2609.21293 (18 Sep 2026). 47 browser-game generation tasks across 12 genres; each fixes an evaluation interface up front (legal starting scenarios, player-level actions, stable snapshots, rejection behavior, invariants) with static L1 and browser-run L2 checks. Best mean L2 pass 93.2% but best strict task success only 55.3% (26/47); two harnesses each got 18 strict successes but overlapped on only 10.",
+      "tags": [
+        "games",
+        "legal_actions",
+        "eval",
+        "harness",
+        "spec"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.21293"
+      ],
+      "why_it_matters_for_cr": "Spec-first pattern for Mini Royale: write the legal_actions/rejection/invariant contract as an executable check suite so sim or cockpit changes can’t silently break it; also a reminder that average check pass rates hide per-task compliance gaps.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "agenticsts-bounded-memory",
+      "title": "AgenticSTS: bounded typed-retrieval memory for Slay the Spire 2",
+      "date": "2026-09-25",
+      "summary": "Cheng et al., arXiv:2607.02255 (Jul 2026; new to this brief, not new this week). Every decision built from a fresh message assembled by typed retrieval — no raw cross-decision transcript — so each memory layer can be ablated. Skill layer: 6/10 wins vs 3/10 no-store baseline (directional, Fisher p≈0.37). Releases 298 trajectories, frozen memory/skill snapshots and prompt records.",
+      "tags": [
+        "card-game",
+        "memory",
+        "decision_point",
+        "eval",
+        "CR-adjacent"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2607.02255",
+        "https://alayalab.github.io/AgenticSTS/"
+      ],
+      "why_it_matters_for_cr": "Concrete bounded-prompt contract for long matches with many decision_points; pairs with MemArbiter. Their honest small-n reporting is a model for CR’s own ablation write-ups.",
+      "status": "idea",
+      "thin": false
+    },
+    {
+      "id": "vam-verbalized-action-masking",
+      "title": "VAM: verbalized action masking for LLM RL post-training (chess)",
+      "date": "2026-09-25",
+      "summary": "Zhang, Wang, Du et al., arXiv:2602.16833 (Feb 2026; background, not new this week). Puts the legal-move mask in the prompt, enforces it with a strict parser/verifier and a fixed penalty for out-of-mask actions, and adds iterative action-space pruning during GRPO. Reports better learning efficiency and final play (puzzles, ACPL) than strong baselines.",
+      "tags": [
+        "legal_actions",
+        "masking",
+        "RL",
+        "games",
+        "chess"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2602.16833"
+      ],
+      "why_it_matters_for_cr": "If CR ever fine-tunes a policy, legal_actions already give the verbalized mask VAM needs; the out-of-mask penalty and parser design are reusable even for prompt-only evals.",
+      "status": "idea",
+      "thin": true
+    },
     {
       "id": "jev-gameplay-decision-router",
       "title": "Jev at decision_point: typed Choice/Noul gate over legal_actions",

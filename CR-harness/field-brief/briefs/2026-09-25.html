@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief deep edition 2026-09-25 — CR-Harness and agent-control scout ideas.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-09-25 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-09-25.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-09-25 · ET</p>
+    <h1>Field Brief — confidence gates, action classes, blind review</h1>
+    <p class="lede">
+      Catch-up edition for Fri 2026-09-25 (run 2026-09-26). The strongest new public items for
+      <strong>CR-Harness</strong> (<code>decision_point</code>, <code>legal_actions</code>, ETL/eval) cluster around one theme:
+      <em>when should an agent act, defer, or abstain — and how do we measure it honestly?</em>
+      Citations are public arXiv / project pages only — no private CR dumps.
+    </p>
+    <p class="zh">补跑 9 月 25 日简报 · 五条深读 · 两条标为 intent 候选。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-09-24.html">2026-09-24</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout">
+    <strong>Honesty.</strong> Populated from live WebSearch/WebFetch; every arXiv id below was opened and its abstract checked.
+    Genuinely new this week: REFLEX (22 Sep), GameASG-Bench (18 Sep). Others are recent (Aug–Sep) or older background
+    that is new to this brief — dates are stated per item. Numbers are quoted from the papers, not re-run.
+    Two items are marked <span class="pill">candidate_intent</span> — human gate before any <code>intent.md</code>.
+  </div>
+
+  <section>
+    <h2>1. REFLEX — a measured Jev confidence gate <span class="pill">candidate_intent</span></h2>
+    <p><strong>What it is.</strong> Wu &amp; Lim (NTU), <a href="https://arxiv.org/abs/2609.26532" rel="noopener noreferrer">arXiv:2609.26532</a>
+      (submitted 22 Sep 2026). A typed decision model (Jev, <code>jev-1.13.0</code>) returns a bounded choice and confidence
+      from an allowed set; the agent executes when <code>c ≥ τ</code> and the action is executable, otherwise it calls a strong LLM.</p>
+    <p><strong>Evidence.</strong> On a frozen 100-task REFLEX-Sim: 95% success vs 88% strong-only, with 72.7% fewer strong-model
+      calls at τ=0.5 (1.12 vs 4.10 per task). Across Qwen3.8-Max, Kimi K3 and DeepSeek-V4-Pro fallbacks, strong calls drop 66–72%;
+      the same 66 tasks are handled fully by the gate with zero failures. Limits the authors report themselves: on BFCL, choosing
+      <em>which</em> function is 98.4% accurate but deciding <em>whether</em> to call one is 52.0%; wrong calls averaged 0.778
+      confidence; on τ²-bench a cheap self-escalation cascade was cheaper and not significantly worse. Increasing the action set
+      from K=10 to 50 cost 6.7 pts accuracy; near-valid competitors shift errors between irreversible commit and deferral.</p>
+    <p><strong>Why it matters for CR.</strong> This is the public controlled test of our <code>jev-gameplay-decision-router</code>
+      idea. Mini Royale’s <code>legal_actions</code> list is exactly the “typed allowed set”, and a noop/wait action is the
+      “defer” competitor.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Adopt REFLEX’s metrics in CR ETL: coverage and risk at τ, AURC vs random escalation, strong calls per <em>successful</em> match.</li>
+      <li>Bucket decision_points by legal-action count (K) and log whether errors were commits or deferrals.</li>
+      <li>Always include a cheap-LLM self-escalation baseline (their B3) before claiming the gate helps.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. Action-class calibration — Acc ≤ GAR <span class="pill">candidate_intent</span></h2>
+    <p><strong>What it is.</strong> Zhao et al., <a href="https://arxiv.org/abs/2609.00949" rel="noopener noreferrer">arXiv:2609.00949</a>
+      (1 Sep 2026). A diagnostic that splits multi-turn tool-calling failures into <em>action-class miscalibration</em> (picking
+      TOOL_CALL when it should ASK/REFUSE/CONFIRM) and <em>execution failure</em> within the right class, using the bound
+      Acc ≤ Gold Action Recall.</p>
+    <p><strong>Evidence.</strong> Bound violations (Acc &gt; GAR) expose state graders that pass trajectories with the wrong action class;
+      the authors report this inflates standing for heavily tool-trained families. Context-only perturbations moved accuracy by
+      up to +11.5 vs −21.0 pp in opposite directions across families on the same scenario.</p>
+    <p><strong>Why it matters for CR.</strong> Outcome-only scoring (crowns, win/loss) can reward a “lucky” decision of the wrong kind.
+      CR decision_points also have classes: deploy, hold/noop, escalate.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Add an <code>action_class</code> field (deploy / hold / escalate) to decision_point ETL rows, separate from the action id.</li>
+      <li>On a small labeled set, report class recall next to match outcome; flag runs where outcome looks good but class recall is low.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Debate erases dissent — keep dual LGTM blind <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Shu, <a href="https://arxiv.org/abs/2609.26145" rel="noopener noreferrer">arXiv:2609.26145</a>,
+      “Unanimity Without Persuasion”. A 7-judge heterogeneous LLM panel judges 600 code-correctness candidates, first blind and then over three debate rounds.</p>
+    <p><strong>Evidence.</strong> Unanimity jumps from 39.5% to 95.2% after round 1 while accuracy moves by less than one point;
+      96.3% of verdict flips follow the displayed peer majority; by round 3 every wrong decision is unanimous. Showing labels without
+      reasoning reproduces 91.5% of the collapse. Related: <a href="https://arxiv.org/abs/2609.08016" rel="noopener noreferrer">arXiv:2609.08016</a>
+      finds debate changes what agents say but shows no measurable final-answer quality gain in their setup.</p>
+    <p><strong>Why it matters for CR.</strong> Backs up the fleet rule that the two dual-LGTM seats review blind, and argues for running execution checks
+      (tests, sim replays) <em>before</em> any reviewer sees another’s verdict. Pairs with Adversarial Review’s typed disagreement (2026-09-24 brief).</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>In review protocol notes: record each seat’s verdict before exposure; treat post-exposure agreement as one vote, not two.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. GameASG-Bench — spec the legal-action contract first <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Zhang et al., <a href="https://arxiv.org/abs/2609.21293" rel="noopener noreferrer">arXiv:2609.21293</a>
+      (18 Sep 2026). A benchmark for agents that <em>generate</em> browser games. Each task declares its evaluation interface
+      before generation: legal starting scenarios, player-level actions, stable snapshots, rejection behavior, invariants. Static L1 checks and browser-run L2 checks then score it.</p>
+    <p><strong>Evidence.</strong> 47 tasks across 12 genres, nine agent stacks. Best mean L2 check pass rate 93.2%, but best strict task
+      success only 55.3% (26/47). Two harnesses each reached 18 strict successes, but only 10 tasks overlapped.</p>
+    <p><strong>Why it matters for CR.</strong> Not an LLM-plays-games paper, but its interface spec maps closely onto what the Mini Royale sim
+      must guarantee to agents: which actions are legal, how illegal ones are rejected, which invariants hold.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Write CR’s <code>legal_actions</code> / rejection / invariant contract as a small executable check suite run on sim changes.</li>
+      <li>Report per-task strict pass, not just mean check pass, in any CR regression table.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>5. AgenticSTS — bounded memory for long card-game runs <span class="pill watch">idea</span></h2>
+    <p><strong>What it is.</strong> Cheng et al., <a href="https://arxiv.org/abs/2607.02255" rel="noopener noreferrer">arXiv:2607.02255</a>
+      (Jul 2026; new to this brief) · <a href="https://alayalab.github.io/AgenticSTS/" rel="noopener noreferrer">project page</a>.
+      In Slay the Spire 2, every decision is made from a fresh message assembled by typed retrieval, with no raw cross-decision transcript, so each memory layer can be ablated.</p>
+    <p><strong>Evidence.</strong> Adding triggered strategic skills: 6/10 wins vs 3/10 for a no-store baseline, which the authors call directional
+      (Fisher p≈0.37). Releases 298 trajectories with frozen memory/skill snapshots and prompt records.</p>
+    <p><strong>Why it matters for CR.</strong> A concrete bounded-prompt contract for matches with many decision_points; complements MemArbiter.
+      Their small-n honesty is the right tone for CR ablation write-ups.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Prototype a fixed-size decision_point prompt (state + typed recall of last N plays + one skill slot) and compare against the full-history prompt.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Also carded (lighter)</h2>
+    <ul>
+      <li><strong>VAM</strong>: verbalized action masking for LLM RL on chess, <a href="https://arxiv.org/abs/2602.16833" rel="noopener noreferrer">arXiv:2602.16833</a> (Feb 2026, background, marked thin for recency).</li>
+      <li>Seen, not carded: <a href="https://arxiv.org/abs/2609.24890" rel="noopener noreferrer">OSWorld-Pro</a> (process/subgoal eval for computer-use agents) and
+        <a href="https://arxiv.org/abs/2607.10059" rel="noopener noreferrer">AgentAbstain</a> (paired act/abstain tasks). Both are relevant to eval design but not CR-specific.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <ol>
+      <li><strong>reflex-jev-selective-control</strong>: REFLEX-style gate metrics and a B3 baseline for the CR decision_point router.</li>
+      <li><strong>action-class-calibration-gar</strong>: an <code>action_class</code> ETL field plus class-recall reporting.</li>
+    </ol>
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON:
+      <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-09-25 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-09-24.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>
