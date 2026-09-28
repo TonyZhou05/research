@@ -5,7 +5,7 @@
   "hubLocalOnly": true,
   "upstreamRepo": "YizhiSong/FriesTrader",
   "upstreamRepoUrl": "https://github.com/YizhiSong/FriesTrader",
-  "updatedAt": "2026-09-27 ET",
+  "updatedAt": "2026-09-27 ~23:20 ET",
   "items": [
     {
       "number": "F1",
@@ -21,10 +21,10 @@
     },
     {
       "number": "F2",
-      "state": "open",
+      "state": "done",
       "owner": "Tongli",
       "title": "Open a Robinhood Agentic account",
-      "notes": "Separate, dedicated Agentic account with a small budget reserved for the agent. Opened from a desktop during MCP authentication. Only Tongli can do this.",
+      "notes": "Dedicated Agentic account opened by Tongli. Awaiting funding (see F9).",
       "labels": [
         "hub-only",
         "account",
@@ -34,13 +34,39 @@
     },
     {
       "number": "F3",
-      "state": "open",
+      "state": "done",
       "owner": "Tongli + agent",
       "title": "Connect the Robinhood Trading MCP",
-      "notes": "Official MCP over OAuth (no passwords in the repo). Then fill the account placeholders, watchlist and scan in the private repo's risk_rules.json. Never on this hub.",
+      "notes": "Connected via the official MCP over OAuth (no passwords in the repo). Private config filled in the private repo only: account, dedicated watchlist, scan left optional. Never on this hub.",
       "labels": [
         "hub-only",
         "setup"
+      ],
+      "updated_display": "2026-09-27"
+    },
+    {
+      "number": "F8",
+      "state": "open",
+      "owner": "Tongli",
+      "title": "Add symbols to FriesTrader watchlist",
+      "notes": "The dedicated FriesTrader watchlist exists but is empty. Phase A screens this list plus any held positions (no saved scan yet, which is optional).",
+      "labels": [
+        "hub-only",
+        "setup",
+        "tongli"
+      ],
+      "updated_display": "2026-09-27"
+    },
+    {
+      "number": "F9",
+      "state": "open",
+      "owner": "Tongli",
+      "title": "Fund Agentic account",
+      "notes": "Awaiting funding. Amounts are never published on this hub.",
+      "labels": [
+        "hub-only",
+        "account",
+        "tongli"
       ],
       "updated_display": "2026-09-27"
     },
