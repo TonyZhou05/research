@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief deep edition 2026-09-28 — CR-Harness and agent-control scout ideas.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-09-28 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-09-28.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-09-28 · ET</p>
+    <h1>Field Brief — harness rules, contracts, calibration by phase</h1>
+    <p class="lede">
+      Monday edition. The headline is Kaggle/DeepMind’s <strong>Game Arena</strong> technical report, the most detailed public statement
+      of harness policy for LLMs playing games: what the model sees, how illegal actions are handled, and what the fallback is.
+      It sits alongside new work on deterministic action contracts, trajectory calibration and tick-level game-rule checks, all relevant to
+      CR-Harness <code>decision_point</code> / <code>legal_actions</code> / ETL.
+    </p>
+    <p class="zh">周一简报 · 四条深读 · 一条标为 intent 候选。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-09-25.html">2026-09-25</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout">
+    <strong>Honesty.</strong> Every arXiv id below was opened and its abstract checked; Game Arena details come from the paper’s HTML body.
+    Only Game Arena (submitted 25 Sep) is new since the last edition. The others (7–21 Sep) were missed earlier and are new to this brief.
+    To keep the index manageable, five older <em>idea</em> cards were retired (ClashGPT, VAM, Board Game Arena, HarnessDev/Evo-Bench, MemArbiter);
+    no <span class="pill">candidate_intent</span> card was dropped.
+  </div>
+
+  <section>
+    <h2>1. Game Arena: retry and forfeit rules are part of the benchmark <span class="pill">candidate_intent</span></h2>
+    <p><strong>What it is.</strong> Doerschuk-Tiberi et al. (Kaggle + Google DeepMind),
+      <a href="https://arxiv.org/abs/2609.31473" rel="noopener noreferrer">arXiv:2609.31473</a> (25 Sep 2026), with the open harness at
+      <a href="https://github.com/google-deepmind/game_arena" rel="noopener noreferrer">google-deepmind/game_arena</a> and the
+      <a href="https://www.kaggle.com/blog/introducing-game-arena" rel="noopener noreferrer">Kaggle launch post</a>. It covers three pilot environments:
+      Chess (perfect information), Poker (imperfect information) and Werewolf (8-player social deduction).</p>
+    <p><strong>Evidence (from the report).</strong></p>
+    <ul>
+      <li><strong>Chess:</strong> the environment enforces legality. On an invalid move the harness only says it is invalid; the reason and the alternatives
+        are deliberately hidden. The model gets 3 retries, and a 4th failure is a loss. Retries (“rethinks”) are tracked as a reliability metric, and the
+        report finds weaker models make more illegal moves as games progress. 40 games per pair, colour-balanced; Bradley–Terry Elo with bootstrap CIs.</li>
+      <li><strong>Poker:</strong> one retry, then a <em>conservative default</em> (check if no pending bet, otherwise fold). 20,000 hands per pair,
+        900,000 hands in the ten-model round-robin, BB/100 with block-bootstrap CIs.</li>
+      <li><strong>Werewolf:</strong> after the retry cap for parse failures, the harness forces a turn forfeit, which is always legal in that ruleset.</li>
+    </ul>
+    <p><strong>Why it matters for CR.</strong> These are exactly the knobs a Mini Royale harness has at each decision_point: whether to show
+      <code>legal_actions</code> (the chess-text leaderboard does not), how much feedback an illegal action gets, the retry budget, and the fallback
+      (loss, conservative noop, or forfeit). The three games pick three different answers, and each changes what the leaderboard measures.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Write CR’s harness policy as a versioned config (list shown? feedback level, retries, fallback = noop/wait) and stamp it on every ETL row.</li>
+      <li>Log rethink/retry counts by match phase (early, mid, overtime) to check whether CR shows the same late-game degradation.</li>
+      <li>Treat “fallback to noop” as its own outcome in reports so it isn’t hidden inside win rate.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. ContrAgent: one contract for live gating and offline grading <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Xiao, Nuzzo et al., <a href="https://arxiv.org/abs/2609.18128" rel="noopener noreferrer">arXiv:2609.18128</a>
+      (16 Sep 2026). An agent’s tool calls become a trace over checkable predicates; required behavior is written as assume-guarantee contracts in
+      LTL over finite traces and compiled to a DFA.</p>
+    <p><strong>Evidence.</strong> The same DFA gates actions online and evaluates recorded traces offline. On four benchmarks the authors report parity
+      with LLM-judge and rule-based guardrail baselines, deterministic verdicts, and orders-of-magnitude lower per-call latency online.</p>
+    <p><strong>Why it matters for CR.</strong> <code>legal_actions</code> answers “is this move legal now?”. Temporal rules (“don’t retry the same rejected action
+      more than N times”, “don’t leave elixir capped for more than T ticks”) need sequence checks. A single artifact that drives both the cockpit gate
+      and the ETL scorer keeps live and offline verdicts from drifting apart.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Draft 2–3 CR temporal rules as tiny automata, run them offline over existing ETL logs first, and only then consider live gating.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. TC-ECE: calibrate by trajectory checkpoint, not pooled <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Lin et al., <a href="https://arxiv.org/abs/2609.07395" rel="noopener noreferrer">arXiv:2609.07395</a>
+      (7 Sep 2026). A three-axis taxonomy of agent uncertainty plus Trajectory-Checkpoint Expected Calibration Error and a reporting protocol.</p>
+    <p><strong>Evidence.</strong> A counterexample shows step-level calibration does not imply trajectory-level calibration. On real traces (four models,
+      up to a 50-step budget), confidence from the agent’s own responses did not consistently beat a simple baseline, and pooling all trajectories hid
+      overconfidence at later stages.</p>
+    <p><strong>Why it matters for CR.</strong> This is a direct caveat for the REFLEX/Jev gate idea (2026-09-25 brief). A confidence floor tuned on pooled
+      decisions can look calibrated while being overconfident in late-match decision_points.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>When gate confidence is logged, report ECE and risk–coverage separately for early, mid and late match checkpoints.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. GameLogicBench: rules can break mid-run <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Che et al., <a href="https://arxiv.org/abs/2609.21562" rel="noopener noreferrer">arXiv:2609.21562</a>
+      (18 Sep 2026). 72 Godot gameplay-logic tasks for coding agents, with rules asserted at every simulation tick.</p>
+    <p><strong>Evidence.</strong> 403 hand-designed scenarios, expanded to 1,451 seeded test cases. The evaluator must accept varied correct implementations
+      and reject mutants that each lack one capability. The best of 20 model–scaffold combinations solves 52.78%. Without mutant validation, incorrect
+      submissions passed. With network access open, agents copied code from public repos.</p>
+    <p><strong>Why it matters for CR.</strong> “A game can end in a valid state even after violating its rules during the run” also applies to the Mini
+      Royale sim. If agents or bots edit sim code, end-state checks are not enough.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Add a handful of per-tick invariants (elixir bounds, placement zones, tower HP monotonicity) and prove they bite by running them against deliberately broken sim mutants.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Also carded (lighter)</h2>
+    <ul>
+      <li><strong>ActGov</strong>, <a href="https://arxiv.org/abs/2609.24446" rel="noopener noreferrer">arXiv:2609.24446</a>: per-action policy validation against a task-scoped authorization boundary (SMT-checked policies). Security framing of “model proposes, validator disposes”; marked thin because I only checked abstract-level claims.</li>
+      <li>Seen, not carded: <a href="https://arxiv.org/abs/2609.18304" rel="noopener noreferrer">Rollback-Induced Reflection</a> (rollback + retained reflection for long-horizon agents) and
+        <a href="https://arxiv.org/abs/2609.25001" rel="noopener noreferrer">GameHorizon</a> (AAA gameplay data/eval, 47 models). Both are relevant background but less CR-specific.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <ol>
+      <li><strong>game-arena-kaggle-harness</strong>: versioned CR harness policy (list/feedback/retries/fallback) plus rethink-by-phase logging.</li>
+      <li>Still open from earlier briefs: <strong>reflex-jev-selective-control</strong>, <strong>action-class-calibration-gar</strong>, <strong>autoharness-textarena</strong>, <strong>ptcg-bench-harness-ablation</strong>.</li>
+    </ol>
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON:
+      <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-09-28 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-09-25.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>

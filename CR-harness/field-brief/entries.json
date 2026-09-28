@@ -1,11 +1,108 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-09-26T10:48:43-04:00",
+  "updatedAt": "2026-09-28T10:56:40-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-09-25.html",
+  "briefEdition": "briefs/2026-09-28.html",
   "entries": [
+    {
+      "id": "game-arena-kaggle-harness",
+      "title": "Kaggle Game Arena tech report: retry/forfeit harness rules as eval design",
+      "date": "2026-09-28",
+      "summary": "Doerschuk-Tiberi et al. (Kaggle + Google DeepMind), arXiv:2609.31473 (submitted 25 Sep 2026). Chess, Poker and Werewolf environments with open harness (google-deepmind/game_arena). Chess: legality enforced by the environment; an invalid move gets a bare 'invalid, retry' with diagnostics intentionally hidden, 3 retries, 4th failure = loss; retries ('rethinks') tracked as a reliability metric, and the report finds illegal moves concentrate later in games for weaker models. Poker: one retry, then defaults to check/fold; 20,000 hands per pair, 900,000 hands total, BB/100 with block bootstrap. Werewolf: parse failures past a retry cap force a turn forfeit. Per-game metrics: Bradley–Terry Elo, BB/100, game-theoretic eval.",
+      "tags": [
+        "games",
+        "legal_actions",
+        "harness",
+        "eval",
+        "retry-policy",
+        "CR-adjacent"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.31473",
+        "https://github.com/google-deepmind/game_arena",
+        "https://www.kaggle.com/blog/introducing-game-arena"
+      ],
+      "why_it_matters_for_cr": "The most public, large-scale statement of the design choices CR must make at every decision_point: show the legal list or not, how much feedback on an illegal action, how many retries, and what the fallback is (loss vs conservative default vs forfeit). CR should declare these as a versioned harness policy and log rethink counts by match phase.",
+      "status": "candidate_intent",
+      "thin": false
+    },
+    {
+      "id": "contragent-ltlf-contracts",
+      "title": "ContrAgent: one LTLf→DFA contract gates actions online and grades traces offline",
+      "date": "2026-09-28",
+      "summary": "Xiao, Nuzzo et al., arXiv:2609.18128 (16 Sep 2026). Tool-call traces become sequences over checkable predicates; required behavior is written as assume-guarantee contracts in LTLf and compiled to a DFA used both to gate agent actions online and to evaluate recorded traces offline. On four benchmarks it matches LLM-judge and rule-based guardrail baselines with deterministic, reproducible verdicts and orders-of-magnitude lower per-call latency online.",
+      "tags": [
+        "agent-control",
+        "verification",
+        "eval",
+        "decision_point",
+        "temporal-logic"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.18128"
+      ],
+      "why_it_matters_for_cr": "legal_actions covers per-step legality; temporal rules (e.g., no deploy when elixir can't cover it, no repeated rejected action N times) need a sequence check. One DFA artifact could both gate the cockpit live and score ETL logs offline, keeping online and offline verdicts identical.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "tc-ece-trajectory-calibration",
+      "title": "Agent UQ taxonomy + TC-ECE: step calibration ≠ trajectory calibration",
+      "date": "2026-09-28",
+      "summary": "Lin et al., arXiv:2609.07395 (7 Sep 2026). Three-axis taxonomy of agent uncertainty (what, how estimated, where in the pipeline); a counterexample shows step-level calibration does not imply trajectory-level calibration. Proposes Trajectory-Checkpoint ECE and a reporting protocol; on real traces (four models, up to 50 steps) self-reported confidence does not consistently beat a simple baseline, and pooling all trajectories can hide late-stage overconfidence.",
+      "tags": [
+        "confidence",
+        "calibration",
+        "eval",
+        "abstain",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.07395"
+      ],
+      "why_it_matters_for_cr": "If CR gates decisions on confidence (Jev/REFLEX idea), calibration must be reported by match phase checkpoints, not pooled — late-match overconfidence is exactly where a pooled ECE would look fine.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "gamelogicbench-tick-assertions",
+      "title": "GameLogicBench: tick-level rule assertions, validated with mutants",
+      "date": "2026-09-28",
+      "summary": "Che et al., arXiv:2609.21562 (18 Sep 2026). 72 Godot gameplay-logic tasks; the evaluator checks game rules at every simulation tick across 403 hand-designed scenarios (1,451 seeded test cases), and must accept varied correct implementations while rejecting mutants with one capability removed. Best of 20 model–scaffold combos solves 52.78%; without mutant validation incorrect submissions passed; agents copied public code when network was open.",
+      "tags": [
+        "games",
+        "simulator",
+        "eval",
+        "verification",
+        "spec"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.21562"
+      ],
+      "why_it_matters_for_cr": "'A game can end in a valid state after violating its rules mid-run' applies to the Mini Royale sim too. Tick-level invariants + mutant-tested checks are a cheap way to trust sim changes before any agent eval runs on them.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "actgov-policy-validation",
+      "title": "ActGov: validate every proposed tool action against task-scoped policy",
+      "date": "2026-09-28",
+      "summary": "Zhang et al., arXiv:2609.24446 (21 Sep 2026). Runtime enforcement: each LLM-proposed tool call is abstracted into finite policy records and allowed only if inside the task-scoped authorization boundary and all applicable policies; the policy set is built from tool specs, benign tasks and failure traces with SMT counterexample checking. Reported to reduce indirect prompt-injection success on AgentDojo/AgentDyn while preserving utility (abstract-level claim; numbers not checked here).",
+      "tags": [
+        "agent-control",
+        "authorization",
+        "legal_actions",
+        "security"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.24446"
+      ],
+      "why_it_matters_for_cr": "Security framing of the same pattern as CR's whitelist: the model proposes, a deterministic validator disposes. Useful vocabulary if CR agents ever get tools beyond legal game actions.",
+      "status": "idea",
+      "thin": true
+    },
     {
       "id": "reflex-jev-selective-control",
       "title": "REFLEX: Jev typed-choice gate + strong-LLM fallback, measured",
@@ -104,25 +201,6 @@
       "why_it_matters_for_cr": "Concrete bounded-prompt contract for long matches with many decision_points; pairs with MemArbiter. Their honest small-n reporting is a model for CR’s own ablation write-ups.",
       "status": "idea",
       "thin": false
-    },
-    {
-      "id": "vam-verbalized-action-masking",
-      "title": "VAM: verbalized action masking for LLM RL post-training (chess)",
-      "date": "2026-09-25",
-      "summary": "Zhang, Wang, Du et al., arXiv:2602.16833 (Feb 2026; background, not new this week). Puts the legal-move mask in the prompt, enforces it with a strict parser/verifier and a fixed penalty for out-of-mask actions, and adds iterative action-space pruning during GRPO. Reports better learning efficiency and final play (puzzles, ACPL) than strong baselines.",
-      "tags": [
-        "legal_actions",
-        "masking",
-        "RL",
-        "games",
-        "chess"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2602.16833"
-      ],
-      "why_it_matters_for_cr": "If CR ever fine-tunes a policy, legal_actions already give the verbalized mask VAM needs; the out-of-mask penalty and parser design are reusable even for prompt-only evals.",
-      "status": "idea",
-      "thin": true
     },
     {
       "id": "jev-gameplay-decision-router",
@@ -243,24 +321,6 @@
       "thin": false
     },
     {
-      "id": "memarbiter-decision-memory",
-      "title": "MemArbiter: decision-time memory arbitration (Memory-Action Gap)",
-      "date": "2026-09-24",
-      "summary": "arXiv:2608.02113 — five functional memory banks (Goal, Task State, Constraint, Episodic, Reference) with focal/ambient presentation gated per step. Large ALFWorld gains under tight token budgets; reduces failed-action repetition.",
-      "tags": [
-        "memory",
-        "decision_point",
-        "agent-control"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2608.02113",
-        "https://arxiv.org/html/2608.02113"
-      ],
-      "why_it_matters_for_cr": "Match memory at each decision_point should be budgeted (elixir history, last N plays, constraints) rather than dumping full ETL into the prompt.",
-      "status": "idea",
-      "thin": false
-    },
-    {
       "id": "textarena-suite",
       "title": "TextArena: 100+ text games + show_valid legal-move hints",
       "date": "2026-09-24",
@@ -297,61 +357,6 @@
       "why_it_matters_for_cr": "Pattern reference for CR’s spatial legal mask + anti-cheating eval probes — transfer ideas, not the RL stack.",
       "status": "watch",
       "thin": true
-    },
-    {
-      "id": "clashgpt-cv-rl",
-      "title": "ClashGPT: CV + Maskable PPO on live Clash Royale (pixels)",
-      "date": "2026-09-24",
-      "summary": "EzraGil08/ClashGPT — dual YOLOv11 + SORT + Maskable PPO via emulator clicks. Real CR, not a clean sim. Thin for LLM control research; useful as existence proof of action-masking in CR-shaped spaces.",
-      "tags": [
-        "Clash-Royale",
-        "CV",
-        "RL",
-        "thin"
-      ],
-      "source_urls": [
-        "https://github.com/EzraGil08/ClashGPT-Autonomous-Clash-Royale-Artificial-Intelligence"
-      ],
-      "why_it_matters_for_cr": "Contrast case: pixel bots need masks too. CR-Harness’s structured state + legal_actions is the cleaner research surface.",
-      "status": "idea",
-      "thin": true
-    },
-    {
-      "id": "board-game-arena-openspiel",
-      "title": "Board Game Arena: LLM agents on OpenSpiel with illegal-move metrics",
-      "date": "2026-09-24",
-      "summary": "arXiv:2508.03368 — wraps OpenSpiel board/matrix games for LLM agents (LiteLLM/vLLM/Ray). Tracks illegal/suboptimal moves and decision optimality vs equilibrium policies.",
-      "tags": [
-        "games",
-        "eval",
-        "OpenSpiel"
-      ],
-      "source_urls": [
-        "https://arxiv.org/html/2508.03368v1",
-        "https://board-game-arena.readthedocs.io/"
-      ],
-      "why_it_matters_for_cr": "Metric vocabulary (illegal rate, optimality vs baseline) to borrow for CR cockpit batch reports.",
-      "status": "idea",
-      "thin": false
-    },
-    {
-      "id": "harnessdev-evo-bench",
-      "title": "HarnessDev / Evo-Bench: can models evolve their own harness?",
-      "date": "2026-09-24",
-      "summary": "HarnessDev (arXiv PDF 2609.01437) and Evo-Bench (2608.09096) shift eval from task outputs to runnable harness creation/evolution. Gains are unstable and transfer partially across models — cautionary for auto-rewriting CR’s control loop.",
-      "tags": [
-        "harness-evolution",
-        "meta",
-        "agent-control"
-      ],
-      "source_urls": [
-        "https://arxiv.org/pdf/2609.01437",
-        "https://arxiv.org/html/2608.09096",
-        "https://self-developing-agents.github.io/"
-      ],
-      "why_it_matters_for_cr": "Watch-list only: fleet should not auto-mutate CR legal_actions / ETL without human gate + Three-Run Proof.",
-      "status": "idea",
-      "thin": false
     }
   ]
 }
