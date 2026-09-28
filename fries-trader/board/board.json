@@ -5,7 +5,7 @@
   "hubLocalOnly": true,
   "upstreamRepo": "YizhiSong/FriesTrader",
   "upstreamRepoUrl": "https://github.com/YizhiSong/FriesTrader",
-  "updatedAt": "2026-09-27 ~23:20 ET",
+  "updatedAt": "2026-09-27 ~23:45 ET",
   "items": [
     {
       "number": "F1",
@@ -24,7 +24,7 @@
       "state": "done",
       "owner": "Tongli",
       "title": "Open a Robinhood Agentic account",
-      "notes": "Dedicated Agentic account opened by Tongli. Awaiting funding (see F9).",
+      "notes": "Dedicated Agentic account opened by Tongli and funded (see F9).",
       "labels": [
         "hub-only",
         "account",
@@ -59,10 +59,10 @@
     },
     {
       "number": "F9",
-      "state": "open",
+      "state": "done",
       "owner": "Tongli",
       "title": "Fund Agentic account",
-      "notes": "Awaiting funding. Amounts are never published on this hub.",
+      "notes": "Agentic account funded. Amounts are never published on this hub.",
       "labels": [
         "hub-only",
         "account",
