@@ -1,0 +1,20 @@
+{
+  "blurb": "Per-cycle dry-run summaries for FriesTrader. Sanitized: counts and decisions only.",
+  "mode": "dry_run",
+  "dryRunDaysRequired": 10,
+  "target": "4–6 weeks",
+  "updatedAt": "2026-09-27 ET",
+  "allowedFields": [
+    "date",
+    "phase",
+    "mode",
+    "candidates_screened",
+    "theses_written",
+    "would_buy",
+    "would_sell",
+    "rejected",
+    "loss_limit",
+    "note"
+  ],
+  "runs": []
+}

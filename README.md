@@ -8,5 +8,8 @@ Live:
 - https://tonyzhou05.github.io/research/CR-harness/
 - https://tonyzhou05.github.io/research/CR-harness/resources/
 - https://tonyzhou05.github.io/research/CR-harness/issues/
+- https://tonyzhou05.github.io/research/fries-trader/
+- https://tonyzhou05.github.io/research/fries-trader/board/
+- https://tonyzhou05.github.io/research/fries-trader/activity/
 
 Local tooling: ~/Documents/Tonys-agent-playground/{usage-dashboard,harness-lab}/

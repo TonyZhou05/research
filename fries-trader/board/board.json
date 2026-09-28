@@ -1,0 +1,97 @@
+{
+  "title": "FriesTrader setup board",
+  "blurb": "Hub-local tracker for FriesTrader setup through the go-live decision. Tasks only: no account numbers, balances, positions, dollar amounts or order data are ever recorded here.",
+  "mode": "dry_run",
+  "hubLocalOnly": true,
+  "upstreamRepo": "YizhiSong/FriesTrader",
+  "upstreamRepoUrl": "https://github.com/YizhiSong/FriesTrader",
+  "updatedAt": "2026-09-27 ET",
+  "items": [
+    {
+      "number": "F1",
+      "state": "done",
+      "owner": "Tongli (via agent)",
+      "title": "Set up private project repo from upstream template",
+      "notes": "Private copy created from YizhiSong/FriesTrader with the upstream remote added. Setup commit moved the conviction sizing table into risk_rules.json and added a Phase A rule to disallow place_*/cancel_* tools. execution.mode stays dry_run.",
+      "labels": [
+        "hub-only",
+        "setup"
+      ],
+      "updated_display": "2026-09-27"
+    },
+    {
+      "number": "F2",
+      "state": "open",
+      "owner": "Tongli",
+      "title": "Open a Robinhood Agentic account",
+      "notes": "Separate, dedicated Agentic account with a small budget reserved for the agent. Opened from a desktop during MCP authentication. Only Tongli can do this.",
+      "labels": [
+        "hub-only",
+        "account",
+        "tongli"
+      ],
+      "updated_display": "2026-09-27"
+    },
+    {
+      "number": "F3",
+      "state": "open",
+      "owner": "Tongli + agent",
+      "title": "Connect the Robinhood Trading MCP",
+      "notes": "Official MCP over OAuth (no passwords in the repo). Then fill the account placeholders, watchlist and scan in the private repo's risk_rules.json. Never on this hub.",
+      "labels": [
+        "hub-only",
+        "setup"
+      ],
+      "updated_display": "2026-09-27"
+    },
+    {
+      "number": "F4",
+      "state": "open",
+      "owner": "agent",
+      "title": "Block order tools in Phase A",
+      "notes": "Disallow every place_* and cancel_* tool in the Phase A session's permissions or connector config. Verify that a Phase A run cannot reach them.",
+      "labels": [
+        "hub-only",
+        "safety"
+      ],
+      "updated_display": "2026-09-27"
+    },
+    {
+      "number": "F5",
+      "state": "open",
+      "owner": "agent (after Tongli OK)",
+      "title": "Schedule Phase A and Phase B",
+      "notes": "Phase A about 4:30pm CT and Phase B about 8:35am CT on weekdays. Only one scheduler per phase. Stays in dry_run.",
+      "labels": [
+        "hub-only",
+        "ops"
+      ],
+      "updated_display": "2026-09-27"
+    },
+    {
+      "number": "F6",
+      "state": "open",
+      "owner": "Tongli + agent",
+      "title": "Dry-run review (0 of 10 days; target 4–6 weeks)",
+      "notes": "Read each cycle's log, especially rejections and stop triggers. Re-run the risk scripts by hand to spot-check the math. Post sanitized summaries to the dry-run log.",
+      "labels": [
+        "hub-only",
+        "review"
+      ],
+      "updated_display": "2026-09-27"
+    },
+    {
+      "number": "F7",
+      "state": "open",
+      "owner": "Tongli",
+      "title": "Go-live decision",
+      "notes": "Only Tongli flips execution.mode to live, by hand, after the dry-run review. Start tiny and keep the loss limits.",
+      "labels": [
+        "hub-only",
+        "decision",
+        "tongli"
+      ],
+      "updated_display": "2026-09-27"
+    }
+  ]
+}

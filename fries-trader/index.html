@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="FriesTrader — scheduled, rule-gated AI trading agent for a dedicated Robinhood Agentic account (dry run). Built on YizhiSong/FriesTrader (MIT).">
+  <meta name="theme-color" content="#101828"><meta name="author" content="Tongli Zhou">
+  <title>FriesTrader — Tongli Zhou Research</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/fries-trader/">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --paper:#f4efe6; --paper-2:#ebe4d8; --cream:#fbf7f0; --ink:#161410; --ink-soft:#5c564c; --ink-faint:#8a8378; --line:#d9d0c3; --accent:#e87324; --accent-dark:#b7480d; --serif:"Fraunces",Iowan Old Style,Charter,Georgia,serif; --sans:"IBM Plex Sans",Inter,ui-sans-serif,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace; }
+    * { box-sizing:border-box; } body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased; } a { color:var(--accent-dark); text-underline-offset:2px; } a:hover { color:var(--ink); }
+    .topnav { border-bottom:1px solid var(--line); background:var(--cream); } .topnav-inner,.shell { width:min(860px,calc(100% - 40px)); margin:0 auto; } .topnav-inner { display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; padding:12px 0; font-size:.92rem; } .topnav .brand { font-family:var(--mono); font-weight:600; font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink); text-decoration:none; } .topnav a { color:var(--ink-soft); text-decoration:none; } .topnav a:hover,.topnav a[aria-current="page"] { color:var(--accent-dark); }
+    header.hero { padding:36px 0 8px; } .kicker { font-family:var(--mono); font-size:.78rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--accent-dark); margin:0 0 8px; } h1 { font-family:var(--serif); font-size:clamp(1.9rem,3.2vw,2.6rem); font-weight:600; margin:0 0 12px; letter-spacing:-.02em; } .lede { color:var(--ink-soft); max-width:66ch; margin:0 0 12px; } .meta { display:flex; flex-wrap:wrap; gap:10px 18px; font-size:.9rem; color:var(--ink-soft); margin-bottom:22px; } .meta strong { color:var(--ink); }
+    .callout { background:#fff7ed; border:1px solid #f0d2b0; border-radius:12px; padding:14px 16px; margin:0 0 24px; color:var(--ink-soft); font-size:.95rem; } .callout strong { color:var(--ink); } .callout.red { background:#fef2f2; border-color:#fecaca; margin-bottom:18px; }
+    .howto { background:var(--cream); border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin:0 0 28px; color:var(--ink-soft); } .howto h2 { font-family:var(--serif); font-size:1.15rem; font-weight:600; margin:0 0 8px; color:var(--ink); } .howto p { margin:0; } .howto ol,.howto ul { margin:8px 0 0; padding-left:1.25rem; } .howto li { margin:4px 0; }
+    h2.sec { font-family:var(--serif); font-size:1.35rem; font-weight:600; margin:8px 0 14px; } .list { display:flex; flex-direction:column; gap:12px; padding-bottom:28px; }
+    .card { background:var(--cream); border:1px solid var(--line); border-radius:14px; padding:14px 16px; box-shadow:0 1px 0 rgba(16,24,40,.03); } .card .src { display:flex; flex-wrap:wrap; gap:8px 14px; font-family:var(--mono); font-size:.72rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 6px; } .card h2 { font-family:var(--serif); font-size:1.2rem; font-weight:600; margin:0 0 8px; line-height:1.25; } .card h3 { font-family:var(--serif); font-size:1.08rem; font-weight:600; margin:0 0 6px; line-height:1.3; } .card h2 a,.card h3 a { color:var(--ink); text-decoration:none; } .card h2 a:hover,.card h3 a:hover { color:var(--accent-dark); text-decoration:underline; } .card p { margin:0; color:var(--ink-soft); } .card .meta-line,.card .notes { font-size:.9rem; color:var(--ink-soft); margin:0; } .card .notes { margin-top:8px; }
+    .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; } .tag { display:inline-block; font-family:var(--mono); font-size:.7rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase; background:var(--paper-2); border:1px solid var(--line); border-radius:999px; padding:3px 9px; color:var(--ink-soft); } .tag.open { background:#d1fae5; border-color:#a7f3d0; color:#065f46; } .tag.done { background:#e0e7ff; border-color:#c7d2fe; color:#3730a3; } .tag.hub-only { background:#ffedd5; border-color:#fed7aa; color:#9a3412; } .empty { color:var(--ink-faint); padding:16px 0; }
+    footer { border-top:1px solid var(--line); padding:22px 0 48px; color:var(--ink-faint); font-size:.88rem; } code { font-family:var(--mono); font-size:.86em; background:var(--paper-2); padding:1px 5px; border-radius:4px; }
+    .grid { display:grid; gap:14px; grid-template-columns:1fr; padding-bottom:28px; } @media (min-width:640px) { .grid.two { grid-template-columns:1fr 1fr; } }
+    .prose { color:var(--ink-soft); margin:0 0 28px; } .prose h2 { font-family:var(--serif); font-size:1.25rem; color:var(--ink); margin:0 0 10px; } .prose ul,.prose ol { padding-left:1.25rem; margin:6px 0 0; } .prose li { margin:5px 0; } .prose strong { color:var(--ink); }
+    .stages { list-style:none; padding:0; margin:0 0 30px; display:flex; flex-direction:column; gap:8px; } .stages li { background:var(--cream); border:1px solid var(--line); border-radius:12px; padding:10px 14px; display:flex; gap:12px; align-items:baseline; color:var(--ink-soft); } .stages .box { font-family:var(--mono); font-weight:600; color:var(--ink-faint); min-width:1.6em; } .stages li.done .box { color:#065f46; } .stages li.done strong { color:var(--ink); }
+    .links { list-style:none; padding:0; margin:0 0 36px; display:flex; flex-direction:column; gap:10px; } .links li { background:var(--cream); border:1px solid var(--line); border-radius:12px; padding:12px 14px; } .links a { font-weight:600; text-decoration:none; } .links a:hover { text-decoration:underline; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub"><div class="topnav-inner">
+    <a class="brand" href="/research/">TZ / Research</a><a href="/research/">Hub</a><a href="/research/usage/">Usage</a><a href="/research/harness/">Harness</a><a href="/research/harness-lab/">Lab</a><a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a><a href="/research/fries-trader/" aria-current="page">FriesTrader</a><a href="/research/fries-trader/board/">Board</a><a href="/research/fries-trader/activity/">Dry-run log</a>
+  </div></nav>
+  <main class="shell">
+    <header class="hero">
+      <p class="kicker">Personal project · LLM-screened equities on Robinhood</p>
+      <h1>FriesTrader</h1>
+      <p class="lede"><strong>A scheduled AI trading agent for a small, dedicated Robinhood Agentic account.</strong> Claude Code sessions screen US stocks and write a news-based thesis; every size, stop and limit is computed by small deterministic Python scripts the model cannot override. Built from the open-source <a href="https://github.com/YizhiSong/FriesTrader" rel="noopener noreferrer">YizhiSong/FriesTrader</a> template.</p>
+      <div class="meta"><span>Language <strong>Python + Markdown specs</strong></span><span>License <strong>MIT (upstream)</strong></span><span>Broker <strong>Robinhood Agentic Trading MCP</strong></span><span>Mode <strong>dry run</strong></span><span>Live trading <strong>off</strong></span></div>
+    </header>
+    <div class="callout"><strong>Current mode: dry run.</strong> No Robinhood account is connected yet and no orders can be placed. The working copy is private; this public page never shows account numbers, balances, positions, dollar amounts, order IDs or fills. No performance numbers are claimed. Upstream states its reasoning step cannot be honestly backtested. Not financial advice.</div>
+    <section class="grid two" aria-label="Project pages"><article class="card"><div class="src">Board</div><h2><a href="/research/fries-trader/board/">Setup &amp; go-live board →</a></h2><p>Hub-local task cards from repo setup through the go-live decision. Tongli owns the account and the live switch.</p></article><article class="card"><div class="src">Dry-run log</div><h2><a href="/research/fries-trader/activity/">Dry-run log →</a></h2><p>Sanitized per-cycle summaries (counts and decisions only). Empty until the first scheduled run.</p></article></section>
+
+    <h2 class="sec">Stage checklist</h2>
+    <ol class="stages">
+      <li class="done"><span class="box">[x]</span><span><strong>Repo set up</strong>: private copy from the upstream template; sizing table moved into <code>risk_rules.json</code>; <code>execution.mode = "dry_run"</code>.</span></li>
+      <li><span class="box">[ ]</span><span><strong>Robinhood Agentic account opened</strong>: separate, dedicated account with its own small budget (Tongli).</span></li>
+      <li><span class="box">[ ]</span><span><strong>Robinhood MCP connected</strong>: official Trading MCP via OAuth, with order tools blocked in Phase A.</span></li>
+      <li><span class="box">[ ]</span><span><strong>Dry-run days logged: 0 of 10</strong> (repo minimum 10; target 4–6 weeks of reviewed dry runs).</span></li>
+      <li><span class="box">[ ]</span><span><strong>Live</strong>: only if Tongli flips <code>execution.mode</code> by hand after reviewing the dry runs.</span></li>
+    </ol>
+
+    <div class="prose">
+      <h2>How the pipeline works</h2>
+      <ul>
+        <li><strong>Phase A: screen &amp; thesis</strong> (weekdays after close, ~4:30pm CT). Starts from a Robinhood watchlist, a saved scan and current holdings. Filters out illiquid, penny, leveraged/inverse and below-200-day-average names. Only stocks with a notable signal (a big 60-day move, a volume spike, or near a 52-week extreme) get a news search. The model then writes a <em>long / avoid / exit</em> call with a rubric-based conviction (high / medium / low). <strong>Places no orders.</strong></li>
+        <li><strong>Phase B: re-verify &amp; enforce</strong> (weekdays shortly after the open, ~8:35am CT). Sells run first (stop-loss, take-profit, trims, exits). Buys must then pass an entry gate (not too far above the thesis price or the 20-day average, and no wash-sale or re-entry lock). Candidates are ranked by conviction and sized by fixed percentages. Every order is previewed first; in dry run it is only logged.</li>
+      </ul>
+    </div>
+    <div class="prose">
+      <h2>Risk rules, in plain words</h2>
+      <ul>
+        <li><strong>Position size</strong> is a fixed share of the account per conviction tier, capped per position, with a maximum number of open positions and a minimum cash buffer.</li>
+        <li><strong>Stop-loss</strong> scales with each stock’s recent volatility, clamped to a band. After any profit-taking it trails the high instead of the entry price. Note: it is checked once per trading day, not as a resting order.</li>
+        <li><strong>Take-profit</strong> sells a quarter of the position at each of three gain tiers.</li>
+        <li><strong>Loss limits</strong> halt new buys after a daily or weekly drawdown threshold.</li>
+        <li><strong>Live-order gate</strong>: a real order needs <code>mode = "live"</code> (set only by the human), at least 10 logged dry-run days, and a clean broker preview.</li>
+      </ul>
+    </div>
+
+    <h2 class="sec" style="font-size:1.25rem;">External links</h2>
+    <ul class="links"><li><a href="https://github.com/YizhiSong/FriesTrader" rel="noopener noreferrer">Open upstream template</a>: <code>YizhiSong/FriesTrader</code>, MIT License, © 2026 Yizhi Song. Strategy specs and risk scripts are the upstream author’s work.</li><li><a href="https://robinhood.com/us/en/support/articles/agentic-trading-overview/" rel="noopener noreferrer">Robinhood Agentic Trading overview</a>: official MCP connection and account rules</li></ul>
+  </main>
+  <footer><div class="shell">Public research hub · FriesTrader · Tongli Zhou (TonyZhou05) · <a href="/research/fries-trader/">FriesTrader</a> · <a href="/research/fries-trader/board/">Board</a> · <a href="/research/fries-trader/activity/">Dry-run log</a> · <a href="/research/">Hub</a> · <a href="/research/harness/">Harness</a> · <a href="/research/CR-harness/">CR-Harness</a> · <a href="/research/dattri-llm/">Dattri-llm</a></div></footer>
+</body>
+</html>
