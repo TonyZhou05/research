@@ -283,6 +283,7 @@
       <li><strong>File proof</strong> — note with PR URL, session ids, follow-ups.</li>
       <li><strong>Next independent slice</strong> starts without waiting on org APPROVE of the previous one.</li>
     </ol>
+    <p class="note"><strong>Budgets:</strong> every slice / routine run carries a retry budget, cost ceiling, and wall-clock timeout in its plan or handoff note; exhausting any one escalates to Tongli — never degrade quietly. An accepted plan is not permission: RED actions still need Tongli (<a href="#gyr-authority">§14</a>).</p>
 
     <h3>What the EM does not do</h3>
     <ul>
@@ -338,7 +339,12 @@
       <li><strong>Streaming required</strong> — Claude <code>stream-json</code>, Muse <code>--json</code>, DSH tee stdout/stderr; no long buffered text-only launches.</li>
       <li>Attach <code>grok-tmux-watchdog</code> (~540s stale; <code>--on-stale</code> resume of the same session). <span class="pill live">installed</span></li>
       <li>Reuse each tool’s session id per PR/slice; don’t cold-start follow-ups.</li>
+      <li><strong>Transient vs limit</strong> — on a stuck Claude pane, transient API errors (API Error / 529 / transient 429) get a debounced Continue with backoff (cap ~10 tries, then escalate); a real usage limit / “resets at” is left alone. No auto-restart on sessions that post or pay; dry-run first.</li>
+      <li><strong>Hang vs crash</strong> — pair Claude JSONL mtime (<code>~/.claude/projects</code>, 30–45 min threshold beside the 540s log check) with the process table: stale + alive = hang, stale + gone = crash. A Stop hook alone cannot see crashes; keep the observer read-only.</li>
+      <li><strong>Scripted <code>claude -p</code></strong> (EM / collect kicks) defaults to <code>--bare</code> + explicit <code>--allowedTools</code> / <code>--settings</code>, so host hooks, MCP, and <code>CLAUDE.md</code> cannot silently change results.</li>
+      <li><strong>Unattended Codex</strong> — <code>codex exec --sandbox workspace-write</code> (command network off unless <code>sandbox_workspace_write.network_access</code> is set); never <code>--yolo</code> / bypass on Astra seats.</li>
     </ol>
+    <p class="note">Items 5–8 promoted from <a href="/research/harness-lab/">Harness Lab</a> in the 2026-09-28 Monday sync.</p>
     <pre># Live shape — helpers in ~/bin (ensure PATH includes ~/bin)
 # grok-tmux-run muse-collect-HH -- \
 #   muse exec --json --trust-workspace --disable-approval --prompt-file prompt.md
@@ -370,7 +376,7 @@
       <thead><tr><th>CLI</th><th>Provider shape</th><th>Notes</th></tr></thead>
       <tbody>
         <tr><td>Claude</td><td>claude.ai pro (Keychain)</td><td>Usage cards on the dashboard</td></tr>
-        <tr><td>Codex / Astra</td><td>ChatGPT / Codex CLI</td><td>Usage cards on the dashboard</td></tr>
+        <tr><td>Codex / Astra</td><td>ChatGPT / Codex CLI</td><td>Usage cards on the dashboard · unattended default <code>--sandbox workspace-write</code>, network off unless configured (no <code>--yolo</code>)</td></tr>
         <tr><td>Kimi</td><td>Vendor CLI 2.1.0</td><td>AUTH_OK</td></tr>
         <tr><td>Muse</td><td>Meta Muse Spark 1.3.0</td><td>Meta OAuth AUTH_OK</td></tr>
         <tr><td>DSH</td><td>DeepSeek harness 0.1.5-rc.3</td><td>Node nvm v22.23.3 · AUTH_OK</td></tr>
@@ -420,6 +426,10 @@
       <li>Hourly Field Brief collect — <span class="pill gap">explicitly out of scope</span></li>
     </ul>
     <p><strong>Policy:</strong> Three-Run Proof before Active — never automate the first success. Prefer event triggers over tight crons. Mondays: playbook↔card sync <strong>plus weekly kill review</strong>.</p>
+    <ul>
+      <li>Scripted <code>claude -p</code> routine kicks run with <code>--bare</code> (see <a href="#launch">§8</a>).</li>
+      <li><strong>LaunchAgents:</strong> calendar firings during an in-flight run are dropped (no queue) — keep job bodies shorter than the interval; lint <code>Weekday</code> spelling (unknown keys are silently ignored, so weekly becomes daily); the miss signal is <code>launchctl print</code> <code>runs</code> vs expected slots, paired with box <code>mac-missed-runs.jsonl</code>.</li>
+    </ul>
 
     <h3>Outer loop → inner loop</h3>
     <p>Grok bots orchestrate (prompts, routines, EM babysitting). Mac CLIs execute. Shared memory (vault) is the bridge when it exists; until then, hub git + playground files are the durable trail.</p>
@@ -469,6 +479,7 @@
     <ul>
       <li>Long fires inherit defaults: limited items · ≤2 retries · $0 spend · 0 external actions without Tongli approval.</li>
       <li>Abnormal volume vs last clean run → stop and escalate.</li>
+      <li>Every run declares retry + cost + timeout budgets; any exhausted budget → escalate, not quiet degrade. Plan ≠ permission — policy gates sit outside the reasoning loop.</li>
       <li>Autonomy ladder 0–4 with demotion when quality drops.</li>
       <li>Park unknown outcomes after crash/dirty exit — do not auto-retry guessing.</li>
     </ul>
@@ -516,6 +527,7 @@
         <tr><td>Github Bot EM room</td><td><span class="pill live">Coding EM bot + room wired</span></td></tr>
         <tr><td>Obsidian <code>~/Documents/agent-context</code></td><td><span class="pill live">scaffolded 2026-09-24</span></td></tr>
         <tr><td><code>grok-tmux-run</code> + watchdog</td><td><span class="pill live">installed ~/bin · smoke OK</span></td></tr>
+        <tr><td>Watchdog transient-vs-limit + JSONL/process hang-vs-crash (§8)</td><td><span class="pill target">rule in playbook · watchdog still log-age + Enter</span></td></tr>
         <tr><td>Jev router</td><td><span class="pill live">LIVE · <code>jev-route</code> active · floor 0.55</span></td></tr>
         <tr><td>Field Brief public surface (under CR-Harness)</td><td><span class="pill live">LIVE · daily · <a href="/research/CR-harness/field-brief/">/CR-harness/field-brief/</a></span></td></tr>
         <tr><td>Collection Bot Field Brief pipeline</td><td><span class="pill live">standing as daily (not hourly)</span></td></tr>
