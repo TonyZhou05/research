@@ -1,8 +1,110 @@
 {
-  "updatedAt": "2026-09-26T14:47:25Z",
+  "updatedAt": "2026-09-28T14:54:59Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "launchd-calendar-drop-while-running-runs-counter-2026-09-28",
+      "date": "2026-09-28",
+      "displayDate": "Mon 28, 2026",
+      "title": "launchd calendar \u2014 drop-while-running, silent bad keys, runs-counter health",
+      "href": "https://picklog.cc/blog/launchd-startcalendarinterval-missed",
+      "why": "Measured beyond sleep/power-off: calendar firings during an in-flight job are dropped (no queue); unrecognized keys (WeekDay/Second) are silently discarded so weekly\u2192daily; launchctl print has no next-fire-date \u2014 the miss signal is runs vs expected slots. Keep LaunchAgent bodies shorter than the interval, lint Weekday spelling, and pair runs with box mac-missed-runs.jsonl as the dead-man's switch.",
+      "source": "packs/2026-09-28-web-harness-lab-pack.md",
+      "tags": [
+        "routines",
+        "Mac CLI",
+        "launchd",
+        "catch-up",
+        "proof"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "codex-workspace-write-network-off-default-2026-09-28",
+      "date": "2026-09-28",
+      "displayDate": "Mon 28, 2026",
+      "title": "Codex unattended \u2014 workspace-write sandbox; network off unless configured",
+      "href": "https://developers.openai.com/codex/agent-approvals-security",
+      "why": "Official defaults: workspace-write keeps command network off; enable only via sandbox_workspace_write.network_access (+ optional network_proxy allowlists). Prefer codex exec --sandbox workspace-write (or read-only + never in CI) over --yolo / dangerously-bypass for Astra seats. Complements the existing --json + --output-last-message proof tip with a hard sandbox contract.",
+      "source": "packs/2026-09-28-web-harness-lab-pack.md",
+      "tags": [
+        "Codex",
+        "Mac CLI",
+        "EM",
+        "honesty",
+        "proof"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-jsonl-hang-crash-discrimination-2026-09-28",
+      "date": "2026-09-28",
+      "displayDate": "Mon 28, 2026",
+      "title": "Claude JSONL mtime + process table \u2014 hang vs crash vs clean exit",
+      "href": "https://www.neural-llm.com/blog/engineering/detecting-crashed-claude-code-sessions",
+      "why": "No stock Claude heartbeat: ~/.claude/projects JSONL mtime is the activity signal, but long tools/compact/Retry-After look stale. Pair with process table (stale+alive=hang; stale+gone+orphaned tool_use=crash). Stop hook alone cannot see crashes. Use a longer transcript threshold (30\u201345m) beside our 540s log watchdog; keep the observer read-only and snapshot TodoWrite via PostToolUse when we add recovery.",
+      "source": "packs/2026-09-28-web-harness-lab-pack.md",
+      "tags": [
+        "watchdog",
+        "Claude",
+        "Mac CLI",
+        "recovery",
+        "proof"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-bare-scripted-print-2026-09-28",
+      "date": "2026-09-28",
+      "displayDate": "Mon 28, 2026",
+      "title": "claude --bare for scripted -p \u2014 skip host hooks/MCP/CLAUDE.md",
+      "href": "https://code.claude.com/docs/en/headless",
+      "why": "Headless docs: --bare skips auto-discovery of hooks, plugins, MCP, auto memory, and CLAUDE.md so CI/scripts get the same result on every machine. Without it, -p loads project .mcp.json and ~/.claude hooks with no trust dialog. Fleet unattended EM/collect kicks should default to --bare plus explicit --allowedTools/--settings. Confirmed on Mac Claude 2.1.221.",
+      "source": "packs/2026-09-28-web-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "Mac CLI",
+        "routines",
+        "honesty",
+        "EM"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-api-watchdog-transient-vs-limit-2026-09-28",
+      "date": "2026-09-28",
+      "displayDate": "Mon 28, 2026",
+      "title": "claude-code-api-watchdog \u2014 Continue on transient API errors; leave usage limits alone",
+      "href": "https://github.com/palios-taey/claude-code-api-watchdog",
+      "why": "Outer-loop for unattended Claude-in-tmux: two-poll debounce on stuck API Error/529/transient 429, exponential Continue backoff (2s\u2192120s, 10-attempt cap), escalate then stop; leaves real usage-limit / resets-at alone; auto-restart OFF by default. Extends grok-tmux-watchdog (log-age + Enter) with transient-vs-limit discrimination \u2014 dry-run first; --no-restart on any session that posts or pays.",
+      "source": "packs/2026-09-28-web-harness-lab-pack.md",
+      "tags": [
+        "watchdog",
+        "tmux",
+        "Claude",
+        "Mac CLI",
+        "usage"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "agent-reliability-retry-budget-plan-permission-2026-09-28",
+      "date": "2026-09-28",
+      "displayDate": "Mon 28, 2026",
+      "title": "Agent reliability \u2014 retry/cost/timeout budgets; plan \u2260 permission; run records",
+      "href": "https://dplouffe.ca/guides/agent-reliability/",
+      "why": "Production checklist for CoS/EM: every run needs retry budget + cost ceiling + wall-clock timeout (escalate, don't degrade quietly); policy enforcement outside the reasoning loop; idempotent writes; structured run records for replay. Rollout ladder read-only \u2192 propose \u2192 reversible write \u2192 broad write matches Three-Run Proof + Tongli human gates. Next step: put budget fields on EM/routine notes.",
+      "source": "packs/2026-09-28-web-harness-lab-pack.md",
+      "tags": [
+        "EM",
+        "CoS",
+        "proof",
+        "routines",
+        "harness"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "launchd-calendar-interval-wake-catchup-2026-09-26",
       "date": "2026-09-26",
