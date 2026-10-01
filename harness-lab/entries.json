@@ -1,8 +1,92 @@
 {
-  "updatedAt": "2026-09-28T22:10:04Z",
+  "updatedAt": "2026-10-01T01:50:58Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "launchd-stdout-stderr-zsh-lc-path-2026-09-30",
+      "date": "2026-09-30",
+      "displayDate": "Tue 30, 2026",
+      "title": "launchd StandardOutPath + zsh -lc PATH for Mac CLI jobs",
+      "href": "https://macos-use.dev/t/claude-code-launchd-background-scheduling",
+      "why": "Common LaunchAgent mistakes: omit StandardOutPath/StandardErrorPath (silent /dev/null failures) and forget /bin/zsh -lc so nvm/fnm/~/.local/bin Claude/Codex miss launchd's minimal PATH. For fleet Mac CLI LaunchAgents: always log stdout/stderr, wrap ProgramArguments in zsh -lc, keep RunAtLoad false while iterating, test with launchctl kickstart -k. Distinct from sleep-coalesce and drop-while-running KEEPs.",
+      "source": "packs/2026-09-30-web-harness-lab-pack.md",
+      "tags": [
+        "routines",
+        "Mac CLI",
+        "launchd",
+        "proof"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "codex-exec-resume-last-repass-sandbox-2026-09-30",
+      "date": "2026-09-30",
+      "displayDate": "Tue 30, 2026",
+      "title": "codex exec resume --last \u2014 re-pass sandbox on continue",
+      "href": "https://developers.openai.com/codex/cli/reference",
+      "why": "Official CLI reference: codex exec resume continues a non-interactive task (--last = cwd most recent; --all searches any dir). Global flags including --sandbox apply on resume \u2014 re-state workspace-write (or read-only) rather than assuming the original policy sticks. Useful for Astra EM follow-ups after interrupt; complements existing --json/--output-last-message and workspace-write KEEPs.",
+      "source": "packs/2026-09-30-web-harness-lab-pack.md",
+      "tags": [
+        "Codex",
+        "Mac CLI",
+        "EM",
+        "recovery",
+        "proof"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-print-total-cost-usd-run-notes-2026-09-30",
+      "date": "2026-09-30",
+      "displayDate": "Tue 30, 2026",
+      "title": "Log total_cost_usd from every scheduled claude -p",
+      "href": "https://code.claude.com/docs/en/headless",
+      "why": "Headless docs: --output-format json includes total_cost_usd (+ per-model breakdown) so scripts track spend without the usage dashboard; DEV measured ~150k-token cold -p when -p loads hooks/MCP/CLAUDE.md without --bare. Fleet routines should parse cost into run notes (keep PROXY vs live quota labels separate). Pair with existing --bare KEEP.",
+      "source": "packs/2026-09-30-web-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "usage",
+        "honesty",
+        "routines",
+        "Mac CLI"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-permission-mode-dontask-unattended-2026-09-30",
+      "date": "2026-09-30",
+      "displayDate": "Tue 30, 2026",
+      "title": "--permission-mode dontAsk for unattended -p (usable on 2.1.221)",
+      "href": "https://code.claude.com/docs/en/headless",
+      "why": "Headless docs: dontAsk denies every call that would otherwise prompt (locked-down CI) while still allowing reads/read-only commands and explicit --allowedTools / permissions.allow. Available on Mac Claude 2.1.221 today \u2014 do not wait for --permission-prompts none (\u22652.1.259, still backlog). Pair with --bare on scheduled EM/collect kicks.",
+      "source": "packs/2026-09-30-web-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "Mac CLI",
+        "routines",
+        "EM",
+        "honesty"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "amux-capture-pane-claude-exit-detect-2026-09-30",
+      "date": "2026-09-30",
+      "displayDate": "Tue 30, 2026",
+      "title": "amux capture-pane \u2014 detect Claude exit to shell (not just log age)",
+      "href": "https://amux.io/blog/auto-restart-ai-agents/",
+      "why": "Screen-scrape tmux capture-pane for Claude TUI alive (\u276f U+276F) vs bare $/% shell after context exhaustion; require a ~10 min last-seen-alive window so fresh/intentional shells are not restarted; 90s restart cooldown; opt-in per session. Extends grok-tmux-watchdog (log-age + Enter only) with TUI-vs-shell discrimination \u2014 dry-run first; leave auto-restart OFF on any session that posts or pays.",
+      "source": "packs/2026-09-30-web-harness-lab-pack.md",
+      "tags": [
+        "watchdog",
+        "tmux",
+        "Claude",
+        "Mac CLI",
+        "recovery"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "launchd-calendar-drop-while-running-runs-counter-2026-09-28",
       "date": "2026-09-28",
