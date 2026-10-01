@@ -1,8 +1,96 @@
 {
-  "updatedAt": "2026-10-01T01:50:58Z",
+  "updatedAt": "2026-10-01T15:47:38Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "vault-one-way-inbox-lane-rsync-2026-10-01",
+      "date": "2026-10-01",
+      "displayDate": "Oct 1, 2026",
+      "title": "Vault one-way mirror + _inbox/ write-back lane",
+      "href": "https://forum.obsidian.md/t/best-practices-for-using-a-vault-across-devices-and-keeping-it-accessible-to-claude/117819",
+      "why": "For box\u2194Mac Obsidian vault staging: one writer as source of truth; rsync one-way to the consumer (exclude .obsidian/ .trash/ .git/); agent writes only into _inbox/ excluded from --delete. Stops silent plugin data.json ping-pong. Fleet vault = notes vault, not HashiCorp.",
+      "source": "packs/2026-10-01-web-harness-lab-pack.md",
+      "tags": [
+        "vault",
+        "Obsidian",
+        "staging",
+        "Mac CLI",
+        "honesty"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "flock-session-id-scheduled-claude-overlap-2026-10-01",
+      "date": "2026-10-01",
+      "displayDate": "Oct 1, 2026",
+      "title": "flock + deterministic --session-id against overlapping scheduled -p",
+      "href": "https://hidekazu-konishi.com/entry/claude_code_cicd_and_headless_automation.html",
+      "why": "Scheduled Mac CLI jobs can overlap when a slow run outlives the next tick. Wrap claude -p in flock -n (skip if held) and give each logical job a stable --session-id UUID so retries stay addressable. Distinct from launchd wake/drop-while-running KEEPs \u2014 this locks the process itself.",
+      "source": "packs/2026-10-01-web-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "routines",
+        "Mac CLI",
+        "launchd",
+        "concurrency",
+        "proof"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "codex-persist-thread-id-exact-resume-2026-10-01",
+      "date": "2026-10-01",
+      "displayDate": "Oct 1, 2026",
+      "title": "Persist Codex thread_id for exact exec resume (safer than --last)",
+      "href": "https://github.com/cosformula/resilient-coding-agent-skill",
+      "why": "When several Codex EM/review tasks share a machine, resume --last can grab the wrong session. Tee --json events, extract thread_id, resume that id. Safer identity handle for parallel Astra/Codex work than cwd-scoped --last.",
+      "source": "packs/2026-10-01-web-harness-lab-pack.md",
+      "tags": [
+        "Codex",
+        "tmux",
+        "EM",
+        "recovery",
+        "Mac CLI"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "codex-exec-resume-sandbox-via-config-2026-10-01",
+      "date": "2026-10-01",
+      "displayDate": "Oct 1, 2026",
+      "title": "codex exec resume \u2014 use -c sandbox_mode=\u2026 (not -s)",
+      "href": "https://github.com/openai/codex/issues/40149",
+      "why": "Open issue: codex exec resume rejects -s/--sandbox. A resume without -c sandbox_mode can write a file that the original exec -s read-only blocked. Pass -c sandbox_mode=\"read-only\" (or workspace-write) on every resume. Corrects the 2026-09-30 tip that assumed --sandbox re-passes. Mac codex 0.156.1 resume --help lists -c only.",
+      "source": "packs/2026-10-01-web-harness-lab-pack.md",
+      "tags": [
+        "Codex",
+        "Mac CLI",
+        "EM",
+        "sandbox",
+        "recovery",
+        "proof"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-max-budget-usd-unattended-2026-10-01",
+      "date": "2026-10-01",
+      "displayDate": "Oct 1, 2026",
+      "title": "--max-budget-usd hard cap on every scheduled claude -p",
+      "href": "https://code.claude.com/docs/en/headless",
+      "why": "Print-mode hard ceiling on API spend for one -p run \u2014 stops overrun even when turn count is low but tokens are high. Pair with --max-turns and logging total_cost_usd from JSON. Usable on Mac Claude 2.1.221 today (local --help lists the flag).",
+      "source": "packs/2026-10-01-web-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "usage",
+        "honesty",
+        "routines",
+        "Mac CLI",
+        "cost"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "launchd-stdout-stderr-zsh-lc-path-2026-09-30",
       "date": "2026-09-30",
