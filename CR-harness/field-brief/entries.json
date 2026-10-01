@@ -1,11 +1,68 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-09-30T21:57:36-04:00",
+  "updatedAt": "2026-09-30T21:59:34-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-09-29.html",
+  "briefEdition": "briefs/2026-09-30.html",
   "entries": [
+    {
+      "id": "upstream-message-answer-substitution",
+      "title": "Upstream messages override correct answers: answer substitution in multi-agent LLMs",
+      "date": "2026-09-30",
+      "summary": "Gong, Zhang, Gao et al., arXiv:2609.36855 (submitted 29 Sep 2026). Controlled study over five benchmarks and five receivers, holding downstream task and evidence fixed and comparing no message, the upstream agent's message, and a message with the opposite conclusion. Messages often help when the receiver would otherwise be wrong, but when it would have been right an incorrect upstream message changes the answer in up to 32% of cases; in 94% of audited harmful cases the receiver copies the upstream's specific wrong answer ('answer substitution'). Removing unreliable messages recovers part of the lost accuracy.",
+      "tags": [
+        "multi-agent",
+        "dual-LGTM",
+        "verification",
+        "fleet"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.36855",
+        "https://arxiv.org/abs/2609.26145"
+      ],
+      "why_it_matters_for_cr": "Second independent result (after the 09-25 debate-collapse paper) that exposing a peer's verdict to a reviewer can destroy a correct independent judgement. Supports blind dual-LGTM and suggests any multi-agent CR design (planner → executor) should pass evidence, not conclusions, unless upstream reliability is known.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "crjudgebench-review-trust",
+      "title": "CRJudgeBench: can an agent tell plausible-but-wrong code review comments?",
+      "date": "2026-09-30",
+      "summary": "Pan, Li, Zhang et al., arXiv:2609.37216 (submitted 29 Sep 2026). 1,199 instances from real pull requests plus expert-verified perturbations, covering trustworthy and plausible-but-untrustworthy review comments. Sentinel, a repository-grounded agentic judge that gathers code evidence before judging (Qwen3-Coder-30B-A3B base, trained by iterative action-level learning from a privileged teacher), reaches 76.60% on the 359-instance test set, +6.13 pts over GLM-5.3 and +19.78 over its base model. Even strong general LLMs struggle to flag untrustworthy comments.",
+      "tags": [
+        "code-review",
+        "verification",
+        "fleet",
+        "eval"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.37216",
+        "https://huggingface.co/datasets/dcloud347/CRJudgeBenchmark"
+      ],
+      "why_it_matters_for_cr": "Fleet reviewers can emit confident but wrong claims; this is a benchmark for judging the claim, not the code. Useful as a sanity check on the second dual-LGTM seat: require evidence pointers that a judge can verify before a finding counts. Also relevant for reviewing CR cockpit/eval PRs.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "executable-contract-benchmark-audit",
+      "title": "Executable-contract audit: agent benchmark scores can rest on defective tools",
+      "date": "2026-09-30",
+      "summary": "Bellibatlu, Wang, Zhang et al., arXiv:2609.37315 (submitted 29 Sep 2026). Treats each tool's advertised interface as an executable contract and checks the implementation and evaluator provenance. Across 34 audited mutating tools in four benchmarks it confirms seven tool defects and one evaluator property; on injected defects the checker had no false positives in 25 flags but missed most (in 29 of 33 scored misses a clause covered the defect but no probe revealed it). Clearest case: a clinical benchmark whose tool reports writes executed under an undisclosed no-write design, so its grader scores whether a request carried the expected payload, not whether any record changed.",
+      "tags": [
+        "eval",
+        "benchmark-audit",
+        "simulator",
+        "verification",
+        "ETL"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.37315"
+      ],
+      "why_it_matters_for_cr": "Direct warning for CR ETL: a score derived from what the sim says it did can be wrong if the sim does not do it. Check Mini Royale's action-result contract (accepted deploy actually changes sim state) with probes, and trace each reported metric back to state the sim wrote.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "glyphbench-observation-harness",
       "title": "GlyphBench: observation format and harness as measured factors in game agents",
@@ -205,25 +262,6 @@
       "thin": false
     },
     {
-      "id": "gameasg-legal-action-spec",
-      "title": "GameASG-Bench: declare legal actions + rejection behavior before generation",
-      "date": "2026-09-25",
-      "summary": "Zhang et al., arXiv:2609.21293 (18 Sep 2026). 47 browser-game generation tasks across 12 genres; each fixes an evaluation interface up front (legal starting scenarios, player-level actions, stable snapshots, rejection behavior, invariants) with static L1 and browser-run L2 checks. Best mean L2 pass 93.2% but best strict task success only 55.3% (26/47); two harnesses each got 18 strict successes but overlapped on only 10.",
-      "tags": [
-        "games",
-        "legal_actions",
-        "eval",
-        "harness",
-        "spec"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.21293"
-      ],
-      "why_it_matters_for_cr": "Spec-first pattern for Mini Royale: write the legal_actions/rejection/invariant contract as an executable check suite so sim or cockpit changes can’t silently break it; also a reminder that average check pass rates hide per-task compliance gaps.",
-      "status": "watch",
-      "thin": false
-    },
-    {
       "id": "jev-gameplay-decision-router",
       "title": "Jev at decision_point: typed Choice/Noul gate over legal_actions",
       "date": "2026-09-24",
@@ -321,43 +359,6 @@
         "https://github.com/Qihoo360/harness-bench"
       ],
       "why_it_matters_for_cr": "CR batch evals should score (model, prompt, legal_actions schema, retry policy) as one config — not attribute wins to the LLM alone.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "harbor-index-eval-infra",
-      "title": "Harbor Adapters + Harbor-Index: unified agentic eval infra",
-      "date": "2026-09-24",
-      "summary": "arXiv:2609.04298 — adapters for 80+ agentic benchmarks; Harbor-Index curated hard subset (82 tasks / 29 benches). Strongest reported config ~28% pass. Useful pattern for wrapping CR sim + external benches under one runner.",
-      "tags": [
-        "eval",
-        "infra",
-        "agent-control"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.04298"
-      ],
-      "why_it_matters_for_cr": "Inspiration for a thin CR eval adapter that can sit beside TextArena/PTCG-style benches without rewriting the cockpit.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "textarena-suite",
-      "title": "TextArena: 100+ text games + show_valid legal-move hints",
-      "date": "2026-09-24",
-      "summary": "Public Gym-style suite (Guertler et al.; github.com/textarena/textarena). Environments expose validation, set_invalid_move, optional show_valid legal lists. Used by AutoHarness; also hosts MindGames / SPIRAL self-play work.",
-      "tags": [
-        "games",
-        "eval",
-        "legal_actions",
-        "open-source"
-      ],
-      "source_urls": [
-        "https://github.com/textarena/textarena",
-        "https://www.textarena.ai/",
-        "https://arxiv.org/abs/2504.11442"
-      ],
-      "why_it_matters_for_cr": "Cheap public sandbox to prototype legal_actions UX and illegal-move telemetry before touching private Mini Royale.",
       "status": "watch",
       "thin": false
     }
