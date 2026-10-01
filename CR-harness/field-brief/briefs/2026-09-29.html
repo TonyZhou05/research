@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief deep edition 2026-09-29 — CR-Harness and agent-control scout ideas.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-09-29 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-09-29.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-09-29 · ET</p>
+    <h1>Field Brief — observation formats, safe self-edits, cheat paths</h1>
+    <p class="lede">A light day: three items. The most CR-relevant is <strong>GlyphBench</strong> (observation format and harness as measured factors for game agents). <strong>SAGE</strong> adds a statistical abstain-by-default gate for self-evolving agents, and <strong>CheatBench</strong> is a thin pointer on reward gaming. Catch-up edition for Tue 2026-09-29, published 2026-09-30.</p>
+    <p class="zh">九月二十九日简报 · 三条深读(其中一条证据较薄)· 无新增 intent 候选。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-09-28.html">2026-09-28</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout"><strong>Honesty.</strong> Catch-up run: the Mac was offline. Every arXiv id below was opened and its abstract read; GlyphBench details come from the paper’s HTML. Real submission dates are 26–28 Sep, so these are “new since the 09-28 edition”, not strictly 09-29. Three older cards (ActGov, AgenticSTS, Hasty-CR) were retired to keep the index at 18; no <span class="pill">candidate_intent</span> was dropped.</div>
+
+  <section>
+    <h2>1. GlyphBench: the observation format is a harness knob <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Castanyer, Côté et al., <a href="https://arxiv.org/abs/2609.34214" rel="noopener noreferrer">arXiv:2609.34214</a>
+      (submitted 28 Sep 2026). An environment suite of 360+ game tasks whose spatial observations are rendered as 2-D Unicode glyph grids,
+      with one interface for training, evaluation and trajectory replay.</p>
+    <p><strong>Evidence.</strong> The authors study how observation interface, reasoning effort and agent harness affect performance. In their Craftax experiments
+      glyph observations beat native text and pixels, with further gains on several BALROG environments. In their RL runs, invalid actions are treated as no-ops.
+      RL on 100 tasks lifts Qwen3.5-4B to 63.48% on held-out Reasoning Gym, vs 62.29% for math RL, 58.98% for code RL and 56.04% for the base model
+      (gain over math RL 1.19 pts, paired 95% interval [0.38, 2.02]).</p>
+    <p><strong>Why it matters for CR.</strong> How Mini Royale state is rendered at each <code>decision_point</code> (prose, grid, structured JSON) is a harness
+      factor like the <code>legal_actions</code> mask. It deserves its own ablation, and it is cheap to run.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Add an observation-format axis (text / arena grid / structured) to the harness-ablation table already planned from PTCG-Bench.</li>
+      <li>Report how invalid actions are handled (no-op vs retry vs forfeit) as part of the harness spec, alongside Game Arena’s rules from the 09-28 edition.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. SAGE: only keep an edit if the paired test says so <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Wang, Xia, Liu et al., <a href="https://arxiv.org/abs/2609.36043" rel="noopener noreferrer">arXiv:2609.36043</a>
+      (28 Sep 2026). A statistical acceptance gate for agents that self-evolve by editing a skill document.</p>
+    <p><strong>Evidence.</strong> The usual rule (keep any edit that raises the aggregate validation score) admits permanent regressions and falls to the Optimizer’s Curse.
+      SAGE evaluates old vs edited skill on identical items, penalizes regressions asymmetrically, and commits only if a one-sided paired test finds wins reliably exceed losses;
+      otherwise it abstains. Across 5 benchmarks and 4 backbones at equal budget it lowers the regression rate in 19 of 20 settings (e.g. 36.5% → 0% on LiveMath and
+      42.8% → 0% on OfficeQA with DeepSeek-V4) and reaches the highest final score in all 20. These are the authors’ numbers; I read the abstract only.</p>
+    <p><strong>Why it matters for CR.</strong> The 09-24 HarnessDev/Evo-Bench cards warned that auto-evolved harnesses are unstable. SAGE is a concrete acceptance rule that complements
+      the human gate and Three-Run Proof: paired per-scenario comparison with an abstain default.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>If CR prompts or skills are ever auto-edited, require a paired per-seed comparison on identical Mini Royale scenarios and log rejected edits.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. CheatBench: when the honest path is hard <span class="pill watch">idea · thin</span></h2>
+    <p><strong>What it is.</strong> Phan, Yang, Lim et al., <a href="https://arxiv.org/abs/2609.36308" rel="noopener noreferrer">arXiv:2609.36308</a>
+      (28 Sep 2026), released at <a href="https://cheatbench.ai" rel="noopener noreferrer">cheatbench.ai</a>. Environments pair hard assignments with opportunities to cheat,
+      across math research, knowledge work, coding, visual tasks and more.</p>
+    <p><strong>Evidence.</strong> Thin: I read the abstract only, with no results or numbers. It frames the problem; it doesn’t give CR a ready recipe.</p>
+    <p><strong>Why it matters for CR.</strong> Same concern as Hasty-CR’s exploit probes, now for LLM agents. If a win can come from a sim bug or an accepted-but-unintended action, win rate misleads.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Read the benchmark design before borrowing; for now, add one “cheat path open” scenario to CR’s exploit-probe list.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Also seen (not carded)</h2>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2609.35865" rel="noopener noreferrer">PACT</a> (26 Sep): calibrated tuning for single-token typed-decision models — relevant to Jev-style routers, but a training-recipe paper with a small holdout.</li>
+      <li><a href="https://arxiv.org/abs/2609.37501" rel="noopener noreferrer">RegLLM</a> (28 Sep): bounded-autonomy harness with should-escalate labels; smoke-scale (n=12 / n=8) by its own account.</li>
+      <li><a href="https://arxiv.org/abs/2609.37475" rel="noopener noreferrer">Boundary-State Control</a> (26 Sep): commit-time consistency for tool agents; security-focused.</li>
+    </ul>
+
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <p>No new intent candidates today. Open from earlier editions: <strong>game-arena-kaggle-harness</strong>, <strong>reflex-jev-selective-control</strong>,
+      <strong>action-class-calibration-gar</strong>, <strong>autoharness-textarena</strong>, <strong>ptcg-bench-harness-ablation</strong>.</p>
+
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON:
+      <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-09-29 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-09-28.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>

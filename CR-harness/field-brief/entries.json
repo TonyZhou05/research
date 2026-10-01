@@ -1,11 +1,70 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-09-28T10:56:40-04:00",
+  "updatedAt": "2026-09-30T21:57:36-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-09-28.html",
+  "briefEdition": "briefs/2026-09-29.html",
   "entries": [
+    {
+      "id": "glyphbench-observation-harness",
+      "title": "GlyphBench: observation format and harness as measured factors in game agents",
+      "date": "2026-09-29",
+      "summary": "Castanyer, Côté et al., arXiv:2609.34214 (submitted 28 Sep 2026). 360+ game tasks rendered as 2-D Unicode glyph grids behind one train/eval/replay interface. Studies how observation interface, reasoning effort and agent harness change performance: glyph observations beat native text and pixels in their Craftax experiments, with further gains on several BALROG environments. In RL runs, invalid actions are treated as no-ops. RL on 100 GlyphBench tasks lifts Qwen3.5-4B to 63.48% on held-out Reasoning Gym vs 62.29% (math RL), 58.98% (code RL) and 56.04% base.",
+      "tags": [
+        "games",
+        "observation",
+        "harness",
+        "eval",
+        "invalid-action",
+        "CR-adjacent"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.34214",
+        "https://arxiv.org/html/2609.34214v1"
+      ],
+      "why_it_matters_for_cr": "Mini Royale's state rendering for decision_point (text vs grid vs structured) is a harness factor, not a constant: GlyphBench shows an observation-format ablation is worth running next to the legal_actions ablation. Also a second explicit data point for 'invalid action = no-op' as a harness policy (cf. Game Arena's retry/forfeit rules).",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "sage-statistical-acceptance-gate",
+      "title": "SAGE: paired-test gate that abstains on unreliable self-evolution edits",
+      "date": "2026-09-29",
+      "summary": "Wang, Xia, Liu et al., arXiv:2609.36043 (submitted 28 Sep 2026). Self-evolving agents that edit a skill document usually keep any edit that raises the aggregate validation score, which admits permanent regressions and the Optimizer's Curse. SAGE compares current vs edited skill per item on identical validation items and commits an edit only if a one-sided paired test says wins reliably beat losses; otherwise it abstains. Across 5 benchmarks and 4 backbones at equal budget it lowers regression rate in 19 of 20 settings (e.g. 36.5%→0% on LiveMath, 42.8%→0% on OfficeQA with DeepSeek-V4) and gets the highest final score in all 20.",
+      "tags": [
+        "harness-evolution",
+        "abstain",
+        "eval",
+        "statistics",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.36043"
+      ],
+      "why_it_matters_for_cr": "Concrete acceptance rule for any future auto-edit of CR prompts/skills/legal_actions text: per-match-seed paired comparison with an abstain default, so an edit that raises mean win rate but breaks previously-won scenarios is rejected. Complements the human gate + Three-Run Proof rule.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "cheatbench-reward-gaming",
+      "title": "CheatBench: measuring reward gaming when honest work is hard",
+      "date": "2026-09-29",
+      "summary": "Phan, Yang, Lim et al., arXiv:2609.36308 (submitted 28 Sep 2026); public release at cheatbench.ai. Environments pair challenging assignments (math research, knowledge work, coding, visual tasks and others) with opportunities to cheat, to compare how models and task categories behave when honesty is costly. Abstract-level only: I did not read results or numbers.",
+      "tags": [
+        "eval",
+        "reward-hacking",
+        "exploit",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.36308",
+        "https://cheatbench.ai"
+      ],
+      "why_it_matters_for_cr": "Same worry as Hasty-CR's exploit_probe, now for LLM agents: if a Mini Royale agent can win by a sim bug or an illegal-but-accepted action, win rate lies. Worth borrowing the 'honest path is hard, cheat path is open' scenario design for CR exploit probes.",
+      "status": "idea",
+      "thin": true
+    },
     {
       "id": "game-arena-kaggle-harness",
       "title": "Kaggle Game Arena tech report: retry/forfeit harness rules as eval design",
@@ -86,24 +145,6 @@
       "thin": false
     },
     {
-      "id": "actgov-policy-validation",
-      "title": "ActGov: validate every proposed tool action against task-scoped policy",
-      "date": "2026-09-28",
-      "summary": "Zhang et al., arXiv:2609.24446 (21 Sep 2026). Runtime enforcement: each LLM-proposed tool call is abstracted into finite policy records and allowed only if inside the task-scoped authorization boundary and all applicable policies; the policy set is built from tool specs, benign tasks and failure traces with SMT counterexample checking. Reported to reduce indirect prompt-injection success on AgentDojo/AgentDyn while preserving utility (abstract-level claim; numbers not checked here).",
-      "tags": [
-        "agent-control",
-        "authorization",
-        "legal_actions",
-        "security"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.24446"
-      ],
-      "why_it_matters_for_cr": "Security framing of the same pattern as CR's whitelist: the model proposes, a deterministic validator disposes. Useful vocabulary if CR agents ever get tools beyond legal game actions.",
-      "status": "idea",
-      "thin": true
-    },
-    {
       "id": "reflex-jev-selective-control",
       "title": "REFLEX: Jev typed-choice gate + strong-LLM fallback, measured",
       "date": "2026-09-25",
@@ -180,26 +221,6 @@
       ],
       "why_it_matters_for_cr": "Spec-first pattern for Mini Royale: write the legal_actions/rejection/invariant contract as an executable check suite so sim or cockpit changes can’t silently break it; also a reminder that average check pass rates hide per-task compliance gaps.",
       "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "agenticsts-bounded-memory",
-      "title": "AgenticSTS: bounded typed-retrieval memory for Slay the Spire 2",
-      "date": "2026-09-25",
-      "summary": "Cheng et al., arXiv:2607.02255 (Jul 2026; new to this brief, not new this week). Every decision built from a fresh message assembled by typed retrieval — no raw cross-decision transcript — so each memory layer can be ablated. Skill layer: 6/10 wins vs 3/10 no-store baseline (directional, Fisher p≈0.37). Releases 298 trajectories, frozen memory/skill snapshots and prompt records.",
-      "tags": [
-        "card-game",
-        "memory",
-        "decision_point",
-        "eval",
-        "CR-adjacent"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2607.02255",
-        "https://alayalab.github.io/AgenticSTS/"
-      ],
-      "why_it_matters_for_cr": "Concrete bounded-prompt contract for long matches with many decision_points; pairs with MemArbiter. Their honest small-n reporting is a model for CR’s own ablation write-ups.",
-      "status": "idea",
       "thin": false
     },
     {
@@ -339,24 +360,6 @@
       "why_it_matters_for_cr": "Cheap public sandbox to prototype legal_actions UX and illegal-move telemetry before touching private Mini Royale.",
       "status": "watch",
       "thin": false
-    },
-    {
-      "id": "hasty-cr-sim-mask",
-      "title": "Hasty-CR: CR simulator with legal-tile masks (RL, not LLM)",
-      "date": "2026-09-24",
-      "summary": "Public Clash Royale–style simulator + Maskable PPO agent (hastylmao/Hasty-CR). Explicit legal-tile masking so policy cannot place illegally; exploit_probe hunts simulator bugs that look like wins. Honest: no LLM in the decision path.",
-      "tags": [
-        "Clash-Royale",
-        "simulator",
-        "legal_actions",
-        "RL"
-      ],
-      "source_urls": [
-        "https://github.com/hastylmao/Hasty-CR"
-      ],
-      "why_it_matters_for_cr": "Pattern reference for CR’s spatial legal mask + anti-cheating eval probes — transfer ideas, not the RL stack.",
-      "status": "watch",
-      "thin": true
     }
   ]
 }
