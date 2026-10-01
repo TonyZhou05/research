@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief deep edition 2026-10-01 — CR-Harness and agent-control scout ideas.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-10-01 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-10-01.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-10-01 · ET</p>
+    <h1>Field Brief — plan withdrawal, verifier red-teaming, decision-level vs task-level evidence</h1>
+    <p class="lede">Four items on how to <em>gate</em> and <em>evaluate</em> agent decisions: a benchmark for withdrawing only the affected parts of a plan, a red-team showing a certified action gate failing silently when its rule graph is wrong, a scoping review on proving that better local decisions cause better outcomes, and a thin pointer to a multi-agent RTS player with a post-match review agent.</p>
+    <p class="zh">十月一日简报 · 四条深读 · 无新增 intent 候选;一条证据较薄。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-09-30.html">2026-09-30</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout"><strong>Honesty.</strong> Real submission dates are 29–30 Sep, so these are new since the 09-30 edition. I read each abstract (not full papers) and quote the authors’ numbers without re-running them. Five older cards (CheatBench, SAGE, CRJudgeBench, GameLogicBench, debate-unanimity) were retired to keep the index at 18; no <span class="pill">candidate_intent</span> card was dropped.</div>
+
+  <section>
+    <h2>1. NAQD-Env: withdraw the affected actions, keep the rest <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Abouzahra et al., <a href="https://arxiv.org/abs/2609.38460" rel="noopener noreferrer">arXiv:2609.38460</a>
+      (submitted 29 Sep 2026). A synthetic environment that tests whether an agent suspends only the planned actions affected when evidence changes, permission is revoked or a stop
+      instruction arrives, preserves unaffected work, and resumes only after repair. It is scored against a deterministic reference policy over explicit evidence, authorization and constraint dependencies.</p>
+    <p><strong>Evidence.</strong> 350 frozen scenarios, 11 dependency families, three open-weight models (Qwen2.5-3B, Qwen2.5-7B, Llama-3.1-8B) under three prompts, 3,150 episodes. Withdrawal recall is at most 0.06,
+      no valid resumption appears at eligible opportunities, and only one episode matches the full reference policy. Exploratory SFT lifts Qwen2.5-3B decision accuracy from 0.45–0.54 to 0.83–0.92, but with inappropriate
+      withdrawal and lost event reporting. The authors note it measures policy application on trusted structured inputs, not real-world containment.</p>
+    <p><strong>Why it matters for CR.</strong> <code>legal_actions</code> checks one action at a time. It does not cover a queued plan (say, a planned push) that should be partly cancelled when the board changes.
+      The paper’s split between attempted violations and violations the gate lets through is a useful metric pair for CR’s ETL.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>If CR agents ever hold multi-step plans, add a “plan invalidated at tick t” scenario set and log withdrawal and resumption separately from action legality.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. Who verifies the verifier? <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Rovai, <a href="https://arxiv.org/abs/2609.40027" rel="noopener noreferrer">arXiv:2609.40027</a> (30 Sep 2026). A red-team of CIVeX, a causal verifier that gates state-changing tool calls
+      against a committed action-state graph and issues certificates with a one-sided confidence bound.</p>
+    <p><strong>Evidence.</strong> CIVeX reports zero false executions on its benchmark. Omitting one bidirected edge from the committed graph raises false executions to 15.3% (91% of executions harmful); reversing one arrowhead gives
+      48.9% false executions and no correct ones. Every one of those actions carries an internally valid certificate. A randomized-sample attestation step detected both attacks (2 false alarms in 555 executions on a truthful graph),
+      and refusing anything that fails or can’t be tested gave zero false executions. But 97.1% of beneficial actions were still never executed, and recovery costs 127 experiments per 1,050 actions for safety plus 614 more for the lost value.</p>
+    <p><strong>Why it matters for CR.</strong> The whitelist is only as correct as the rule set behind it. A missing case in the sim’s legal-action logic produces illegal-but-allowed actions that look fully certified,
+      and it also produces wrongful rejections that nobody sees in a “zero illegal moves” report.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Sample accepted actions and replay them against the sim as an attestation check, and report wrongful rejections next to wrongful accepts.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Local decision gains are not task gains <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Zhang, Chang et al., <a href="https://arxiv.org/abs/2609.39989" rel="noopener noreferrer">arXiv:2609.39989</a> (30 Sep 2026). A critical scoping review of 348 studies on what evidence a
+      component replacement in an LLM agent actually establishes. 90 comparison records were examined and eight cases synthesized.</p>
+    <p><strong>Evidence.</strong> Of 222 studies reporting local decision metrics, 142 also report measured task endpoints and 49 only proxies, which the authors stress does not mean the comparisons were matched. Their conclusion:
+      neither online execution nor simultaneous gains in local and task metrics alone shows that better local decisions explain a task-level gain. They derive eight claim-specific reporting items. I read the abstract only.</p>
+    <p><strong>Why it matters for CR.</strong> This is the <code>decision_point</code> eval question in one sentence. If a Jev-style gate or a mask improves per-decision accuracy, did match outcomes improve because of it?</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Report per-decision metrics and match outcomes from the same matched seeds, and log which downstream states the replaced component changed. Read the eight reporting items before writing the next ablation table.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. STRATA: fast agents, slow reviewer, validated lessons <span class="pill watch">watch · thin</span></h2>
+    <p><strong>What it is.</strong> Tian, Zhang et al., <a href="https://arxiv.org/abs/2609.38881" rel="noopener noreferrer">arXiv:2609.38881</a> (30 Sep 2026). A role-split LLM system for the RTS game Red Alert.
+      A Strategic Agent sets directives from the global state plus retrieved “experience cards”. A Logistics Agent and a Tactical Agent execute. After each match a Review Agent derives candidate lessons from traces,
+      validates and revises them against later matches, and compresses supported lessons into cards.</p>
+    <p><strong>Evidence.</strong> Thin. The abstract reports a win rate rising from 30% to 100% under one fixed scenario with learned cards. That is a single scenario, so it is not a general effect, and I did not read the full paper.</p>
+    <p><strong>Why it matters for CR.</strong> It is the closest public design to a multi-agent Mini Royale player. The part worth borrowing is the review step that only promotes a lesson once later matches support it.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Read the full paper for how “validated by later matches” is operationalized, and compare to PTCG-Bench’s finding that self-evolution is unstable.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Also seen (not carded)</h2>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2609.38324" rel="noopener noreferrer">Multi-agent discussion gains less when dissent is withheld</a> (29 Sep), carded: discussion can overturn a wrong initial majority only if the withholding rate is below c* = γ/(γ+a);
+        telling agents not to withhold dissent raised the gain. A third data point this week for blind-first dual-LGTM (with <a href="https://arxiv.org/abs/2609.36855" rel="noopener noreferrer">2609.36855</a>).</li>
+      <li><a href="https://arxiv.org/abs/2609.39579" rel="noopener noreferrer">AVERT-VLN</a> (30 Sep): abstention-aware monitor that suspends navigation and requests human guidance on a LOST verdict — vision-language navigation, not games.</li>
+      <li><a href="https://arxiv.org/abs/2609.39564" rel="noopener noreferrer">A2Z GameSpec-Bench</a> and <a href="https://arxiv.org/abs/2609.39045" rel="noopener noreferrer">RSIGame</a> (30 Sep): coding agents that <em>build</em> games; related to the sim-spec cards, not to agents playing.</li>
+      <li><a href="https://arxiv.org/abs/2609.38291" rel="noopener noreferrer">HARDE</a> (29 Sep): optimizing a trigger/monitor/feedback harness for runtime safety.</li>
+    </ul>
+
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <p>No new intent candidates today. Open from earlier editions: <strong>game-arena-kaggle-harness</strong>, <strong>reflex-jev-selective-control</strong>,
+      <strong>action-class-calibration-gar</strong>, <strong>adversarial-review-dual-lgtm</strong>, <strong>autoharness-textarena</strong>, <strong>ptcg-bench-harness-ablation</strong>.</p>
+
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON:
+      <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-10-01 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-09-30.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>

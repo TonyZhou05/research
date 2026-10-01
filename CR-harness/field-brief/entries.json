@@ -1,11 +1,107 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-09-30T21:59:34-04:00",
+  "updatedAt": "2026-10-01T11:48:40-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-09-30.html",
+  "briefEdition": "briefs/2026-10-01.html",
   "entries": [
+    {
+      "id": "strata-rts-review-agent",
+      "title": "STRATA: role-split LLM agents + a post-match Review Agent for Red Alert",
+      "date": "2026-10-01",
+      "summary": "Tian, Zhang et al., arXiv:2609.38881 (submitted 30 Sep 2026). Hierarchical LLM system for the RTS game Red Alert: a Strategic Agent sets high-level directives from global state plus retrieved 'experience cards', a Logistics Agent and a Tactical Agent handle logistics and tactical execution (motivated by inference latency missing tactical events). After each match a Review Agent derives candidate experience from game traces, validates/revises it with evidence from later matches, and compresses cross-game-supported lessons into cards. Reported: under a fixed scenario, using learned cards raises observed win rate from 30% to 100%. That is a single fixed scenario; abstract-level claim, I did not read the full paper.",
+      "tags": [
+        "games",
+        "RTS",
+        "multi-agent",
+        "review-agent",
+        "memory",
+        "CR-adjacent"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.38881"
+      ],
+      "why_it_matters_for_cr": "Closest public design to a multi-agent Mini Royale player: fast tactical agent + slower strategic agent + offline reviewer that only promotes lessons validated on later matches. The validate-on-later-matches step is the part worth stealing; the headline 30%→100% is one scenario and should not be read as a general effect.",
+      "status": "watch",
+      "thin": true
+    },
+    {
+      "id": "naq-selective-withdrawal",
+      "title": "NAQD-Env: can language agents withdraw only the affected actions?",
+      "date": "2026-10-01",
+      "summary": "Abouzahra et al., arXiv:2609.38460 (submitted 29 Sep 2026). Synthetic environment that tests whether an agent suspends affected planned actions when evidence changes, permission is revoked or a stop arrives, while preserving unaffected work and resuming only after repair. 350 frozen scenarios, 11 dependency families, three open-weight models (Qwen2.5-3B/7B, Llama-3.1-8B) under three prompts (3,150 episodes): withdrawal recall at most 0.06, no valid resumption at eligible opportunities, one episode matches the full reference policy. Exploratory SFT probes lift Qwen2.5-3B decision accuracy from 0.45–0.54 to 0.83–0.92 but show inappropriate withdrawal and lost event reporting. Small open models, synthetic structured inputs.",
+      "tags": [
+        "abstain",
+        "agent-control",
+        "eval",
+        "decision_point",
+        "selective-withdrawal"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.38460"
+      ],
+      "why_it_matters_for_cr": "Gives CR a vocabulary and metric set for a case legal_actions does not cover: a queued plan (e.g., a planned push) that must be partially cancelled when the board changes. Separates attempted violations from violations the gate lets through, and reports resumption, not only withdrawal.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "civex-verifier-misspecification",
+      "title": "Who verifies the verifier? Corrupting the committed graph defeats a causal action gate",
+      "date": "2026-10-01",
+      "summary": "Rovai, arXiv:2609.40027 (submitted 30 Sep 2026). Red-teams CIVeX, a causal action verifier that gates state-changing tool calls against a committed action-state graph and reports zero false executions on a confounded benchmark. Omitting one bidirected edge raises false executions to 15.3% (91% of executions harmful); reversing one arrowhead gives 48.9% false executions and no correct ones; every such action still carries an internally valid certificate. A randomized-sample attestation step detected both attacks (2 false alarms in 555 executions) and refusing failures gave zero false executions, but 97.1% of beneficial actions were still never executed. Costs: 127 experiments per 1,050 actions for safety, 614 more to recover the lost value.",
+      "tags": [
+        "agent-control",
+        "verification",
+        "legal_actions",
+        "gate",
+        "safety"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.40027"
+      ],
+      "why_it_matters_for_cr": "A whitelist is only as good as the rule/graph behind it. If the sim's legal_actions logic has a missing case, every illegal-but-allowed action will look validly certified. Argues for sampling-based attestation (replay accepted actions against the sim) and for tracking wrongful rejections, not only wrongful accepts.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "component-replacement-evidence-review",
+      "title": "Scoping review: local-decision gains vs task-level gains in LLM agents",
+      "date": "2026-10-01",
+      "summary": "Zhang, Chang et al., arXiv:2609.39989 (submitted 30 Sep 2026). Critical scoping review of 348 studies (90 comparison records examined; 8 cases synthesized) on what evidence a component replacement in an agent establishes. Of 222 studies reporting local decision metrics, 142 also report measured task endpoints and 49 only proxies, without establishing matched comparisons. Concludes that neither online execution nor simultaneous gains in local and task metrics alone shows that better local decisions explain a task-level gain; derives eight claim-specific reporting items.",
+      "tags": [
+        "decision_point",
+        "eval",
+        "methodology",
+        "agent-control",
+        "CR-adjacent"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.39989"
+      ],
+      "why_it_matters_for_cr": "Directly about the decision_point eval question: when a gate or router improves decision-level accuracy, did match outcomes improve because of it? CR should report local decision metrics and match endpoints from the same matched runs, and log which downstream states the replacement changed.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "dissent-withholding-critical-rate",
+      "title": "Multi-agent discussion gains less when dissent is withheld",
+      "date": "2026-10-01",
+      "summary": "Mansuri, Wang, Li et al., arXiv:2609.38324 (submitted 29 Sep 2026). A small model with four agent behaviors (withholding dissent, internalizing a stated answer, reconsidering after seeing dissent, correcting toward the right answer) predicts that discussion can overturn a wrong initial majority only if the withholding rate c is below c* = γ/(γ+a). Rates are estimated from conversation logs; gains shrink as withholding rises across LLMs on HiddenBench and MedEInst, instructing agents not to withhold dissent increases the gain, and turning reasoning off also increases the gain.",
+      "tags": [
+        "multi-agent",
+        "dual-LGTM",
+        "debate",
+        "fleet"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2609.38324",
+        "https://arxiv.org/abs/2609.36855"
+      ],
+      "why_it_matters_for_cr": "Third data point this week, alongside the answer-substitution and debate-collapse papers: blind first, then discuss, and prompt reviewers to state dissent explicitly. Gives a measurable quantity (withholding rate) to log in dual-LGTM transcripts.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "upstream-message-answer-substitution",
       "title": "Upstream messages override correct answers: answer substitution in multi-agent LLMs",
@@ -22,25 +118,6 @@
         "https://arxiv.org/abs/2609.26145"
       ],
       "why_it_matters_for_cr": "Second independent result (after the 09-25 debate-collapse paper) that exposing a peer's verdict to a reviewer can destroy a correct independent judgement. Supports blind dual-LGTM and suggests any multi-agent CR design (planner → executor) should pass evidence, not conclusions, unless upstream reliability is known.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "crjudgebench-review-trust",
-      "title": "CRJudgeBench: can an agent tell plausible-but-wrong code review comments?",
-      "date": "2026-09-30",
-      "summary": "Pan, Li, Zhang et al., arXiv:2609.37216 (submitted 29 Sep 2026). 1,199 instances from real pull requests plus expert-verified perturbations, covering trustworthy and plausible-but-untrustworthy review comments. Sentinel, a repository-grounded agentic judge that gathers code evidence before judging (Qwen3-Coder-30B-A3B base, trained by iterative action-level learning from a privileged teacher), reaches 76.60% on the 359-instance test set, +6.13 pts over GLM-5.3 and +19.78 over its base model. Even strong general LLMs struggle to flag untrustworthy comments.",
-      "tags": [
-        "code-review",
-        "verification",
-        "fleet",
-        "eval"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.37216",
-        "https://huggingface.co/datasets/dcloud347/CRJudgeBenchmark"
-      ],
-      "why_it_matters_for_cr": "Fleet reviewers can emit confident but wrong claims; this is a benchmark for judging the claim, not the code. Useful as a sanity check on the second dual-LGTM seat: require evidence pointers that a judge can verify before a finding counts. Also relevant for reviewing CR cockpit/eval PRs.",
       "status": "watch",
       "thin": false
     },
@@ -83,44 +160,6 @@
       "why_it_matters_for_cr": "Mini Royale's state rendering for decision_point (text vs grid vs structured) is a harness factor, not a constant: GlyphBench shows an observation-format ablation is worth running next to the legal_actions ablation. Also a second explicit data point for 'invalid action = no-op' as a harness policy (cf. Game Arena's retry/forfeit rules).",
       "status": "watch",
       "thin": false
-    },
-    {
-      "id": "sage-statistical-acceptance-gate",
-      "title": "SAGE: paired-test gate that abstains on unreliable self-evolution edits",
-      "date": "2026-09-29",
-      "summary": "Wang, Xia, Liu et al., arXiv:2609.36043 (submitted 28 Sep 2026). Self-evolving agents that edit a skill document usually keep any edit that raises the aggregate validation score, which admits permanent regressions and the Optimizer's Curse. SAGE compares current vs edited skill per item on identical validation items and commits an edit only if a one-sided paired test says wins reliably beat losses; otherwise it abstains. Across 5 benchmarks and 4 backbones at equal budget it lowers regression rate in 19 of 20 settings (e.g. 36.5%→0% on LiveMath, 42.8%→0% on OfficeQA with DeepSeek-V4) and gets the highest final score in all 20.",
-      "tags": [
-        "harness-evolution",
-        "abstain",
-        "eval",
-        "statistics",
-        "agent-control"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.36043"
-      ],
-      "why_it_matters_for_cr": "Concrete acceptance rule for any future auto-edit of CR prompts/skills/legal_actions text: per-match-seed paired comparison with an abstain default, so an edit that raises mean win rate but breaks previously-won scenarios is rejected. Complements the human gate + Three-Run Proof rule.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "cheatbench-reward-gaming",
-      "title": "CheatBench: measuring reward gaming when honest work is hard",
-      "date": "2026-09-29",
-      "summary": "Phan, Yang, Lim et al., arXiv:2609.36308 (submitted 28 Sep 2026); public release at cheatbench.ai. Environments pair challenging assignments (math research, knowledge work, coding, visual tasks and others) with opportunities to cheat, to compare how models and task categories behave when honesty is costly. Abstract-level only: I did not read results or numbers.",
-      "tags": [
-        "eval",
-        "reward-hacking",
-        "exploit",
-        "agent-control"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.36308",
-        "https://cheatbench.ai"
-      ],
-      "why_it_matters_for_cr": "Same worry as Hasty-CR's exploit_probe, now for LLM agents: if a Mini Royale agent can win by a sim bug or an illegal-but-accepted action, win rate lies. Worth borrowing the 'honest path is hard, cheat path is open' scenario design for CR exploit probes.",
-      "status": "idea",
-      "thin": true
     },
     {
       "id": "game-arena-kaggle-harness",
@@ -183,25 +222,6 @@
       "thin": false
     },
     {
-      "id": "gamelogicbench-tick-assertions",
-      "title": "GameLogicBench: tick-level rule assertions, validated with mutants",
-      "date": "2026-09-28",
-      "summary": "Che et al., arXiv:2609.21562 (18 Sep 2026). 72 Godot gameplay-logic tasks; the evaluator checks game rules at every simulation tick across 403 hand-designed scenarios (1,451 seeded test cases), and must accept varied correct implementations while rejecting mutants with one capability removed. Best of 20 model–scaffold combos solves 52.78%; without mutant validation incorrect submissions passed; agents copied public code when network was open.",
-      "tags": [
-        "games",
-        "simulator",
-        "eval",
-        "verification",
-        "spec"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.21562"
-      ],
-      "why_it_matters_for_cr": "'A game can end in a valid state after violating its rules mid-run' applies to the Mini Royale sim too. Tick-level invariants + mutant-tested checks are a cheap way to trust sim changes before any agent eval runs on them.",
-      "status": "watch",
-      "thin": false
-    },
-    {
       "id": "reflex-jev-selective-control",
       "title": "REFLEX: Jev typed-choice gate + strong-LLM fallback, measured",
       "date": "2026-09-25",
@@ -239,26 +259,6 @@
       ],
       "why_it_matters_for_cr": "CR decision_points also have action classes (play card / wait-noop / escalate). Logging a gold/expected class separately from the chosen action id lets ETL catch outcome graders that reward lucky wins from the wrong class of decision.",
       "status": "candidate_intent",
-      "thin": false
-    },
-    {
-      "id": "debate-unanimity-collapse",
-      "title": "One debate round erases the disagreement verification needs",
-      "date": "2026-09-25",
-      "summary": "Shu, arXiv:2609.26145. 7-judge heterogeneous panel on 600 code-correctness candidates: unanimity jumps 39.5% → 95.2% after one debate round while accuracy moves <1 pt; 96.3% of verdict flips follow the displayed peer majority; by round 3 every wrong decision is unanimous. Labels alone (no reasoning) reproduce 91.5% of the collapse. Design rule: verify before any peer exposure; never treat post-debate unanimity as independent evidence.",
-      "tags": [
-        "dual-LGTM",
-        "multi-agent",
-        "code-review",
-        "verification",
-        "fleet"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.26145",
-        "https://arxiv.org/abs/2609.08016"
-      ],
-      "why_it_matters_for_cr": "Strong empirical support for keeping fleet dual-LGTM blind (no reviewer sees the other’s verdict before committing) and for running execution checks before review — complements Adversarial Review’s typed disagreement.",
-      "status": "watch",
       "thin": false
     },
     {
