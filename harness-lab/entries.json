@@ -1,8 +1,95 @@
 {
-  "updatedAt": "2026-10-01T15:47:38Z",
+  "updatedAt": "2026-10-02T16:42:18Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "codex-exec-fork-headless-parallel-2026-10-02",
+      "date": "2026-10-02",
+      "displayDate": "Oct 2, 2026",
+      "title": "codex exec fork \u2014 headless fork for parallel review",
+      "href": "https://github.com/openai/codex/pull/37367",
+      "why": "codex exec fork <SESSION_ID> [PROMPT] creates a new thread from an existing session and leaves the source unchanged. Use for a second reviewer/implementer that needs shared history without mutating the first thread. Re-pass -c sandbox_mode=\u2026 on follow-ups. Local Codex 0.156.1 exposes the subcommand.",
+      "source": "packs/2026-10-02-web-harness-lab-pack.md",
+      "tags": [
+        "Codex",
+        "Mac CLI",
+        "EM",
+        "recovery",
+        "sandbox"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "codex-auto-review-defeats-readonly-sandbox-2026-10-02",
+      "date": "2026-10-02",
+      "displayDate": "Oct 2, 2026",
+      "title": "Never set approvals_reviewer=auto_review under unattended exec + read-only",
+      "href": "https://github.com/openai/codex/issues/36570",
+      "why": "Under codex exec, approvals_reviewer=auto_review can silently defeat an explicit --sandbox read-only (writes succeed with no warning). Keep reviewer=user (or omit auto_review) for unattended Mac reviews so sandbox stays binding until a measured fix.",
+      "source": "packs/2026-10-02-web-harness-lab-pack.md",
+      "tags": [
+        "Codex",
+        "Mac CLI",
+        "sandbox",
+        "honesty",
+        "EM"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-resume-interrupted-turn-sigterm-2026-10-02",
+      "date": "2026-10-02",
+      "displayDate": "Oct 2, 2026",
+      "title": "CLAUDE_CODE_RESUME_INTERRUPTED_TURN after SIGTERM",
+      "href": "https://code.claude.com/docs/en/headless",
+      "why": "SIGTERM on claude -p exits 143 and leaves the turn unfinished; set CLAUDE_CODE_RESUME_INTERRUPTED_TURN=1 so resume continues that turn (optional MAX_AGE_MS bounds stale restarts). Complements the SIGINT/SIGTERM Observe card with the resume-side fix for launchd/watchdog kills. Usable on Mac Claude 2.1.221.",
+      "source": "packs/2026-10-02-web-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "Mac CLI",
+        "routines",
+        "recovery",
+        "EM",
+        "watchdog"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-gate-mcp-plugin-errors-system-init-2026-10-02",
+      "date": "2026-10-02",
+      "displayDate": "Oct 2, 2026",
+      "title": "Gate CI on mcp_server_errors / plugin_errors in system/init",
+      "href": "https://code.claude.com/docs/en/headless",
+      "why": "Invalid --mcp-config entries can be skipped while -p still exits cleanly \u2014 silent tool loss for scheduled jobs. Fail the run when system/init stream-json has a non-empty mcp_server_errors or plugin_errors array (mcp_server_errors needs \u22652.1.219; Mac is 2.1.221).",
+      "source": "packs/2026-10-02-web-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "Mac CLI",
+        "routines",
+        "honesty",
+        "proof",
+        "MCP"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-fork-session-em-branch-2026-10-02",
+      "date": "2026-10-02",
+      "displayDate": "Oct 2, 2026",
+      "title": "claude --fork-session \u2014 branch EM without mutating the source",
+      "href": "https://code.claude.com/docs/en/cli-reference",
+      "why": "Pass --fork-session with --resume/--continue to get a new session ID instead of reusing the original. Lets a second EM/review pass diverge from a known-good print session without poisoning the parent transcript. Confirmed in local Claude 2.1.221 --help.",
+      "source": "packs/2026-10-02-web-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "Mac CLI",
+        "EM",
+        "recovery",
+        "proof"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "vault-one-way-inbox-lane-rsync-2026-10-01",
       "date": "2026-10-01",
