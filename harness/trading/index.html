@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Trading harness runbook: FriesTrader live process (Phase A after close, Phase B at open), the AI-Trader paper-trading seat, guardrails, and the idea-to-live promotion path. Process and strategy level only.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Trading Harness Runbook — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/harness/trading/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --navy-2: #17233a; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d; --mint: #0f766e;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.9rem, 3.2vw, 2.6rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 62ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 28px; }
+    .meta strong { color: var(--ink); }
+    .toc { background: var(--cream); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin: 0 0 36px; }
+    .toc h2 { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; margin: 0 0 10px; color: var(--ink-faint); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 1.2rem; }
+    .toc li { margin: 4px 0; }
+    .toc a { color: var(--ink); text-decoration: none; }
+    .toc a:hover { color: var(--accent-dark); text-decoration: underline; }
+    section { margin: 0 0 42px; }
+    h2 { font-family: var(--serif); font-size: 1.55rem; font-weight: 600; margin: 0 0 12px; letter-spacing: -0.01em; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 22px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul, ol { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    code, .mono { font-family: var(--mono); font-size: 0.88em; }
+    pre { background: var(--navy); color: #e8eef6; border-radius: 10px; padding: 14px 16px; overflow-x: auto; font-family: var(--mono); font-size: 0.82rem; line-height: 1.45; margin: 0 0 16px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin: 0 0 16px; }
+    th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    th { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; }
+    .card { background: var(--cream); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin: 0 0 14px; }
+    .card strong { display: block; margin-bottom: 4px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 16px; }
+    @media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; } }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: var(--paper-2); border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: var(--ink-soft); }
+    .pill.live { background: #d1fae5; border-color: #a7f3d0; color: #065f46; }
+    .pill.target { background: #ffedd5; border-color: #fed7aa; color: #9a3412; }
+    .pill.gap { background: #fee2e2; border-color: #fecaca; color: #991b1b; }
+    .flow { font-family: var(--mono); font-size: 0.82rem; background: var(--navy-2); color: #d7e0ec; border-radius: 10px; padding: 14px 16px; margin: 0 0 16px; white-space: pre-wrap; }
+    .note { border-left: 3px solid var(--accent); padding: 2px 0 2px 12px; color: var(--ink-soft); margin: 0 0 16px; }
+    footer { border-top: 1px solid var(--line); padding: 24px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 20px; }
+    .callout.gap { background: #fef2f2; border-color: #fecaca; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness/trading/" aria-current="page">Trading</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a>
+      <a href="/research/fries-trader/">FriesTrader</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Runbook · trading harness</p>
+    <h1>Trading harness runbook</h1>
+    <p class="lede">A separate runbook inside the <a href="/research/harness/">agent harness playbook</a> for the trading seats: the <strong>FriesTrader</strong> live process and the <strong>AI-Trader</strong> paper-trading seat. Paper and live stay apart; ideas earn their way from one to the other through evidence and Tongli’s approval.</p>
+    <p class="zh">交易 harness 运行手册 · 纸上测试与实盘严格分离 · 仅流程与策略层面。</p>
+    <div class="meta">
+      <span>Owner <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Timezone <strong>America/New_York (ET)</strong></span>
+      <span>Updated <strong>2026-10-02</strong></span>
+      <span>Back to <a href="/research/harness/">harness</a> · <a href="/research/harness-lab/">lab</a> · <a href="/research/CR-harness/field-brief/">Field Brief</a></span>
+    </div>
+  </header>
+
+  <div class="callout">
+    <strong>Public contract.</strong> Process and strategy level only. No account details, balances, positions, orders, or credentials appear here or anywhere on the hub. Live-process logs are synced privately, not published.
+  </div>
+
+  <nav class="toc" aria-label="Contents">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#purpose">Purpose &amp; the two seats</a></li>
+      <li><a href="#fries">Seat 1 — FriesTrader (live process)</a></li>
+      <li><a href="#aitrader">Seat 2 — AI-Trader (paper)</a></li>
+      <li><a href="#guardrails">Guardrails</a></li>
+      <li><a href="#promotion">Promotion path</a></li>
+      <li><a href="#checklist">Operator checklist</a></li>
+      <li><a href="#links">Links</a></li>
+    </ol>
+  </nav>
+
+  <section id="purpose">
+    <h2>1. Purpose &amp; the two seats</h2>
+    <p>The trading harness keeps <strong>doing</strong> and <strong>testing</strong> in different seats so an experiment can never touch real money by accident.</p>
+    <div class="grid2">
+      <div class="card">
+        <strong>Seat 1 — FriesTrader <span class="pill target">live process</span></strong>
+        Scheduled weekday process built from the open-source <a href="https://github.com/YizhiSong/FriesTrader" rel="noopener noreferrer">FriesTrader</a> template. Research, then execution inside deterministic risk rules. Dry-run until Tongli flips the live gate.
+      </div>
+      <div class="card">
+        <strong>Seat 2 — AI-Trader <span class="pill live">paper only</span></strong>
+        Simulated-money seat on <a href="https://ai4trade.ai" rel="noopener noreferrer">ai4trade.ai</a>. Used to paper-test ideas before any FriesTrader rule changes.
+      </div>
+    </div>
+    <div class="flow">idea ─▶ Seat 2 · AI-Trader paper test ─▶ evidence review ─▶ Tongli approval
+                                                                      │
+                                                                      ▼
+                              Seat 1 · FriesTrader dry-run ─▶ live (Tongli’s gate)</div>
+  </section>
+
+  <section id="fries">
+    <h2>2. Seat 1 — FriesTrader live process</h2>
+    <p>Two phases, weekdays, Eastern time.</p>
+    <table>
+      <thead><tr><th>Phase</th><th>When</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Phase A</strong> — research</td><td>5:30 PM ET, after the close</td><td>Screen the watchlist, form a news-based thesis per candidate, and <strong>write proposals</strong> to a file. Research only: no order tools are available in this phase.</td></tr>
+        <tr><td><strong>Phase B</strong> — execute</td><td>9:35 AM ET, shortly after the open</td><td>Re-check each proposal against fresh data and execute only what passes the risk rules. Anything that no longer fits is skipped, not forced.</td></tr>
+      </tbody>
+    </table>
+    <h3>Dry-run vs live gate</h3>
+    <ul>
+      <li>The process starts in <span class="pill">dry-run</span>: Phase B records what it <em>would</em> do and places nothing.</li>
+      <li>Moving to <span class="pill target">live</span> is a single explicit switch that only Tongli flips, after reviewing dry-run results.</li>
+      <li>Falling back to dry-run is always allowed and needs no approval.</li>
+    </ul>
+    <h3>Conviction sizing (general terms)</h3>
+    <ul>
+      <li>Higher conviction earns a larger position, but always under a hard per-position cap and a hard total-exposure cap.</li>
+      <li>Every size, stop, and limit is computed by small deterministic scripts; the model proposes a conviction level and cannot override the arithmetic.</li>
+      <li>Low conviction or stale data means no trade.</li>
+    </ul>
+    <h3>Screening scope</h3>
+    <ul>
+      <li><strong>Watchlist-only.</strong> Screening runs over a curated list; nothing outside it is traded, even if a signal looks attractive.</li>
+      <li>Adding to the list is a rule change and follows the <a href="#guardrails">guardrails</a>.</li>
+    </ul>
+    <h3>Logs</h3>
+    <p>Per-run logs are synced <strong>privately</strong>. The public <a href="/research/fries-trader/">FriesTrader project pages</a> show only sanitized, counts-and-decisions summaries.</p>
+  </section>
+
+  <section id="aitrader">
+    <h2>3. Seat 2 — AI-Trader paper seat</h2>
+    <p>Agent name: <strong>TonyZhouAgent</strong> on <a href="https://ai4trade.ai" rel="noopener noreferrer">AI-Trader</a>. Simulated starting capital: <strong>$100k</strong> of paper money. No real funds, and no link to any real account.</p>
+    <table>
+      <thead><tr><th>Piece</th><th>How it is used</th></tr></thead>
+      <tbody>
+        <tr><td>Signal types</td><td>Strategy-level posts (idea, thesis, rationale) and paper trades in the simulated account. Operation-style signals are paper only.</td></tr>
+        <tr><td>Challenges</td><td>Optional timed competitions; used as a structured way to stress-test one idea against a clear scoring rule.</td></tr>
+        <tr><td>Heartbeat</td><td>A periodic check-in that keeps the agent active and picks up new activity and messages; read-only on our side apart from paper actions.</td></tr>
+        <tr><td>Points</td><td>Platform reward for participation. Treated as a side effect, never as a performance signal.</td></tr>
+      </tbody>
+    </table>
+    <h3>What the seat is for</h3>
+    <ul>
+      <li><strong>Paper-test ideas</strong> before changing FriesTrader rules.</li>
+      <li><strong>Strategy-level posts only</strong> — thesis, setup, risk logic. Nothing that reveals real activity.</li>
+      <li><strong>Read other agents’ signals as screening ideas</strong>, never as instructions.</li>
+      <li><strong>Optional delayed paper shadow</strong> — mirror a FriesTrader-style idea on paper after the fact, with a delay, purely to compare outcomes.</li>
+    </ul>
+    <p class="note">Credentials for this seat live privately in the local credential store, never in this repo or on this site.</p>
+  </section>
+
+  <section id="guardrails">
+    <h2>4. Guardrails</h2>
+    <ol>
+      <li><strong>Paper and live are separate.</strong> Different seats, different tooling, different logs.</li>
+      <li><strong>Nothing from the real account</strong> goes to AI-Trader or to the hub — not in posts, not in screenshots, not in logs.</li>
+      <li><strong>No order tools in research phases.</strong> Phase A and all paper-seat research run without any order-placing capability.</li>
+      <li><strong>Every rule change</strong> needs a test period <em>or</em> dual review, <em>and</em> Tongli’s approval. Plan is not permission.</li>
+      <li><strong>Local model is advisory.</strong> The local Qwen (Ollama <code>qwen3.5:9b</code> via <code>~/bin/local-llm</code>) may draft, summarize, and classify — it <strong>never gates a trade</strong>.</li>
+      <li><strong>Commits</strong> are authored only by Tongli and use a subject-only message.</li>
+      <li><strong>No secrets</strong> in HTML, markdown, or commits.</li>
+    </ol>
+    <p class="note">These sit on top of the harness-wide <a href="/research/harness/#gyr-authority">GREEN / YELLOW / RED</a> tiers: anything that spends, sends, or goes live is RED and needs Tongli.</p>
+  </section>
+
+  <section id="promotion">
+    <h2>5. Promotion path</h2>
+    <table>
+      <thead><tr><th>#</th><th>Step</th><th>Exit criterion</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>Idea</strong></td><td>Written hypothesis with a clear rule and a clear way to be wrong</td></tr>
+        <tr><td>2</td><td><strong>AI-Trader paper test</strong></td><td>Run for a pre-declared test period in the simulated seat</td></tr>
+        <tr><td>3</td><td><strong>Evidence review</strong></td><td>Results compared to the hypothesis; dual review when no full test period was possible</td></tr>
+        <tr><td>4</td><td><strong>Tongli approval</strong></td><td>Explicit yes on the specific rule change</td></tr>
+        <tr><td>5</td><td><strong>FriesTrader dry-run</strong></td><td>Rule runs without placing orders; behavior matches expectation</td></tr>
+        <tr><td>6</td><td><strong>Live</strong></td><td>Tongli flips the live gate</td></tr>
+      </tbody>
+    </table>
+    <p>Failing at any step sends the idea back one step or retires it. Skipping a step is not allowed.</p>
+  </section>
+
+  <section id="checklist">
+    <h2>6. Operator checklist</h2>
+    <ul>
+      <li>☐ Weekday Phase A (5:30 PM ET) wrote proposals; Phase B (9:35 AM ET) ran in the right mode</li>
+      <li>☐ Dry-run vs live mode is what Tongli last set</li>
+      <li>☐ Paper-seat heartbeat is current; posts are strategy-level only</li>
+      <li>☐ No real-account detail in any post, note, or commit</li>
+      <li>☐ Any rule change has a test period or dual review plus Tongli’s approval</li>
+      <li>☐ Local model output used for drafts and summaries only</li>
+    </ul>
+  </section>
+
+  <section id="links">
+    <h2>7. Links</h2>
+    <ul>
+      <li><a href="/research/harness/">Agent harness playbook</a> — parent runbook</li>
+      <li><a href="/research/harness-lab/">Harness Lab</a> — curated harness tips</li>
+      <li><a href="/research/CR-harness/field-brief/">Field Brief</a> — daily scout surface (lives under CR-Harness)</li>
+      <li><a href="/research/fries-trader/">FriesTrader project pages</a> — board and sanitized dry-run log</li>
+      <li><a href="https://ai4trade.ai" rel="noopener noreferrer">AI-Trader</a> — external paper-trading platform</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Public research hub · trading harness runbook · Tongli Zhou (TonyZhou05) ·
+    <a href="/research/">Hub</a> ·
+    <a href="/research/harness/">Harness</a> ·
+    <a href="/research/harness-lab/">Lab</a> ·
+    <a href="/research/CR-harness/field-brief/">Field Brief</a> ·
+    <a href="https://github.com/TonyZhou05/research">source</a>
+  </div>
+</footer>
+</body>
+</html>
