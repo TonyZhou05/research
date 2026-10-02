@@ -1,11 +1,92 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-10-01T11:48:40-04:00",
+  "updatedAt": "2026-10-02T12:45:30-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-10-01.html",
+  "briefEdition": "briefs/2026-10-02.html",
   "entries": [
+    {
+      "id": "omnimed-jev-decision-native-calibration",
+      "title": "OmniMed-Jev: Choice/Noul/Score over a runtime candidate set, calibration measured",
+      "date": "2026-10-02",
+      "summary": "Tang, Chen et al., arXiv:2610.00381 (submitted 30 Sep 2026). Second independent paper built on Jev after REFLEX: each bounded decision is a Choice, Noul or Score over a runtime-supplied candidate set, returning a full probability distribution over that set instead of generated text. In an interface-controlled comparison against a generative baseline trained on the same backbone, data and schedule, reported probabilities track correctness far more closely: calibration error down by up to an order of magnitude and reliability error by up to two, with comparable point-prediction performance (counting is the one family where the generative baseline stays ahead). Medical imaging domain, not games; the authors state the comparison cannot separate the interface from associated training differences and is not evidence of clinical readiness.",
+      "tags": [
+        "Jev",
+        "confidence",
+        "calibration",
+        "decision_point",
+        "legal_actions",
+        "typed-choice"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.00381",
+        "https://github.com/lytang63/OmniMed-Jev"
+      ],
+      "why_it_matters_for_cr": "Evidence for the calibration half of the Jev-at-decision_point idea: a distribution over the runtime legal_actions set is a better-behaved confidence signal than a probability read off generated text. Caveat: medical, and interface vs training is confounded, so CR needs its own calibration check by match phase (see TC-ECE card).",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "model-harness-fit-rank-reversal",
+      "title": "Finding the Right Fit: model rankings reverse across harnesses (66 configs)",
+      "date": "2026-10-02",
+      "summary": "Li, Zhou, Teng et al., arXiv:2610.00917 (submitted 1 Oct 2026). 66 model–harness configurations (OpenHands, DeepSeek Harness, PI, openJiuwen with five models, plus native Codex-GPT and Claude Code-Claude) on TUA-Bench, ALE-CLI and Terminal-Bench 4. Rankings reverse across harnesses: on Terminal-Bench 4 Claude leads GPT by 7.94 points in OpenHands but trails by 30.16 in PI. A model's own vendor harness is not reliably its best, and higher cost does not reliably buy a higher score (GPT scores higher under PI than DSH at under a quarter of the cost per task). Matched trajectories suggest fit depends on whether the harness hands failures back in a usable form. Releases adapters, code and 6,204 scored trajectories.",
+      "tags": [
+        "harness",
+        "eval",
+        "model-harness-pair",
+        "agent-control",
+        "benchmark"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.00917",
+        "https://github.com/liyix/finding-the-right-fit"
+      ],
+      "why_it_matters_for_cr": "Strongest public support so far for the CR rule that results are per (model, prompt, legal_actions schema, retry policy) configuration. Expect model rankings on Mini Royale to flip with harness policy; report the full grid and cost per match, and give models feedback on rejected actions in a form they can use.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "recovery-causal-intervention-router",
+      "title": "When harnesses lose the signal: evaluating recovery causally (CIR)",
+      "date": "2026-10-02",
+      "summary": "Xiao, Wang, Chen et al., arXiv:2610.00372 (submitted 30 Sep 2026). Frames harness recovery (retry/repair after an execution error) as a causal decision: from the same execution state, compare with and without recovery to separate rescue from harm, and study how its value changes over time. A lightweight Causal Intervention Router (CIR) decides when to intervene using information available before recovery. On long-horizon ALFWorld with Qwen3-14B, success rises from 70.33% to 73.33% (+3.00 pts) and trajectories with correct observations are left untouched. Single benchmark, single 14B model.",
+      "tags": [
+        "harness",
+        "retry-policy",
+        "decision_point",
+        "eval",
+        "causal",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.00372"
+      ],
+      "why_it_matters_for_cr": "CR's rejection/retry loop is a recovery mechanism: the same retry can rescue or disrupt. Branching from the same saved decision_point state with and without retry (the sim permits replay) would measure that directly and avoid scoring retries by average win rate.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "weak-reviewer-groundability",
+      "title": "Groundability, not scale: when weak reviewers can audit strong coding agents",
+      "date": "2026-10-02",
+      "summary": "Guo, Gu, Jin et al., arXiv:2610.01023 (submitted 1 Oct 2026). 411 execution-labeled traces from three coding agents plus 101 controlled cases. Structured but unchecked evidence raises both defect catch and over-rejection; giving official execution evidence (an upper-bound diagnostic) improves both rates for five of six reviewers, and reviewer size is not a consistent predictor of quality. A deployable cascade with static errors and generated tests that first fail on the unpatched repo reaches coverage 0.89/0.86, catch 0.76/0.80 but over-rejection 0.66/0.67 on GPT-5.4/Gemini traces; producing equally reliable checks without official tests remains the bottleneck.",
+      "tags": [
+        "dual-LGTM",
+        "code-review",
+        "verification",
+        "fleet",
+        "multi-agent"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.01023",
+        "https://arxiv.org/abs/2610.01471"
+      ],
+      "why_it_matters_for_cr": "Practical rule for the second LGTM seat: ground the review in executed checks (a failing test on the old code, a sim replay), not in the author's summary. Also a caution that generated checks alone over-reject, so keep a human merge gate.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "strata-rts-review-agent",
       "title": "STRATA: role-split LLM agents + a post-match Review Agent for Red Alert",
@@ -103,44 +184,6 @@
       "thin": false
     },
     {
-      "id": "upstream-message-answer-substitution",
-      "title": "Upstream messages override correct answers: answer substitution in multi-agent LLMs",
-      "date": "2026-09-30",
-      "summary": "Gong, Zhang, Gao et al., arXiv:2609.36855 (submitted 29 Sep 2026). Controlled study over five benchmarks and five receivers, holding downstream task and evidence fixed and comparing no message, the upstream agent's message, and a message with the opposite conclusion. Messages often help when the receiver would otherwise be wrong, but when it would have been right an incorrect upstream message changes the answer in up to 32% of cases; in 94% of audited harmful cases the receiver copies the upstream's specific wrong answer ('answer substitution'). Removing unreliable messages recovers part of the lost accuracy.",
-      "tags": [
-        "multi-agent",
-        "dual-LGTM",
-        "verification",
-        "fleet"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.36855",
-        "https://arxiv.org/abs/2609.26145"
-      ],
-      "why_it_matters_for_cr": "Second independent result (after the 09-25 debate-collapse paper) that exposing a peer's verdict to a reviewer can destroy a correct independent judgement. Supports blind dual-LGTM and suggests any multi-agent CR design (planner → executor) should pass evidence, not conclusions, unless upstream reliability is known.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "executable-contract-benchmark-audit",
-      "title": "Executable-contract audit: agent benchmark scores can rest on defective tools",
-      "date": "2026-09-30",
-      "summary": "Bellibatlu, Wang, Zhang et al., arXiv:2609.37315 (submitted 29 Sep 2026). Treats each tool's advertised interface as an executable contract and checks the implementation and evaluator provenance. Across 34 audited mutating tools in four benchmarks it confirms seven tool defects and one evaluator property; on injected defects the checker had no false positives in 25 flags but missed most (in 29 of 33 scored misses a clause covered the defect but no probe revealed it). Clearest case: a clinical benchmark whose tool reports writes executed under an undisclosed no-write design, so its grader scores whether a request carried the expected payload, not whether any record changed.",
-      "tags": [
-        "eval",
-        "benchmark-audit",
-        "simulator",
-        "verification",
-        "ETL"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.37315"
-      ],
-      "why_it_matters_for_cr": "Direct warning for CR ETL: a score derived from what the sim says it did can be wrong if the sim does not do it. Check Mini Royale's action-result contract (accepted deploy actually changes sim state) with probes, and trace each reported metric back to state the sim wrote.",
-      "status": "watch",
-      "thin": false
-    },
-    {
       "id": "glyphbench-observation-harness",
       "title": "GlyphBench: observation format and harness as measured factors in game agents",
       "date": "2026-09-29",
@@ -181,25 +224,6 @@
       ],
       "why_it_matters_for_cr": "The most public, large-scale statement of the design choices CR must make at every decision_point: show the legal list or not, how much feedback on an illegal action, how many retries, and what the fallback is (loss vs conservative default vs forfeit). CR should declare these as a versioned harness policy and log rethink counts by match phase.",
       "status": "candidate_intent",
-      "thin": false
-    },
-    {
-      "id": "contragent-ltlf-contracts",
-      "title": "ContrAgent: one LTLf→DFA contract gates actions online and grades traces offline",
-      "date": "2026-09-28",
-      "summary": "Xiao, Nuzzo et al., arXiv:2609.18128 (16 Sep 2026). Tool-call traces become sequences over checkable predicates; required behavior is written as assume-guarantee contracts in LTLf and compiled to a DFA used both to gate agent actions online and to evaluate recorded traces offline. On four benchmarks it matches LLM-judge and rule-based guardrail baselines with deterministic, reproducible verdicts and orders-of-magnitude lower per-call latency online.",
-      "tags": [
-        "agent-control",
-        "verification",
-        "eval",
-        "decision_point",
-        "temporal-logic"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.18128"
-      ],
-      "why_it_matters_for_cr": "legal_actions covers per-step legality; temporal rules (e.g., no deploy when elixir can't cover it, no repeated rejected action N times) need a sequence check. One DFA artifact could both gate the cockpit live and score ETL logs offline, keeping online and offline verdicts identical.",
-      "status": "watch",
       "thin": false
     },
     {
@@ -342,24 +366,6 @@
       ],
       "why_it_matters_for_cr": "Fleet coding loop already wants blind dual LGTM; AR’s typed disagreement is a concrete protocol upgrade for Github Bot EM / Manage review babysitting — also useful when reviewing CR cockpit/eval PRs.",
       "status": "candidate_intent",
-      "thin": false
-    },
-    {
-      "id": "harness-bench-config",
-      "title": "Harness-Bench: report model–harness pairs, not models alone",
-      "date": "2026-09-24",
-      "summary": "Qihoo360 Harness-Bench (arXiv:2605.27922): 106 sandboxed agent tasks; 5194 trajectories show large variance across model–harness pairings. Flags execution-alignment failures (reasoning decoupled from tool feedback / workspace state).",
-      "tags": [
-        "eval",
-        "harness",
-        "agent-control"
-      ],
-      "source_urls": [
-        "https://arxiv.org/pdf/2605.27922",
-        "https://github.com/Qihoo360/harness-bench"
-      ],
-      "why_it_matters_for_cr": "CR batch evals should score (model, prompt, legal_actions schema, retry policy) as one config — not attribute wins to the LLM alone.",
-      "status": "watch",
       "thin": false
     }
   ]

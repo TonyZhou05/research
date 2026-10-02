@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief deep edition 2026-10-02 — CR-Harness and agent-control scout ideas.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-10-02 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-10-02.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-10-02 · ET</p>
+    <h1>Field Brief — Jev calibration, model–harness fit, causal retries, grounded review</h1>
+    <p class="lede">Four items on the harness around the model. <strong>OmniMed-Jev</strong> is a second Jev-based result on calibrated typed choices; <strong>Finding the Right Fit</strong> shows model rankings reversing across harnesses; a causal evaluation asks whether retries rescue or disrupt; and a study of when weaker reviewers can audit strong coding agents. None is a game-playing paper this time.</p>
+    <p class="zh">十月二日简报 · 四条深读 · 无新增 intent 候选;今日无新的游戏代理论文。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-10-01.html">2026-10-01</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout"><strong>Honesty.</strong> Real submission dates are 30 Sep–1 Oct, so these are new since the 10-01 edition. I read each abstract (not full papers) and quote the authors’ numbers without re-running them. Four older cards (ContrAgent, executable-contract audit, upstream-message substitution, Harness-Bench) were retired to keep the index at 18; the Harness-Bench point is now covered by the stronger model–harness-fit card. No <span class="pill">candidate_intent</span> card was dropped.</div>
+
+  <section>
+    <h2>1. OmniMed-Jev: a distribution over the candidate set <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Tang, Chen et al., <a href="https://arxiv.org/abs/2610.00381" rel="noopener noreferrer">arXiv:2610.00381</a> (submitted 30 Sep 2026;
+      <a href="https://github.com/lytang63/OmniMed-Jev" rel="noopener noreferrer">code</a>). A second paper built on Jev after REFLEX (09-25 edition). Each bounded decision is a Choice, Noul or Score over a
+      runtime-supplied candidate set, and the model returns a full probability distribution over that set rather than generated text.</p>
+    <p><strong>Evidence.</strong> In an interface-controlled comparison with a generative baseline trained on the same backbone, data and schedule, the reported probabilities track observed correctness far more closely:
+      calibration error down by up to an order of magnitude and reliability error by up to two, with comparable point-prediction performance. Counting is the one family where the generative baseline stays ahead.
+      The domain is medical imaging, and the authors say the comparison can’t separate the interface from associated training differences and is not evidence of clinical readiness.</p>
+    <p><strong>Why it matters for CR.</strong> It supports the calibration half of the Jev-at-<code>decision_point</code> idea: a distribution over the runtime <code>legal_actions</code> set is a better-behaved confidence
+      signal than a probability read off generated text. It doesn’t show that on Mini Royale.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>When the Jev router is wired in, log the full distribution over legal ids and check calibration by match phase (see the 09-28 TC-ECE card) before trusting a confidence floor.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. Finding the Right Fit: rankings reverse across harnesses <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Li, Zhou, Teng et al., <a href="https://arxiv.org/abs/2610.00917" rel="noopener noreferrer">arXiv:2610.00917</a> (1 Oct 2026;
+      <a href="https://github.com/liyix/finding-the-right-fit" rel="noopener noreferrer">adapters + 6,204 scored trajectories</a>). 66 model–harness configurations (four configurable harnesses with five models, plus native vendor pairings)
+      on TUA-Bench, ALE-CLI and Terminal-Bench 4.</p>
+    <p><strong>Evidence.</strong> Model rankings reverse across harnesses: on Terminal-Bench 4 Claude leads GPT by 7.94 points in OpenHands but trails by 30.16 in PI. For four of five models the best harness changes between
+      benchmarks. A model’s own vendor harness is not reliably its best, and higher cost doesn’t reliably buy a higher score (GPT scores higher under PI than under DSH at under a quarter of the cost per task).
+      The matched trajectories suggest fit depends on whether the harness hands failures back in a form the model can use.</p>
+    <p><strong>Why it matters for CR.</strong> The strongest public backing so far for reporting CR results per (model, prompt, <code>legal_actions</code> schema, retry policy) rather than per model. It also says the
+      feedback given on a rejected action is part of the configuration.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Run a small model × harness-policy grid on Mini Royale (list shown or not, rejection feedback format, retry count) and report cost per match next to win rate. It replaces the 09-24 Harness-Bench card with a stronger result.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Is the retry rescuing or disrupting? <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Xiao, Wang, Chen et al., <a href="https://arxiv.org/abs/2610.00372" rel="noopener noreferrer">arXiv:2610.00372</a> (30 Sep 2026). Harness recovery is framed as a causal decision:
+      from the same execution state, compare with and without recovery, separate rescue from harm, and track how its value changes over time. A Causal Intervention Router (CIR) uses pre-recovery information to decide when to intervene.</p>
+    <p><strong>Evidence.</strong> On long-horizon ALFWorld with Qwen3-14B, success goes from 70.33% to 73.33% (+3.00 points) and trajectories with correct observations are left untouched. One benchmark and one 14B model, so treat the size of the gain as indicative only.</p>
+    <p><strong>Why it matters for CR.</strong> CR’s reject-and-retry loop is a recovery mechanism, and the same retry can rescue or hurt. Mini Royale’s sim can branch from a saved decision_point, which makes the with/without comparison cheap.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>From saved decision_point states that triggered a rejection, branch with and without the retry and report rescue and harm rates instead of average win rate.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Weak reviewers need grounding <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Guo, Gu, Jin et al., <a href="https://arxiv.org/abs/2610.01023" rel="noopener noreferrer">arXiv:2610.01023</a> (1 Oct 2026). 411 execution-labeled traces from three coding agents and 101 controlled cases,
+      asking when a weaker reviewer can decide whether a patch solves its issue.</p>
+    <p><strong>Evidence.</strong> Structured but unchecked evidence raises both defect catch and over-rejection. With official execution evidence (an upper-bound diagnostic), five of six reviewers improve both rates and two classify every held-out trace correctly;
+      reviewer size is not a consistent predictor. A deployable cascade (patch-caused static errors plus generated tests that first fail on the unpatched repo) gets coverage 0.89/0.86 and catch 0.76/0.80 on GPT-5.4/Gemini traces,
+      but over-rejection of 0.66/0.67. Reliable checks without official tests are still the bottleneck.</p>
+    <p><strong>Why it matters for CR.</strong> For the second dual-LGTM seat: ground the review in executed checks, not the author’s summary, and expect generated checks to over-reject, so the human merge gate stays.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>For CR cockpit/eval PRs, ask the reviewer seat to attach a failing-before/passing-after check or a sim replay, and track how often its blocking findings were later overturned.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Also seen (not carded)</h2>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2610.01471" rel="noopener noreferrer">When Does a Second Model Help?</a> (1 Oct): on 30 artifacts with 150 planted errors, a top-tier cross-model reviewer is not significantly different in F1 from a fresh same-model review, but the two find partly different errors (Jaccard 41.2%);
+        one same-model plus one cross-model review beat two same-model reviews (56.7% vs 42.7%), though model difference and reviewer capability aren’t separated. Cited on the weak-reviewer card.</li>
+      <li><a href="https://arxiv.org/abs/2610.01138" rel="noopener noreferrer">Auditing Action Settlement</a> (1 Oct): arbitration of concurrent agent actions that are each individually valid. In a six-agent doorway task conservative rejection completes 31.25% of agents vs 90.28% for random tickets. Execution semantics only; relevant if CR ever has simultaneous agents in one sim.</li>
+      <li><a href="https://arxiv.org/abs/2610.00262" rel="noopener noreferrer">Signed Lexical Confidence for Risk-Calibrated Intent Routing</a> (24 Sep): a gate combining logit margin with lexical support for selective routing; intent classification, not games.</li>
+      <li>No new game-playing paper with a legal-action or decision_point angle turned up in the 1–2 Oct listings I scanned.</li>
+    </ul>
+
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <p>No new intent candidates today. Open from earlier editions: <strong>game-arena-kaggle-harness</strong>, <strong>reflex-jev-selective-control</strong>,
+      <strong>action-class-calibration-gar</strong>, <strong>adversarial-review-dual-lgtm</strong>, <strong>autoharness-textarena</strong>, <strong>ptcg-bench-harness-ablation</strong>, <strong>jev-gameplay-decision-router</strong>.</p>
+
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON:
+      <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-10-02 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-10-01.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>
