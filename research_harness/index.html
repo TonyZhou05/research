@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Auto-Research Harness playbook: stage x layer framework, four-layer architecture (pipeline, tree search, decision layer, world model), RPM-style selection, leakage gate, human gates, and an evaluation plan. Summary of a Chinese-language survey post; numbers not independently verified.">
+  <meta name="description" content="Auto-Research Harness playbook: stage x layer framework, four-layer architecture (pipeline, tree search, decision layer, world model), RPM-style selection, leakage gate, human gates, and an evaluation plan. Figures are cited from the referenced papers and not independently re-verified.">
   <meta name="theme-color" content="#101828">
   <meta name="author" content="Tongli Zhou">
   <title>Auto-Research Harness — Tongli Zhou</title>
@@ -92,8 +92,8 @@
   <header class="hero">
     <p class="kicker">Playbook · auto-research</p>
     <h1>Auto-Research Harness</h1>
-    <p class="lede">A working note on how to build a harness for automated research: the stage × layer framework, the four-layer architecture (pipeline, tree search, decision layer, world model), the minimal closed loop, and how <em>we</em> intend to evaluate it. Distilled from a Chinese-language survey post, with a small offline reference implementation on the box to test the mechanics.</p>
-    <p class="zh">自动科研 harness 手册 · 来自一篇中文综述帖的整理 · 数字均出自帖中引用的论文,我们未独立复核。</p>
+    <p class="lede">A working note on how to build a harness for automated research: the stage × layer framework, the four-layer architecture (pipeline, tree search, decision layer, world model), the minimal closed loop, and how <em>we</em> intend to evaluate it. Drawn from the literature on AI scientists and research agents, with a small offline reference implementation to test the mechanics.</p>
+    <p class="zh">自动科研 harness 手册 · 内容整理自相关论文 · 引用的数字我们未独立复核。</p>
     <div class="meta">
       <span>Owner <strong>Tongli Zhou (TonyZhou05)</strong></span>
       <span>Status <strong>draft · pending Tongli’s publish approval</strong></span>
@@ -103,7 +103,7 @@
   </header>
 
   <div class="callout gap">
-    <strong>Read this first — provenance.</strong> The content below is <strong>post-derived</strong>: a summary of a Chinese-language survey post (screenshots of one article; no author is credited here). Paper names, venues, years and every number come from that post and the figures it reproduces. We have <strong>not</strong> independently verified them against the original papers. The reference implementation is a toy that shows mechanics, not research capability.
+    <strong>Read this first — sourcing.</strong> The framework, paper names, venues, years and figures below are cited from the referenced literature (see <a href="#refs">References</a>). We have <strong>not</strong> independently re-verified them against the original papers. The reference implementation is a toy that shows mechanics, not research capability.
   </div>
 
   <nav class="toc" aria-label="Contents">
@@ -112,7 +112,7 @@
       <li><a href="#overview">Overview</a></li>
       <li><a href="#framework">Framework: 6 stages × 4 abstraction layers</a></li>
       <li><a href="#architecture">Four-layer harness architecture</a></li>
-      <li><a href="#stages">Stage by stage: what the post says, what we do</a></li>
+      <li><a href="#stages">Stage by stage: what the literature says, what our harness does</a></li>
       <li><a href="#loop">The harness loop</a></li>
       <li><a href="#tree">Operators &amp; tree search</a></li>
       <li><a href="#rpm">RPM-style candidate selection</a></li>
@@ -123,14 +123,14 @@
       <li><a href="#benchmarks">Benchmarks &amp; our evaluation plan</a></li>
       <li><a href="#run">How to run</a></li>
       <li><a href="#status">Reference implementation status</a></li>
-      <li><a href="#refs">References (as named in the post)</a></li>
+      <li><a href="#refs">References</a></li>
       <li><a href="#caveats">Honest caveats</a></li>
     </ol>
   </nav>
 
   <section id="overview">
     <h2>1. Overview</h2>
-    <p>Automated research is no longer one prompt. The post’s through-line: <strong>judgment, selection and evaluability — not generation — are the bottlenecks</strong>. A good harness therefore spends its design effort on four things: a frozen way to score results, a search structure that turns failures into information, a cheap preference layer that decides what is worth executing, and human gates at the few irreversible points.</p>
+    <p>Automated research is no longer one prompt. The through-line of this literature: <strong>judgment, selection and evaluability — not generation — are the bottlenecks</strong>. A good harness therefore spends its design effort on four things: a frozen way to score results, a search structure that turns failures into information, a cheap preference layer that decides what is worth executing, and human gates at the few irreversible points.</p>
     <div class="grid2">
       <div class="card"><strong>Minimal closed loop</strong>One human-written goal, one frozen evaluator, one editable file. Modify → run a fixed short budget → evaluate → keep if better, reset if not.</div>
       <div class="card"><strong>Four cross-stage insights</strong>Structure moves linear → loop → recursive; compute budget is a first-class variable; human-in-the-loop is an interface-design problem; benchmarks move toward “distance from human”.</div>
@@ -139,7 +139,7 @@
 
   <section id="framework">
     <h2>2. Framework: 6 stages × 4 abstraction layers</h2>
-    <p>The post builds on <em>A Survey of AI Scientists (Tie et al., 2025)</em>, which splits end-to-end research into <strong>six stages</strong> and <strong>four abstraction layers</strong>, a 4 × 6 matrix.</p>
+    <p>The framework builds on <em>A Survey of AI Scientists (Tie et al., 2025)</em>, which splits end-to-end research into <strong>six stages</strong> and <strong>four abstraction layers</strong>, a 4 × 6 matrix.</p>
     <div class="flow">Literature review → Idea generation → Experiment preparation → Experiment execution → Scientific writing → Paper generation</div>
     <table>
       <thead><tr><th>Abstraction layer</th><th>What the survey figure lists</th></tr></thead>
@@ -151,7 +151,7 @@
       </tbody>
     </table>
     <p class="note">The middle two rows list six items each; their alignment to the six stages above is by column order in the figure and is our reading, not stated in prose.</p>
-    <h3>Tool phases named in the post</h3>
+    <h3>Tool phases</h3>
     <table>
       <thead><tr><th>Phase</th><th>Systems</th></tr></thead>
       <tbody>
@@ -164,7 +164,7 @@
 
   <section id="architecture">
     <h2>3. Four-layer harness architecture</h2>
-    <p>The post’s synthesis: an auto-research harness has four layers. Each answers a different failure mode.</p>
+    <p>An auto-research harness can be organised into four layers. Each answers a different failure mode.</p>
     <figure class="fig">
       <svg viewBox="0 0 940 400" role="img" aria-labelledby="t1 d1" xmlns="http://www.w3.org/2000/svg">
         <title id="t1">Four-layer architecture</title>
@@ -209,14 +209,14 @@
           <text x="610" y="346" font-size="13" fill="#5c564c">staged runner, frozen eval, git sandbox</text>
         </g>
       </svg>
-      <figcaption>Fig. 1 — Four layers (post’s synthesis) and the part of our reference harness that stands in for each. The world-model layer is only partially covered.</figcaption>
+      <figcaption>Fig. 1 — Four layers and the part of our reference harness that stands in for each. The world-model layer is only partially covered.</figcaption>
     </figure>
   </section>
 
   <section id="stages">
-    <h2>4. Stage by stage: what the post says, what we do</h2>
+    <h2>4. Stage by stage: what the literature says, what our harness does</h2>
     <table>
-      <thead><tr><th>Stage</th><th>Post (named work)</th><th>Our harness</th></tr></thead>
+      <thead><tr><th>Stage</th><th>Literature says</th><th>Our harness does</th></tr></thead>
       <tbody>
         <tr><td><strong>Literature review</strong></td><td>Bottleneck is judgment, not retrieval. <em>Deep Research Survey (Zhang et al., 2025)</em> breaks it into Planning, Questioning, Web Exploration, Report generation.</td><td>Out of scope for the offline demo; the same “select, don’t just retrieve” rule applies to what enters the lessons pool.</td></tr>
         <tr><td><strong>Idea generation</strong></td><td>Shift from generating more to selecting what is worth verifying. <em>AI co-scientist (Gottweis et al., 2025)</em>: Generation, Reflection, Ranking (tournament self-play debate), Proximity, Evolution and Meta-review agents; a human scientist sets goals and reviews; tools (search) and memory; self-improving loop. <em>The AI Scientist (Lu et al., 2024)</em>: idea → experiment → plots → writing → auto-review in one loop, reported under $15 per paper. 2026 bottleneck: <strong>evaluability</strong>.</td><td>Candidate selection by pairwise tournament (see <a href="#rpm">RPM</a>); a direction change needs a human gate. Ideas must come with a frozen, checkable metric or they do not enter the loop.</td></tr>
@@ -230,7 +230,7 @@
 
   <section id="loop">
     <h2>5. The harness loop</h2>
-    <p>The minimal closed loop in the post is <strong>karpathy/autoresearch</strong> (an open-source project, no paper): three files. <code>prepare.py</code> is the <em>frozen evaluation</em> and the <strong>trust boundary</strong>; <code>train.py</code> is the <em>only file the agent edits</em>; <code>program.md</code> is the <em>human-written goal</em>. The agent modifies code, runs for about five minutes, evaluates, <strong>commits if the metric improved, otherwise resets</strong>. On one H100 that is roughly 100 experiments per night; the post cites a reduction of “Time-to-GPT-2” from 2.02 h to 1.80 h.</p>
+    <p>The minimal closed loop is <strong>karpathy/autoresearch</strong> (an open-source project, no paper): three files. <code>prepare.py</code> is the <em>frozen evaluation</em> and the <strong>trust boundary</strong>; <code>train.py</code> is the <em>only file the agent edits</em>; <code>program.md</code> is the <em>human-written goal</em>. The agent modifies code, runs for about five minutes, evaluates, <strong>commits if the metric improved, otherwise resets</strong>. On one H100 that is roughly 100 experiments per night; a reduction of “Time-to-GPT-2” is reported from 2.02 h to 1.80 h.</p>
     <figure class="fig">
       <svg viewBox="0 0 860 330" role="img" aria-labelledby="t2 d2" xmlns="http://www.w3.org/2000/svg">
         <title id="t2">Harness loop</title>
@@ -258,18 +258,18 @@
       </svg>
       <figcaption>Fig. 2 — One round of the loop. Only the tournament champion is executed; a failure is recorded as a lesson rather than discarded.</figcaption>
     </figure>
-    <p>The post’s observation about structure: <strong>2023 linear pipeline</strong> (a failed stage ends the run) → <strong>2024–25 loop</strong> (failure becomes information; the system can go back upstream) → <strong>2026 recursive</strong> (cross-round learning: earlier experience shapes later search). The lessons pool is our recursion hook.</p>
+    <p>The observed trend in structure: <strong>2023 linear pipeline</strong> (a failed stage ends the run) → <strong>2024–25 loop</strong> (failure becomes information; the system can go back upstream) → <strong>2026 recursive</strong> (cross-round learning: earlier experience shapes later search). The lessons pool is our recursion hook.</p>
   </section>
 
   <section id="tree">
     <h2>6. Operators &amp; tree search</h2>
     <h3>AI Scientist-v2: agentic tree search in four stages</h3>
     <p><em>AI Scientist-v2 (Yamada et al., 2025)</em> organises experiments as a tree. Stages: <strong>preliminary investigation → hyperparameter tuning → research-agenda execution → ablation</strong>, with the best node of each stage seeding the next. Node types: non-buggy, buggy, hyperparameter, ablation, replication, aggregation, and “best”. Non-buggy nodes go to a <em>refine</em> branch, buggy nodes to a <em>debug</em> branch.</p>
-    <p class="note">Reported outcome (per the post): 3 papers submitted to an ICLR 2025 workshop; one accepted (average 6.33). A self-check then found roughly <strong>57% train/test overlap</strong> (data leakage), and none of the three met main-conference standards. This is the reason our leakage gate is mandatory.</p>
+    <p class="note">Reported outcome: 3 papers submitted to an ICLR 2025 workshop; one accepted (average 6.33). A self-check then found roughly <strong>57% train/test overlap</strong> (data leakage), and none of the three met main-conference standards. This is the reason our leakage gate is mandatory.</p>
     <h3>AIRA: the decision-layer view</h3>
     <p><em>AIRA (Toledo et al., 2025)</em> formalises a research agent as <strong>(search policy, operator set, fitness function)</strong>. Each round: select a node, select an operator (draft / debug / improve), score the result. The counter-intuitive finding: <strong>the bottleneck is the operator set, not the search strategy</strong> — with AIDE’s operators restricted, better search strategies produced no gain.</p>
     <table>
-      <thead><tr><th>Medal rate, as read from the post’s chart</th><th>Value</th></tr></thead>
+      <thead><tr><th>Medal rate (read from the reported chart)</th><th>Value</th></tr></thead>
       <tbody>
         <tr><td>AIDE variants (o1-preview / no-memory R1 / R1)</td><td>35.23% · 38.18% · 39.77%</td></tr>
         <tr><td>MCTS, exploration constant c = 0.0 / 0.25 / 0.50 / 0.75</td><td>36.36% · 35.45% · 35.00% · 34.55%</td></tr>
@@ -284,21 +284,21 @@
     <p><em>RPM (Foster et al., 2026)</em> inserts a <strong>preference layer before the executor</strong>. Per round: (1) select a parent node; (2) generate <em>N</em> unexecuted child candidates in parallel; (3) pick one of <em>N</em> by a <strong>head-to-head pairwise tournament</strong> that sees the context of previously executed solutions; (4) execute <strong>only the champion</strong>.</p>
     <p><strong>Problem downgrading.</strong> Instead of asking a model to predict an absolute score (which needs calibration), ask which of two candidates is better (which needs only consistency) — easier for frozen pre-trained models.</p>
     <table>
-      <thead><tr><th>Variant</th><th>Mechanism</th><th>Trade-off (post)</th></tr></thead>
+      <thead><tr><th>Variant</th><th>Mechanism</th><th>Trade-off</th></tr></thead>
       <tbody>
         <tr><td>Inference-only</td><td>LLM-as-judge over plan, code and history</td><td>Fast, no extra GPU; prompts tuned with DSPy MIPROv2</td></tr>
         <tr><td>Agentic</td><td>Run a small pilot experiment in a sandbox before deciding</td><td>Slower, more accurate</td></tr>
       </tbody>
     </table>
-    <p>Reported curve: inference-only RPM starts higher; agentic RPM starts slowly, then overtakes (around hour 15 on the post’s chart); both finish above the no-RPM baseline.</p>
-    <p class="note"><strong>Time-inflation trick.</strong> The post says the real pilot budget was 300 s while the prompt claimed 2700 s (9×), because a model told time is very tight becomes unwilling to explore. We treat this as an <em>optional, off-by-default prompt nudge</em>: the real cap is still enforced and the ledger records whether the note was used.</p>
+    <p>Reported curve: inference-only RPM starts higher; agentic RPM starts slowly, then overtakes (around hour 15 on the reported chart); both finish above the no-RPM baseline.</p>
+    <p class="note"><strong>Time-inflation trick.</strong> RPM reportedly used a real pilot budget of 300 s while the prompt claimed 2700 s (9×), because a model told time is very tight becomes unwilling to explore. We treat this as an <em>optional, off-by-default prompt nudge</em>: the real cap is still enforced and the ledger records whether the note was used.</p>
     <p><strong>Our harness:</strong> a round-robin tournament where every pair is played in both orders (cancels position bias), with pluggable judges: a heuristic stub for the demo, a random control, an inference-only LLM-judge interface, and an agentic pilot judge that scores a small train-only validation slice.</p>
   </section>
 
   <section id="budget">
     <h2>8. Budget as a first-class variable</h2>
     <ul>
-      <li>The post sees compute budget treated as a decision variable: RPM (budget as preference ranking), MARS (budget-aware MCTS with efficiency terms), and Karpathy’s fixed 5-minute budget that constrains the search space.</li>
+      <li>Compute budget is increasingly treated as a decision variable: RPM (budget as preference ranking), MARS (budget-aware MCTS with efficiency terms), and Karpathy’s fixed 5-minute budget that constrains the search space.</li>
       <li>Counter-evidence from <em>RE-Bench (Wijk et al., 2024)</em> as cited: at 2 h the AI scores about 4× the human median; humans overtake at 8 h and are about 2× better at 32 h — humans get higher marginal returns from extra time.</li>
       <li><strong>Our harness:</strong> wall-clock and cost caps per run <em>and</em> per node; evaluator timeouts derived from them; exhausting a run cap ends the run gracefully with no report. Comparisons between methods must be budget-matched.</li>
     </ul>
@@ -315,7 +315,7 @@
 
   <section id="human">
     <h2>10. Human gates</h2>
-    <p>The post frames human-in-the-loop as an <strong>interface design problem</strong>: not whether, but where. Intervene at high-leverage points and do not ask at every step.</p>
+    <p>Human-in-the-loop is best framed as an <strong>interface design problem</strong>: not whether, but where. Intervene at high-leverage points and do not ask at every step.</p>
     <table>
       <thead><tr><th>Gate</th><th>Triggers</th></tr></thead>
       <tbody>
@@ -330,9 +330,9 @@
 
   <section id="world">
     <h2>11. World model &amp; synthesis caution</h2>
-    <p><em>Kosmos (Mitchener et al., 2025)</em> pairs a data-analysis agent and a literature-search agent that share a <strong>structured world model</strong>. Per the post, one run involves about 200 rollouts, about 42,000 lines of code and about 1,500 papers.</p>
+    <p><em>Kosmos (Mitchener et al., 2025)</em> pairs a data-analysis agent and a literature-search agent that share a <strong>structured world model</strong>. Per the Kosmos paper, one run involves about 200 rollouts, about 42,000 lines of code and about 1,500 papers.</p>
     <table>
-      <thead><tr><th>Accuracy (as reported in the post)</th><th>Value</th></tr></thead>
+      <thead><tr><th>Accuracy (as reported)</th><th>Value</th></tr></thead>
       <tbody>
         <tr><td>Data analysis</td><td>~85.5%</td></tr>
         <tr><td>Literature review</td><td>~82.1%</td></tr>
@@ -345,9 +345,9 @@
 
   <section id="benchmarks">
     <h2>12. Benchmarks &amp; our evaluation plan</h2>
-    <p>The post’s fourth insight: benchmarks move from <em>completion</em> toward <em>distance from human</em> — and ultimately toward whether science can be rediscovered.</p>
+    <p>Benchmarks move from <em>completion</em> toward <em>distance from human</em> — and ultimately toward whether science can be rediscovered.</p>
     <table>
-      <thead><tr><th>Benchmark</th><th>Date</th><th>What it asks</th><th>Key figure (post)</th></tr></thead>
+      <thead><tr><th>Benchmark</th><th>Date</th><th>What it asks</th><th>Key figure (reported)</th></tr></thead>
       <tbody>
         <tr><td>MLE-bench</td><td>2024-10</td><td>Can it win a medal in a real Kaggle competition?</td><td>o1-preview: 16.9% bronze</td></tr>
         <tr><td>ScienceAgentBench</td><td>2024-10</td><td>Correct, executable scientific code?</td><td>Best agent 32.4%</td></tr>
@@ -394,8 +394,8 @@
   </section>
 
   <section id="refs">
-    <h2>15. References (as named in the post)</h2>
-    <p class="note">Names and years are as given in the post; not independently verified. No links are provided because we have not checked the original sources.</p>
+    <h2>15. References</h2>
+    <p class="note">Names and years are as cited; citations were not checked against the originals. No links are provided for that reason.</p>
     <ul>
       <li>A Survey of AI Scientists — Tie et al., 2025</li>
       <li>Deep Research Survey — Zhang et al., 2025</li>
@@ -408,7 +408,7 @@
       <li>RPM — Foster et al., 2026</li>
       <li>Kosmos — Mitchener et al., 2025</li>
       <li>RE-Bench — Wijk et al., 2024</li>
-      <li>karpathy/autoresearch — open-source project, no paper (per the post)</li>
+      <li>karpathy/autoresearch — open-source project, no paper</li>
       <li>Also named: DS-1000, BioPlanner, Coscientist, MLAgentBench, SciAgents, IdeaBench, Quantum-Agent-SDL, HyPER, Curie, ResearchBench, DeepResearcher, PiFlow, AI-Researcher, EXP-Bench, DeepScientist, AutoLabs, Agentic AutoSurvey, SR-Scientist, Freephdlabor, MLE-bench, ScienceAgentBench, PaperBench, AIRS-Bench, RCBench</li>
     </ul>
   </section>
@@ -416,8 +416,8 @@
   <section id="caveats">
     <h2>16. Honest caveats</h2>
     <ul>
-      <li>This page is a <strong>summary of a secondary source</strong> (a Chinese-language survey post). Numbers, dates and attributions may contain errors from the post or from our reading of its screenshots.</li>
-      <li>Chart values (AIRA medal rates, RPM curve) were read from figures in the post; treat them as approximate where they are not in prose.</li>
+      <li>This page summarises cited literature. Figures cited from the referenced papers are approximate and not independently re-verified; citations were not checked against the originals, so numbers, dates and attributions may contain errors.</li>
+      <li>Chart values (AIRA medal rates, RPM curve) were read from published figures; treat them as approximate.</li>
       <li>The reference harness is a toy. A passing demo does not show that an LLM-driven loop will do good science.</li>
       <li>The gates reduce risk but do not replace running untrusted code in a real sandbox.</li>
       <li>Related: <a href="/research/harness/">harness playbook</a> · <a href="/research/harness-lab/">Harness Lab</a> · <a href="/research/CR-harness/field-brief/">Field Brief</a> (lives under CR-Harness).</li>
