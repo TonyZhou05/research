@@ -1,8 +1,112 @@
 {
-  "updatedAt": "2026-10-02T16:42:18Z",
+  "updatedAt": "2026-10-03T20:45:43Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "codex-review-uncommitted-base-commit-2026-10-03",
+      "date": "2026-10-03",
+      "displayDate": "Oct 3, 2026",
+      "title": "codex review \u2014 uncommitted / base / commit targets (headless Dual-LGTM)",
+      "href": "https://developers.openai.com/codex/cli/reference",
+      "why": "Stable non-interactive review: choose exactly one of --uncommitted, --base <branch>, --commit <SHA>, or a custom PROMPT (mutually exclusive). Headless second-pass for Dual-LGTM/Astra without a prompt-only review. Local codex exec review --help (0.156.1) exposes the same targets.",
+      "source": "packs/2026-10-03-web-harness-lab-pack.md",
+      "tags": [
+        "Codex",
+        "Mac CLI",
+        "EM",
+        "proof",
+        "honesty"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "codex-exec-ephemeral-oneshot-2026-10-03",
+      "date": "2026-10-03",
+      "displayDate": "Oct 3, 2026",
+      "title": "codex exec --ephemeral \u2014 no session rollout for one-shot CI",
+      "href": "https://developers.openai.com/codex/noninteractive",
+      "why": "Official noninteractive: --ephemeral runs without persisting session rollout files. Use for Astra one-shot reviews/summaries that should not create resume targets or fill thread inventory. Complements persist-thread_id KEEP (persist only when you intend to resume). Local Codex 0.156.1 exec --help lists the flag.",
+      "source": "packs/2026-10-03-web-harness-lab-pack.md",
+      "tags": [
+        "Codex",
+        "Mac CLI",
+        "EM",
+        "routines",
+        "recovery"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-strict-mcp-config-print-2026-10-03",
+      "date": "2026-10-03",
+      "displayDate": "Oct 3, 2026",
+      "title": "--strict-mcp-config \u2014 exclusive MCP allowlist for -p",
+      "href": "https://code.claude.com/docs/en/cli-reference",
+      "why": "With --mcp-config, --strict-mcp-config ignores every other MCP source so scheduled jobs cannot silently inherit host/project servers. Complements the mcp_server_errors/plugin_errors system/init gate with an allowlist. Prefer with --bare on unattended Mac kicks. Local Claude 2.1.221 lists the flag.",
+      "source": "packs/2026-10-03-web-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "Mac CLI",
+        "routines",
+        "MCP",
+        "honesty",
+        "proof"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-no-session-persistence-print-2026-10-03",
+      "date": "2026-10-03",
+      "displayDate": "Oct 3, 2026",
+      "title": "--no-session-persistence on one-shot claude -p jobs",
+      "href": "https://code.claude.com/docs/en/cli-reference",
+      "why": "Print-mode: do not save the session to disk (cannot resume). Stops scheduled collect/EM one-shots from polluting cwd --continue/--resume pickers and watchdog transcript corpora. Distinct from --fork-session (branching a kept session). Usable on Mac Claude 2.1.221.",
+      "source": "packs/2026-10-03-web-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "Mac CLI",
+        "routines",
+        "recovery",
+        "honesty"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-json-schema-structured-output-2026-10-03",
+      "date": "2026-10-03",
+      "displayDate": "Oct 3, 2026",
+      "title": "claude -p --json-schema \u2192 structured_output for EM/routines",
+      "href": "https://code.claude.com/docs/en/headless",
+      "why": "Headless: pair --output-format json with --json-schema so the final payload is in structured_output (invalid schema exits with error since \u22652.1.205). Machine-checkable contract for EM/routine/collect scripts instead of free-text result parsing. Usable on Mac Claude 2.1.221.",
+      "source": "packs/2026-10-03-web-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "Mac CLI",
+        "routines",
+        "EM",
+        "proof",
+        "honesty"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-exclude-dynamic-system-prompt-2026-10-03",
+      "date": "2026-10-03",
+      "displayDate": "Oct 3, 2026",
+      "title": "--exclude-dynamic-system-prompt-sections for multi-machine -p cache",
+      "href": "https://code.claude.com/docs/en/cli-reference",
+      "why": "Moves per-machine sections (cwd/env/memory paths/git) out of the system prompt into the first user message so the same scheduled task reuses the prompt cache across Mac/box seats. Only with the default system prompt (ignored with --system-prompt). Pair with --bare on fleet collect/EM kicks. Confirmed in local Claude 2.1.221 --help.",
+      "source": "packs/2026-10-03-web-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "Mac CLI",
+        "routines",
+        "usage",
+        "cost"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "codex-exec-fork-headless-parallel-2026-10-02",
       "date": "2026-10-02",
