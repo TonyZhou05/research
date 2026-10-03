@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-03T20:45:43Z",
+  "updatedAt": "2026-10-03T20:57:23Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
@@ -139,7 +139,7 @@
         "honesty",
         "EM"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-resume-interrupted-turn-sigterm-2026-10-02",
@@ -175,7 +175,7 @@
         "proof",
         "MCP"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-fork-session-em-branch-2026-10-02",
@@ -209,7 +209,7 @@
         "Mac CLI",
         "honesty"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "flock-session-id-scheduled-claude-overlap-2026-10-01",
@@ -227,7 +227,7 @@
         "concurrency",
         "proof"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "codex-persist-thread-id-exact-resume-2026-10-01",
@@ -262,7 +262,7 @@
         "recovery",
         "proof"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-max-budget-usd-unattended-2026-10-01",
@@ -280,7 +280,7 @@
         "Mac CLI",
         "cost"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "launchd-stdout-stderr-zsh-lc-path-2026-09-30",
@@ -296,7 +296,7 @@
         "launchd",
         "proof"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "codex-exec-resume-last-repass-sandbox-2026-09-30",
@@ -347,7 +347,7 @@
         "EM",
         "honesty"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "amux-capture-pane-claude-exit-detect-2026-09-30",

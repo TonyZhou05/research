@@ -227,6 +227,7 @@
       </div>
     </div>
     <p class="note">Proof of done = vault note path and/or git commit / PR URL / live hub URL. Chat alone is not proof. Soft pointers: <code>~/.claude/READ_VAULT_FIRST.md</code>, <code>~/.codex/READ_VAULT_FIRST.md</code>, playground <code>AGENTS.md</code> symlink.</p>
+    <p class="note"><strong>Staging a vault between machines:</strong> one writer is the source of truth; mirror one-way with <code>rsync</code> (exclude <code>.obsidian/</code>, <code>.trash/</code>, <code>.git/</code>) so plugin state never ping-pongs. Agents on the consumer side write only into <code>_inbox/</code>, which is excluded from <code>--delete</code>; the owner promotes notes out of it.</p>
   </section>
 
   <section id="em-loop">
@@ -345,10 +346,14 @@
       <li>Reuse each tool’s session id per PR/slice; don’t cold-start follow-ups.</li>
       <li><strong>Transient vs limit</strong> — on a stuck Claude pane, transient API errors (API Error / 529 / transient 429) get a debounced Continue with backoff (cap ~10 tries, then escalate); a real usage limit / “resets at” is left alone. No auto-restart on sessions that post or pay; dry-run first.</li>
       <li><strong>Hang vs crash</strong> — pair Claude JSONL mtime (<code>~/.claude/projects</code>, 30–45 min threshold beside the 540s log check) with the process table: stale + alive = hang, stale + gone = crash. A Stop hook alone cannot see crashes; keep the observer read-only.</li>
-      <li><strong>Scripted <code>claude -p</code></strong> (EM / collect kicks) defaults to <code>--bare</code> + explicit <code>--allowedTools</code> / <code>--settings</code>, so host hooks, MCP, and <code>CLAUDE.md</code> cannot silently change results.</li>
+      <li><strong>Scripted <code>claude -p</code></strong> (EM / collect kicks) defaults to <code>--bare</code> + explicit <code>--allowedTools</code> / <code>--settings</code>, so host hooks, MCP, and <code>CLAUDE.md</code> cannot silently change results. Lock unattended runs with <code>--permission-mode dontAsk</code> (denies every call that would prompt; reads and explicit <code>--allowedTools</code> still work) — usable on the current Mac Claude, no need to wait for a “no prompts” flag.</li>
       <li><strong>Unattended Codex</strong> — <code>codex exec --sandbox workspace-write</code> (command network off unless <code>sandbox_workspace_write.network_access</code> is set); never <code>--yolo</code> / bypass on Astra seats.</li>
+      <li><strong>Codex resume keeps its sandbox only if you re-pass it by config</strong> — <code>codex exec resume</code> rejects <code>-s</code>/<code>--sandbox</code>, so pass <code>-c sandbox_mode="read-only"</code> (or <code>workspace-write</code>) on every resume; otherwise a resumed run can write what the original read-only run blocked.</li>
+      <li><strong>No <code>approvals_reviewer=auto_review</code> under unattended <code>codex exec</code></strong> — it can silently defeat <code>--sandbox read-only</code>. Keep the reviewer as <code>user</code> (or omit auto_review) so the sandbox stays binding.</li>
+      <li><strong>Hard spend cap on scripted <code>claude -p</code></strong> — add <code>--max-budget-usd</code> next to <code>--max-turns</code>; a few long turns can still burn tokens. Log <code>total_cost_usd</code> from the JSON result in the run note.</li>
+      <li><strong>Gate on silent tool loss</strong> — an invalid <code>--mcp-config</code> can be skipped while <code>-p</code> still exits 0. With <code>stream-json</code>, fail the run if the <code>system/init</code> event has a non-empty <code>mcp_server_errors</code> or <code>plugin_errors</code>.</li>
     </ol>
-    <p class="note">Items 5–8 promoted from <a href="/research/harness-lab/">Harness Lab</a> in the 2026-09-28 Monday sync.</p>
+    <p class="note">Items 5–8 promoted from <a href="/research/harness-lab/">Harness Lab</a> in the 2026-09-28 Monday sync; items 9–12 and the <code>dontAsk</code> clause in item 7 in the 2026-10-03 daily review.</p>
     <pre># Live shape — helpers in ~/bin (ensure PATH includes ~/bin)
 # grok-tmux-run muse-collect-HH -- \
 #   muse exec --json --trust-workspace --disable-approval --prompt-file prompt.md
@@ -380,7 +385,7 @@
       <thead><tr><th>CLI</th><th>Provider shape</th><th>Notes</th></tr></thead>
       <tbody>
         <tr><td>Claude</td><td>claude.ai pro (Keychain)</td><td>Usage cards on the dashboard</td></tr>
-        <tr><td>Codex / Astra</td><td>ChatGPT / Codex CLI</td><td>Usage cards on the dashboard · unattended default <code>--sandbox workspace-write</code>, network off unless configured (no <code>--yolo</code>)</td></tr>
+        <tr><td>Codex / Astra</td><td>ChatGPT / Codex CLI</td><td>Usage cards on the dashboard · unattended default <code>--sandbox workspace-write</code>, network off unless configured (no <code>--yolo</code>) · on <code>exec resume</code> re-pass <code>-c sandbox_mode=…</code> (not <code>-s</code>) · keep approvals reviewer = user, never <code>auto_review</code></td></tr>
         <tr><td>Kimi</td><td>Vendor CLI 2.1.0</td><td>AUTH_OK</td></tr>
         <tr><td>Muse</td><td>Meta Muse Spark 1.3.0</td><td>Meta OAuth AUTH_OK</td></tr>
         <tr><td>DSH</td><td>DeepSeek harness 0.1.5-rc.3</td><td>Node nvm v22.23.3 · AUTH_OK</td></tr>
@@ -431,8 +436,10 @@
     </ul>
     <p><strong>Policy:</strong> Three-Run Proof before Active — never automate the first success. Prefer event triggers over tight crons. Mondays: playbook↔card sync <strong>plus weekly kill review</strong>.</p>
     <ul>
-      <li>Scripted <code>claude -p</code> routine kicks run with <code>--bare</code> (see <a href="#launch">§8</a>).</li>
+      <li>Scripted <code>claude -p</code> routine kicks run with <code>--bare</code>, <code>--permission-mode dontAsk</code>, and a <code>--max-budget-usd</code> ceiling, and fail on non-empty <code>mcp_server_errors</code> / <code>plugin_errors</code> in <code>system/init</code> (see <a href="#launch">§8</a>).</li>
       <li><strong>LaunchAgents:</strong> calendar firings during an in-flight run are dropped (no queue) — keep job bodies shorter than the interval; lint <code>Weekday</code> spelling (unknown keys are silently ignored, so weekly becomes daily); the miss signal is <code>launchctl print</code> <code>runs</code> vs expected slots, paired with box <code>mac-missed-runs.jsonl</code>.</li>
+      <li><strong>LaunchAgent plumbing:</strong> always set <code>StandardOutPath</code> / <code>StandardErrorPath</code> (otherwise failures vanish silently) and wrap <code>ProgramArguments</code> in <code>/bin/zsh -lc</code> so nvm/fnm/<code>~/.local/bin</code> CLIs are on PATH; keep <code>RunAtLoad</code> false while iterating and test with <code>launchctl kickstart -k</code>.</li>
+      <li><strong>Overlapping ticks:</strong> wrap scheduled <code>claude -p</code> in <code>flock -n</code> (skip if the lock is held) and give each logical job a stable <code>--session-id</code> so retries stay addressable. This locks the process itself — separate from launchd’s drop-while-running behavior.</li>
     </ul>
 
     <h3>Outer loop → inner loop</h3>
@@ -484,6 +491,7 @@
       <li>Long fires inherit defaults: limited items · ≤2 retries · $0 spend · 0 external actions without Tongli approval.</li>
       <li>Abnormal volume vs last clean run → stop and escalate.</li>
       <li>Every run declares retry + cost + timeout budgets; any exhausted budget → escalate, not quiet degrade. Plan ≠ permission — policy gates sit outside the reasoning loop.</li>
+      <li>Scripted <code>claude -p</code> enforces the cost budget with <code>--max-budget-usd</code> (<a href="#launch">§8</a>), not turn count alone.</li>
       <li>Autonomy ladder 0–4 with demotion when quality drops.</li>
       <li>Park unknown outcomes after crash/dirty exit — do not auto-retry guessing.</li>
     </ul>
