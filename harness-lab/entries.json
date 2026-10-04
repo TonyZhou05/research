@@ -1,8 +1,59 @@
 {
-  "updatedAt": "2026-10-04T14:54:35Z",
+  "updatedAt": "2026-10-04T20:52:47Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "posttooluse-updatedtooloutput-schema-trap-2026-10-04",
+      "date": "2026-10-04",
+      "displayDate": "Oct 4, 2026",
+      "title": "PostToolUse updatedToolOutput must match the tool's JSON shape (Bash silent-revert trap)",
+      "href": "https://github.com/anthropics/claude-code/issues/84439",
+      "why": "A redact or compress PostToolUse hook that returns a bare string for Bash fails schema validation and silently reverts to the original output, so the hook looks like it works but doesn't. Return the tool's real object shape (stdout, stderr, interrupted, isImage, noOutputExpected) and test the hook with a known marker before trusting it in the fleet's installed agent hooks.",
+      "source": "packs/2026-10-04-muse-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "hooks",
+        "JSON schema",
+        "honesty",
+        "proof"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "macos-cron-no-login-keychain-use-launchagent-2026-10-04",
+      "date": "2026-10-04",
+      "displayDate": "Oct 4, 2026",
+      "title": "macOS cron can't reach the login Keychain \u2014 run Claude CLI routines as a LaunchAgent",
+      "href": "https://github.com/starlingilcruz/claude-warmup",
+      "why": "Explains 'works in Terminal, fails as a routine': cron runs in the system bootstrap context, so the Claude CLI can't read its login token from the Keychain and reports Not logged in, even with PATH fixed. A LaunchAgent loads in the GUI login session, so the Keychain lookup works and missed runs catch up after sleep. Pairs with the launchd StandardOutPath + zsh -lc PATH card for Mac CLI seats.",
+      "source": "packs/2026-10-04-muse-harness-lab-pack.md",
+      "tags": [
+        "routines",
+        "Mac CLI",
+        "launchd",
+        "Claude",
+        "Keychain"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "dual-signal-tmux-watchdog-heartbeat-grep-2026-10-04",
+      "date": "2026-10-04",
+      "displayDate": "Oct 4, 2026",
+      "title": "Dual-signal tmux watchdog \u2014 restart only when heartbeat is stale AND pane-grep matches",
+      "href": "https://github.com/bananabay69/claude-code-watchdog",
+      "why": "Adds an AND gate to our tmux watchdog: a stale heartbeat alone only logs (idle bots go stale too), while a stale heartbeat plus a pane-grep hit (rate-limit or trust dialog) triggers a restart. Stops idle panes from thrashing restarts under launchd, and falls back to grep-only until a heartbeat writer exists. Keep the stale threshold above ~2 launchd cycles to avoid self-DoS.",
+      "source": "packs/2026-10-04-muse-harness-lab-pack.md",
+      "tags": [
+        "tmux",
+        "watchdog",
+        "Mac CLI",
+        "launchd",
+        "routines"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "codex-review-uncommitted-base-commit-2026-10-03",
       "date": "2026-10-03",
