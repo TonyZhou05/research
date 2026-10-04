@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-03T20:57:23Z",
+  "updatedAt": "2026-10-04T14:54:35Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
@@ -18,7 +18,7 @@
         "proof",
         "honesty"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "codex-exec-ephemeral-oneshot-2026-10-03",
@@ -35,7 +35,7 @@
         "routines",
         "recovery"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-strict-mcp-config-print-2026-10-03",
@@ -53,7 +53,7 @@
         "honesty",
         "proof"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-no-session-persistence-print-2026-10-03",
@@ -70,7 +70,7 @@
         "recovery",
         "honesty"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-json-schema-structured-output-2026-10-03",
@@ -88,7 +88,7 @@
         "proof",
         "honesty"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-exclude-dynamic-system-prompt-2026-10-03",

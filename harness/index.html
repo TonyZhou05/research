@@ -289,6 +289,7 @@
       <li><strong>Next independent slice</strong> starts without waiting on org APPROVE of the previous one.</li>
     </ol>
     <p class="note"><strong>Budgets:</strong> every slice / routine run carries a retry budget, cost ceiling, and wall-clock timeout in its plan or handoff note; exhausting any one escalates to Tongli — never degrade quietly. An accepted plan is not permission: RED actions still need Tongli (<a href="#gyr-authority">§14</a>).</p>
+    <p class="note"><strong>Machine-checkable output:</strong> when an EM or routine script consumes a scripted <code>claude -p</code> result, pair <code>--output-format json</code> with <code>--json-schema</code> and read the payload from <code>structured_output</code> instead of parsing free text; an invalid schema fails the run, so a malformed contract is caught before “done” (<a href="#launch">§8</a>).</p>
 
     <h3>What the EM does not do</h3>
     <ul>
@@ -352,8 +353,13 @@
       <li><strong>No <code>approvals_reviewer=auto_review</code> under unattended <code>codex exec</code></strong> — it can silently defeat <code>--sandbox read-only</code>. Keep the reviewer as <code>user</code> (or omit auto_review) so the sandbox stays binding.</li>
       <li><strong>Hard spend cap on scripted <code>claude -p</code></strong> — add <code>--max-budget-usd</code> next to <code>--max-turns</code>; a few long turns can still burn tokens. Log <code>total_cost_usd</code> from the JSON result in the run note.</li>
       <li><strong>Gate on silent tool loss</strong> — an invalid <code>--mcp-config</code> can be skipped while <code>-p</code> still exits 0. With <code>stream-json</code>, fail the run if the <code>system/init</code> event has a non-empty <code>mcp_server_errors</code> or <code>plugin_errors</code>.</li>
+      <li><strong>Headless Codex review target</strong> — for Astra / Dual-LGTM second passes, pick exactly one of <code>--uncommitted</code>, <code>--base &lt;branch&gt;</code>, <code>--commit &lt;SHA&gt;</code>, or a custom prompt; they are mutually exclusive, so state which one the kickoff uses.</li>
+      <li><strong>One-shot Codex</strong> — <code>codex exec --ephemeral</code> for reviews or summaries that should not leave a resume target or session rollout on disk; persist a thread id only when you intend to resume.</li>
+      <li><strong>Strict MCP for scheduled <code>claude -p</code></strong> — when passing <code>--mcp-config</code>, add <code>--strict-mcp-config</code> so host or project MCP servers cannot be silently inherited; it pairs with the <code>system/init</code> error gate above and with <code>--bare</code>.</li>
+      <li><strong>No disk session for one-shots</strong> — add <code>--no-session-persistence</code> to one-shot <code>claude -p</code> (collect / EM kicks) so nothing lands in the <code>--continue</code> / <code>--resume</code> pickers or watchdog transcript scans. This is not <code>--fork-session</code>; keep sessions on when a slice needs a follow-up.</li>
+      <li><strong>Structured result contract</strong> — <code>--output-format json</code> + <code>--json-schema</code> puts the final payload in <code>structured_output</code>; an invalid schema fails the run. Prefer it to free-text result parsing in EM and routine scripts (<a href="#em-loop">§5</a>).</li>
     </ol>
-    <p class="note">Items 5–8 promoted from <a href="/research/harness-lab/">Harness Lab</a> in the 2026-09-28 Monday sync; items 9–12 and the <code>dontAsk</code> clause in item 7 in the 2026-10-03 daily review.</p>
+    <p class="note">Items 5–8 promoted from <a href="/research/harness-lab/">Harness Lab</a> in the 2026-09-28 Monday sync; items 9–12 and the <code>dontAsk</code> clause in item 7 in the 2026-10-03 daily review; items 13–17 in the 2026-10-04 daily review.</p>
     <pre># Live shape — helpers in ~/bin (ensure PATH includes ~/bin)
 # grok-tmux-run muse-collect-HH -- \
 #   muse exec --json --trust-workspace --disable-approval --prompt-file prompt.md
@@ -436,7 +442,7 @@
     </ul>
     <p><strong>Policy:</strong> Three-Run Proof before Active — never automate the first success. Prefer event triggers over tight crons. Mondays: playbook↔card sync <strong>plus weekly kill review</strong>.</p>
     <ul>
-      <li>Scripted <code>claude -p</code> routine kicks run with <code>--bare</code>, <code>--permission-mode dontAsk</code>, and a <code>--max-budget-usd</code> ceiling, and fail on non-empty <code>mcp_server_errors</code> / <code>plugin_errors</code> in <code>system/init</code> (see <a href="#launch">§8</a>).</li>
+      <li>Scripted <code>claude -p</code> routine kicks run with <code>--bare</code>, <code>--permission-mode dontAsk</code>, and a <code>--max-budget-usd</code> ceiling, and fail on non-empty <code>mcp_server_errors</code> / <code>plugin_errors</code> in <code>system/init</code> (see <a href="#launch">§8</a>). When a kick passes <code>--mcp-config</code> it also passes <code>--strict-mcp-config</code>, and one-shot kicks add <code>--no-session-persistence</code>; result-consuming scripts use <code>--json-schema</code> and read <code>structured_output</code>.</li>
       <li><strong>LaunchAgents:</strong> calendar firings during an in-flight run are dropped (no queue) — keep job bodies shorter than the interval; lint <code>Weekday</code> spelling (unknown keys are silently ignored, so weekly becomes daily); the miss signal is <code>launchctl print</code> <code>runs</code> vs expected slots, paired with box <code>mac-missed-runs.jsonl</code>.</li>
       <li><strong>LaunchAgent plumbing:</strong> always set <code>StandardOutPath</code> / <code>StandardErrorPath</code> (otherwise failures vanish silently) and wrap <code>ProgramArguments</code> in <code>/bin/zsh -lc</code> so nvm/fnm/<code>~/.local/bin</code> CLIs are on PATH; keep <code>RunAtLoad</code> false while iterating and test with <code>launchctl kickstart -k</code>.</li>
       <li><strong>Overlapping ticks:</strong> wrap scheduled <code>claude -p</code> in <code>flock -n</code> (skip if the lock is held) and give each logical job a stable <code>--session-id</code> so retries stay addressable. This locks the process itself — separate from launchd’s drop-while-running behavior.</li>
@@ -525,6 +531,7 @@
       <li>☐ Long jobs: prefer tmux + stream + watchdog when helpers exist</li>
       <li>☐ <a href="/research/usage/">Usage</a> cards green / explained</li>
       <li>☐ No secrets in vault notes or hub commits</li>
+      <li>☐ Headless Codex review kickoffs name exactly one target (<code>--uncommitted</code> / <code>--base</code> / <code>--commit</code> / custom prompt)</li>
       <li>☐ Blind dual-LGTM pilot: review <code>CLAUDE.md</code> + <code>docs/REVIEW.md</code> on the open PR; Tongli merges after Astra + second-seat LGTM (Fable only if not implementer; else Kimi)</li>
       <li>☐ Gaps below still true? Update this page when a gap closes.</li>
     </ul>
