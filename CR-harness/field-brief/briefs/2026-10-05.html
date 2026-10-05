@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief deep edition 2026-10-05 — CR-Harness and agent-control scout ideas.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-10-05 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-10-05.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-10-05 · ET</p>
+    <h1>Field Brief — closed-loop game eval, auditing Jev, action→outcome history</h1>
+    <p class="lede">Monday edition and a board reset to 12 cards. The lead is <strong>XiangqiBench</strong>, a game benchmark showing that naming the right move rarely converts into a win. Alongside it: a paired, self-audited evaluation of Jev and Laya at 11 agent decision points, a cheap prompt fix for agents that don’t link actions to outcomes, and Roblox’s <strong>OpenGameEval</strong> on measuring exploration.</p>
+    <p class="zh">十月五日简报 · 四条深读 · 新增一条 intent 候选 · 看板精简至 12 张。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-10-02.html">2026-10-02</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout"><strong>Honesty.</strong> Real submission dates are 1–2 Oct, so these are new since the 10-02 edition. I read the abstracts (not full papers) and quote the authors’ numbers without re-running them. The action-calibration card is thin because its abstract gives no numbers. No <span class="pill">candidate_intent</span> card was dropped.</div>
+
+  <section>
+    <h2>1. XiangqiBench: finding the move is not winning the game <span class="pill">candidate_intent</span></h2>
+    <p><strong>What it is.</strong> Chai, Peng, Xiong et al., <a href="https://arxiv.org/abs/2610.02425" rel="noopener noreferrer">arXiv:2610.02425</a> (submitted 1 Oct 2026). An executable Chinese-chess benchmark.
+      Starting from 119 tactical endgames with forced mates, an LLM agent must actually deliver checkmate against an engine defender. A REPL separates real moves, state queries and forward simulation.</p>
+    <p><strong>Evidence.</strong> 8,568 multi-turn trajectories from 12 frontier LLMs under two observation protocols. Three signals that look like competence each overstate closed-loop success:</p>
+    <ul>
+      <li><strong>Conversion gap:</strong> models play the stored reference first move in 26.1% of Sighted trials, but only 13.9% of those trials end in a win.</li>
+      <li><strong>Consistency gap:</strong> the leading model reaches 38.7% pass@3 but only 5.9% pass^3 (winning all three trials on 7 of the 46 positions it ever wins).</li>
+      <li><strong>Simulation gap:</strong> 32.3% of accepted simulation calls stop on an illegal move, and in 49.3% of comparable cases the real defender replies differently from the line the agent simulated.</li>
+    </ul>
+    <p><strong>Why it matters for CR.</strong> This is the game-domain version of the 10-01 scoping-review point. Per-<code>decision_point</code> “good move” scores can look healthy while matches are still lost.
+      The REPL split (act / query / simulate) is also a clean interface pattern for Mini Royale.</p>
+    <h3>Suggested next step (intent candidate)</h3>
+    <ul>
+      <li>Report pass^k (win all k seeds) next to pass@k for every CR model–harness config.</li>
+      <li>If agents get a lookahead/simulate tool, log illegal actions inside the lookahead separately from real-action legality.</li>
+      <li>Keep decision-level metrics, but make closed-loop match outcome the headline.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. Fast Models, Slow Evidence: auditing System-1 decision models <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Li et al., <a href="https://arxiv.org/abs/2610.02267" rel="noopener noreferrer">arXiv:2610.02267</a> (1 Oct 2026;
+      <a href="https://github.com/David-DL-Space/sys1-eval" rel="noopener noreferrer">cases, outputs and code</a>). A paired evaluation of an open-weight (Laya) and a hosted (Jev) System-1 typed-decision model on 11 agent decision points
+      built from 18 public sources: 7,283 base cases plus 6,640 robustness variants, byte-identical inputs, and cross-hardware and cross-day reproducibility checks.</p>
+    <p><strong>Evidence.</strong> Jev is significantly more accurate on 9 of 11 decision points (+10.8 to +46.0 pp). Neither beats chance on zero-shot model routing, and they tie on RAG relevance gating.
+      Laya changes 30% of its answers when option order is reversed and falls to 31% with 50 nearest-neighbour tools, versus 98% for Jev on items with a unique correct tool. The authors also audit themselves and report four
+      errors that distorted deployment claims: an omitted pre-screen cost (23.9% saving reported, 4.3% actual), gate accuracy reported as end-to-end quality (58% vs 98%), in-sample thresholds (5% target, up to 17% held-out misses),
+      and a “channel effect” that vanished with channel-native content.</p>
+    <p><strong>Why it matters for CR.</strong> It is the best pre-flight checklist yet for the <strong>jev-gameplay-decision-router</strong> intent. Mini Royale <code>legal_actions</code> lists are long and near-duplicate
+      (same card, neighbouring tiles), which is exactly where order bias and many-similar-candidate failures show up.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Before trusting a confidence floor: shuffle legal-action order and check answer stability, test with 50+ near-identical placements, set the floor on held-out matches, and count every pre-screen call in the cost.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Label observations as outcomes of the preceding action <span class="pill watch">watch · thin</span></h2>
+    <p><strong>What it is.</strong> Liu, Wang, Jing et al., <a href="https://arxiv.org/abs/2610.02769" rel="noopener noreferrer">arXiv:2610.02769</a> (2 Oct 2026). A study of how language agents use interaction history within a task.</p>
+    <p><strong>Evidence.</strong> History helps overall, but much of the benefit persists when past actions are shuffled, and breaking the action–observation correspondence costs only a modest drop. That suggests agents don’t reliably link actions to outcomes.
+      Explicitly labeling each observation as the outcome of the preceding action raises task success and reduces next-action repetition without new information, and a learned calibrator that reassesses past actions adds more.
+      The abstract gives no benchmark names or numbers and I didn’t read the full paper, so this card is marked thin.</p>
+    <p><strong>Why it matters for CR.</strong> It’s a near-free prompt change for the <code>decision_point</code> history block, and it targets a known failure: repeating an action that was just rejected.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Render recent history as <code>action → result</code> pairs (e.g. “deploy X at tile T → rejected: insufficient elixir”) and compare the repeated-rejected-action rate against the current format.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. OpenGameEval: make exploration measurable <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Turkel, Sun, Ayyar et al. (Roblox), <a href="https://arxiv.org/abs/2610.02563" rel="noopener noreferrer">arXiv:2610.02563</a> (1 Oct 2026;
+      <a href="https://github.com/Roblox/open-game-eval" rel="noopener noreferrer">MIT release</a>). Agents do game development in reproducible, stateful Roblox Studio sessions, scored by executable checks on the edited scene and in a simulated play session.
+      The eight-tool action space separates observation tools from editing tools.</p>
+    <p><strong>Evidence.</strong> 13 frontier models, 84 human-curated tasks, 16 attempts each. The best model solves 51.7% on a single attempt and 39.4% five times out of five, and no model solves six tasks. Holding task and model fixed, runs that inspect
+      every object the reference solution touches before acting pass 13.4 pp more often on scene-only tasks and 9.8 pp on script-only tasks than runs that inspect none.</p>
+    <p><strong>Why it matters for CR.</strong> The agents build games rather than play them, but two design points transfer: separate observe/query actions from acting actions so “looked before acting” is loggable, and report k-of-k reliability.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>If CR adds query tools (e.g. inspect a lane, check an opponent card cycle), keep them out of <code>legal_actions</code> and log them as a separate channel.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Board reset this edition</h2>
+    <p>To bring the board down to 12 cards, this edition keeps the seven <span class="pill">candidate_intent</span> cards, the 10-02 <strong>model-harness-fit</strong> card (still the strongest harness-benchmark result),
+      and today’s four new cards. Ten older watch cards from 09-28 to 10-02 were retired from the index. They remain readable in their dated briefs:
+      <a href="2026-10-02.html">10-02</a> · <a href="2026-10-01.html">10-01</a> · <a href="2026-09-30.html">09-30</a> · <a href="2026-09-29.html">09-29</a> · <a href="2026-09-28.html">09-28</a>.</p>
+  </section>
+
+  <section>
+    <h2>Also seen (not carded)</h2>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2610.00437" rel="noopener noreferrer">JevSpawn</a> (30 Sep): a compositional policy that derives Jev-style finite action fields from natural-language tasks, with parallel spawning and branch selection. The abstract reports improvements on eight tasks without numbers, so it is not carded yet.</li>
+      <li><a href="https://arxiv.org/abs/2610.03695" rel="noopener noreferrer">Queen</a> (2 Oct): a 4B chess-language model that explains its moves; reports going from 1782 to 2697 Elo over seven distillation iterations. A trained domain model, not a harness or control result.</li>
+      <li><a href="https://arxiv.org/abs/2610.02486" rel="noopener noreferrer">SBERT2S1</a> (1 Oct): calibrated typed-decision models from biomedical sentence encoders; after temperature scaling no training objective is clearly better calibrated than cross-entropy.</li>
+      <li><a href="https://arxiv.org/abs/2610.02557" rel="noopener noreferrer">Instance-optimal AI debate protocol</a> (1 Oct): complexity-theoretic debate guarantees; theory only.</li>
+    </ul>
+
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <ol>
+      <li><strong>xiangqibench-closed-loop</strong> (new): closed-loop outcomes and pass^k as CR headline metrics; separate act / query / simulate channels.</li>
+      <li>Still open: <strong>jev-gameplay-decision-router</strong> (now with the 10-05 audit checklist), <strong>reflex-jev-selective-control</strong>, <strong>game-arena-kaggle-harness</strong>, <strong>action-class-calibration-gar</strong>,
+        <strong>autoharness-textarena</strong>, <strong>ptcg-bench-harness-ablation</strong>, <strong>adversarial-review-dual-lgtm</strong>.</li>
+    </ol>
+
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON:
+      <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-10-05 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-10-02.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>

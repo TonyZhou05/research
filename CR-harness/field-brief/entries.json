@@ -1,29 +1,88 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-10-02T12:45:30-04:00",
+  "updatedAt": "2026-10-05T10:54:52-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-10-02.html",
+  "briefEdition": "briefs/2026-10-05.html",
   "entries": [
     {
-      "id": "omnimed-jev-decision-native-calibration",
-      "title": "OmniMed-Jev: Choice/Noul/Score over a runtime candidate set, calibration measured",
-      "date": "2026-10-02",
-      "summary": "Tang, Chen et al., arXiv:2610.00381 (submitted 30 Sep 2026). Second independent paper built on Jev after REFLEX: each bounded decision is a Choice, Noul or Score over a runtime-supplied candidate set, returning a full probability distribution over that set instead of generated text. In an interface-controlled comparison against a generative baseline trained on the same backbone, data and schedule, reported probabilities track correctness far more closely: calibration error down by up to an order of magnitude and reliability error by up to two, with comparable point-prediction performance (counting is the one family where the generative baseline stays ahead). Medical imaging domain, not games; the authors state the comparison cannot separate the interface from associated training differences and is not evidence of clinical readiness.",
+      "id": "xiangqibench-closed-loop",
+      "title": "XiangqiBench: finding the move is not winning the game",
+      "date": "2026-10-05",
+      "summary": "Chai, Peng, Xiong et al., arXiv:2610.02425 (submitted 1 Oct 2026). Executable Chinese-chess benchmark: from 119 tactical endgames with forced mates, an LLM agent must actually deliver checkmate against an engine defender, through a REPL that separates real moves, state queries and forward simulation. 8,568 multi-turn trajectories from 12 frontier LLMs under two observation protocols. Three gaps: Conversion (models play the stored reference first move in 26.1% of Sighted trials, but only 13.9% of those end in a win); Consistency (leading model 38.7% pass@3 but 5.9% pass^3); Simulation (32.3% of accepted simulation calls stop on an illegal move, and in 49.3% of comparable cases the real defender replies differently from the agent's simulated line).",
       "tags": [
-        "Jev",
-        "confidence",
-        "calibration",
-        "decision_point",
+        "games",
         "legal_actions",
-        "typed-choice"
+        "decision_point",
+        "eval",
+        "closed-loop",
+        "reliability",
+        "CR-adjacent"
       ],
       "source_urls": [
-        "https://arxiv.org/abs/2610.00381",
-        "https://github.com/lytang63/OmniMed-Jev"
+        "https://arxiv.org/abs/2610.02425"
       ],
-      "why_it_matters_for_cr": "Evidence for the calibration half of the Jev-at-decision_point idea: a distribution over the runtime legal_actions set is a better-behaved confidence signal than a probability read off generated text. Caveat: medical, and interface vs training is confounded, so CR needs its own calibration check by match phase (see TC-ECE card).",
+      "why_it_matters_for_cr": "Direct warning against scoring CR on per-decision 'good move' metrics alone: decision_point accuracy can look fine while closed-loop match outcomes do not follow. Adopt pass^k (win all k seeds) next to pass@k, separate real actions from state queries/simulation in the action interface, and log illegal actions inside any agent-side lookahead.",
+      "status": "candidate_intent",
+      "thin": false
+    },
+    {
+      "id": "system1-jev-laya-paired-eval",
+      "title": "Fast Models, Slow Evidence: paired audit of Jev vs Laya at 11 agent decision points",
+      "date": "2026-10-05",
+      "summary": "Li et al., arXiv:2610.02267 (submitted 1 Oct 2026). Paired evaluation of an open-weight (Laya) and a hosted (Jev) System-1 typed-decision model on 11 agent decision points from 18 public sources: 7,283 base cases plus 6,640 robustness variants, byte-identical inputs, cross-hardware/cross-day checks. Jev is significantly more accurate on 9 of 11 decision points (+10.8 to +46.0 pp); neither beats chance on zero-shot model routing; they tie on RAG relevance gating. Laya changes 30% of answers when option order is reversed and drops to 31% with 50 nearest-neighbour tools vs 98% for Jev on items with a unique correct tool. The authors' self-audit found four errors that distorted deployment claims: omitted pre-screen cost (23.9% saving reported, 4.3% actual), gate accuracy reported as end-to-end quality (58% vs 98%), in-sample thresholds (5% target, up to 17% held-out misses), and a vanishing 'channel effect'.",
+      "tags": [
+        "Jev",
+        "typed-choice",
+        "confidence-gate",
+        "decision_point",
+        "eval",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.02267",
+        "https://github.com/David-DL-Space/sys1-eval"
+      ],
+      "why_it_matters_for_cr": "The most useful pre-flight checklist yet for the Jev-at-decision_point intent: test option-order robustness and many-similar-candidate cases (CR legal_actions lists are long and near-duplicate), set thresholds on held-out data, count pre-screen cost, and never report gate accuracy as match quality.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "action-outcome-labeling-calibrator",
+      "title": "When history fails to become experience: label each observation as the outcome of the preceding action",
+      "date": "2026-10-05",
+      "summary": "Liu, Wang, Jing et al., arXiv:2610.02769 (submitted 2 Oct 2026). History helps language agents overall, but much of the benefit persists when past actions are shuffled, and breaking action–observation correspondence costs only a modest drop, suggesting agents don't reliably link actions to outcomes. Explicitly labeling each returned observation as the outcome of the preceding action improves task success and reduces next-action repetition without new environment information; a learned calibrator that reassesses past actions and selectively records experience improves further. Abstract gives no benchmark names or numbers; full paper not read.",
+      "tags": [
+        "decision_point",
+        "memory",
+        "prompting",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.02769"
+      ],
+      "why_it_matters_for_cr": "Cheap change to test in the Mini Royale decision_point prompt: render recent history as (action → observed result) pairs, e.g. 'played X at tile T → rejected: insufficient elixir' or '→ tower HP −N', and measure repeated-rejected-action rate.",
+      "status": "watch",
+      "thin": true
+    },
+    {
+      "id": "opengameeval-exploration-measured",
+      "title": "OpenGameEval: separate observation tools from edit tools to measure exploration",
+      "date": "2026-10-05",
+      "summary": "Turkel, Sun, Ayyar et al. (Roblox), arXiv:2610.02563 (submitted 1 Oct 2026). Agentic game-development benchmark in reproducible, stateful Roblox Studio sessions, scored by executable checks on the edited scene and in a simulated play session. Its eight-tool action space separates observation from editing so exploration is measurable. 13 frontier models, 84 human-curated tasks, 16 attempts each: best model solves 51.7% on one attempt and 39.4% five times out of five; no model solves six tasks. Holding task and model fixed, runs that inspect every object the reference solution touches pass 13.4 pp more often (scene-only) and 9.8 pp (script-only) than runs that inspect none. MIT-licensed release.",
+      "tags": [
+        "games",
+        "eval",
+        "exploration",
+        "harness",
+        "benchmark"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.02563",
+        "https://github.com/Roblox/open-game-eval"
+      ],
+      "why_it_matters_for_cr": "Agents build games here rather than play them, but two design points transfer: split query/observe actions from acting actions so 'did the agent look before it acted' is loggable, and report k-of-k reliability alongside single-attempt pass rate.",
       "status": "watch",
       "thin": false
     },
@@ -48,163 +107,6 @@
       "thin": false
     },
     {
-      "id": "recovery-causal-intervention-router",
-      "title": "When harnesses lose the signal: evaluating recovery causally (CIR)",
-      "date": "2026-10-02",
-      "summary": "Xiao, Wang, Chen et al., arXiv:2610.00372 (submitted 30 Sep 2026). Frames harness recovery (retry/repair after an execution error) as a causal decision: from the same execution state, compare with and without recovery to separate rescue from harm, and study how its value changes over time. A lightweight Causal Intervention Router (CIR) decides when to intervene using information available before recovery. On long-horizon ALFWorld with Qwen3-14B, success rises from 70.33% to 73.33% (+3.00 pts) and trajectories with correct observations are left untouched. Single benchmark, single 14B model.",
-      "tags": [
-        "harness",
-        "retry-policy",
-        "decision_point",
-        "eval",
-        "causal",
-        "agent-control"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.00372"
-      ],
-      "why_it_matters_for_cr": "CR's rejection/retry loop is a recovery mechanism: the same retry can rescue or disrupt. Branching from the same saved decision_point state with and without retry (the sim permits replay) would measure that directly and avoid scoring retries by average win rate.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "weak-reviewer-groundability",
-      "title": "Groundability, not scale: when weak reviewers can audit strong coding agents",
-      "date": "2026-10-02",
-      "summary": "Guo, Gu, Jin et al., arXiv:2610.01023 (submitted 1 Oct 2026). 411 execution-labeled traces from three coding agents plus 101 controlled cases. Structured but unchecked evidence raises both defect catch and over-rejection; giving official execution evidence (an upper-bound diagnostic) improves both rates for five of six reviewers, and reviewer size is not a consistent predictor of quality. A deployable cascade with static errors and generated tests that first fail on the unpatched repo reaches coverage 0.89/0.86, catch 0.76/0.80 but over-rejection 0.66/0.67 on GPT-5.4/Gemini traces; producing equally reliable checks without official tests remains the bottleneck.",
-      "tags": [
-        "dual-LGTM",
-        "code-review",
-        "verification",
-        "fleet",
-        "multi-agent"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.01023",
-        "https://arxiv.org/abs/2610.01471"
-      ],
-      "why_it_matters_for_cr": "Practical rule for the second LGTM seat: ground the review in executed checks (a failing test on the old code, a sim replay), not in the author's summary. Also a caution that generated checks alone over-reject, so keep a human merge gate.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "strata-rts-review-agent",
-      "title": "STRATA: role-split LLM agents + a post-match Review Agent for Red Alert",
-      "date": "2026-10-01",
-      "summary": "Tian, Zhang et al., arXiv:2609.38881 (submitted 30 Sep 2026). Hierarchical LLM system for the RTS game Red Alert: a Strategic Agent sets high-level directives from global state plus retrieved 'experience cards', a Logistics Agent and a Tactical Agent handle logistics and tactical execution (motivated by inference latency missing tactical events). After each match a Review Agent derives candidate experience from game traces, validates/revises it with evidence from later matches, and compresses cross-game-supported lessons into cards. Reported: under a fixed scenario, using learned cards raises observed win rate from 30% to 100%. That is a single fixed scenario; abstract-level claim, I did not read the full paper.",
-      "tags": [
-        "games",
-        "RTS",
-        "multi-agent",
-        "review-agent",
-        "memory",
-        "CR-adjacent"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.38881"
-      ],
-      "why_it_matters_for_cr": "Closest public design to a multi-agent Mini Royale player: fast tactical agent + slower strategic agent + offline reviewer that only promotes lessons validated on later matches. The validate-on-later-matches step is the part worth stealing; the headline 30%→100% is one scenario and should not be read as a general effect.",
-      "status": "watch",
-      "thin": true
-    },
-    {
-      "id": "naq-selective-withdrawal",
-      "title": "NAQD-Env: can language agents withdraw only the affected actions?",
-      "date": "2026-10-01",
-      "summary": "Abouzahra et al., arXiv:2609.38460 (submitted 29 Sep 2026). Synthetic environment that tests whether an agent suspends affected planned actions when evidence changes, permission is revoked or a stop arrives, while preserving unaffected work and resuming only after repair. 350 frozen scenarios, 11 dependency families, three open-weight models (Qwen2.5-3B/7B, Llama-3.1-8B) under three prompts (3,150 episodes): withdrawal recall at most 0.06, no valid resumption at eligible opportunities, one episode matches the full reference policy. Exploratory SFT probes lift Qwen2.5-3B decision accuracy from 0.45–0.54 to 0.83–0.92 but show inappropriate withdrawal and lost event reporting. Small open models, synthetic structured inputs.",
-      "tags": [
-        "abstain",
-        "agent-control",
-        "eval",
-        "decision_point",
-        "selective-withdrawal"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.38460"
-      ],
-      "why_it_matters_for_cr": "Gives CR a vocabulary and metric set for a case legal_actions does not cover: a queued plan (e.g., a planned push) that must be partially cancelled when the board changes. Separates attempted violations from violations the gate lets through, and reports resumption, not only withdrawal.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "civex-verifier-misspecification",
-      "title": "Who verifies the verifier? Corrupting the committed graph defeats a causal action gate",
-      "date": "2026-10-01",
-      "summary": "Rovai, arXiv:2609.40027 (submitted 30 Sep 2026). Red-teams CIVeX, a causal action verifier that gates state-changing tool calls against a committed action-state graph and reports zero false executions on a confounded benchmark. Omitting one bidirected edge raises false executions to 15.3% (91% of executions harmful); reversing one arrowhead gives 48.9% false executions and no correct ones; every such action still carries an internally valid certificate. A randomized-sample attestation step detected both attacks (2 false alarms in 555 executions) and refusing failures gave zero false executions, but 97.1% of beneficial actions were still never executed. Costs: 127 experiments per 1,050 actions for safety, 614 more to recover the lost value.",
-      "tags": [
-        "agent-control",
-        "verification",
-        "legal_actions",
-        "gate",
-        "safety"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.40027"
-      ],
-      "why_it_matters_for_cr": "A whitelist is only as good as the rule/graph behind it. If the sim's legal_actions logic has a missing case, every illegal-but-allowed action will look validly certified. Argues for sampling-based attestation (replay accepted actions against the sim) and for tracking wrongful rejections, not only wrongful accepts.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "component-replacement-evidence-review",
-      "title": "Scoping review: local-decision gains vs task-level gains in LLM agents",
-      "date": "2026-10-01",
-      "summary": "Zhang, Chang et al., arXiv:2609.39989 (submitted 30 Sep 2026). Critical scoping review of 348 studies (90 comparison records examined; 8 cases synthesized) on what evidence a component replacement in an agent establishes. Of 222 studies reporting local decision metrics, 142 also report measured task endpoints and 49 only proxies, without establishing matched comparisons. Concludes that neither online execution nor simultaneous gains in local and task metrics alone shows that better local decisions explain a task-level gain; derives eight claim-specific reporting items.",
-      "tags": [
-        "decision_point",
-        "eval",
-        "methodology",
-        "agent-control",
-        "CR-adjacent"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.39989"
-      ],
-      "why_it_matters_for_cr": "Directly about the decision_point eval question: when a gate or router improves decision-level accuracy, did match outcomes improve because of it? CR should report local decision metrics and match endpoints from the same matched runs, and log which downstream states the replacement changed.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "dissent-withholding-critical-rate",
-      "title": "Multi-agent discussion gains less when dissent is withheld",
-      "date": "2026-10-01",
-      "summary": "Mansuri, Wang, Li et al., arXiv:2609.38324 (submitted 29 Sep 2026). A small model with four agent behaviors (withholding dissent, internalizing a stated answer, reconsidering after seeing dissent, correcting toward the right answer) predicts that discussion can overturn a wrong initial majority only if the withholding rate c is below c* = γ/(γ+a). Rates are estimated from conversation logs; gains shrink as withholding rises across LLMs on HiddenBench and MedEInst, instructing agents not to withhold dissent increases the gain, and turning reasoning off also increases the gain.",
-      "tags": [
-        "multi-agent",
-        "dual-LGTM",
-        "debate",
-        "fleet"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.38324",
-        "https://arxiv.org/abs/2609.36855"
-      ],
-      "why_it_matters_for_cr": "Third data point this week, alongside the answer-substitution and debate-collapse papers: blind first, then discuss, and prompt reviewers to state dissent explicitly. Gives a measurable quantity (withholding rate) to log in dual-LGTM transcripts.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "glyphbench-observation-harness",
-      "title": "GlyphBench: observation format and harness as measured factors in game agents",
-      "date": "2026-09-29",
-      "summary": "Castanyer, Côté et al., arXiv:2609.34214 (submitted 28 Sep 2026). 360+ game tasks rendered as 2-D Unicode glyph grids behind one train/eval/replay interface. Studies how observation interface, reasoning effort and agent harness change performance: glyph observations beat native text and pixels in their Craftax experiments, with further gains on several BALROG environments. In RL runs, invalid actions are treated as no-ops. RL on 100 GlyphBench tasks lifts Qwen3.5-4B to 63.48% on held-out Reasoning Gym vs 62.29% (math RL), 58.98% (code RL) and 56.04% base.",
-      "tags": [
-        "games",
-        "observation",
-        "harness",
-        "eval",
-        "invalid-action",
-        "CR-adjacent"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.34214",
-        "https://arxiv.org/html/2609.34214v1"
-      ],
-      "why_it_matters_for_cr": "Mini Royale's state rendering for decision_point (text vs grid vs structured) is a harness factor, not a constant: GlyphBench shows an observation-format ablation is worth running next to the legal_actions ablation. Also a second explicit data point for 'invalid action = no-op' as a harness policy (cf. Game Arena's retry/forfeit rules).",
-      "status": "watch",
-      "thin": false
-    },
-    {
       "id": "game-arena-kaggle-harness",
       "title": "Kaggle Game Arena tech report: retry/forfeit harness rules as eval design",
       "date": "2026-09-28",
@@ -224,25 +126,6 @@
       ],
       "why_it_matters_for_cr": "The most public, large-scale statement of the design choices CR must make at every decision_point: show the legal list or not, how much feedback on an illegal action, how many retries, and what the fallback is (loss vs conservative default vs forfeit). CR should declare these as a versioned harness policy and log rethink counts by match phase.",
       "status": "candidate_intent",
-      "thin": false
-    },
-    {
-      "id": "tc-ece-trajectory-calibration",
-      "title": "Agent UQ taxonomy + TC-ECE: step calibration ≠ trajectory calibration",
-      "date": "2026-09-28",
-      "summary": "Lin et al., arXiv:2609.07395 (7 Sep 2026). Three-axis taxonomy of agent uncertainty (what, how estimated, where in the pipeline); a counterexample shows step-level calibration does not imply trajectory-level calibration. Proposes Trajectory-Checkpoint ECE and a reporting protocol; on real traces (four models, up to 50 steps) self-reported confidence does not consistently beat a simple baseline, and pooling all trajectories can hide late-stage overconfidence.",
-      "tags": [
-        "confidence",
-        "calibration",
-        "eval",
-        "abstain",
-        "agent-control"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2609.07395"
-      ],
-      "why_it_matters_for_cr": "If CR gates decisions on confidence (Jev/REFLEX idea), calibration must be reported by match phase checkpoints, not pooled — late-match overconfidence is exactly where a pooled ECE would look fine.",
-      "status": "watch",
       "thin": false
     },
     {
