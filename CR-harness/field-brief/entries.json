@@ -1,11 +1,88 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-10-05T10:54:52-04:00",
+  "updatedAt": "2026-10-06T12:05:18-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-10-05.html",
+  "briefEdition": "briefs/2026-10-06.html",
   "entries": [
+    {
+      "id": "realtime-gap-decision-time-vs-quality",
+      "title": "Real-time gap of distilled deciders: split decision time from decision quality",
+      "date": "2026-10-06",
+      "summary": "Shin, Lee, Jeong et al., arXiv:2610.04810 (submitted 3 Oct 2026). Real-time agents are often evaluated with the world paused or with decision time rounded to whole ticks; tick conversion predicts almost no loss for a learned decider whose hit accuracy falls 14.8 pp in asynchronous play. In ViZDoom (small decider imitating a scripted teacher, wall-clock play, plus a control where the teacher waits for the decider's server call), three preregistered studies on a Windows host put the time component at 6.5–8.7 pp and the quality component at 6.3–8.6 pp; on a Linux host the time component vanished (−0.1 pp) while quality stayed (5.6 pp). DAgger retraining helped on new games (2.6 and 3.1 pp) and cut teacher disagreement on the decider's own states from 22.7% to 14.9%. In a conveyor simulator with a 400 ms deadline, delay past it erased the quality component.",
+      "tags": [
+        "games",
+        "real-time",
+        "latency",
+        "decision_point",
+        "eval",
+        "CR-adjacent"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.04810"
+      ],
+      "why_it_matters_for_cr": "Mini Royale is real-time, so paused-world decision_point evals can hide a latency loss. The latency-matched control (teacher delayed by the agent's own call latency) separates 'slow' from 'wrong', which tells you whether to use a faster model (e.g. a Jev-style router) or a better one. Host-dependence is a reminder to fix the sim host when comparing.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "searchjev-dual-system-defer",
+      "title": "SearchJev: System-1 model scores legal options, defers uncertain calls to System 2",
+      "date": "2026-10-06",
+      "summary": "Cao, Zuo, Papakostas et al., arXiv:2610.05107 (submitted 4 Oct 2026). Given a search state and a decision schema, SearchJev scores legal options directly without autoregressive generation; Soft-Label Learning for Calibrated Decisions (SLCD) learns probabilities from uncertain supervision. In a dual-system agent it handles short decisions and delegates uncertain judgments to a System-2 LLM that keeps planning, query generation and answer composition. Introduces SearchDecision-Bench (six search-decision types). Versus same-size Qwen3.5 autoregressive models: better decision quality, 5.2–5.3x faster decisions, 41–74% lower average ECE. On BrowseComp-Plus the dual-system agents get a 3.7–4.7x speedup in active search time and accuracy from 45% to up to 54%.",
+      "tags": [
+        "Jev",
+        "typed-choice",
+        "confidence-gate",
+        "defer",
+        "legal_actions",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.05107"
+      ],
+      "why_it_matters_for_cr": "Closest published architecture so far to the jev-gameplay-decision-router intent: schema + legal options in, calibrated probabilities out, uncertain cases deferred to the big LLM. Worth copying the evaluation shape (decision quality, latency, ECE, and end-task outcome) for CR.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "hera-abstention-coevolution",
+      "title": "HERA: harness–environment co-evolution for agentic abstention",
+      "date": "2026-10-06",
+      "summary": "Luo, Wen, Yang et al., arXiv:2610.06563 (submitted 5 Oct 2026). Builds verifiable feasible/infeasible task pairs by applying controlled environment mutations that turn solvable tasks into ones requiring abstention, then co-evolves the harness and new environments from previous failures. On held-out tasks the evolved harness raises abstention accuracy from 61.7% to 83.3% while feasible-task completion rises from 68.3% to 76.7%. The best harness transfers to 19 other LLMs (+15.3 pp abstention on average, no model-specific tuning) and lets smaller models match stronger ones at an estimated 85% lower cost.",
+      "tags": [
+        "abstain",
+        "harness-evolution",
+        "eval",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.06563"
+      ],
+      "why_it_matters_for_cr": "Mutation recipe for CR abstain/no-op tests: take a state where a good action exists and mutate it (drain elixir, remove the target, block the lane) so the right answer becomes wait/no-op. Report abstention accuracy and feasible-play completion together so a harness can't win by always waiting.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "harness-buys-tokens-rerun-noise",
+      "title": "What does a harness buy? Tokens, mostly: harness swap vs rerun noise",
+      "date": "2026-10-06",
+      "summary": "Liu, Han et al., arXiv:2610.04433 (submitted 3 Oct 2026). Five models through three production coding harnesses (Claude Code, mini-SWE-agent, OpenCode) on SWE-bench Verified, with reruns to measure run-to-run noise. On 447 tasks (two models) the heaviest and lightest harness are equivalent within five points. On a 45-task hard subset with five models, swapping harness flips as many tasks as rerunning the same harness (13% each). The one effect clearing the noise is a loss: OpenCode trails by up to 9 points, about half of it on one model from runs its output cap cut short. Cost per task differs up to 3x across harnesses, set mainly by the per-step preamble (system prompt + tool schemas) times step count. At observed discordance, 45 tasks catch a 13-point gap only half the time; 447 tasks resolve 5 points.",
+      "tags": [
+        "harness",
+        "benchmark",
+        "eval",
+        "statistics",
+        "cost"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.04433"
+      ],
+      "why_it_matters_for_cr": "Before claiming a CR harness change helps, measure rerun discordance with the harness held fixed and size the match/seed count to the gap you claim. Also track per-decision preamble tokens (legal_actions schema + system prompt): that's where harness cost lives.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "xiangqibench-closed-loop",
       "title": "XiangqiBench: finding the move is not winning the game",
@@ -25,85 +102,6 @@
       ],
       "why_it_matters_for_cr": "Direct warning against scoring CR on per-decision 'good move' metrics alone: decision_point accuracy can look fine while closed-loop match outcomes do not follow. Adopt pass^k (win all k seeds) next to pass@k, separate real actions from state queries/simulation in the action interface, and log illegal actions inside any agent-side lookahead.",
       "status": "candidate_intent",
-      "thin": false
-    },
-    {
-      "id": "system1-jev-laya-paired-eval",
-      "title": "Fast Models, Slow Evidence: paired audit of Jev vs Laya at 11 agent decision points",
-      "date": "2026-10-05",
-      "summary": "Li et al., arXiv:2610.02267 (submitted 1 Oct 2026). Paired evaluation of an open-weight (Laya) and a hosted (Jev) System-1 typed-decision model on 11 agent decision points from 18 public sources: 7,283 base cases plus 6,640 robustness variants, byte-identical inputs, cross-hardware/cross-day checks. Jev is significantly more accurate on 9 of 11 decision points (+10.8 to +46.0 pp); neither beats chance on zero-shot model routing; they tie on RAG relevance gating. Laya changes 30% of answers when option order is reversed and drops to 31% with 50 nearest-neighbour tools vs 98% for Jev on items with a unique correct tool. The authors' self-audit found four errors that distorted deployment claims: omitted pre-screen cost (23.9% saving reported, 4.3% actual), gate accuracy reported as end-to-end quality (58% vs 98%), in-sample thresholds (5% target, up to 17% held-out misses), and a vanishing 'channel effect'.",
-      "tags": [
-        "Jev",
-        "typed-choice",
-        "confidence-gate",
-        "decision_point",
-        "eval",
-        "agent-control"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.02267",
-        "https://github.com/David-DL-Space/sys1-eval"
-      ],
-      "why_it_matters_for_cr": "The most useful pre-flight checklist yet for the Jev-at-decision_point intent: test option-order robustness and many-similar-candidate cases (CR legal_actions lists are long and near-duplicate), set thresholds on held-out data, count pre-screen cost, and never report gate accuracy as match quality.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "action-outcome-labeling-calibrator",
-      "title": "When history fails to become experience: label each observation as the outcome of the preceding action",
-      "date": "2026-10-05",
-      "summary": "Liu, Wang, Jing et al., arXiv:2610.02769 (submitted 2 Oct 2026). History helps language agents overall, but much of the benefit persists when past actions are shuffled, and breaking action–observation correspondence costs only a modest drop, suggesting agents don't reliably link actions to outcomes. Explicitly labeling each returned observation as the outcome of the preceding action improves task success and reduces next-action repetition without new environment information; a learned calibrator that reassesses past actions and selectively records experience improves further. Abstract gives no benchmark names or numbers; full paper not read.",
-      "tags": [
-        "decision_point",
-        "memory",
-        "prompting",
-        "agent-control"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.02769"
-      ],
-      "why_it_matters_for_cr": "Cheap change to test in the Mini Royale decision_point prompt: render recent history as (action → observed result) pairs, e.g. 'played X at tile T → rejected: insufficient elixir' or '→ tower HP −N', and measure repeated-rejected-action rate.",
-      "status": "watch",
-      "thin": true
-    },
-    {
-      "id": "opengameeval-exploration-measured",
-      "title": "OpenGameEval: separate observation tools from edit tools to measure exploration",
-      "date": "2026-10-05",
-      "summary": "Turkel, Sun, Ayyar et al. (Roblox), arXiv:2610.02563 (submitted 1 Oct 2026). Agentic game-development benchmark in reproducible, stateful Roblox Studio sessions, scored by executable checks on the edited scene and in a simulated play session. Its eight-tool action space separates observation from editing so exploration is measurable. 13 frontier models, 84 human-curated tasks, 16 attempts each: best model solves 51.7% on one attempt and 39.4% five times out of five; no model solves six tasks. Holding task and model fixed, runs that inspect every object the reference solution touches pass 13.4 pp more often (scene-only) and 9.8 pp (script-only) than runs that inspect none. MIT-licensed release.",
-      "tags": [
-        "games",
-        "eval",
-        "exploration",
-        "harness",
-        "benchmark"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.02563",
-        "https://github.com/Roblox/open-game-eval"
-      ],
-      "why_it_matters_for_cr": "Agents build games here rather than play them, but two design points transfer: split query/observe actions from acting actions so 'did the agent look before it acted' is loggable, and report k-of-k reliability alongside single-attempt pass rate.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "model-harness-fit-rank-reversal",
-      "title": "Finding the Right Fit: model rankings reverse across harnesses (66 configs)",
-      "date": "2026-10-02",
-      "summary": "Li, Zhou, Teng et al., arXiv:2610.00917 (submitted 1 Oct 2026). 66 model–harness configurations (OpenHands, DeepSeek Harness, PI, openJiuwen with five models, plus native Codex-GPT and Claude Code-Claude) on TUA-Bench, ALE-CLI and Terminal-Bench 4. Rankings reverse across harnesses: on Terminal-Bench 4 Claude leads GPT by 7.94 points in OpenHands but trails by 30.16 in PI. A model's own vendor harness is not reliably its best, and higher cost does not reliably buy a higher score (GPT scores higher under PI than DSH at under a quarter of the cost per task). Matched trajectories suggest fit depends on whether the harness hands failures back in a usable form. Releases adapters, code and 6,204 scored trajectories.",
-      "tags": [
-        "harness",
-        "eval",
-        "model-harness-pair",
-        "agent-control",
-        "benchmark"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.00917",
-        "https://github.com/liyix/finding-the-right-fit"
-      ],
-      "why_it_matters_for_cr": "Strongest public support so far for the CR rule that results are per (model, prompt, legal_actions schema, retry policy) configuration. Expect model rankings on Mini Royale to flip with harness policy; report the full grid and cost per match, and give models feedback on rejected actions in a form they can use.",
-      "status": "watch",
       "thin": false
     },
     {

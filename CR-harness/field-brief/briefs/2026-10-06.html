@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief deep edition 2026-10-06 — CR-Harness and agent-control scout ideas.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-10-06 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-10-06.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-10-06 · ET</p>
+    <h1>Field Brief — real-time decision gap, SearchJev, abstention mutations, harness noise</h1>
+    <p class="lede">Tuesday edition. The lead is a game-domain result: a learned decider loses 14.8 pp of hit accuracy in real-time play that paused or tick-rounded evaluation misses, and a latency-matched control separates slowness from bad choices. Also: <strong>SearchJev</strong>, a Jev-style decider for search agents that defers uncertain calls; <strong>HERA</strong>, which mutates tasks so the agent must abstain; and evidence that swapping a coding harness moves scores about as much as rerunning it.</p>
+    <p class="zh">十月六日简报 · 四条深读 · 实时决策延迟 / Jev 双系统 / 弃权测试 / 评测噪声。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-10-05.html">2026-10-05</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout"><strong>Honesty.</strong> Real arXiv submission dates are 3–5 Oct, all after the 10-05 edition’s scout window. I read abstracts (not full papers) and quote the authors’ numbers without re-running them. No new <span class="pill">candidate_intent</span> this edition, and none was dropped.</div>
+
+  <section>
+    <h2>1. Real-time gap: split decision time from decision quality <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Shin, Lee, Jeong et al., <a href="https://arxiv.org/abs/2610.04810" rel="noopener noreferrer">arXiv:2610.04810</a> (submitted 3 Oct 2026).
+      Real-time agents are often scored with the world paused, or with decision time rounded to whole ticks. The authors show that tick conversion predicts almost no loss for a learned decider whose hit accuracy actually falls 14.8 pp in asynchronous play.
+      Their fix is to split the gap to a zero-latency teacher into a <em>time</em> component and a <em>quality</em> component. The key control makes the teacher wait for the decider’s server call before it decides.</p>
+    <p><strong>Evidence.</strong> ViZDoom on wall-clock time, three preregistered studies.</p>
+    <ul>
+      <li><strong>Windows host:</strong> the time component was 6.5–8.7 pp and the quality component 6.3–8.6 pp.</li>
+      <li><strong>Linux host</strong> (skips 0.08–0.09% of ticks): the time component disappeared (−0.1 pp, paired 95% bootstrap interval [−0.4, 0.0]) while the quality component remained (5.6 pp [3.7, 7.5]).</li>
+      <li><strong>DAgger retraining:</strong> improved results on new games on both hosts (2.6 and 3.1 pp) and cut disagreement with the teacher on the decider’s own states from 22.7% to 14.9%.</li>
+      <li><strong>Conveyor simulator</strong> (400 ms deadline): delay past the deadline erased the quality component.</li>
+    </ul>
+    <p><strong>Why it matters for CR.</strong> Mini Royale is real-time, and CR <code>decision_point</code> evals that pause the sim can hide a latency loss.
+      The latency-matched control tells you which remedy to pursue: if the gap is mostly time, use a faster decider such as a Jev-style router; if it’s mostly quality, use a better policy.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Add a “teacher delayed by agent latency” arm to CR evals, and run them on a fixed sim host, since the time component was host-dependent here.</li>
+      <li>If the time component dominates, that’s a direct argument for the Jev router intent.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. SearchJev: score legal options, defer uncertain calls <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Cao, Zuo, Papakostas et al., <a href="https://arxiv.org/abs/2610.05107" rel="noopener noreferrer">arXiv:2610.05107</a> (4 Oct 2026). A System-1 model that takes a search state and a decision schema and
+      scores the <em>legal options</em> directly, with no autoregressive output. Soft-Label Learning for Calibrated Decisions (SLCD) learns its probabilities from uncertain supervision. In the dual-system agent, SearchJev makes the short decisions and
+      hands uncertain ones to a System-2 LLM, which keeps planning, query writing and answer composition. The paper also introduces SearchDecision-Bench (six kinds of search decision).</p>
+    <p><strong>Evidence.</strong> Against same-size Qwen3.5 autoregressive models: better decision quality, 5.2–5.3x faster decisions, and 41–74% lower average expected calibration error. On BrowseComp-Plus, dual-system agents get a 3.7–4.7x speedup in active search time,
+      and accuracy rises from 45% to as high as 54%.</p>
+    <p><strong>Why it matters for CR.</strong> This is the closest published architecture yet to the <strong>jev-gameplay-decision-router</strong> intent: schema plus legal options in, calibrated probabilities out, uncertain cases sent to the large LLM.
+      Read it next to the 10-05 Jev/Laya audit (order sensitivity, held-out thresholds).</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Report the CR router on the same four axes: decision quality, latency, ECE, and end outcome (match result), plus the share of decisions deferred.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. HERA: mutate solvable tasks into must-abstain tasks <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Luo, Wen, Yang et al., <a href="https://arxiv.org/abs/2610.06563" rel="noopener noreferrer">arXiv:2610.06563</a> (5 Oct 2026). A pipeline that builds verifiable pairs of feasible and infeasible tasks:
+      controlled environment mutations turn solvable tasks into ones that require abstaining. The harness and new environments then co-evolve, each round targeting the previous failures.</p>
+    <p><strong>Evidence.</strong> On held-out tasks, the evolved harness raises abstention accuracy from 61.7% to 83.3% while feasible-task completion rises from 68.3% to 76.7%. The best harness transfers to 19 other LLMs (+15.3 pp abstention on average with no
+      model-specific tuning), and lets smaller models match stronger ones at an estimated 85% lower cost.</p>
+    <p><strong>Why it matters for CR.</strong> It gives a recipe for wait/no-op tests: take a state where a good play exists and mutate it so the right answer becomes “wait” (drain elixir, remove the target, block the lane).
+      Scoring abstention together with feasible-play completion stops a harness from winning the metric by always waiting.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Generate around 50 mutated CR states from logged <code>decision_point</code>s and report the abstain/no-op rate on them next to normal-play quality.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. What does a harness buy? Tokens, mostly <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Liu, Han et al., <a href="https://arxiv.org/abs/2610.04433" rel="noopener noreferrer">arXiv:2610.04433</a> (3 Oct 2026). Five models run through three production coding harnesses (Claude Code, mini-SWE-agent, OpenCode) on SWE-bench Verified,
+      with reruns to measure how much a score moves when nothing changes.</p>
+    <p><strong>Evidence.</strong></p>
+    <ul>
+      <li><strong>Large pool:</strong> on 447 tasks with two models, the heaviest and lightest harnesses are equivalent within five points.</li>
+      <li><strong>Hard subset:</strong> on 45 tasks with five models, swapping the harness flips as many tasks as rerunning the same one (13% in both cases).</li>
+      <li><strong>The one effect above the noise is a loss:</strong> OpenCode trails by up to 9 points, and for one model about half of that gap comes from runs its output cap cut short.</li>
+      <li><strong>Cost:</strong> cost per task varies up to 3x across harnesses, driven by the per-step preamble (system prompt plus tool schemas) multiplied by the step count.</li>
+      <li><strong>Resolution:</strong> at the observed discordance, 45 tasks catch a 13-point gap only half the time; 447 tasks resolve 5 points.</li>
+    </ul>
+    <p><strong>Why it matters for CR.</strong> It’s a power check for every harness-ablation claim (cf. <strong>ptcg-bench-harness-ablation</strong>), and it points at where harness cost lives: the per-decision <code>legal_actions</code> schema and system prompt.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Rerun one fixed CR config several times to measure match-outcome discordance, then size seed counts to the gap being claimed. Log preamble tokens per <code>decision_point</code>.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Board this edition</h2>
+    <p>The board stays at 12 cards: today’s four plus the eight <span class="pill">candidate_intent</span> cards. Four older watch cards from 10-02 and 10-05 were retired from the index; they remain readable in
+      <a href="2026-10-05.html">10-05</a> and <a href="2026-10-02.html">10-02</a>.</p>
+  </section>
+
+  <section>
+    <h2>Also seen (not carded)</h2>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2610.06191" rel="noopener noreferrer">Judged Useless, Queried Anyway</a> (5 Oct): seven agents call a failing source’s results useless 97–100% of the time, yet most rarely stop on that judgment. Prompt cues don’t fix this, but a harness-enforced rule (answer after five consecutive results judged useless) does, and a preregistered replication on 300 questions confirmed it. A candidate card for the next edition if the board has room.</li>
+      <li><a href="https://arxiv.org/abs/2610.06625" rel="noopener noreferrer">JEV versus LLMs</a> (5 Oct): on seven political-science replications JEV matches or comes close to LLMs, shows no cost advantage over batch-priced GPT-6 Luna, and its probabilities are better calibrated than GPT-6 Luna’s but not consistently better than Qwen3.8-27B’s.</li>
+      <li><a href="https://arxiv.org/abs/2610.05533" rel="noopener noreferrer">What Does a Harness Repair?</a> (4 Oct): a preregistered study finding that harness-search gains often come from previously unreadable answers rather than better reasoning.</li>
+      <li><a href="https://arxiv.org/abs/2610.04441" rel="noopener noreferrer">LocusRL</a> (3 Oct): diagnoses LLM reward and policy interventions in Connect Four; a sign-reversed dense oracle got a 2.8% win rate vs 57.2% for terminal-only training.</li>
+      <li><a href="https://arxiv.org/abs/2610.04686" rel="noopener noreferrer">When Debate Helps</a> (3 Oct): debate beats majority voting only when a correct proposal is available and verification-aware readout can pick it out.</li>
+    </ul>
+
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <ol>
+      <li>Open intent candidates (unchanged): <strong>xiangqibench-closed-loop</strong>, <strong>jev-gameplay-decision-router</strong> (now with SearchJev as a reference design), <strong>reflex-jev-selective-control</strong>, <strong>game-arena-kaggle-harness</strong>,
+        <strong>action-class-calibration-gar</strong>, <strong>autoharness-textarena</strong>, <strong>ptcg-bench-harness-ablation</strong>, <strong>adversarial-review-dual-lgtm</strong>.</li>
+      <li>Possible promotion: a latency-matched control arm (card 1) if the CR sim runs on wall-clock time.</li>
+    </ol>
+
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON:
+      <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-10-06 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-10-05.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>
