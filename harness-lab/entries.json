@@ -1,8 +1,75 @@
 {
-  "updatedAt": "2026-10-06T00:48:00Z",
+  "updatedAt": "2026-10-06T15:59:37Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "macos-tcc-launchd-documents-silent-deny-2026-10-06",
+      "date": "2026-10-06",
+      "displayDate": "Oct 6, 2026",
+      "title": "macOS TCC silently blocks unattended launchd jobs that touch ~/Documents",
+      "href": "https://www.bigiron.cc/guides/launchd-scheduled-jobs-that-survive-sleep-and-reboots",
+      "why": "TCC protects ~/Desktop, ~/Documents and ~/Downloads, and an unattended launchd job gets no prompt, just a silent EPERM. The harness-lab tooling and hub-stage repo live under ~/Documents, so a Mac routine moved to a LaunchAgent could run and still fail there. Grant Full Disk Access to the exact interpreter launchd invokes (not the script), or keep routine working dirs outside protected folders. Check log show --predicate 'subsystem == \"com.apple.TCC\"' after the first unattended run.",
+      "source": "packs/2026-10-06-web-harness-lab-pack.md",
+      "tags": [
+        "routines",
+        "Mac CLI",
+        "launchd",
+        "proof"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "codex-exec-output-schema-structured-2026-10-06",
+      "date": "2026-10-06",
+      "displayDate": "Oct 6, 2026",
+      "title": "codex exec --output-schema with -o gives Codex jobs a machine-checkable JSON result",
+      "href": "https://developers.openai.com/codex/noninteractive",
+      "why": "The Codex counterpart to the claude -p --json-schema card. --output-schema asks for a final response that conforms to a JSON Schema, and -o writes it to a file, so unattended Astra reviews and routine summaries can be parsed by field instead of free text. A schema miss then shows up as a failure. Local codex-cli 0.156.1 exec --help lists both flags.",
+      "source": "packs/2026-10-06-web-harness-lab-pack.md",
+      "tags": [
+        "Codex",
+        "Mac CLI",
+        "routines",
+        "EM",
+        "proof"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-stopfailure-notification-watchdog-markers-2026-10-06",
+      "date": "2026-10-06",
+      "displayDate": "Oct 6, 2026",
+      "title": "Claude StopFailure and Notification hooks can write typed watchdog markers instead of pane-grep",
+      "href": "https://code.claude.com/docs/en/hooks",
+      "why": "StopFailure fires when a turn ends on an API error, and its matcher names the error type (rate_limit, overloaded, authentication_failed, billing_error, server_error and others). Notification with permission_prompt or idle_prompt marks a pane that is waiting on a human. Both discard hook output, so use them only to write marker files from ~/.claude/settings.json. That gives the dual-signal tmux watchdog its missing heartbeat writer: restart on transient types, leave auth, billing and limit states alone. The Mac's 2.1.221 binary has both events; cloud_credential_error needs 2.1.267+.",
+      "source": "packs/2026-10-06-web-harness-lab-pack.md",
+      "tags": [
+        "watchdog",
+        "tmux",
+        "Claude",
+        "hooks",
+        "Mac CLI"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-hook-gates-fail-open-exit2-2026-10-06",
+      "date": "2026-10-06",
+      "displayDate": "Oct 6, 2026",
+      "title": "Claude hook gates fail open: exit 1, a mistyped script path, or a timeout all let the action run",
+      "href": "https://code.claude.com/docs/en/hooks",
+      "why": "The hooks reference says exit 1 without JSON is a non-blocking error, a mistyped path in settings.json leaves the gate silently disabled, and a timed-out PreToolUse command hook doesn't block the tool call. Any fleet hook meant as a guard must exit 2 (or return a JSON deny) and be smoke-tested once with a known-bad input. Keep hard allow and deny rules in permission settings, not hooks.",
+      "source": "packs/2026-10-06-web-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "hooks",
+        "honesty",
+        "proof",
+        "Mac CLI"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "codex-otel-metrics-exporter-default-statsig-2026-10-05",
       "date": "2026-10-05",
