@@ -1,8 +1,76 @@
 {
-  "updatedAt": "2026-10-04T20:52:47Z",
+  "updatedAt": "2026-10-06T00:48:00Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "codex-otel-metrics-exporter-default-statsig-2026-10-05",
+      "date": "2026-10-05",
+      "displayDate": "Oct 5, 2026",
+      "title": "Codex otel.metrics_exporter defaults to statsig, so set it explicitly in user config",
+      "href": "https://developers.openai.com/codex/config-reference",
+      "why": "The config reference lists otel.metrics_exporter as none, statsig, otlp-http, or otlp-grpc, defaulting to statsig, and says a project-local .codex/config.toml can't set otel. For honest usage numbers, each Mac's user-level ~/.codex/config.toml should point Codex metrics at a local collector or turn them off rather than leave the implicit default.",
+      "source": "packs/2026-10-05-web-harness-lab-pack.md",
+      "tags": [
+        "usage",
+        "honesty",
+        "Codex",
+        "Mac CLI",
+        "config"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "codex-mcp-server-required-fail-fast-2026-10-05",
+      "date": "2026-10-05",
+      "displayDate": "Oct 5, 2026",
+      "title": "Mark MCP servers required in Codex so unattended codex exec fails fast instead of running degraded",
+      "href": "https://developers.openai.com/codex/config-reference",
+      "why": "Setting mcp_servers.<id>.required = true makes Codex fail startup or resume when that enabled MCP server can't initialize. It's the Codex counterpart to the Claude MCP-error gate already on the board: a scheduled Codex job that depends on an MCP server should die at launch rather than quietly produce a weaker result.",
+      "source": "packs/2026-10-05-web-harness-lab-pack.md",
+      "tags": [
+        "Codex",
+        "MCP",
+        "routines",
+        "EM loop",
+        "honesty"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-otel-user-settings-not-repo-no-subprocess-2026-10-05",
+      "date": "2026-10-05",
+      "displayDate": "Oct 5, 2026",
+      "title": "Put Claude OTel settings in ~/.claude/settings.json, and don't expect hooks or MCP to inherit them",
+      "href": "https://code.claude.com/docs/en/monitoring-usage",
+      "why": "The docs say Claude Code ignores OpenTelemetry exporter variables in a repo's .claude/settings.json and settings.local.json, and doesn't pass OTEL_* variables to the Bash tool, hooks, or MCP servers it spawns. Configure telemetry once per Mac seat at user level so it isn't silently on in one repo and missing everywhere else, and don't rely on hook scripts reporting into the same exporter.",
+      "source": "packs/2026-10-05-web-harness-lab-pack.md",
+      "tags": [
+        "usage",
+        "Claude",
+        "config",
+        "hooks",
+        "Mac CLI"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-code-prometheus-usage-exporter-2026-10-05",
+      "date": "2026-10-05",
+      "displayDate": "Oct 5, 2026",
+      "title": "Claude Code's built-in Prometheus exporter gives measured local usage numbers",
+      "href": "https://code.claude.com/docs/en/monitoring-usage",
+      "why": "Instead of estimating Claude seat usage, setting CLAUDE_CODE_ENABLE_TELEMETRY=1 and OTEL_METRICS_EXPORTER=prometheus exposes claude_code.token.usage and claude_code.cost.usage on a local scrape endpoint (the docs' example is localhost:9464/metrics), split by query_source (main, subagent, auxiliary) and token type. The usage dashboard could read this and label it MEASURED vs PROXY; the docs call cost_usd an estimate, so dollars stay marked as estimates.",
+      "source": "packs/2026-10-05-web-harness-lab-pack.md",
+      "tags": [
+        "usage",
+        "honesty",
+        "Claude",
+        "Mac CLI",
+        "metrics"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "posttooluse-updatedtooloutput-schema-trap-2026-10-04",
       "date": "2026-10-04",
