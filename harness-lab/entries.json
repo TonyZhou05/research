@@ -1,8 +1,24 @@
 {
-  "updatedAt": "2026-10-06T15:59:37Z",
+  "updatedAt": "2026-10-07T23:40:20Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "tmux-resurrect-seat-layout-restore-2026-10-07",
+      "date": "2026-10-07",
+      "displayDate": "Oct 7, 2026",
+      "title": "tmux-resurrect restores seat sessions, layouts and working dirs after a Mac restart, while leaving agent CLIs to the watchdog",
+      "href": "https://github.com/tmux-plugins/tmux-resurrect",
+      "why": "The watchdog restarts a dead pane, but nothing rebuilds the seat sessions, windows and working directories after a reboot. tmux-resurrect saves that layout (prefix + Ctrl-s) and restores it (prefix + Ctrl-r), including exact pane layouts. By default it only relaunches a conservative program list (vi, less, top and similar), so claude, codex and muse are not re-run on restore unless added to @resurrect-processes. Leaving them out lets the watchdog start the CLIs with its proof checks instead of a blind double-start. tmux plugins are not installed on the Mac yet, so try it on one seat first.",
+      "source": "packs/2026-10-07-muse-harness-lab-pack.md",
+      "tags": [
+        "tmux",
+        "watchdog",
+        "recovery",
+        "Mac CLI"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "macos-tcc-launchd-documents-silent-deny-2026-10-06",
       "date": "2026-10-06",
