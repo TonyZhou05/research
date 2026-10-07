@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief deep edition 2026-10-07 — CR-Harness and agent-control scout ideas.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-10-07 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-10-07.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-10-07 · ET</p>
+    <h1>Field Brief — ambiguity-gated critique, stage-gated typed choice, harness-enforced stops</h1>
+    <p class="lede">Wednesday edition. The lead is <strong>SAG</strong>, which calls a critic only when entropy and top-2 margin over the admissible actions say the step is ambiguous. On ALFWorld, success rises from 24.6% to 78.4% at a ReAct-level token budget. Also: <strong>SharedKV-BT</strong> stage-gated typed decisions, last edition’s flagged <strong>Judged Useless, Queried Anyway</strong>, and <strong>Learn2Play Bench</strong>.</p>
+    <p class="zh">十月七日简报 · 四条深读 · 合法动作熵门控 / 分阶段类型决策 / 框架强制停止 / 新规则游戏基准。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-10-06.html">2026-10-06</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout"><strong>Honesty.</strong> Real arXiv submission dates are 5–6 Oct. I read abstracts (not full papers) and quote the authors’ numbers without re-running them. Learn2Play is marked thin because its abstract gives no numbers. No <span class="pill">candidate_intent</span> was added or dropped.</div>
+
+  <section>
+    <h2>1. SAG: gate the critic on admissible-action ambiguity <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Park, Im, Kwon et al., <a href="https://arxiv.org/abs/2610.07335" rel="noopener noreferrer">arXiv:2610.07335</a> (submitted 5 Oct 2026). SAG treats “should I call the critic now?” as a decision at every step.
+      A training-free gate estimates the value of a critique from two ambiguity signals computed over the <em>admissible actions</em>: global entropy and the local top-2 margin. Online bootstrapped self-improvement then lets the actor absorb critic-assisted behaviour over time.</p>
+    <p><strong>Evidence.</strong> Across three long-horizon interactive benchmarks and several backbones, SAG beats both no-critique and always-on-critique agents on the performance–cost trade-off.
+      On ALFWorld, task success rises from 24.6% to 78.4% at a token budget comparable to ReAct (3.1x normalized token efficiency), and a 7B actor with a 3B critic matches a 14B actor without critique.</p>
+    <p><strong>Why it matters for CR.</strong> It gives CR a concrete escalation signal: compute entropy and top-2 margin over the <code>legal_actions</code> distribution, and call the stronger model or reviewer only when both indicate ambiguity.
+      It has the same shape as the <strong>jev-gameplay-decision-router</strong> / <strong>reflex-jev-selective-control</strong> confidence floor, and adds published cost/benefit numbers.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Log entropy and top-2 margin over legal actions at every <code>decision_point</code>, then plot escalation rate against win rate on replayed matches before choosing a threshold.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. SharedKV-BT: stage-gated typed decisions <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Wake, Wagle et al., <a href="https://arxiv.org/abs/2610.07327" rel="noopener noreferrer">arXiv:2610.07327</a> (5 Oct 2026). Each active behaviour-tree node exposes stage-local fields and candidates.
+      Shared-KV scores those candidates in parallel and passes the chosen one to a separate execution system.</p>
+    <p><strong>Evidence.</strong> On robot manipulation, mobile navigation and computer-use tasks, typed decisions are 2.36–4.15x faster than prompt-matched autoregressive decoding.
+      On manipulation, joint decision accuracy goes from 75% to 94% and closed-loop success from 0% to 60%. Replaying fixed scores showed that stage gating prevented out-of-order actions and external postconditions prevented premature completion.</p>
+    <p><strong>Why it matters for CR.</strong> Stage-local candidates amount to <code>legal_actions</code> masking scoped by phase (pick card → pick tile → confirm), and execution and postcondition checks stay outside the model.
+      That is a testable alternative to one flat list of card × tile actions.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Prototype a two-stage CR decision (card first, then a tile from that card’s legal tiles) and compare its accuracy and latency with the flat list on logged states.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Judged Useless, Queried Anyway <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Zhang, Wan, Yu et al., <a href="https://arxiv.org/abs/2610.06191" rel="noopener noreferrer">arXiv:2610.06191</a> (5 Oct 2026; noted in the 10-06 brief and verified again today). The authors build a retrieval environment with controlled source failures,
+      which lets them separate how agents judge results from what they then do.</p>
+    <p><strong>Evidence.</strong></p>
+    <ul>
+      <li><strong>Judgment without action:</strong> where judgments are recorded, the seven agents tested call a failing source’s results useless 97–100% of the time, yet most rarely stop on that judgment.</li>
+      <li><strong>Prompts don’t fix it:</strong> prompt cues change when agents stop but not what they stop on, and a stopping rule or call cost written into the prompt is followed only partly.</li>
+      <li><strong>Harness rules do:</strong> stopping follows the evidence only when the harness forces an answer after five consecutive results the agent judged useless. That raises failing-source success for every model and keeps the stopping point fixed when the budget doubles.</li>
+      <li><strong>Replication:</strong> a preregistered replication on 300 fresh questions confirms both findings.</li>
+    </ul>
+    <p><strong>Why it matters for CR.</strong> It’s strong evidence for putting control rules in the harness, not the prompt. A CR agent that keeps picking actions it has just seen rejected, or has flagged itself, should be stopped by a harness rule.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Add a harness rule: after N consecutive rejected or self-flagged actions, force a wait or escalate. Measure repeated-rejection streaks before and after.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Learn2Play Bench: games whose rules aren’t in pretraining <span class="pill watch">watch · thin</span></h2>
+    <p><strong>What it is.</strong> Li, Qiu, Zheng et al., <a href="https://arxiv.org/abs/2610.08215" rel="noopener noreferrer">arXiv:2610.08215</a> (6 Oct 2026; <a href="https://liushiliushi.github.io/learn2play-bench-website/" rel="noopener noreferrer">project site</a>).
+      Newly designed text games with novel or counterintuitive rules, reproducible feedback and automatic scoring. Game instances vary so transfer can be tested, and the paper compares backbones, self-evolving methods and harnesses.</p>
+    <p><strong>Evidence.</strong> Abstract-level only, with no headline numbers, so this card is marked thin. The three findings:</p>
+    <ul>
+      <li>Keeping complete records of actions and feedback supports learning better than summarizing them into rules or strategies.</li>
+      <li>Top human players reach higher peak scores than the agents; humans explore more varied strategies and repeat actions less.</li>
+      <li>With the backbone fixed, changing the harness can improve performance while lowering estimated inference cost.</li>
+    </ul>
+    <p><strong>Why it matters for CR.</strong> Mini Royale is a learn-from-play setting too. The paper argues for keeping raw (action → result) history rather than distilled “lessons” (cf. the 10-05 action-outcome card), and the action-repetition rate is a cheap per-match diagnostic.</p>
+  </section>
+
+  <section>
+    <h2>Board this edition</h2>
+    <p>The board stays at 12 cards: today’s four plus the eight <span class="pill">candidate_intent</span> cards. To make room, I retired the four 10-06 watch cards (real-time decision gap, SearchJev, HERA, harness rerun noise); they remain readable in <a href="2026-10-06.html">10-06</a>.</p>
+  </section>
+
+  <section>
+    <h2>Also seen (not carded)</h2>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2610.07359" rel="noopener noreferrer">Evaluate the Stack, Not the Layer</a> (5 Oct): on 1,119 labelled agent actions, two LLM judges compose to only about 1.2–1.4 “multiplication-equivalent” layers, while a deterministic rule layer plus one judge composes to about 1.86–2.09. Mix gate types rather than stacking LLM reviewers. Strong candidate for next edition.</li>
+      <li><a href="https://arxiv.org/abs/2610.08076" rel="noopener noreferrer">SpeedrunBench</a> (6 Oct): LLM agents across 9 games; they approach human world records in simple platformers but trail on longer, complex games.</li>
+      <li><a href="https://arxiv.org/abs/2610.07570" rel="noopener noreferrer">Unanimously Wrong / ProbeGuard</a> (6 Oct): abstention based on how a multi-sample consensus formed, not just final agreement (medical QA).</li>
+      <li><a href="https://arxiv.org/abs/2610.08153" rel="noopener noreferrer">Penalty-framed no-valid-option MCQA</a> (6 Oct): with the correct option removed, models still force a choice on some items they had originally answered correctly.</li>
+    </ul>
+
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <ol>
+      <li>Open intent candidates (unchanged): <strong>xiangqibench-closed-loop</strong>, <strong>jev-gameplay-decision-router</strong>, <strong>reflex-jev-selective-control</strong>, <strong>game-arena-kaggle-harness</strong>,
+        <strong>action-class-calibration-gar</strong>, <strong>autoharness-textarena</strong>, <strong>ptcg-bench-harness-ablation</strong>, <strong>adversarial-review-dual-lgtm</strong>.</li>
+      <li>Possible promotion: a legal-action entropy/margin escalation gate (SAG) plus a harness-enforced streak-stop rule.</li>
+    </ol>
+
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON:
+      <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-10-07 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-10-06.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,87 +1,86 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-10-06T12:05:18-04:00",
+  "updatedAt": "2026-10-07T10:54:34-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-10-06.html",
+  "briefEdition": "briefs/2026-10-07.html",
   "entries": [
     {
-      "id": "realtime-gap-decision-time-vs-quality",
-      "title": "Real-time gap of distilled deciders: split decision time from decision quality",
-      "date": "2026-10-06",
-      "summary": "Shin, Lee, Jeong et al., arXiv:2610.04810 (submitted 3 Oct 2026). Real-time agents are often evaluated with the world paused or with decision time rounded to whole ticks; tick conversion predicts almost no loss for a learned decider whose hit accuracy falls 14.8 pp in asynchronous play. In ViZDoom (small decider imitating a scripted teacher, wall-clock play, plus a control where the teacher waits for the decider's server call), three preregistered studies on a Windows host put the time component at 6.5–8.7 pp and the quality component at 6.3–8.6 pp; on a Linux host the time component vanished (−0.1 pp) while quality stayed (5.6 pp). DAgger retraining helped on new games (2.6 and 3.1 pp) and cut teacher disagreement on the decider's own states from 22.7% to 14.9%. In a conveyor simulator with a 400 ms deadline, delay past it erased the quality component.",
+      "id": "sag-gated-critique-admissible-entropy",
+      "title": "SAG: invoke the critic only when admissible-action entropy / top-2 margin say it's worth it",
+      "date": "2026-10-07",
+      "summary": "Park, Im, Kwon et al., arXiv:2610.07335 (submitted 5 Oct 2026). Frames critique invocation as a step-wise decision: a training-free gate estimates critique utility from action-level ambiguity signals (global entropy and local top-2 margin over admissible actions), approximating the value of information; online bootstrapped self-improvement lets the actor internalize critic-assisted behaviour. Across three long-horizon interactive benchmarks and multiple backbones it improves the performance–cost trade-off vs no-critique and always-on critique. On ALFWorld, task success rises from 24.6% to 78.4% at a token budget comparable to ReAct (3.1x normalized token efficiency); a 7B actor with a 3B critic matches a 14B actor without critique.",
       "tags": [
-        "games",
-        "real-time",
-        "latency",
-        "decision_point",
-        "eval",
-        "CR-adjacent"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.04810"
-      ],
-      "why_it_matters_for_cr": "Mini Royale is real-time, so paused-world decision_point evals can hide a latency loss. The latency-matched control (teacher delayed by the agent's own call latency) separates 'slow' from 'wrong', which tells you whether to use a faster model (e.g. a Jev-style router) or a better one. Host-dependence is a reminder to fix the sim host when comparing.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "searchjev-dual-system-defer",
-      "title": "SearchJev: System-1 model scores legal options, defers uncertain calls to System 2",
-      "date": "2026-10-06",
-      "summary": "Cao, Zuo, Papakostas et al., arXiv:2610.05107 (submitted 4 Oct 2026). Given a search state and a decision schema, SearchJev scores legal options directly without autoregressive generation; Soft-Label Learning for Calibrated Decisions (SLCD) learns probabilities from uncertain supervision. In a dual-system agent it handles short decisions and delegates uncertain judgments to a System-2 LLM that keeps planning, query generation and answer composition. Introduces SearchDecision-Bench (six search-decision types). Versus same-size Qwen3.5 autoregressive models: better decision quality, 5.2–5.3x faster decisions, 41–74% lower average ECE. On BrowseComp-Plus the dual-system agents get a 3.7–4.7x speedup in active search time and accuracy from 45% to up to 54%.",
-      "tags": [
-        "Jev",
-        "typed-choice",
         "confidence-gate",
-        "defer",
         "legal_actions",
+        "escalate",
+        "decision_point",
         "agent-control"
       ],
       "source_urls": [
-        "https://arxiv.org/abs/2610.05107"
+        "https://arxiv.org/abs/2610.07335"
       ],
-      "why_it_matters_for_cr": "Closest published architecture so far to the jev-gameplay-decision-router intent: schema + legal options in, calibrated probabilities out, uncertain cases deferred to the big LLM. Worth copying the evaluation shape (decision quality, latency, ECE, and end-task outcome) for CR.",
+      "why_it_matters_for_cr": "A concrete gate signal for CR: entropy and top-2 margin computed over the legal_actions distribution decide when to call a stronger model or reviewer. It's the same shape as the Jev confidence floor, now with published cost/benefit numbers.",
       "status": "watch",
       "thin": false
     },
     {
-      "id": "hera-abstention-coevolution",
-      "title": "HERA: harness–environment co-evolution for agentic abstention",
-      "date": "2026-10-06",
-      "summary": "Luo, Wen, Yang et al., arXiv:2610.06563 (submitted 5 Oct 2026). Builds verifiable feasible/infeasible task pairs by applying controlled environment mutations that turn solvable tasks into ones requiring abstention, then co-evolves the harness and new environments from previous failures. On held-out tasks the evolved harness raises abstention accuracy from 61.7% to 83.3% while feasible-task completion rises from 68.3% to 76.7%. The best harness transfers to 19 other LLMs (+15.3 pp abstention on average, no model-specific tuning) and lets smaller models match stronger ones at an estimated 85% lower cost.",
+      "id": "sharedkv-bt-stage-gated-typed",
+      "title": "SharedKV-BT: node-local typed decisions with stage gating in behaviour trees",
+      "date": "2026-10-07",
+      "summary": "Wake, Wagle et al., arXiv:2610.07327 (submitted 5 Oct 2026). Each active behaviour-tree node exposes stage-local fields and candidates; Shared-KV scores the candidates in parallel and hands the selected decision to a separate execution system. On robot manipulation, mobile navigation and computer-use tasks, typed decisions are 2.36–4.15x faster than prompt-matched autoregressive decoding. On manipulation, joint decision accuracy goes from 75% to 94% and closed-loop success from 0% to 60%. Fixed-score policy replay showed stage gating prevented out-of-order actions and external postconditions prevented premature completion.",
       "tags": [
-        "abstain",
-        "harness-evolution",
-        "eval",
-        "agent-control"
+        "typed-choice",
+        "legal_actions",
+        "mask",
+        "decision_point",
+        "Jev-adjacent"
       ],
       "source_urls": [
-        "https://arxiv.org/abs/2610.06563"
+        "https://arxiv.org/abs/2610.07327"
       ],
-      "why_it_matters_for_cr": "Mutation recipe for CR abstain/no-op tests: take a state where a good action exists and mutate it (drain elixir, remove the target, block the lane) so the right answer becomes wait/no-op. Report abstention accuracy and feasible-play completion together so a harness can't win by always waiting.",
+      "why_it_matters_for_cr": "Stage-local candidate lists are legal_actions masking scoped by game phase (e.g. pick card → pick tile → confirm). Splitting a CR decision into staged typed fields, with execution and postconditions checked outside the model, is a testable alternative to one flat action list.",
       "status": "watch",
       "thin": false
     },
     {
-      "id": "harness-buys-tokens-rerun-noise",
-      "title": "What does a harness buy? Tokens, mostly: harness swap vs rerun noise",
-      "date": "2026-10-06",
-      "summary": "Liu, Han et al., arXiv:2610.04433 (submitted 3 Oct 2026). Five models through three production coding harnesses (Claude Code, mini-SWE-agent, OpenCode) on SWE-bench Verified, with reruns to measure run-to-run noise. On 447 tasks (two models) the heaviest and lightest harness are equivalent within five points. On a 45-task hard subset with five models, swapping harness flips as many tasks as rerunning the same harness (13% each). The one effect clearing the noise is a loss: OpenCode trails by up to 9 points, about half of it on one model from runs its output cap cut short. Cost per task differs up to 3x across harnesses, set mainly by the per-step preamble (system prompt + tool schemas) times step count. At observed discordance, 45 tasks catch a 13-point gap only half the time; 447 tasks resolve 5 points.",
+      "id": "judged-useless-enforced-stop",
+      "title": "Judged Useless, Queried Anyway: only a harness-enforced rule makes agents stop on their own evidence",
+      "date": "2026-10-07",
+      "summary": "Zhang, Wan, Yu et al., arXiv:2610.06191 (submitted 5 Oct 2026; first noted in the 10-06 brief). In a retrieval environment with controlled source failures, the seven agents tested call a failing source's results useless 97–100% of the time (where judgments are recorded), yet most rarely stop on that judgment. Prompt cues change when they stop, not what they stop on; a stopping rule or call cost in the prompt is followed at most partly. Stopping follows the evidence only when the harness enforces an integration step (answer after five consecutive results judged useless). That raises failing-source success for every model and keeps the stopping point fixed when the budget doubles. A preregistered replication on 300 fresh questions confirms the result.",
       "tags": [
         "harness",
-        "benchmark",
-        "eval",
-        "statistics",
-        "cost"
+        "agent-control",
+        "stopping",
+        "eval"
       ],
       "source_urls": [
-        "https://arxiv.org/abs/2610.04433"
+        "https://arxiv.org/abs/2610.06191"
       ],
-      "why_it_matters_for_cr": "Before claiming a CR harness change helps, measure rerun discordance with the harness held fixed and size the match/seed count to the gap you claim. Also track per-decision preamble tokens (legal_actions schema + system prompt): that's where harness cost lives.",
+      "why_it_matters_for_cr": "Supports putting control rules in the harness rather than the prompt: if a CR agent keeps choosing actions it has itself labelled bad or rejected, a harness rule (e.g. after N rejected or self-flagged actions, force wait or escalate) is more reliable than telling it to stop.",
       "status": "watch",
       "thin": false
+    },
+    {
+      "id": "learn2play-bench-novel-rules",
+      "title": "Learn2Play Bench: text games with novel rules to test learning from interaction",
+      "date": "2026-10-07",
+      "summary": "Li, Qiu, Zheng et al., arXiv:2610.08215 (submitted 6 Oct 2026; project site live). Newly designed text-based games with novel or counterintuitive rules, reproducible feedback and automatic scoring; game instances vary to test transfer. Evaluates backbones, self-evolving methods and harnesses. Findings: retaining complete action/feedback records supports learning better than summarizing them into rules; top human players beat the agents' peak scores, exploring more varied strategies and repeating actions less; with the backbone fixed, changing the harness can improve performance while lowering estimated inference cost. Abstract gives no headline numbers.",
+      "tags": [
+        "games",
+        "benchmark",
+        "harness",
+        "memory",
+        "learning"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.08215",
+        "https://liushiliushi.github.io/learn2play-bench-website/"
+      ],
+      "why_it_matters_for_cr": "Mini Royale's rules aren't in pretraining either, so it's a learn-from-play setting. The raw-history-beats-summarized-rules finding argues for keeping full (action → result) logs in agent memory, and 'repeats actions less' is a cheap diagnostic to log per match.",
+      "status": "watch",
+      "thin": true
     },
     {
       "id": "xiangqibench-closed-loop",
