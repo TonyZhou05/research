@@ -1,8 +1,40 @@
 {
-  "updatedAt": "2026-10-07T23:40:20Z",
+  "updatedAt": "2026-10-10T17:23:45Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "pmset-repeat-wake-caffeinate-routine-slots-2026-10-10",
+      "date": "2026-10-10",
+      "displayDate": "Oct 10, 2026",
+      "title": "Schedule a pmset wake before the first routine slot and wrap jobs in caffeinate -i",
+      "href": "https://napless.io/guides/schedule-mac-wake/",
+      "why": "Most missed-run ledger lines come from the MacBookPro being asleep at a slot. sudo pmset repeat wakeorpoweron a few minutes before the earliest daily slot (only one repeating wake pair is allowed), plus StartCalendarInterval jobs launched via /usr/bin/caffeinate -i, keeps the Mac up for the run; if the wake fails, calendar jobs still fire once at next wake. Check pmset -g log for Wake vs DarkWake after the first night, since caffeinate -i does nothing in DarkWake. No user wake is scheduled on the Mac today.",
+      "source": "packs/2026-10-10-web-harness-lab-pack.md",
+      "tags": [
+        "launchd",
+        "routines",
+        "Mac",
+        "missed-runs"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "codex-exec-ignore-user-config-rules-2026-10-10",
+      "date": "2026-10-10",
+      "displayDate": "Oct 10, 2026",
+      "title": "codex exec --ignore-user-config and --ignore-rules for reproducible unattended runs",
+      "href": "https://developers.openai.com/codex/noninteractive",
+      "why": "Codex counterpart to claude -p --bare: scripted Codex reviews and kicks skip $CODEX_HOME/config.toml (auth still comes from CODEX_HOME) and user/project execpolicy rules, so a local config change cannot silently alter a routine. Pass sandbox and model as explicit flags. Both flags are in the installed codex-cli 0.156.1.",
+      "source": "packs/2026-10-10-web-harness-lab-pack.md",
+      "tags": [
+        "Codex",
+        "Mac CLI",
+        "routines",
+        "reproducibility"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "tmux-resurrect-seat-layout-restore-2026-10-07",
       "date": "2026-10-07",
