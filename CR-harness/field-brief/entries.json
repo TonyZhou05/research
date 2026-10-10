@@ -1,86 +1,87 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-10-07T10:54:34-04:00",
+  "updatedAt": "2026-10-10T13:26:22-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-10-07.html",
+  "briefEdition": "briefs/2026-10-10.html",
   "entries": [
     {
-      "id": "sag-gated-critique-admissible-entropy",
-      "title": "SAG: invoke the critic only when admissible-action entropy / top-2 margin say it's worth it",
-      "date": "2026-10-07",
-      "summary": "Park, Im, Kwon et al., arXiv:2610.07335 (submitted 5 Oct 2026). Frames critique invocation as a step-wise decision: a training-free gate estimates critique utility from action-level ambiguity signals (global entropy and local top-2 margin over admissible actions), approximating the value of information; online bootstrapped self-improvement lets the actor internalize critic-assisted behaviour. Across three long-horizon interactive benchmarks and multiple backbones it improves the performance–cost trade-off vs no-critique and always-on critique. On ALFWorld, task success rises from 24.6% to 78.4% at a token budget comparable to ReAct (3.1x normalized token efficiency); a 7B actor with a 3B critic matches a 14B actor without critique.",
+      "id": "microrts-strategist-executor",
+      "title": "MicroRTS strategist–executor: bandit picks commands, constrained PPO executes them",
+      "date": "2026-10-10",
+      "summary": "Leenders, Lindelauf, van Oijen et al., arXiv:2610.11663 (submitted 8 Oct 2026). In the real-time strategy environment MicroRTS, discrete commands specify strategic objectives and behavioural requirements (economy, army composition, military posture, worker policy) over multiple steps; a constrained command-conditioned PPO executor chooses the unit-level actions. A Thompson-sampling bandit strategist picks command tuples from an in-game estimate of the opponent's strategy rather than opponent identity. Versus a flat PPO baseline with the same architecture, budget, curriculum and self-play league, it wins significantly more often against three of the four strongest opponents on a training map, including the two strongest held-out ones (0.55→0.97 and 0.01→0.34), with no significant difference against the others.",
       "tags": [
+        "games",
+        "real-time",
+        "RTS",
+        "hierarchy",
+        "CR-adjacent"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.11663"
+      ],
+      "why_it_matters_for_cr": "Closest real-time-strategy analogue to Mini Royale this month: a slow strategist issues typed commands (e.g. 'defend left, save elixir') and a fast executor picks legal unit placements. That maps to an LLM at a coarse decision_point and a cheap executor at every tick, with 'does the executor follow the command' as a measurable criterion.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "option-channel-attack-typed-gates",
+      "title": "Option-channel attack: typed decision models fail open as agent guardrails",
+      "date": "2026-10-10",
+      "summary": "Azizi, Potraghloo, Pedram et al., arXiv:2610.12292 (submitted 8 Oct 2026; code on GitHub). Seven open-weight typed decision models used as allow/block guardrails: accuracy on prompt-injection, jailbreak and toxic-content screening ranges 36–72% (chance 50%), and one-direction error rates mostly reflect each model's default answer. On synthetic agent tool calls, six lines of policy-irrelevant server log raise fail-open from 0% to 63% on a policy decided correctly otherwise; renaming the permissive option misleadingly raises it to 93–100% on the four models that put labels in their input. Every tested defense is defeated; escalating least-confident decisions doesn't help because attack-reversed decisions are no less confident. Parsing policy fields into typed values removes one attack but a deterministic rule over those values reaches 100% on all six policies.",
+      "tags": [
+        "Jev",
+        "typed-choice",
         "confidence-gate",
-        "legal_actions",
-        "escalate",
-        "decision_point",
+        "adversarial",
         "agent-control"
       ],
       "source_urls": [
-        "https://arxiv.org/abs/2610.07335"
+        "https://arxiv.org/abs/2610.12292",
+        "https://github.com/ArminAzizi98/option-channel-attack"
       ],
-      "why_it_matters_for_cr": "A concrete gate signal for CR: entropy and top-2 margin computed over the legal_actions distribution decide when to call a stronger model or reviewer. It's the same shape as the Jev confidence floor, now with published cost/benefit numbers.",
+      "why_it_matters_for_cr": "Direct caution for the Jev router: option names and definitions are an input channel. In CR, legal_actions labels come from the harness (not an attacker), but noisy context and option wording can still flip choices without lowering confidence, so a confidence floor alone won't catch them. Keep legality enforced deterministically; use the typed model only to rank among legal actions.",
       "status": "watch",
       "thin": false
     },
     {
-      "id": "sharedkv-bt-stage-gated-typed",
-      "title": "SharedKV-BT: node-local typed decisions with stage gating in behaviour trees",
-      "date": "2026-10-07",
-      "summary": "Wake, Wagle et al., arXiv:2610.07327 (submitted 5 Oct 2026). Each active behaviour-tree node exposes stage-local fields and candidates; Shared-KV scores the candidates in parallel and hands the selected decision to a separate execution system. On robot manipulation, mobile navigation and computer-use tasks, typed decisions are 2.36–4.15x faster than prompt-matched autoregressive decoding. On manipulation, joint decision accuracy goes from 75% to 94% and closed-loop success from 0% to 60%. Fixed-score policy replay showed stage gating prevented out-of-order actions and external postconditions prevented premature completion.",
-      "tags": [
-        "typed-choice",
-        "legal_actions",
-        "mask",
-        "decision_point",
-        "Jev-adjacent"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.07327"
-      ],
-      "why_it_matters_for_cr": "Stage-local candidate lists are legal_actions masking scoped by game phase (e.g. pick card → pick tile → confirm). Splitting a CR decision into staged typed fields, with execution and postconditions checked outside the model, is a testable alternative to one flat action list.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "judged-useless-enforced-stop",
-      "title": "Judged Useless, Queried Anyway: only a harness-enforced rule makes agents stop on their own evidence",
-      "date": "2026-10-07",
-      "summary": "Zhang, Wan, Yu et al., arXiv:2610.06191 (submitted 5 Oct 2026; first noted in the 10-06 brief). In a retrieval environment with controlled source failures, the seven agents tested call a failing source's results useless 97–100% of the time (where judgments are recorded), yet most rarely stop on that judgment. Prompt cues change when they stop, not what they stop on; a stopping rule or call cost in the prompt is followed at most partly. Stopping follows the evidence only when the harness enforces an integration step (answer after five consecutive results judged useless). That raises failing-source success for every model and keeps the stopping point fixed when the budget doubles. A preregistered replication on 300 fresh questions confirms the result.",
-      "tags": [
-        "harness",
-        "agent-control",
-        "stopping",
-        "eval"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.06191"
-      ],
-      "why_it_matters_for_cr": "Supports putting control rules in the harness rather than the prompt: if a CR agent keeps choosing actions it has itself labelled bad or rejected, a harness rule (e.g. after N rejected or self-flagged actions, force wait or escalate) is more reliable than telling it to stop.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "learn2play-bench-novel-rules",
-      "title": "Learn2Play Bench: text games with novel rules to test learning from interaction",
-      "date": "2026-10-07",
-      "summary": "Li, Qiu, Zheng et al., arXiv:2610.08215 (submitted 6 Oct 2026; project site live). Newly designed text-based games with novel or counterintuitive rules, reproducible feedback and automatic scoring; game instances vary to test transfer. Evaluates backbones, self-evolving methods and harnesses. Findings: retaining complete action/feedback records supports learning better than summarizing them into rules; top human players beat the agents' peak scores, exploring more varied strategies and repeating actions less; with the backbone fixed, changing the harness can improve performance while lowering estimated inference cost. Abstract gives no headline numbers.",
+      "id": "aaarena-adversarial-heuristic-learning",
+      "title": "AAArena: agents revise game programs to climb 12 human competition ladders",
+      "date": "2026-10-10",
+      "summary": "Yang, Liu, Wang et al. (30 authors), arXiv:2610.12341 (submitted 8 Oct 2026). Formalizes Adversarial Heuristic Learning: AI agents with fixed weights refine executable game policies and supporting software. AAArena has 12 authentic adversarial games and 1,920 archived human programs, with competition-style evaluation: agents interpret rules, choose opponents, analyze replays and revise their game agents within fixed match and evaluation budgets. Opus5.5 with Claude Code earns 6 gold medals; no evaluated configuration tops the other 6 human ladders. Performance is weaker in games with more complex rules. Opponent selection and dense feedback help, and agents learn from both their own replays and other players'. (The arXiv abstract contains an unrendered placeholder for the number of configurations evaluated.)",
       "tags": [
         "games",
         "benchmark",
         "harness",
-        "memory",
-        "learning"
+        "replay",
+        "policy-as-code"
       ],
       "source_urls": [
-        "https://arxiv.org/abs/2610.08215",
-        "https://liushiliushi.github.io/learn2play-bench-website/"
+        "https://arxiv.org/abs/2610.12341"
       ],
-      "why_it_matters_for_cr": "Mini Royale's rules aren't in pretraining either, so it's a learn-from-play setting. The raw-history-beats-summarized-rules finding argues for keeping full (action → result) logs in agent memory, and 'repeats actions less' is a cheap diagnostic to log per match.",
+      "why_it_matters_for_cr": "An alternative to per-decision LLM play: the LLM writes and revises a Mini Royale policy program between matches using replays (ours and others'), with ladder rank as the score. CR's ETL replay logs are exactly the input this loop needs.",
       "status": "watch",
-      "thin": true
+      "thin": false
+    },
+    {
+      "id": "stack-gates-correlated-judges",
+      "title": "Evaluate the Stack, Not the Layer: LLM judges fail together, rule + judge adds coverage",
+      "date": "2026-10-10",
+      "summary": "Yang et al., arXiv:2610.07359 (submitted 5 Oct 2026; flagged in the 10-07 brief). 1,119 labelled agent actions from three corpora; stack of one deterministic rule layer and four LLM judges, read as 'multiplication-equivalent layers' n_mult. Under the STRICT miss definition, any two judges compose to about 1.2–1.4 layers (φ median +0.430, 6 of 6 pairs significant); the rule layer plus one judge composes to 1.86–2.09 (φ median +0.014, 0 of 4 significant). Solo accuracy doesn't predict what a layer adds: a cloud rule pack cut the rule layer's solo miss rate by 20% and added no joint coverage. One judge tier was served by an unrequested model version in 50 of 112 batches, overturning a pre-declared analysis rule.",
+      "tags": [
+        "multi-agent",
+        "review",
+        "gates",
+        "eval",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.07359"
+      ],
+      "why_it_matters_for_cr": "Supports adversarial-review-dual-lgtm with a caveat: two LLM reviewers give far less than double coverage because their errors correlate; a deterministic check (legal_actions validator, sim invariants) plus one LLM reviewer composes nearly independently. Also: record the served model version on every judge call.",
+      "status": "watch",
+      "thin": false
     },
     {
       "id": "xiangqibench-closed-loop",

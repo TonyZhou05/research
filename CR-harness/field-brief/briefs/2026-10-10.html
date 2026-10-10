@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief deep edition 2026-10-10 — CR-Harness and agent-control scout ideas.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-10-10 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-10-10.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-10-10 · ET</p>
+    <h1>Field Brief — RTS strategist/executor, typed-gate attacks, game ladders, correlated judges</h1>
+    <p class="lede">Saturday edition, requested by Manage. The lead is a <strong>MicroRTS</strong> result: a bandit strategist issuing typed commands to a constrained PPO executor beats a flat policy against the strongest held-out opponents. Also: an attack that makes typed decision gates fail open without lowering their confidence, <strong>AAArena</strong> game-competition ladders, and evidence that stacked LLM judges fail together.</p>
+    <p class="zh">十月十日简报 · 四条深读 · RTS 战略/执行分层 / 类型化门控攻击 / 游戏天梯 / 评审相关性。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-10-07.html">2026-10-07</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout"><strong>Honesty.</strong> Real arXiv submission dates are 5–8 Oct; no 10-08 or 10-09 brief was published. I read abstracts (not full papers) and quote the authors’ numbers without re-running them. No <span class="pill">candidate_intent</span> was added or dropped.</div>
+
+  <section>
+    <h2>1. MicroRTS strategist–executor <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Leenders, Lindelauf, van Oijen et al., <a href="https://arxiv.org/abs/2610.11663" rel="noopener noreferrer">arXiv:2610.11663</a> (submitted 8 Oct 2026). In the real-time strategy environment MicroRTS, discrete commands set strategic objectives and behavioural requirements
+      (economy, army composition, military posture, worker policy) over several steps. A constrained, command-conditioned PPO <em>executor</em> chooses the unit-level actions that carry them out. A Thompson-sampling bandit <em>strategist</em> picks command tuples from an in-game estimate of the opponent’s strategy, not from the opponent’s identity.</p>
+    <p><strong>Evidence.</strong> Against a flat PPO baseline with the same architecture, budget, curriculum and self-play league, the strategist–executor wins significantly more often against three of the four strongest opponents on a training map.
+      That includes the two strongest held-out opponents (0.55 → 0.97 and 0.01 → 0.34). Against the others there was no significant difference.</p>
+    <p><strong>Why it matters for CR.</strong> This is the closest real-time-strategy analogue to Mini Royale in this month’s papers. A slow strategist issues typed commands (“defend left, bank elixir”) and a fast executor picks legal placements every tick,
+      which maps to an LLM at a coarse <code>decision_point</code> plus a cheap executor. The paper also makes “does the executor follow the command” a measurable criterion.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Define 4–6 typed CR commands, let a rule-based executor follow them, and have the LLM choose commands only every N seconds. Compare win rate and token cost with per-tick LLM play.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. Option-channel attack on typed decision gates <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Azizi, Potraghloo, Pedram et al., <a href="https://arxiv.org/abs/2610.12292" rel="noopener noreferrer">arXiv:2610.12292</a> (8 Oct 2026; <a href="https://github.com/ArminAzizi98/option-channel-attack" rel="noopener noreferrer">code</a>). The authors test seven open-weight typed decision models as allow/block guardrails and report fail-open and fail-closed errors separately.</p>
+    <p><strong>Evidence.</strong></p>
+    <ul>
+      <li><strong>Baseline accuracy:</strong> on prompt-injection, jailbreak and toxic-content screening, accuracy ranges from 36% to 72% (chance is 50%). A low error rate in one direction mostly reflects which answer a model defaults to.</li>
+      <li><strong>Irrelevant context:</strong> on synthetic tool calls, six lines of policy-irrelevant server log raise the fail-open rate from 0% to 63% on a policy the gate otherwise decides correctly.</li>
+      <li><strong>Misleading labels:</strong> giving the permissive option a misleading name raises fail-open to 93–100% on the four models that put labels in their input.</li>
+      <li><strong>Defenses fail:</strong> every defense tested is defeated. Escalating the least-confident decisions doesn’t help, because a decision an attack has reversed is no less confident than the one it replaced.</li>
+      <li><strong>Typed fields:</strong> parsing policy fields into typed values removes one attack, but then a deterministic rule over those values reaches 100% on all six policies.</li>
+    </ul>
+    <p><strong>Why it matters for CR.</strong> Read it next to the 10-05 Jev/Laya audit. In CR the option labels come from our own harness, but noisy context and label wording can still flip a choice without lowering its confidence, so a confidence floor alone won’t catch it.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>Keep legality deterministic (the <code>legal_actions</code> validator decides) and use any typed model only to rank legal actions.</li>
+      <li>Add a test: rename or reorder options and inject irrelevant log lines, then measure how often choices flip.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. AAArena: agents climb human game-competition ladders <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Yang, Liu, Wang et al., <a href="https://arxiv.org/abs/2610.12341" rel="noopener noreferrer">arXiv:2610.12341</a> (8 Oct 2026). The paper formalizes Adversarial Heuristic Learning: agents keep their model weights fixed and improve by revising executable game policies.
+      The benchmark has 12 authentic adversarial games and 1,920 archived human programs, scored competition-style. Agents read the rules, choose opponents, analyse replays and revise their programs within fixed match and evaluation budgets.</p>
+    <p><strong>Evidence.</strong> Opus5.5 with Claude Code earns 6 gold medals, and no evaluated configuration tops the other 6 human ladders. Performance is weaker in games with more complex rules. Opponent selection and dense feedback help,
+      and agents learn from both their own replays and other players’. The arXiv abstract contains an unrendered placeholder where the number of configurations should be, so I don’t quote that count.</p>
+    <p><strong>Why it matters for CR.</strong> It’s an alternative to per-decision LLM play: the LLM writes and revises a Mini Royale policy program between matches, with ladder rank as the score. CR’s ETL replay logs are the input this loop needs.</p>
+  </section>
+
+  <section>
+    <h2>4. Evaluate the Stack, Not the Layer <span class="pill watch">watch</span></h2>
+    <p><strong>What it is.</strong> Yang et al., <a href="https://arxiv.org/abs/2610.07359" rel="noopener noreferrer">arXiv:2610.07359</a> (submitted 5 Oct; flagged in the 10-07 brief and verified again today). The study uses 1,119 labelled agent actions from three corpora and a stack of one deterministic rule layer plus four LLM judges.
+      Each stack is scored as a number of “multiplication-equivalent layers”: how many independent layers it is worth.</p>
+    <p><strong>Evidence.</strong></p>
+    <ul>
+      <li><strong>Judges fail together:</strong> under the STRICT miss definition, any two LLM judges compose to only about 1.2–1.4 layers (median φ +0.430, 6 of 6 pairs significantly correlated).</li>
+      <li><strong>Rule plus judge adds coverage:</strong> the rule layer plus one judge composes to 1.86–2.09 layers (median φ +0.014, 0 of 4 pairs significant).</li>
+      <li><strong>Solo accuracy misleads:</strong> a cloud rule pack cut the rule layer’s solo miss rate by 20% but added no joint coverage.</li>
+      <li><strong>Model drift:</strong> one judge tier was served by an unrequested model version in 50 of 112 batches, which overturned a pre-declared analysis rule.</li>
+    </ul>
+    <p><strong>Why it matters for CR.</strong> This qualifies <strong>adversarial-review-dual-lgtm</strong>: two LLM reviewers give much less than double coverage, while a deterministic check (the legality validator or sim invariants) plus one LLM reviewer is close to independent.</p>
+    <h3>Suggested next step</h3>
+    <ul>
+      <li>For the review protocol, measure the joint miss rate of the reviewers on a labelled set of CR changes before assuming coverage multiplies, and log the served model version on every judge call.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Board this edition</h2>
+    <p>The board stays at 12 cards: today’s four plus the eight <span class="pill">candidate_intent</span> cards. The four 10-07 watch cards (SAG, SharedKV-BT, Judged Useless, Learn2Play) were retired and remain readable in <a href="2026-10-07.html">10-07</a>.
+      There are no 10-08 or 10-09 editions; this Saturday edition covers 7–8 Oct submissions plus the paper flagged on 10-07.</p>
+  </section>
+
+  <section>
+    <h2>Also seen (not carded)</h2>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2610.11392" rel="noopener noreferrer">TypedBench</a> (8 Oct): a benchmark for typed decision models like Jev. The hosted model follows the stated policy but is wording-sensitive and systematically underconfident, and under asymmetric costs acting on its probabilities can be worse than taking its top answer. Next-edition candidate.</li>
+      <li><a href="https://arxiv.org/abs/2610.11231" rel="noopener noreferrer">Harness Compilation</a> (8 Oct): a teacher reallocates decisions between a small VLM and its harness, improving 9.9–23.9 points over bare students. Bounded choices stay useful student work, while requesting evidence is costly.</li>
+      <li><a href="https://arxiv.org/abs/2610.10961" rel="noopener noreferrer">Cross-provider review as a runtime contract</a> (7 Oct): 8 of 20 paired coding turns had a material reviewer finding; it also reports fault-injection defects in the review pipeline itself.</li>
+    </ul>
+
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <ol>
+      <li>Open intent candidates (unchanged): <strong>xiangqibench-closed-loop</strong>, <strong>jev-gameplay-decision-router</strong> (now with the option-channel caution), <strong>reflex-jev-selective-control</strong>, <strong>game-arena-kaggle-harness</strong>,
+        <strong>action-class-calibration-gar</strong>, <strong>autoharness-textarena</strong>, <strong>ptcg-bench-harness-ablation</strong>, <strong>adversarial-review-dual-lgtm</strong> (now with the stack-coupling caveat).</li>
+      <li>Possible promotion: a strategist–executor split for Mini Royale (card 1).</li>
+    </ol>
+
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON:
+      <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-10-10 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-10-07.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>
