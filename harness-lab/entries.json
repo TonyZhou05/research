@@ -1,8 +1,42 @@
 {
-  "updatedAt": "2026-10-10T17:23:45Z",
+  "updatedAt": "2026-10-24T23:44:31Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "codex-strict-config-fail-on-unknown-keys-2026-10-24",
+      "date": "2026-10-24",
+      "displayDate": "Oct 24, 2026",
+      "title": "codex exec/review --strict-config so a misspelled config key fails instead of being ignored",
+      "href": "https://github.com/openai/codex/pull/20559",
+      "why": "Codex ignores unknown config.toml keys by default, so a typo in a sandbox or approval key silently changes nothing (the same trap as launchd ignoring a misspelled Weekday). --strict-config on codex exec and codex review errors with file:line, and also checks -c overrides and [features] keys. In the installed codex-cli 0.156.1; today's config passes strict loading. Not supported on codex debug.",
+      "source": "packs/2026-10-24-web-harness-lab-pack.md",
+      "tags": [
+        "Codex",
+        "Mac CLI",
+        "routines",
+        "config",
+        "lint"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "codex-agents-md-32kib-truncation-prompt-input-2026-10-24",
+      "date": "2026-10-24",
+      "displayDate": "Oct 24, 2026",
+      "title": "Codex silently cuts project AGENTS.md at 32 KiB; prove what a review seat sees with codex debug prompt-input",
+      "href": "https://developertoolkit.ai/en/codex/build/agents-md-optimization/",
+      "why": "All project AGENTS.md files share project_doc_max_bytes (default 32 KiB) and the overflow is dropped with only a tracing log, so the newest, most specific rules never reach Codex/Astra reviewers. Checked on the Mac today: our largest repo AGENTS.md is 45 KB, there is no project_doc_max_bytes override, and codex debug prompt-input (renders the model-visible input, no model call) showed the block ending mid-sentence at exactly 32,768 bytes, about 28% lost. Next step: raise the cap or split into nested AGENTS.md, and run prompt-input as a preflight proof before trusting a review.",
+      "source": "packs/2026-10-24-web-harness-lab-pack.md",
+      "tags": [
+        "Codex",
+        "Mac CLI",
+        "reviews",
+        "AGENTS.md",
+        "proof"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "pmset-repeat-wake-caffeinate-routine-slots-2026-10-10",
       "date": "2026-10-10",
