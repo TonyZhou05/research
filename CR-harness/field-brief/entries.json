@@ -1,11 +1,30 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-10-30T20:44:56-04:00",
+  "updatedAt": "2026-10-30T20:44:58-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-10-27.html",
+  "briefEdition": "briefs/2026-10-28.html",
   "entries": [
+    {
+      "id": "masked-erosion-acceptance-gates",
+      "title": "Masked Erosion: acceptance gates in self-improving harnesses lose redundant safeguards unseen",
+      "date": "2026-10-28",
+      "summary": "arXiv:2610.38392 (submitted 28 Oct 2026). Measures harm for every subset of four written safeguards in two agent environments and runs 411 harness-improvement loops under ten gate rules, plus three GEPA runs. A deletion behind another working safeguard adds almost no observable harm, so the gate decides on task success alone. A paired significance test blocks chance-pass deletions but not ones that genuinely raise success; at equal cost, 20-task batches kept every harness protected while 40-task batches lost all six. GEPA kept every safety rule verbatim, yet two of its three final harnesses misused credentials under a weaker model. Freezing safety text or auditing one-layer ablations preserved depth.",
+      "tags": [
+        "harness",
+        "self-improvement",
+        "safety",
+        "acceptance-gate",
+        "review"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.38392"
+      ],
+      "why_it_matters_for_cr": "Directly relevant to AutoHarness-style self-revision and to our dual-LGTM review: an accept gate on win rate can strip legality/guard checks that look redundant under a strong model.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "thinkjev-guaranteed-escalation",
       "title": "ThinkJev: one model as System 1 / System 2 for typed decisions, with a guaranteed-error accept rule",
@@ -60,24 +79,6 @@
         "https://arxiv.org/abs/2610.21412"
       ],
       "why_it_matters_for_cr": "Direct evidence for the Jev router design: isolated-question accuracy does not predict closed-loop success, and an un-fitted threshold costs ~19 points. Fit the escalation threshold per decision type on our own CR trajectories, not globally.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "typedbench-typed-decision-calibration",
-      "title": "TypedBench: typed decision models must be judged on policy, wording robustness, calibration and induced cost",
-      "date": "2026-10-24",
-      "summary": "arXiv:2610.11392 (submitted 8 Oct 2026; flagged as also-seen on 10-10). Seven policy-labelled generators and nine suites; accuracy reported as median/range across paraphrases, calibration error relative to a finite-sample noise floor, plus selective prediction, ordinal scoring and realised cost under asymmetric cost matrices. The hosted model follows stated policy but is wording-sensitive and systematically underconfident; under asymmetric costs acting on its probabilities can be worse than taking its top answer. Open decoders (0.8B-9B) degrade with more options.",
-      "tags": [
-        "Jev",
-        "typed choice",
-        "calibration",
-        "benchmark"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.11392"
-      ],
-      "why_it_matters_for_cr": "If the Jev gate thresholds on probabilities, paraphrase the option labels and check that cost-weighted decisions beat argmax before trusting them; also limit option counts.",
       "status": "watch",
       "thin": false
     },
