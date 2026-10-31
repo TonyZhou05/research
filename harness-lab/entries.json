@@ -1,8 +1,40 @@
 {
-  "updatedAt": "2026-10-24T23:44:31Z",
+  "updatedAt": "2026-10-31T00:40:30Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "tmux-monitor-silence-alert-hook-watchdog-2026-10-30",
+      "date": "2026-10-30",
+      "displayDate": "Oct 30, 2026",
+      "title": "tmux monitor-silence + alert-silence hook as a native quiet-pane signal for the watchdog",
+      "href": "https://libtmux.org/en/tmux/latest/catalog/options/monitor-silence/",
+      "why": "grok-tmux-watchdog only polls log age every ~540s. tmux can flag a window silent for N seconds (window_silence_flag) and fire an alert-silence hook once, turning the quiet check into an event. Probed on the Mac's tmux 3.7b today: the flag set after 2s; the hook fired only with silence-action any, because the default skips the current window of a detached session. A quiet long-running command looks idle too, so use it as one input to the dual-signal / hang-vs-crash gate, never a restart trigger alone.",
+      "source": "packs/2026-10-30-web-harness-lab-pack.md",
+      "tags": [
+        "tmux",
+        "watchdog",
+        "Mac CLI",
+        "heartbeat"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-sessionend-hook-1-5s-budget-no-writers-2026-10-30",
+      "date": "2026-10-30",
+      "displayDate": "Oct 30, 2026",
+      "title": "Claude Code SessionEnd hooks get a 1.5s budget; write watchdog markers on Stop/StopFailure instead",
+      "href": "https://code.claude.com/docs/en/hooks",
+      "why": "SessionEnd hooks share a 1.5-second budget (a per-hook timeout can raise it to 60s), and an open issue reports exit still kills longer work, so a heartbeat, marker, or vault note written at SessionEnd can silently vanish. Rule for the StopFailure marker-writer plan: write markers on Stop/StopFailure, and if anything must run at exit, detach it with nohup + disown and its own timeout. The Mac's ~/.claude/settings.json has no SessionEnd hook today, so this is a guard rail.",
+      "source": "packs/2026-10-30-web-harness-lab-pack.md",
+      "tags": [
+        "Claude",
+        "hooks",
+        "watchdog",
+        "vault"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "codex-strict-config-fail-on-unknown-keys-2026-10-24",
       "date": "2026-10-24",
