@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T00:40:30Z",
+  "updatedAt": "2026-10-31T01:50:32Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
@@ -17,7 +17,7 @@
         "Mac CLI",
         "heartbeat"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-sessionend-hook-1-5s-budget-no-writers-2026-10-30",
@@ -33,7 +33,7 @@
         "watchdog",
         "vault"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "codex-strict-config-fail-on-unknown-keys-2026-10-24",
@@ -50,7 +50,7 @@
         "config",
         "lint"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "codex-agents-md-32kib-truncation-prompt-input-2026-10-24",
@@ -67,7 +67,7 @@
         "AGENTS.md",
         "proof"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "pmset-repeat-wake-caffeinate-routine-slots-2026-10-10",
@@ -83,7 +83,7 @@
         "Mac",
         "missed-runs"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "codex-exec-ignore-user-config-rules-2026-10-10",
@@ -99,7 +99,7 @@
         "routines",
         "reproducibility"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "tmux-resurrect-seat-layout-restore-2026-10-07",
@@ -131,7 +131,7 @@
         "launchd",
         "proof"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "codex-exec-output-schema-structured-2026-10-06",
@@ -148,7 +148,7 @@
         "EM",
         "proof"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-stopfailure-notification-watchdog-markers-2026-10-06",
@@ -182,7 +182,7 @@
         "proof",
         "Mac CLI"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "codex-otel-metrics-exporter-default-statsig-2026-10-05",
@@ -216,7 +216,7 @@
         "EM loop",
         "honesty"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-otel-user-settings-not-repo-no-subprocess-2026-10-05",
@@ -233,7 +233,7 @@
         "hooks",
         "Mac CLI"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-code-prometheus-usage-exporter-2026-10-05",
@@ -250,7 +250,7 @@
         "Mac CLI",
         "metrics"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "posttooluse-updatedtooloutput-schema-trap-2026-10-04",
@@ -267,7 +267,7 @@
         "honesty",
         "proof"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "macos-cron-no-login-keychain-use-launchagent-2026-10-04",
@@ -284,7 +284,7 @@
         "Claude",
         "Keychain"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "dual-signal-tmux-watchdog-heartbeat-grep-2026-10-04",
@@ -604,7 +604,7 @@
       "displayDate": "Tue 30, 2026",
       "title": "codex exec resume --last \u2014 re-pass sandbox on continue",
       "href": "https://developers.openai.com/codex/cli/reference",
-      "why": "Official CLI reference: codex exec resume continues a non-interactive task (--last = cwd most recent; --all searches any dir). Global flags including --sandbox apply on resume \u2014 re-state workspace-write (or read-only) rather than assuming the original policy sticks. Useful for Astra EM follow-ups after interrupt; complements existing --json/--output-last-message and workspace-write KEEPs.",
+      "why": "Official CLI reference: codex exec resume continues a non-interactive task (--last = cwd most recent; --all searches any dir). Global flags including --sandbox apply on resume \u2014 re-state workspace-write (or read-only) rather than assuming the original policy sticks. Useful for Astra EM follow-ups after interrupt; complements existing --json/--output-last-message and workspace-write KEEPs. Retired 2026-10-30: covered by playbook \u00a78 item 9 (-c sandbox_mode on resume).",
       "source": "packs/2026-09-30-web-harness-lab-pack.md",
       "tags": [
         "Codex",
@@ -613,7 +613,7 @@
         "recovery",
         "proof"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-print-total-cost-usd-run-notes-2026-09-30",
@@ -819,23 +819,6 @@
       "appliedToPlaybook": true
     },
     {
-      "id": "workmux-resurrect-crash-recovery-2026-09-24",
-      "date": "2026-09-24",
-      "displayDate": "Sep 24, 2026",
-      "title": "workmux resurrect \u2014 crash-recovery resume for agent worktrees",
-      "href": "https://workmux.raine.dev/reference/commands/resurrect/",
-      "why": "Restores tmux/worktree agent sessions after crash from persisted state with agent-specific resume args (Codex resume, etc.). Candidate pattern for Mac CLI relaunch-vs-resume before grok-tmux-run; dry-run first. Lab backlog/smoke \u2014 do not replace fleet watchdog. appliedToPlaybook false.",
-      "source": "packs/2026-09-24-web-harness-lab-pack",
-      "tags": [
-        "tmux",
-        "watchdog",
-        "Mac CLI",
-        "recovery",
-        "backlog"
-      ],
-      "appliedToPlaybook": false
-    },
-    {
       "id": "usage-surfaces-status-vs-quota-honesty-2026-09-24",
       "date": "2026-09-24",
       "displayDate": "Sep 24, 2026",
@@ -868,80 +851,12 @@
       "appliedToPlaybook": true
     },
     {
-      "id": "session-bandit-redacted-md-handoff-2026-09-24",
-      "date": "2026-09-24",
-      "displayDate": "Sep 24, 2026",
-      "title": "session-bandit \u2014 redacted Markdown handoff from local transcripts",
-      "href": "https://github.com/janole/session-bandit",
-      "why": "Indexes Claude Code / Codex local JSONL offline (no API) and export-md writes a redacted, provenance-linked Markdown artifact plus redaction report. Candidate machine-checkable half for box\u2194Mac EM continuation and vault handoff notes; inspect before filing; backlog/smoke. appliedToPlaybook false.",
-      "source": "packs/2026-09-24-web-populate-harness-lab-pack",
-      "tags": [
-        "handoffs",
-        "EM",
-        "Mac CLI",
-        "vault",
-        "backlog"
-      ],
-      "appliedToPlaybook": false
-    },
-    {
-      "id": "pi-tmux-agents-awaiting-review-gate-2026-09-24",
-      "date": "2026-09-24",
-      "displayDate": "Sep 24, 2026",
-      "title": "pi-tmux-agents \u2014 awaiting_review parent gate before accept",
-      "href": "https://github.com/noickare/pi-tmux-agents",
-      "why": "Settled child enters awaiting_review; parent must inspect result/workspace then accept|revise|take_over|dismiss|escalate (human only on escalate). Portable CoS pattern for Mac CLI tmux subagents and complements evidence\u2260instruction. Lab card/backlog \u2014 no fleet replace of grok-tmux-watchdog. appliedToPlaybook false.",
-      "source": "packs/2026-09-24-muse-harness-lab-pack",
-      "tags": [
-        "tmux",
-        "CoS",
-        "EM",
-        "handoffs",
-        "backlog"
-      ],
-      "appliedToPlaybook": false
-    },
-    {
-      "id": "orch-tmux-full-harness-panes-2026-09-24",
-      "date": "2026-09-24",
-      "displayDate": "Sep 24, 2026",
-      "title": "orch \u2014 full harness panes on tmux with heartbeats",
-      "href": "https://github.com/danmestas/orch",
-      "why": "Spawns independent Claude/Codex/Pi/Gemini harnesses in tmux panes (full seats, not shared-turn subagents) with heartbeats and addressable prompts. Closest public substrate idea for future grok-tmux-run lanes; Lab backlog only \u2014 do not install as fleet replace. appliedToPlaybook false.",
-      "source": "packs/2026-09-24-web-populate-harness-lab-pack",
-      "tags": [
-        "tmux",
-        "EM",
-        "Mac CLI",
-        "orchestration",
-        "backlog"
-      ],
-      "appliedToPlaybook": false
-    },
-    {
-      "id": "hat-tmux-statusline-watchdog-quota-writer-2026-09-24",
-      "date": "2026-09-24",
-      "displayDate": "Sep 24, 2026",
-      "title": "hat-tmux workbench \u2014 status-line watchdog + single quota writer",
-      "href": "https://github.com/HatCloud/hat-tmux-agent-workbench/blob/main/docs/ARCHITECTURE.md",
-      "why": "Public workbench turns tmux status-line redraw into a launchd tracker-server watchdog (\u226430s self-heal) and enforces a single writer for the quota cache so handoff state and limit resets stay truthful. Pattern idea for Mac CoS/EM panes before grok-tmux-run; backlog/smoke only. appliedToPlaybook false.",
-      "source": "packs/2026-09-24-dsh-harness-lab-pack",
-      "tags": [
-        "tmux",
-        "watchdog",
-        "usage",
-        "CoS",
-        "backlog"
-      ],
-      "appliedToPlaybook": false
-    },
-    {
       "id": "fowler-harness-sensors-feedforward-2026-09-24",
       "date": "2026-09-24",
       "displayDate": "Sep 24, 2026",
       "title": "Harness sensors \u2014 LLM-optimized feedback before human review",
       "href": "https://martinfowler.com/articles/harness-engineering.html",
-      "why": "Martin Fowler: outer harness raises first-pass correctness and adds sensors whose signals are optimized for LLM self-correction before human eyes. Maps to CoS evidence\u2260instruction, usage miss-watch, and Three-Run Proof as a named sensor on Lab automation. Process KEEP; appliedToPlaybook false until harness playbook page exists.",
+      "why": "Martin Fowler: outer harness raises first-pass correctness and adds sensors whose signals are optimized for LLM self-correction before human eyes. Maps to CoS evidence\u2260instruction, usage miss-watch, and Three-Run Proof as a named sensor on Lab automation. Process KEEP; Retired 2026-10-30: covered by playbook \u00a71 thesis and \u00a714 Three-Run Proof.",
       "source": "packs/2026-09-24-web-populate-harness-lab-pack",
       "tags": [
         "harness",
@@ -949,7 +864,7 @@
         "EM",
         "proof"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-gateway-credential-usage-honesty-2026-09-24",

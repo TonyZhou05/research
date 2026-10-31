@@ -358,8 +358,14 @@
       <li><strong>Strict MCP for scheduled <code>claude -p</code></strong> — when passing <code>--mcp-config</code>, add <code>--strict-mcp-config</code> so host or project MCP servers cannot be silently inherited; it pairs with the <code>system/init</code> error gate above and with <code>--bare</code>.</li>
       <li><strong>No disk session for one-shots</strong> — add <code>--no-session-persistence</code> to one-shot <code>claude -p</code> (collect / EM kicks) so nothing lands in the <code>--continue</code> / <code>--resume</code> pickers or watchdog transcript scans. This is not <code>--fork-session</code>; keep sessions on when a slice needs a follow-up.</li>
       <li><strong>Structured result contract</strong> — <code>--output-format json</code> + <code>--json-schema</code> puts the final payload in <code>structured_output</code>; an invalid schema fails the run. Prefer it to free-text result parsing in EM and routine scripts (<a href="#em-loop">§5</a>).</li>
+      <li><strong>Event-based quiet signal</strong> <span class="pill target">target</span> — tmux can flag a silent window (<code>monitor-silence N</code> / <code>window_silence_flag</code>) and fire an <code>alert-silence</code> hook once; set <code>silence-action any</code> or detached sessions never fire. A quiet long command looks idle too, so this is one input to the hang-vs-crash gate (item 6), never a restart trigger on its own.</li>
+      <li><strong>Codex AGENTS.md cap</strong> — Codex drops project <code>AGENTS.md</code> content past <code>project_doc_max_bytes</code> (32 KiB default) with only a trace log. Before trusting a Codex / Astra review, run <code>codex debug prompt-input</code> (no model call) and confirm the instruction block ends intact; if it is cut, raise the cap or split into nested <code>AGENTS.md</code>.</li>
+      <li><strong>Strict Codex config</strong> — scripted <code>codex exec</code> / <code>codex review</code> pass <code>--strict-config</code>, so a misspelled config key or <code>-c</code> override errors with file:line instead of being silently ignored (same trap as launchd <code>Weekday</code>, <a href="#grok-patterns">§12</a>).</li>
+      <li><strong>Reproducible Codex kicks</strong> — the Codex counterpart to <code>--bare</code>: <code>codex exec --ignore-user-config --ignore-rules</code> skips <code>$CODEX_HOME/config.toml</code> and user/project execpolicy rules (auth still comes from <code>CODEX_HOME</code>); pass sandbox and model as explicit flags.</li>
+      <li><strong>Codex structured result</strong> — <code>--output-schema &lt;schema.json&gt;</code> plus <code>-o &lt;file&gt;</code> for unattended Astra reviews and routine summaries, read by field, not free text; a schema miss counts as a failure (pairs with item 17).</li>
+      <li><strong>Codex MCP fail-fast</strong> — for a scheduled Codex job that depends on an MCP server, set <code>mcp_servers.&lt;id&gt;.required = true</code> so startup / resume dies when that server can’t initialize instead of quietly producing a weaker result (counterpart of the <code>system/init</code> gate in item 12).</li>
     </ol>
-    <p class="note">Items 5–8 promoted from <a href="/research/harness-lab/">Harness Lab</a> in the 2026-09-28 Monday sync; items 9–12 and the <code>dontAsk</code> clause in item 7 in the 2026-10-03 daily review; items 13–17 in the 2026-10-04 daily review.</p>
+    <p class="note">Items 5–8 promoted from <a href="/research/harness-lab/">Harness Lab</a> in the 2026-09-28 Monday sync; items 9–12 and the <code>dontAsk</code> clause in item 7 in the 2026-10-03 daily review; items 13–17 in the 2026-10-04 daily review; items 18–23 in the 2026-10-30 review.</p>
     <pre># Live shape — helpers in ~/bin (ensure PATH includes ~/bin)
 # grok-tmux-run muse-collect-HH -- \
 #   muse exec --json --trust-workspace --disable-approval --prompt-file prompt.md
@@ -383,6 +389,14 @@
       </tbody>
     </table>
     <p>Shared skill themes: vault read/file rules · Field Brief source collect · exception-first Mac launch (symptom → action).</p>
+    <p class="note"><strong>Codex <code>AGENTS.md</code> size:</strong> wired files share a 32 KiB cap (<code>project_doc_max_bytes</code>); verify with <code>codex debug prompt-input</code> after any large edit (<a href="#launch">§8</a>).</p>
+    <h3>Hook rules</h3>
+    <ul>
+      <li><strong>Guard hooks fail open by default</strong> — exit 1 without JSON is non-blocking, a mistyped path in <code>settings.json</code> silently disables the gate, and a timed-out <code>PreToolUse</code> hook does not block. A guard hook must exit 2 (or return a JSON deny) and be smoke-tested once with a known-bad input; hard allow / deny rules live in permission settings, not hooks.</li>
+      <li><strong><code>PostToolUse</code> output rewrites</strong> — a redact/compress hook must return the tool’s real object shape (for Bash: <code>stdout</code>, <code>stderr</code>, <code>interrupted</code>, <code>isImage</code>, <code>noOutputExpected</code>); a bare string fails validation and silently reverts to the original output. Test with a known marker first.</li>
+      <li><strong>No writers on <code>SessionEnd</code></strong> — SessionEnd hooks share a ~1.5 s budget (per-hook timeout up to 60 s) and can be killed on exit. Write markers, heartbeats, and vault notes on <code>Stop</code> / <code>StopFailure</code>; anything that must run at exit is detached (<code>nohup</code> + <code>disown</code>) with its own timeout.</li>
+    </ul>
+    <p class="note">Hook rules promoted from <a href="/research/harness-lab/">Harness Lab</a> in the 2026-10-30 review.</p>
   </section>
 
   <section id="providers">
@@ -391,7 +405,7 @@
       <thead><tr><th>CLI</th><th>Provider shape</th><th>Notes</th></tr></thead>
       <tbody>
         <tr><td>Claude</td><td>claude.ai pro (Keychain)</td><td>Usage cards on the dashboard</td></tr>
-        <tr><td>Codex / Astra</td><td>ChatGPT / Codex CLI</td><td>Usage cards on the dashboard · unattended default <code>--sandbox workspace-write</code>, network off unless configured (no <code>--yolo</code>) · on <code>exec resume</code> re-pass <code>-c sandbox_mode=…</code> (not <code>-s</code>) · keep approvals reviewer = user, never <code>auto_review</code></td></tr>
+        <tr><td>Codex / Astra</td><td>ChatGPT / Codex CLI</td><td>Usage cards on the dashboard · unattended default <code>--sandbox workspace-write</code>, network off unless configured (no <code>--yolo</code>) · on <code>exec resume</code> re-pass <code>-c sandbox_mode=…</code> (not <code>-s</code>) · keep approvals reviewer = user, never <code>auto_review</code> · scripted runs add <code>--strict-config</code> (and <code>--ignore-user-config --ignore-rules</code>)</td></tr>
         <tr><td>Kimi</td><td>Vendor CLI 2.1.0</td><td>AUTH_OK</td></tr>
         <tr><td>Muse</td><td>Meta Muse Spark 1.3.0</td><td>Meta OAuth AUTH_OK</td></tr>
         <tr><td>DSH</td><td>DeepSeek harness 0.1.5-rc.3</td><td>Node nvm v22.23.3 · AUTH_OK</td></tr>
@@ -409,6 +423,7 @@
       <li>Overall Grok Bots activity share from local transcripts (not plan dollars)</li>
       <li>Weekday usage refresh / integrity check — still <strong>paused</strong></li>
       <li>Refresh locally via playground <code>usage-dashboard/</code>, then commit/push the hub</li>
+      <li><strong>Measured Claude usage</strong> <span class="pill target">target, not wired</span> — <code>CLAUDE_CODE_ENABLE_TELEMETRY=1</code> + <code>OTEL_METRICS_EXPORTER=prometheus</code> exposes <code>claude_code.token.usage</code> / <code>claude_code.cost.usage</code> on a local scrape endpoint, split by <code>query_source</code>; label cards MEASURED vs PROXY and keep dollars marked as estimates. Configure it once per Mac seat at <strong>user</strong> level — repo <code>.claude/settings*.json</code> exporter vars are ignored, and <code>OTEL_*</code> is not passed to Bash, hooks, or MCP children.</li>
     </ul>
   </section>
 
@@ -446,6 +461,9 @@
       <li><strong>LaunchAgents:</strong> calendar firings during an in-flight run are dropped (no queue) — keep job bodies shorter than the interval; lint <code>Weekday</code> spelling (unknown keys are silently ignored, so weekly becomes daily); the miss signal is <code>launchctl print</code> <code>runs</code> vs expected slots, paired with box <code>mac-missed-runs.jsonl</code>.</li>
       <li><strong>LaunchAgent plumbing:</strong> always set <code>StandardOutPath</code> / <code>StandardErrorPath</code> (otherwise failures vanish silently) and wrap <code>ProgramArguments</code> in <code>/bin/zsh -lc</code> so nvm/fnm/<code>~/.local/bin</code> CLIs are on PATH; keep <code>RunAtLoad</code> false while iterating and test with <code>launchctl kickstart -k</code>.</li>
       <li><strong>Overlapping ticks:</strong> wrap scheduled <code>claude -p</code> in <code>flock -n</code> (skip if the lock is held) and give each logical job a stable <code>--session-id</code> so retries stay addressable. This locks the process itself — separate from launchd’s drop-while-running behavior.</li>
+      <li><strong>LaunchAgent, not cron, for CLI seats</strong> — cron runs outside the login session, so Claude can’t read its Keychain token (“Not logged in” even with PATH fixed); a LaunchAgent runs in the GUI session and catches up after sleep. TCC silently denies unattended jobs in <code>~/Documents</code> / <code>~/Desktop</code> / <code>~/Downloads</code> (hub-stage lives there): grant Full Disk Access to the exact interpreter launchd runs, or work outside protected folders, and check <code>log show --predicate 'subsystem == "com.apple.TCC"'</code> after the first unattended run.</li>
+      <li><strong>Wake for slots</strong> <span class="pill target">target · needs sudo (Tongli)</span> — <code>sudo pmset repeat wakeorpoweron</code> a few minutes before the earliest daily slot (one repeating pair only), and launch calendar jobs via <code>/usr/bin/caffeinate -i</code>; confirm Wake vs DarkWake in <code>pmset -g log</code> after the first night. It does not fix a Mac that is disconnected rather than asleep.</li>
+      <li>Scheduled Codex jobs that need an MCP server mark it <code>required = true</code> and run with <code>--strict-config</code> (<a href="#launch">§8</a>).</li>
     </ul>
 
     <h3>Outer loop → inner loop</h3>
@@ -547,6 +565,10 @@
         <tr><td>Obsidian <code>~/Documents/agent-context</code></td><td><span class="pill live">scaffolded 2026-09-24</span></td></tr>
         <tr><td><code>grok-tmux-run</code> + watchdog</td><td><span class="pill live">installed ~/bin · smoke OK</span></td></tr>
         <tr><td>Watchdog transient-vs-limit + JSONL/process hang-vs-crash (§8)</td><td><span class="pill target">rule in playbook · watchdog still log-age + Enter</span></td></tr>
+        <tr><td>tmux <code>alert-silence</code> quiet signal for watchdog (§8)</td><td><span class="pill target">rule in playbook · not wired</span></td></tr>
+        <tr><td>Large repo <code>AGENTS.md</code> over Codex 32 KiB cap (§8/§9)</td><td><span class="pill target">preflight rule in playbook · repo fix is project work</span></td></tr>
+        <tr><td>Mac wake schedule for routine slots (§12)</td><td><span class="pill target">target · needs sudo</span></td></tr>
+        <tr><td>Claude OTel / Prometheus measured usage (§11)</td><td><span class="pill target">target · not wired</span></td></tr>
         <tr><td>Jev router</td><td><span class="pill live">LIVE · <code>jev-route</code> active · floor 0.55</span></td></tr>
         <tr><td>Field Brief public surface (under CR-Harness)</td><td><span class="pill live">LIVE · daily · <a href="/research/CR-harness/field-brief/">/CR-harness/field-brief/</a></span></td></tr>
         <tr><td>Collection Bot Field Brief pipeline</td><td><span class="pill live">standing as daily (not hourly)</span></td></tr>
