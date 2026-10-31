@@ -1,11 +1,30 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-10-30T20:44:55-04:00",
+  "updatedAt": "2026-10-30T20:44:56-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-10-26.html",
+  "briefEdition": "briefs/2026-10-27.html",
   "entries": [
+    {
+      "id": "thinkjev-guaranteed-escalation",
+      "title": "ThinkJev: one model as System 1 / System 2 for typed decisions, with a guaranteed-error accept rule",
+      "date": "2026-10-27",
+      "summary": "arXiv:2610.37732 (submitted 27 Oct 2026). System 1 reads option-letter probabilities from a direct answer; System 2 reads the same letters after a thought on the same cached prompt, so escalating repeats no work. System 1 answers alone only where a statistical test on labelled dev data guarantees accepted answers stay under a target error rate. At a 5% target, Qwen3.5-27B answers 24.5% of 8,359 test decisions directly with 3.9% realised error (4B and 9B: 6.5% and 0.0%). Early-stopping each thought at confidence reaches 81.6% accuracy vs 82.7% for always thinking, using 72% of thought tokens. Escalating on System 1 confidence alone saves less, because the decisions it is least sure of are often not the ones thinking fixes. JevBench comparison is labelled exploratory by the authors.",
+      "tags": [
+        "Jev",
+        "typed-decision",
+        "confidence-gated",
+        "escalation",
+        "calibration"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.37732"
+      ],
+      "why_it_matters_for_cr": "A sharper version of our Jev router gate: certify the fast path per decision type with a held-out error bound, rather than a raw confidence threshold.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "dece-eurogame-harness-arena",
       "title": "DECE: ten Eurogames behind one legal-actions interface; the same model ranks differently across harnesses",
@@ -41,24 +60,6 @@
         "https://arxiv.org/abs/2610.21412"
       ],
       "why_it_matters_for_cr": "Direct evidence for the Jev router design: isolated-question accuracy does not predict closed-loop success, and an un-fitted threshold costs ~19 points. Fit the escalation threshold per decision type on our own CR trajectories, not globally.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "sure-act-counterfactual-decision-points",
-      "title": "Agents' Last Doubt (SURE-Act): counterfactual outcomes for act / gather / escalate at each decision point",
-      "date": "2026-10-24",
-      "summary": "arXiv:2610.24194 (submitted 16 Oct 2026). Builds a counterfactual dataset in ToolSandbox: 3,115 action outcomes from 1,036 decision points, executing every legal action and scoring task completion, interaction cost and irreversible errors. SURE-Act, a ranking controller over a frozen backbone, improves offline action-selection utility by 0.0309 over regression-only, gives up to +0.0575 ToolSandbox Overall Score with Qwen3-4B, and beats adapted SAGE-Agent and Calibrate-Then-Act rules by 0.1506 and 0.1438.",
-      "tags": [
-        "decision_point",
-        "abstain/escalate",
-        "counterfactual eval",
-        "tool agents"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.24194"
-      ],
-      "why_it_matters_for_cr": "A recipe for decision_point eval: branch every legal action from saved game states and score outcomes, giving labels for when the gate should act vs escalate. Gains are small in absolute terms.",
       "status": "watch",
       "thin": false
     },
