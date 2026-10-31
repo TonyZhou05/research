@@ -1,10 +1,10 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-10-30T20:45:00-04:00",
+  "updatedAt": "2026-10-30T20:45:02-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-10-29.html",
+  "briefEdition": "briefs/2026-10-30.html",
   "entries": [
     {
       "id": "forecritic-world-reward-model",
