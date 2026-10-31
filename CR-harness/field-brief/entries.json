@@ -1,11 +1,30 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-10-24T19:52:05-04:00",
+  "updatedAt": "2026-10-30T20:44:55-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-10-24.html",
+  "briefEdition": "briefs/2026-10-26.html",
   "entries": [
+    {
+      "id": "dece-eurogame-harness-arena",
+      "title": "DECE: ten Eurogames behind one legal-actions interface; the same model ranks differently across harnesses",
+      "date": "2026-10-26",
+      "summary": "arXiv:2610.35773 (submitted 26 Oct 2026). DECE (Diverse Eurogame Competitive Environments) is a unified arena of ten executable Eurogames. Every game exposes setup, seat-specific observations, legal actions, state transitions and terminal rankings through one interface; the engine enforces rules and scoring, and MCP or native adapters plug in four execution harnesses. Persisted states and execution records support audit, replay and resume. 12 model–harness configurations (nine models, four harnesses) over 480 three-player matches (1,032 matches across all studies). Cross-game rankings broadly agree, but matched studies show the same model performing differently across harnesses, and performance advantages do not consistently translate into token or cost efficiency.",
+      "tags": [
+        "benchmark",
+        "legal_actions",
+        "harness",
+        "games",
+        "eval"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.35773"
+      ],
+      "why_it_matters_for_cr": "Closest public design to the CR-Harness contract: engine-owned legal_actions, frozen state for simultaneous choices, replayable records. It also argues we should report model+harness pairs (and cost) rather than model-only scores.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "jevagentharness-fitted-threshold",
       "title": "JevAgentHarness: delegate tool choices to a decision model only above a fitted confidence threshold",
@@ -22,24 +41,6 @@
         "https://arxiv.org/abs/2610.21412"
       ],
       "why_it_matters_for_cr": "Direct evidence for the Jev router design: isolated-question accuracy does not predict closed-loop success, and an un-fitted threshold costs ~19 points. Fit the escalation threshold per decision type on our own CR trajectories, not globally.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "game-failure-feedback-backfires",
-      "title": "Feedback that backfires in games: echoing a failed move makes small LLM players repeat it",
-      "date": "2026-10-24",
-      "summary": "arXiv:2610.30205 (submitted 21 Oct 2026). In Sokoban, Connect Four and Othello, writing the failed move plus its failure message back into the transcript makes the failed move more likely (pooled corrective gain -1.38 nats/token over 8 models of 135M-1.7B), for illegal moves but not losing ones, and not for every model. Greedy decoding still repeats 38% of moves it was about to play. A 'do not repeat' instruction does nothing, a clean retry is the worst harness, and a decoder ban stops exact repeats but not illegal play; describing the failure without the move string keeps the model's preference. Small models only.",
-      "tags": [
-        "games",
-        "legal_actions",
-        "retry harness",
-        "feedback"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.30205"
-      ],
-      "why_it_matters_for_cr": "Our illegal-move retry path echoes the move string back. Test a retry message that omits the move string, and prefer masking to legal_actions over retry-on-error for small models.",
       "status": "watch",
       "thin": false
     },
