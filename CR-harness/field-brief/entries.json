@@ -1,11 +1,30 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-10-30T20:44:58-04:00",
+  "updatedAt": "2026-10-30T20:45:00-04:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-10-28.html",
+  "briefEdition": "briefs/2026-10-29.html",
   "entries": [
+    {
+      "id": "forecritic-world-reward-model",
+      "title": "World Reward Models (ForeCritic): a 9B typed decision model picks the better candidate directly from executed pairs",
+      "date": "2026-10-29",
+      "summary": "arXiv:2610.38439 (submitted 28 Oct 2026). For search-based ML agents, a World Reward Model learns from real execution results to choose which of two candidate programs will perform better, without predicting intermediate outcomes. The authors prove a selector that predicts execution cannot beat the best direct selector on the same inputs. ForeCritic adapts a 9B typed decision model on 5k executed pairs; on 12,438 held-out pairs from 26 ML tasks it picks the better program 79.4% of the time vs 53–62% for general LLM judges, with calibrated probabilities. Inside AIDE, ML-Master and ForeAgent it cuts mean task time 4.4–7.5× while keeping mean scores within 0.01 or raising them.",
+      "tags": [
+        "Jev",
+        "typed-decision",
+        "reward-model",
+        "search",
+        "eval"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.38439"
+      ],
+      "why_it_matters_for_cr": "Same lesson as the Jev router at a different layer: train the pairwise decision from executed outcomes rather than asking an LLM to simulate. For CR, branch-and-execute data (cf. SURE-Act, 10-24) can train a direct move or plan selector.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "masked-erosion-acceptance-gates",
       "title": "Masked Erosion: acceptance gates in self-improving harnesses lose redundant safeguards unseen",
@@ -60,25 +79,6 @@
         "https://arxiv.org/abs/2610.35773"
       ],
       "why_it_matters_for_cr": "Closest public design to the CR-Harness contract: engine-owned legal_actions, frozen state for simultaneous choices, replayable records. It also argues we should report model+harness pairs (and cost) rather than model-only scores.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "jevagentharness-fitted-threshold",
-      "title": "JevAgentHarness: delegate tool choices to a decision model only above a fitted confidence threshold",
-      "date": "2026-10-24",
-      "summary": "arXiv:2610.21412 (submitted 15 Oct 2026). AgentDecisionBench tests decision models from isolated questions up to control of a running agent. The most accurate model on isolated questions solved only 69.5% of agent tasks, and delegating tool choices without a fitted confidence threshold lowered success by 19.0 points. JevAgentHarness fits a per-choice threshold on the agent's own trajectories and lets the LLM decide below it; an open AgentDecision-4B trained on post-mistake states with Jev labels solved 91.5% of out-of-distribution tasks (Jev: 82.0%), and in-distribution made agents 81.1-89.0% cheaper and up to 2.5x faster without losing 3+ points of success. Release of models/data/harness is announced, not yet verified.",
-      "tags": [
-        "Jev",
-        "confidence-gated",
-        "decision_point",
-        "harness",
-        "benchmark"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.21412"
-      ],
-      "why_it_matters_for_cr": "Direct evidence for the Jev router design: isolated-question accuracy does not predict closed-loop success, and an un-fitted threshold costs ~19 points. Fit the escalation threshold per decision type on our own CR trajectories, not globally.",
       "status": "watch",
       "thin": false
     },
