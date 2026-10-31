@@ -1,8 +1,59 @@
 {
-  "updatedAt": "2026-10-31T01:50:32Z",
+  "updatedAt": "2026-10-31T20:46:48Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "tmux-wait-for-completion-channel-long-jobs-2026-10-31",
+      "date": "2026-10-31",
+      "displayDate": "Oct 31, 2026",
+      "title": "tmux wait-for -S completion channels instead of sleep/capture-pane polling for CoS-launched long jobs",
+      "href": "https://libtmux-mcp.git-pull.com/tools/pane/wait-for-channel/",
+      "why": "End the tmux job command with '; status=$?; tmux wait-for -S <job>; exit $status' and have the orchestrator block on that named channel instead of polling the pane. It is edge-triggered and has no built-in timeout: a killed job never signals, so wrap the wait in a timer (macOS has no timeout binary by default; use gtimeout or a shell-level timer) and keep the heartbeat / monitor-silence watchdog as the backstop. Mac tmux is 3.7b.",
+      "source": "packs/2026-10-31-web-harness-lab-pack.md",
+      "tags": [
+        "tmux",
+        "watchdog",
+        "CoS",
+        "long jobs",
+        "Mac CLI"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-subprocess-env-scrub-hooks-mcp-2026-10-31",
+      "date": "2026-10-31",
+      "displayDate": "Oct 31, 2026",
+      "title": "CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1 keeps cloud and GitHub credentials out of hooks, Bash and stdio MCP servers",
+      "href": "https://code.claude.com/docs/en/sandboxing",
+      "why": "Watchdog hooks, vault writers and MCP servers spawned by a Claude seat inherit its environment. Setting this flag makes Claude do a best-effort scrub of Anthropic, cloud and GitHub credentials from child processes while the parent keeps them for its own calls, a cheap extra guard for the no-secrets-in-packs-or-logs rule. It is not a full secret boundary, so check that each hook still gets the variables it needs before turning it on for a routine.",
+      "source": "packs/2026-10-31-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "hooks",
+        "secrets",
+        "vault"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-code-retry-watchdog-unattended-seats-2026-10-31",
+      "date": "2026-10-31",
+      "displayDate": "Oct 31, 2026",
+      "title": "CLAUDE_CODE_RETRY_WATCHDOG=1 so unattended claude -p seats back off on 429/529 capacity errors instead of dying",
+      "href": "https://code.claude.com/docs/en/env-vars",
+      "why": "Scheduled and tmux Claude jobs currently fail the slot when capacity errors outlast the default retries. This native env var (Claude Code 2.1.186+, Mac is on 2.1.221) retries 429/529 capacity errors with backoff up to 5 minutes or the reported reset, but still fails fast on spend-limit or exhausted-credit 429s, so the watchdog sees a real stop rather than a flaky one and usage limits stay honest. Pair it with CLAUDE_CODE_RETRY_WATCHDOG_MAX_WAIT_MS so a job can't hang past its tmux slot.",
+      "source": "packs/2026-10-31-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "watchdog",
+        "routines",
+        "usage honesty"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "tmux-monitor-silence-alert-hook-watchdog-2026-10-30",
       "date": "2026-10-30",
