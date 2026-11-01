@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T21:55:40Z",
+  "updatedAt": "2026-11-01T22:09:24Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
@@ -35,7 +35,7 @@
         "long jobs",
         "Mac CLI"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-subprocess-env-scrub-hooks-mcp-2026-10-31",
@@ -69,7 +69,7 @@
         "routines",
         "usage honesty"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "tmux-monitor-silence-alert-hook-watchdog-2026-10-30",
