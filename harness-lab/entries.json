@@ -1,8 +1,25 @@
 {
-  "updatedAt": "2026-10-31T20:46:48Z",
+  "updatedAt": "2026-11-01T21:55:40Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "tmux-remain-on-exit-failed-pane-died-hook-2026-11-01",
+      "date": "2026-11-01",
+      "displayDate": "Nov 1, 2026",
+      "title": "tmux remain-on-exit failed + a pane-died hook so crashed long CLI jobs leave a corpse and a heartbeat line",
+      "href": "https://raw.githubusercontent.com/tmux/tmux/3.7/CHANGES",
+      "why": "Set remain-on-exit failed on the job window so only non-zero exits keep their pane (tmux shows the exit status or signal name), and attach a pane-died hook that appends a crash line to the job's heartbeat/stream log the moment it happens. This covers the blind spot of monitor-silence and wait-for -S: a job that crashes never signals and otherwise just looks quiet. Clean exits still close as before. Available since tmux 3.2 (not new in 3.7); accepted on the Mac's tmux 3.7b. Pane hooks are pane options, so set them with -g or on the job's own pane.",
+      "source": "packs/2026-11-01-web-harness-lab-pack.md",
+      "tags": [
+        "tmux",
+        "watchdog",
+        "long jobs",
+        "CoS",
+        "Mac CLI"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "tmux-wait-for-completion-channel-long-jobs-2026-10-31",
       "date": "2026-10-31",
