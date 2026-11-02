@@ -1,11 +1,68 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-10-30T20:45:02-04:00",
+  "updatedAt": "2026-11-02T17:47:41-05:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-10-30.html",
+  "briefEdition": "briefs/2026-11-02.html",
   "entries": [
+    {
+      "id": "civharness-replay-grounded-judge",
+      "title": "CivHarness / CivTelescope: branch-and-replay from saved Freeciv states trains a pairwise position judge that beats the scoreboard",
+      "date": "2026-11-02",
+      "summary": "arXiv:2610.41264 (submitted 30 Oct 2026). Across eight strategy games, the higher-scoring position leads to the worse outcome in 8-68% of position pairs ('scoreboard traps'). CivHarness saves Freeciv states, branches on decisions and replays to future turns for measured long-horizon feedback. CivTelescope, an LLM judge trained on that data, is 1.3-2.0x more accurate than off-the-shelf LLMs on trap pairs and generalizes to new starts, later turns and unseen rules. Used as a dense reward (CivMarshmallow) in mid-game it gives an 8.94-point training gain, 77% above the end-of-game reward; a hybrid schedule scores best over 120 turns.",
+      "tags": [
+        "harness",
+        "replay",
+        "reward-model",
+        "strategy-game",
+        "eval"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.41264"
+      ],
+      "why_it_matters_for_cr": "The concrete harness the ForeCritic card pointed at: save state, branch, replay, label pairs by real outcome. For CR, elixir/tower-HP scoreboards can trap the same way; a branch-and-replay harness on saved match states could train a pairwise judge for the Jev/plan selector.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "gym-anything-rt-realtime-gap",
+      "title": "Gym-Anything-RT: frontier VLM agents pass 9% of real-time minigames vs 75% when the world is paused",
+      "date": "2026-11-02",
+      "summary": "arXiv:2610.37567 (submitted 27 Oct 2026). An agentic pipeline generates 100 visual minigames from a six-capability taxonomy for real-time interaction; each can run live, paused, or slowed for controlled comparison. The strongest evaluated agent passes 9.0% in real time vs 75.0% paused. Given code-writing ability, frontier agents write code that bypasses real-time perception and action. Environments are publicly released.",
+      "tags": [
+        "real-time",
+        "benchmark",
+        "latency",
+        "VLM",
+        "eval"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.37567"
+      ],
+      "why_it_matters_for_cr": "CR is real-time: the paused-vs-live gap is the cost the reflex/Jev split is meant to remove. The pause/slow-down knob is a clean ablation design for a CR harness (same states, live vs paused) to measure how much a fast path recovers.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "balatro-two-policy-decomposition",
+      "title": "Balatro RL: tactical and strategic policies in disjoint phases, with legal-move masking and cross-agent credit",
+      "date": "2026-11-02",
+      "summary": "arXiv:2610.39049 (submitted 28 Oct 2026). A Rust simulator state-diffed against the live client, a condensed interface with per-step legal-move masking, and multi-agent PPO split into a tactical blind policy and a strategic shop policy that share state but act in disjoint phases, with per-agent reward routing and explicit cross-agent credit. First-blind clear rate converges above 99%, plateauing at mean max ante 3 of 8; single-agent baselines oscillated between greedy and hoarding and did not stably clear the first blind. The remaining gap is attributed to long-horizon strategy.",
+      "tags": [
+        "deckbuilder",
+        "RL",
+        "decomposition",
+        "action-masking",
+        "simulator"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.39049"
+      ],
+      "why_it_matters_for_cr": "Card-game analogue of the strategist/executor split: separate tactical vs strategic policies with routed credit beat one monolithic policy. Supports keeping CR deck/plan choice and in-match placement as distinct decision layers, and a client-diffed simulator as harness infrastructure.",
+      "status": "watch",
+      "thin": true
+    },
     {
       "id": "forecritic-world-reward-model",
       "title": "World Reward Models (ForeCritic): a 9B typed decision model picks the better candidate directly from executed pairs",
@@ -22,63 +79,6 @@
         "https://arxiv.org/abs/2610.38439"
       ],
       "why_it_matters_for_cr": "Same lesson as the Jev router at a different layer: train the pairwise decision from executed outcomes rather than asking an LLM to simulate. For CR, branch-and-execute data (cf. SURE-Act, 10-24) can train a direct move or plan selector.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "masked-erosion-acceptance-gates",
-      "title": "Masked Erosion: acceptance gates in self-improving harnesses lose redundant safeguards unseen",
-      "date": "2026-10-28",
-      "summary": "arXiv:2610.38392 (submitted 28 Oct 2026). Measures harm for every subset of four written safeguards in two agent environments and runs 411 harness-improvement loops under ten gate rules, plus three GEPA runs. A deletion behind another working safeguard adds almost no observable harm, so the gate decides on task success alone. A paired significance test blocks chance-pass deletions but not ones that genuinely raise success; at equal cost, 20-task batches kept every harness protected while 40-task batches lost all six. GEPA kept every safety rule verbatim, yet two of its three final harnesses misused credentials under a weaker model. Freezing safety text or auditing one-layer ablations preserved depth.",
-      "tags": [
-        "harness",
-        "self-improvement",
-        "safety",
-        "acceptance-gate",
-        "review"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.38392"
-      ],
-      "why_it_matters_for_cr": "Directly relevant to AutoHarness-style self-revision and to our dual-LGTM review: an accept gate on win rate can strip legality/guard checks that look redundant under a strong model.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "thinkjev-guaranteed-escalation",
-      "title": "ThinkJev: one model as System 1 / System 2 for typed decisions, with a guaranteed-error accept rule",
-      "date": "2026-10-27",
-      "summary": "arXiv:2610.37732 (submitted 27 Oct 2026). System 1 reads option-letter probabilities from a direct answer; System 2 reads the same letters after a thought on the same cached prompt, so escalating repeats no work. System 1 answers alone only where a statistical test on labelled dev data guarantees accepted answers stay under a target error rate. At a 5% target, Qwen3.5-27B answers 24.5% of 8,359 test decisions directly with 3.9% realised error (4B and 9B: 6.5% and 0.0%). Early-stopping each thought at confidence reaches 81.6% accuracy vs 82.7% for always thinking, using 72% of thought tokens. Escalating on System 1 confidence alone saves less, because the decisions it is least sure of are often not the ones thinking fixes. JevBench comparison is labelled exploratory by the authors.",
-      "tags": [
-        "Jev",
-        "typed-decision",
-        "confidence-gated",
-        "escalation",
-        "calibration"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.37732"
-      ],
-      "why_it_matters_for_cr": "A sharper version of our Jev router gate: certify the fast path per decision type with a held-out error bound, rather than a raw confidence threshold.",
-      "status": "watch",
-      "thin": false
-    },
-    {
-      "id": "dece-eurogame-harness-arena",
-      "title": "DECE: ten Eurogames behind one legal-actions interface; the same model ranks differently across harnesses",
-      "date": "2026-10-26",
-      "summary": "arXiv:2610.35773 (submitted 26 Oct 2026). DECE (Diverse Eurogame Competitive Environments) is a unified arena of ten executable Eurogames. Every game exposes setup, seat-specific observations, legal actions, state transitions and terminal rankings through one interface; the engine enforces rules and scoring, and MCP or native adapters plug in four execution harnesses. Persisted states and execution records support audit, replay and resume. 12 model–harness configurations (nine models, four harnesses) over 480 three-player matches (1,032 matches across all studies). Cross-game rankings broadly agree, but matched studies show the same model performing differently across harnesses, and performance advantages do not consistently translate into token or cost efficiency.",
-      "tags": [
-        "benchmark",
-        "legal_actions",
-        "harness",
-        "games",
-        "eval"
-      ],
-      "source_urls": [
-        "https://arxiv.org/abs/2610.35773"
-      ],
-      "why_it_matters_for_cr": "Closest public design to the CR-Harness contract: engine-owned legal_actions, frozen state for simultaneous choices, replayable records. It also argues we should report model+harness pairs (and cost) rather than model-only scores.",
       "status": "watch",
       "thin": false
     },
