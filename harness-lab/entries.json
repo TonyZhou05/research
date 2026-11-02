@@ -1,8 +1,25 @@
 {
-  "updatedAt": "2026-11-01T22:09:24Z",
+  "updatedAt": "2026-11-02T22:40:19Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "claude-permissionrequest-hook-allow-ignored-headless-2026-11-02",
+      "date": "2026-11-02",
+      "displayDate": "Nov 2, 2026",
+      "title": "Claude Code 2.1.314+: a PermissionRequest hook can't approve person-only actions in headless runs, so pre-authorize instead",
+      "href": "https://changelogs.core-directive.com/v/2.1.314/e/permissionrequest-hook-allow-ignored-when-no-person-can-appr",
+      "why": "In headless runs (claude -p kicks, routines), Claude Code now ignores a PermissionRequest hook's allow for actions only a person may approve; a deny from the hook still works. Unattended seats should therefore get their permissions up front with --allowedTools or a permission mode, never via a hook that answers allow. The Mac's current PermissionRequest hook is the Orca status forwarder that returns {} and approves nothing, so nothing breaks today; Mac Claude is 2.1.221, below the change.",
+      "source": "packs/2026-11-02-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "hooks",
+        "routines",
+        "permissions"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "tmux-remain-on-exit-failed-pane-died-hook-2026-11-01",
       "date": "2026-11-01",
