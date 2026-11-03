@@ -1,11 +1,108 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-11-02T17:47:41-05:00",
+  "updatedAt": "2026-11-03T10:38:49-05:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-11-02.html",
+  "briefEdition": "briefs/2026-11-03.html",
   "entries": [
+    {
+      "id": "rlid-decision-plane-action-menu",
+      "title": "RLiD: RL directly on the probabilities of a labeled action menu, one forward pass, no invalid actions",
+      "date": "2026-11-03",
+      "summary": "arXiv:2611.02455 (submitted 2 Nov 2026). Token-level RL credits the whole generated response, including reasoning and malformed text, although the environment only executes the parsed action. RLiD compiles the observation, an optional compact memory and a labeled action menu into the input and has a large decision model pick an option in a single forward pass, so there is no action parsing and no invalid output. Trained policies are distilled back into generative LLMs. Reported: on ALFWorld the training+distillation pipeline reaches 99.3% success in 12.7 H100 GPU-hours vs 86.6% in 17.3 GPU-hours for token-level RL of the same LLM; with compiled memory a Qwen2.5-1.5B decision model and its distilled LLM reach 100% on all 134 unseen and 140 seen games. Also evaluated on ARC, Countdown and Sokoban.",
+      "tags": [
+        "legal-actions",
+        "decision-point",
+        "rl",
+        "typed-decision",
+        "action-menu"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.02455"
+      ],
+      "why_it_matters_for_cr": "This is the CR decision_point shape trained end to end: legal_actions rendered as a labeled menu, the policy scores options instead of writing text. It gives a training path for the Jev router cards and a clean reason to log menu-index actions (not free text) in the ETL.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "ijev-order-invariant-choice",
+      "title": "IJev: exactly order-invariant choices by iterated cyclic reordering of the option list",
+      "date": "2026-11-03",
+      "summary": "arXiv:2611.01015 (submitted 31 Oct 2026). System-1 decision models answer a choice in one forward pass, but the answer depends on option order and carries a prior over answer labels. Averaging over the K cyclic shifts of one fixed order removes input order but still depends on which cyclic class was chosen. IJev repeatedly reorders options by the cyclic-averaged, label-prior-corrected distribution and re-averages; every iterate is exactly input-order-invariant, and non-converging runs average the rounds. Reported: flip rate zero in every cell over five benchmarks and five models; the default T=20 uniform average improves calibration over a single cyclic average at comparable accuracy. A companion audit (arXiv:2611.00496) finds option swaps flip 0.0-72.6% of choices across typed and prompted setups.",
+      "tags": [
+        "legal-actions",
+        "typed-decision",
+        "jev",
+        "calibration",
+        "eval"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.01015",
+        "https://arxiv.org/abs/2611.00496"
+      ],
+      "why_it_matters_for_cr": "CR legal_actions lists have an arbitrary order (hand slot, tile index). Any Jev-style selector over that list should report a flip rate under option permutation; cyclic averaging is a cheap fix to test before trusting probabilities for calibration or abstention.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "exo-runtime-harness-self-revision",
+      "title": "Exo: agents revise their own harness during work, behind a protected mechanism layer; cheaper on an open-world game",
+      "date": "2026-11-03",
+      "summary": "arXiv:2611.00463 (submitted 30 Oct 2026; Krentsel, Ratnasamy, Stoica, Casado, Goyal). Exo is an agent runtime that folds harness optimization into task execution: the agent edits its harness and strategies as inspectable code changes, while a minimal protected layer keeps execution history and governs which policy version is active. Reported: on long-running objectives in an open-world game, 12-53% lower model cost than Codex and Pi standalone and 45-82% lower in transfer runs at matched completion; vs the same starting policy without editing, 35-61% lower held-out cost on AppWorld and SREGym with comparable correctness.",
+      "tags": [
+        "harness",
+        "self-improvement",
+        "agent-control",
+        "game",
+        "cost"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.00463"
+      ],
+      "why_it_matters_for_cr": "An open-world game result for online harness editing. For CR the useful part is the split: a frozen mechanism layer (action validation, logging, policy activation) that the agent cannot edit, and an editable strategy layer. That boundary is worth fixing before any AutoHarness-style self-editing.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "arcbench-rules-under-compaction",
+      "title": "ARCBench: after context compaction agents break rules that are still in the summary",
+      "date": "2026-11-03",
+      "summary": "arXiv:2611.03223 (submitted 2 Nov 2026). A rule-compliance benchmark on the open-source pi agent harness that measures violations from actions in a tool-calling loop. Finding: compaction rarely deletes the rule; most post-compaction violations happen while the rule is still in the compacted history, with the agent treating a later request as permission. Rule delivery decides whether the agent would break it even without compaction; compaction strategy and budget decide whether the rule survives. The strongest compactor-targeted attack more than doubles violations; runs that keep the rule still violate more than twice as often as full-history runs.",
+      "tags": [
+        "agent-control",
+        "context-compaction",
+        "rules",
+        "eval",
+        "harness"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.03223"
+      ],
+      "why_it_matters_for_cr": "Long CR sessions and long-running coding agents both compact. Keeping a rule in the summary is not enough; hard constraints (legal-move checks, no-force-push, no secrets) belong in the harness, not only in context.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "decision-model-policy-gates",
+      "title": "Decision models as runtime policy gates for coding agents: explicit example/counterexample boundaries lift recall and cut false alarms",
+      "date": "2026-11-03",
+      "summary": "arXiv:2611.02155 (submitted 1 Nov 2026). 22 hosted decision models and two prompted general models were run as classifiers for a 28-rule policy engine over 2,643 synthetic tool calls labeled blind, with a sealed holdout. Explicit boundaries written as examples and counterexamples raised recall by 5.5-26.1 points on all 23 available models and reduced false positives on 21. Jev 1.14: recall 89.3% to 98.2%, unnecessary interruptions 30.6% to 4.8% of 252 clean actions, median latency 120 ms at $0.46 per thousand requests. Dataset, rules and harness are public.",
+      "tags": [
+        "agent-control",
+        "policy-gate",
+        "jev",
+        "typed-decision",
+        "safety"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.02155",
+        "https://github.com/agentapprove/decision-policy-rules"
+      ],
+      "why_it_matters_for_cr": "A measured recipe for the gate pattern already on the board (Jev router, action-class calibration): write rule boundaries as paired examples/counterexamples and report recall plus false-interrupt rate. Applies to the fleet's own agent guardrails as much as to CR.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "civharness-replay-grounded-judge",
       "title": "CivHarness / CivTelescope: branch-and-replay from saved Freeciv states trains a pairwise position judge that beats the scoreboard",
