@@ -1,10 +1,10 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-11-04T20:43:26-05:00",
+  "updatedAt": "2026-11-05T10:45:49-05:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-11-04.html",
+  "briefEdition": "briefs/2026-11-05.html",
   "entries": [
     {
       "id": "rtsgameagent-command-dag-between-calls",
