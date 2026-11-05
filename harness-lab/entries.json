@@ -1,8 +1,74 @@
 {
-  "updatedAt": "2026-11-03T06:09:09Z",
+  "updatedAt": "2026-11-05T01:41:31Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "claude-relogin-not-logged-in-parallel-jobs-2026-11-04",
+      "date": "2026-11-04",
+      "displayDate": "Nov 4, 2026",
+      "title": "Before Claude Code 2.1.318, signing in again in one terminal could make other jobs on the same home exit Not logged in",
+      "href": "https://github.com/anthropics/claude-code/releases/tag/v2.1.318",
+      "why": "The fleet runs several Claude panes under one macOS home. On the Mac's 2.1.221, re-running claude auth login in one pane can knock in-flight tmux jobs out with Not logged in. Until the seat is upgraded, re-auth only when no Claude job is running, and have the watchdog treat a Not logged in exit as an auth event, not a crash.",
+      "source": "packs/2026-11-04-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "tmux",
+        "watchdog",
+        "auth"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-auth-login-expires-at-usage-probe-2026-11-04",
+      "date": "2026-11-04",
+      "displayDate": "Nov 4, 2026",
+      "title": "Claude Code 2.1.318: claude auth status shows when the sign-in ends (loginExpiresAt), so the usage probe can warn before it lapses",
+      "href": "https://github.com/anthropics/claude-code/releases/tag/v2.1.318",
+      "why": "2.1.318 adds loginExpiresAt to claude auth status, credential_expires_at to claude -p JSON, and a stderr warning 10 days before a stored claude.ai sign-in ends. The Claude seat probe has lapsed before (10-24 needed claude auth login); after upgrading the Mac seat from 2.1.221, the usage dashboard can show days until expiry and routine kicks can warn early instead of failing on the day.",
+      "source": "packs/2026-11-04-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "usage",
+        "auth",
+        "routines"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "watchdog-auto-restart-seen-alive-guard-cooldown-2026-11-03",
+      "date": "2026-11-03",
+      "displayDate": "Nov 3, 2026",
+      "title": "If the watchdog ever auto-restarts panes: only restart an agent seen alive recently, with a restart cooldown",
+      "href": "https://amux.io/blog/auto-restart-ai-agents/",
+      "why": "amux only auto-restarts a Claude pane that was seen alive within the last 10 minutes and waits 90 seconds between restarts, so a crash-on-start seat cannot loop. grok-tmux-watchdog has no restart logic today (log-age plus Enter only), so this is the guard to build in before adding any restart, alongside the remain-on-exit / pane-died crash hook.",
+      "source": "packs/2026-11-03-web-harness-lab-pack.md",
+      "tags": [
+        "tmux",
+        "watchdog",
+        "crash loop"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-p-exit0-lost-transcript-disk-preflight-2026-11-03",
+      "date": "2026-11-03",
+      "displayDate": "Nov 3, 2026",
+      "title": "Claude Code 2.1.317: claude -p used to exit 0 when a full disk lost its transcript, so pre-flight free space until upgraded",
+      "href": "https://www.claudeupdates.dev/version/2.1.317",
+      "why": "Watchdogs and routine kicks treat exit 0 as success. Before 2.1.317, a full disk or quota could silently lose the transcript or ~/.claude.json writes while claude -p still exited 0. The Mac seat is on 2.1.221, so scripted kicks should check free space first; after upgrading, exit 1 becomes a real failure the watchdog should surface.",
+      "source": "packs/2026-11-03-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "watchdog",
+        "routines",
+        "exit codes"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "claude-permissionrequest-hook-allow-ignored-headless-2026-11-02",
       "date": "2026-11-02",
