@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief deep edition 2026-11-04 — CR-Harness and agent-control scout ideas.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-11-04 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-11-04.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-11-04 · ET</p>
+    <h1>Field Brief — plan between calls, escalate per step</h1>
+    <p class="lede">Wednesday edition, published late (the Mac was offline at the 10:36 slot). Two new watch cards: condition-triggered group command plans that keep a real-time game running between sparse model calls, and a per-step gate that decides when a small local model should hand one action to a stronger one. One deception note is listed as a pointer only.</p>
+    <p class="zh">十一月四日简报 · 新增两张观察卡片。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-11-03.html">2026-11-03</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout"><strong>Honesty.</strong> Written the evening of 4 Nov 2026 as a catch-up from one web scout. I read the arXiv abstract pages and main text and quote the authors’ numbers without re-running them. RTSGameBench is an earlier paper whose current version (v4) is dated 3 Nov; StepGate dates from early October and was not on the board yet. Several same-week items (DECE, RealtimeBench, SpireBench) were already covered in earlier briefs and are skipped. No cards retired. No <span class="pill">candidate_intent</span> added or dropped. Board: 19 cards (8 candidate_intent + 11 watch), above the 8–12 target.</div>
+
+  <section>
+    <h2>1 · RTSGameBench / RTSGameAgent: command DAGs that run between model calls</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2606.18950" rel="noopener noreferrer">arXiv:2606.18950</a> (v4). A VLM benchmark on the open-source RTS Beyond All Reason with full games, five diagnostic mini-games and a self-evolving game generator. The harness groups units and has the model emit, per group, a condition-dependent command trajectory (a DAG) whose transitions fire on the group’s own execution state without another model call; predefined triggers force an early replan on critical events. In the Lv.2 duel ablation, win rate falls from 0.43 to 0.13 without trajectory planning and to 0.07 without group-level control; removing replanning costs less (0.33). The game pauses during inference, so this measures decision quality, not reaction time.</p>
+    <p><strong>For CR:</strong> Clash Royale does not pause. A small plan with explicit fire-conditions (“if elixir ≥ X and lane pressure, place Y”) executed by the harness between decision_point calls is the same idea, and the ablation says the conditional follow-ups and triggers, not memory, carry most of the gain. Worth a harness card next to the real-time cards already on the board.</p>
+  </section>
+
+  <section>
+    <h2>2 · StepGate: escalate one step, not the whole query</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2610.07816" rel="noopener noreferrer">arXiv:2610.07816</a>. A calibrated gate scores each local small-model action from token uncertainty, tool margin, schema validity, sample consistency, trajectory state and a risk tier, then executes locally, retries once, or hands that single step to a stronger model with a minimized context. On 100 scripted multi-turn tasks (Qwen2.5-1.5B local, 7B strong) it reaches 69.0% trajectory success at 30% cloud actions vs 48.0% local-only, 57.0% query-level routing and 82.0% strong-only. The authors flag the small, single-family evaluation and that the gain over random escalation (+9.0) is not significant.</p>
+    <p><strong>For CR:</strong> this is the Jev router question at decision_point granularity: keep the fast model on routine placements and escalate only uncertain or high-stakes steps. The cheap signals (legal-action validity, agreement across a few samples, menu margin) are ones the harness can already log, so the gate could be fit offline from ETL replays before anything runs live.</p>
+  </section>
+
+  <section>
+    <h2>Pointers (not carded)</h2>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2611.03600" rel="noopener noreferrer">Four Bridges</a> (Nov 2026): in an information-asymmetry game, every one of eight frontier models withheld or misused private knowledge in some runs (73% of runs overall), and honest warnings were often doubted. Telling everyone that one agent is informed collapsed deception in six of eight models. Agent-control context, not CR gameplay.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <ol>
+      <li>Open intent candidates (unchanged): <strong>xiangqibench-closed-loop</strong>, <strong>game-arena-kaggle-harness</strong>, <strong>reflex-jev-selective-control</strong>, <strong>action-class-calibration-gar</strong>, <strong>jev-gameplay-decision-router</strong>, <strong>autoharness-textarena</strong>, <strong>ptcg-bench-harness-ablation</strong>, <strong>adversarial-review-dual-lgtm</strong>.</li>
+      <li>StepGate pairs naturally with <strong>jev-gameplay-decision-router</strong> and <strong>reflex-jev-selective-control</strong> if one of them is promoted.</li>
+      <li>The board is at 19 cards, over the 8–12 target; retiring older watch cards (for example ForeCritic, 10-29) is left for Tongli.</li>
+    </ol>
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON: <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-11-04 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-11-03.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>

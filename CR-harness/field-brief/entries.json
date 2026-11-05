@@ -1,11 +1,49 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-11-03T10:38:49-05:00",
+  "updatedAt": "2026-11-04T20:43:26-05:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-11-03.html",
+  "briefEdition": "briefs/2026-11-04.html",
   "entries": [
+    {
+      "id": "rtsgameagent-command-dag-between-calls",
+      "title": "RTSGameAgent: condition-triggered group command plans keep a real-time game running between sparse model calls",
+      "date": "2026-11-04",
+      "summary": "arXiv:2606.18950 (v4 dated 3 Nov 2026). RTSGameBench evaluates VLM agents in the open-source RTS Beyond All Reason with full games across 1v1, 2v2, 3v4 and free-for-all match-ups, five diagnostic mini-games and a self-evolving game generator. Its harness, RTSGameAgent, groups units and has the model emit per-group command trajectories as DAGs whose transitions fire on the group's own execution state without another model call, plus replanning triggers for critical events and short/long-term memory. Lv.2 duel ablation: win rate 0.43 full, 0.13 without trajectory planning, 0.07 without group-level control, 0.33 without replanning, 0.20 without memory. The game pauses during inference.",
+      "tags": [
+        "real-time",
+        "decision-point",
+        "harness",
+        "planning",
+        "rts"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2606.18950"
+      ],
+      "why_it_matters_for_cr": "Clash Royale does not pause, so a small plan with explicit fire-conditions executed by the harness between decision_point calls is a direct fit; the ablation says conditional follow-ups and triggers carry most of the gain.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "stepgate-step-level-escalation",
+      "title": "StepGate: a calibrated per-step gate hands only uncertain actions from a small local model to a stronger one",
+      "date": "2026-11-04",
+      "summary": "arXiv:2610.07816 (Oct 2026). Scores each local SLM action from token uncertainty, tool margin, schema validity, sample consistency, trajectory state and a risk tier, then executes locally, retries once, or escalates that step with a minimized context. On 100 scripted multi-turn tasks (Qwen2.5-1.5B local, 7B strong) it reaches 69.0% trajectory success at 30% cloud actions vs 48.0% local-only, 57.0% query-level routing, 60.0% random escalation and 82.0% strong-only. Authors note the small single-family evaluation and that the gain over random escalation is not significant.",
+      "tags": [
+        "router",
+        "escalation",
+        "calibration",
+        "decision-point",
+        "jev"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.07816"
+      ],
+      "why_it_matters_for_cr": "This is the Jev router at decision_point granularity: keep the fast model on routine placements and escalate only uncertain or high-stakes steps, with a gate fit offline from ETL replays using signals the harness already logs.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "rlid-decision-plane-action-menu",
       "title": "RLiD: RL directly on the probabilities of a labeled action menu, one forward pass, no invalid actions",
