@@ -7,6 +7,44 @@
   "briefEdition": "briefs/2026-11-05.html",
   "entries": [
     {
+      "id": "lolplay-reasoning-effort-cost",
+      "title": "LOLPlay: in native League of Legends, higher reasoning effort buys no task success and costs interaction rounds",
+      "date": "2026-11-05",
+      "summary": "arXiv:2611.03685. A benchmark in native League of Legends with 36 champion-specific tasks (resource management, combat, cooperation, objectives). Agents act through screenshots and mouse/keyboard; automated initialization and 82 executable subgoal checks separate partial progress from completion. Across 324 task evaluations of three models at three reasoning-effort settings, GPT-6 Astra has the best task success (25.0% at low and medium effort) and best subgoal success (40.3% at medium). High effort improved neither metric over low effort for any model; for Astra, longer requests left fewer interaction rounds. Trajectories show incomplete subgoal composition and actions executing after the observed scene had changed.",
+      "tags": [
+        "real-time",
+        "latency",
+        "eval",
+        "subgoals",
+        "moba"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.03685"
+      ],
+      "why_it_matters_for_cr": "Another real-time result saying more thinking per call loses rounds; executable subgoal checks are a cheap way for CR evals to score partial progress instead of only win/loss.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "kpharness-knowledge-probing-revisions",
+      "title": "KPHarness: probe failures to gather evidence, then accept bounded harness revisions only when paired evals improve",
+      "date": "2026-11-05",
+      "summary": "arXiv:2610.27417. Adapts the external execution harness of a frozen vision-language-action model on Minecraft (mining, combat, crafting). Recovery knowledge proposes intervention hypotheses that guide active probing; probe outcomes refine both the knowledge and later probe choice. A slow research loop turns this into bounded harness revisions, each compared with the incumbent under matched sandbox conditions and accepted only when the paired evaluation improves. Reports better task coverage than bare policy execution, a hand-written fixed harness, and knowledge-only evolution, and better completion on unseen tasks with the evolved harness frozen. Numbers not quoted here; abstract only.",
+      "tags": [
+        "harness",
+        "self-improvement",
+        "eval",
+        "gating"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2610.27417",
+        "https://chenzk202212.github.io/adaptive-gaming-harnesses/"
+      ],
+      "why_it_matters_for_cr": "Matches how CR-Harness should change itself: revise the harness, not the model, and gate each revision on a paired replay eval against the incumbent.",
+      "status": "watch",
+      "thin": true
+    },
+    {
       "id": "rtsgameagent-command-dag-between-calls",
       "title": "RTSGameAgent: condition-triggered group command plans keep a real-time game running between sparse model calls",
       "date": "2026-11-04",

@@ -1,8 +1,123 @@
 <!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><title>Field Brief · 2026-11-05 — stub</title>
-<meta http-equiv="refresh" content="0; url=/research/CR-harness/field-brief/">
-</head><body>
-<p>Stub for 2026-11-05 — replace with a deep brief (4–6 ideas, public citations). See playground field-brief/collect_and_publish.sh.</p>
-<p><a href="/research/CR-harness/field-brief/">← Scout index</a></p>
-</body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief deep edition 2026-11-05 — CR-Harness and agent-control scout ideas.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-11-05 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-11-05.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-11-05 · ET</p>
+    <h1>Field Brief — think less per call, revise the harness on evidence</h1>
+    <p class="lede">Thursday edition. Two new watch cards: a native League of Legends benchmark where higher reasoning effort bought no task success and cost interaction rounds, and a harness that probes its own failures and only keeps revisions that win a paired evaluation. One multiplayer real-time gym is listed as a pointer.</p>
+    <p class="zh">十一月五日简报 · 新增两张观察卡片。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-11-04.html">2026-11-04</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout"><strong>Honesty.</strong> Written the morning of 5 Nov 2026 from one light web scout. I read arXiv abstracts only and quote the authors&rsquo; numbers without re-running them; KPHarness is marked <em>thin</em> because no figures are quoted. RealtimeBench came up again and was already covered, so it is skipped. No cards retired. No <span class="pill">candidate_intent</span> added or dropped. Board: 21 cards (8 candidate_intent + 13 watch), above the 8&ndash;12 target.</div>
+
+  <section>
+    <h2>1 · LOLPlay: more reasoning effort, fewer rounds, no gain</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.03685" rel="noopener noreferrer">arXiv:2611.03685</a>. 36 champion-specific tasks in native League of Legends, played through screenshots and mouse/keyboard, with 82 executable subgoal checks so partial progress is scored separately from completion. Over 324 task evaluations (three models, three effort settings), GPT-6 Astra leads with 25.0% task success at low and medium effort and 40.3% subgoal success at medium. High effort improved neither metric over low effort for any model; for Astra, longer requests meant fewer interaction rounds. Failure traces show subgoals not being composed and actions landing after the scene had already changed.</p>
+    <p><strong>For CR:</strong> this lines up with the real-time cards already on the board: in a game that does not pause, per-call deliberation is paid for in missed decision points. The executable subgoal checks are the more reusable idea, a cheap way to score CR eval runs on partial progress (held a lane, made a positive trade) instead of only win or loss.</p>
+  </section>
+
+  <section>
+    <h2>2 · KPHarness: probe, then keep only revisions that win a paired eval</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2610.27417" rel="noopener noreferrer">arXiv:2610.27417</a> (<a href="https://chenzk202212.github.io/adaptive-gaming-harnesses/" rel="noopener noreferrer">project page</a>). The model (a frozen vision-language-action policy on Minecraft) is never updated; only its execution harness changes. Recovery knowledge proposes what intervention might help, active probes test when it applies, and a slow research loop turns the evidence into bounded harness revisions. Each revision is run against the incumbent under matched sandbox conditions and accepted only when the paired evaluation improves. The authors report better coverage than bare execution, a hand-written harness and knowledge-only evolution, and better completion on unseen tasks with everything frozen.</p>
+    <p><strong>For CR:</strong> the accept-only-on-paired-improvement rule is the gate CR-Harness would want before any self-revised rule ships, and it fits the existing ETL replays. Pairs with <strong>autoharness-textarena</strong> and the 11-03 self-revision card.</p>
+  </section>
+
+  <section>
+    <h2>Pointers (not carded)</h2>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2610.24282" rel="noopener noreferrer">ROAR</a> (submitted 16 Oct 2026): a multiplayer action-shooter environment whose asynchronous gym runs the world and each agent in separate threads, so the game advances on a fixed clock without waiting for inference. Infrastructure reference for a non-pausing CR loop, no results quoted.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <ol>
+      <li>Open intent candidates (unchanged): <strong>xiangqibench-closed-loop</strong>, <strong>game-arena-kaggle-harness</strong>, <strong>reflex-jev-selective-control</strong>, <strong>action-class-calibration-gar</strong>, <strong>jev-gameplay-decision-router</strong>, <strong>autoharness-textarena</strong>, <strong>ptcg-bench-harness-ablation</strong>, <strong>adversarial-review-dual-lgtm</strong>.</li>
+      <li>The board is at 21 cards, over the 8&ndash;12 target; retiring older watch cards is left for Tongli.</li>
+    </ol>
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON: <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-11-05 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-11-04.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>
