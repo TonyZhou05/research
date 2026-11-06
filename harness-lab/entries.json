@@ -1,8 +1,91 @@
 {
-  "updatedAt": "2026-11-05T01:41:31Z",
+  "updatedAt": "2026-11-06T01:46:11Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "muse-no-allowance-402-billing-denied-2026-11-05",
+      "date": "2026-11-05",
+      "displayDate": "Nov 5, 2026",
+      "title": "Muse: treat muse usage no_allowance and exec 402 billing_error as billing-denied, not a crash",
+      "href": "https://dev.meta.ai/docs/muse-code/changelog",
+      "why": "Today's rotation smoke showed muse usage reporting no_allowance and muse exec returning API 402 billing_error. The usage dashboard and seat rotation should mark Muse as billing-denied and skip long jobs, rather than retrying or logging a Mac miss as if the binary died.",
+      "source": "packs/2026-11-05-web-harness-lab-pack.md",
+      "tags": [
+        "Muse",
+        "usage",
+        "Mac CLI",
+        "seat rotation"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-p-stops-rewriting-claude-json-2026-11-05",
+      "date": "2026-11-05",
+      "displayDate": "Nov 5, 2026",
+      "title": "Claude Code 2.1.318: unattended claude -p runs stop rewriting ~/.claude.json when nothing changed",
+      "href": "https://github.com/anthropics/claude-code/releases/tag/v2.1.318",
+      "why": "Routines fire many short claude -p kicks under one macOS home. On the Mac's 2.1.221 every run can rewrite the shared config even when nothing changed, racing other seats and churning mtime-based probes. After upgrading the Mac seat, idle kicks stop touching the file, so usage and auth probes and concurrent panes see a quieter config.",
+      "source": "packs/2026-11-05-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "routines",
+        "concurrency"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-p-no-false-success-turn-step-2026-11-05",
+      "date": "2026-11-05",
+      "displayDate": "Nov 5, 2026",
+      "title": "Claude Code 2.1.318: claude -p no longer reports success when an API error cut off a reply under a turn.step hook",
+      "href": "https://github.com/anthropics/claude-code/releases/tag/v2.1.318",
+      "why": "Watchdogs and EM proof treat exit 0 as success. On 2.1.221 a cut-off reply under a turn.step hook could still exit cleanly and look like a finished kick. After upgrading, that path stops masquerading as success so the watchdog can surface a real failure.",
+      "source": "packs/2026-11-05-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "watchdog",
+        "EM",
+        "exit codes"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-mcp-add-remove-config-lock-2026-11-05",
+      "date": "2026-11-05",
+      "displayDate": "Nov 5, 2026",
+      "title": "Claude Code 2.1.318: claude mcp add and remove wait for the config lock or exit 1",
+      "href": "https://github.com/anthropics/claude-code/releases/tag/v2.1.318",
+      "why": "Scripted MCP edits during Dual-LGTM or Astra preflight share ~/.claude.json with live panes. On 2.1.221 add and remove could write without the lock. After upgrading they wait or exit 1, so a routine can fail closed instead of silently dropping a required server.",
+      "source": "packs/2026-11-05-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "MCP",
+        "routines",
+        "concurrency"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-macos-many-bash-stall-fix-2026-11-05",
+      "date": "2026-11-05",
+      "displayDate": "Nov 5, 2026",
+      "title": "Claude Code 2.1.318: macOS sessions with many running Bash commands no longer stall while memory grows",
+      "href": "https://github.com/anthropics/claude-code/releases/tag/v2.1.318",
+      "why": "Long CoS and EM panes often leave several Bash tools running (collect, curate, sync helpers). On 2.1.221 that pattern can stall the session and balloon memory, which the tmux watchdog only sees as silence. Upgrading the Mac seat removes that hang class.",
+      "source": "packs/2026-11-05-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "tmux",
+        "watchdog",
+        "long jobs"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "claude-relogin-not-logged-in-parallel-jobs-2026-11-04",
       "date": "2026-11-04",
