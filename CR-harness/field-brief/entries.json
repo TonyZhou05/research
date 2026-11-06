@@ -1,11 +1,49 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-11-06T10:52:08-05:00",
+  "updatedAt": "2026-11-06T10:52:45-05:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
   "briefEdition": "briefs/2026-11-06.html",
   "entries": [
+    {
+      "id": "acca-assurance-conditioned-authority",
+      "title": "ACCA: keep effective authority tied to currently applicable assurance, with epoch-bound stale-action rejection",
+      "date": "2026-11-06",
+      "summary": "arXiv:2611.05632. Assurance-Conditioned Continuous Authorization (ACCA) treats an agent's operational authority as a continuously maintained governance state, not a static grant. It separates evidence validity from contextual applicability, derives assurance claims from eligible evidence, and resolves a multidimensional effective-authority envelope inside a principal-declared ceiling. Authority epochs advance when the envelope changes; protected effect-time enforcement can reject stale actions before a consequential resource change. A trading-domain prototype exercises default-deny, evidence-conditioned contraction/recovery, policy divergence, selective non-response, and stale-action rejection at a local gateway before a simulated-broker boundary. The authors frame ACCA as harness-independent and caution that results are implementation-level evidence in one domain, not a cross-domain guarantee.",
+      "tags": [
+        "authorization",
+        "harness",
+        "decision_point",
+        "epochs",
+        "governance"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.05632"
+      ],
+      "why_it_matters_for_cr": "Closest recent framing of CR's decision_point / legal_actions problem as continuous authority: re-check at effect time, bind actions to an authority epoch, and contract autonomy when evidence stops applying — without rewriting the game engine.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "harness-is-the-model-action-log",
+      "title": "The harness is the model: scaffolding moves compliance up to 11.5 pp, and transcripts hide 26% of violations",
+      "date": "2026-11-06",
+      "summary": "arXiv:2611.06116. Four open-weight models each ran five harnesses (pipeline, ReAct tool loop, policy-by-search, long benign memory, same-model reviewer) on 156 pre-registered banking-conduct cases; all 3120 two-turn episodes were scored from the executed tool trace. Pooled correct-case rates only moved 87.3–92.1%, but within one model the best–worst harness spread was 11.5 pp (Cochran's Q=25.1, p<0.001), enough to reverse model rank; for another model the harness made no detectable difference. A same-model reviewer cut violations from 9.6% to 6.4% (p<0.001) without raising over-refusals. Exploratory analysis: 26% of violations came with a customer message denying the action just executed, so transcript-only review would have scored a correct refusal.",
+      "tags": [
+        "harness",
+        "eval",
+        "action_trace",
+        "compliance",
+        "ablation"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.06116"
+      ],
+      "why_it_matters_for_cr": "Hard evidence that CR evals must ablate the harness and grade the action log, not the chat — pairs with ETL replays and the dual-LGTM / false-success theme already on the board.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "lolplay-reasoning-effort-cost",
       "title": "LOLPlay: in native League of Legends, higher reasoning effort buys no task success and costs interaction rounds",
