@@ -1,8 +1,42 @@
 {
-  "updatedAt": "2026-11-06T01:46:11Z",
+  "updatedAt": "2026-11-07T02:45:47Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "codex-0167-auth-refresh-keyring-2026-11-06",
+      "date": "2026-11-06",
+      "displayDate": "Nov 6, 2026",
+      "title": "Codex 0.167.0 stable (2026-11-06): auth-refresh failures treated as transient and token refresh survives an unreadable keyring; Mac seat is on 0.156.1",
+      "href": "https://github.com/openai/codex/releases",
+      "why": "The usage dashboard and Astra reviews depend on the Codex seat staying authenticated across unattended runs. 0.167.0 treats auth reload failures as transient during token refresh and preserves fallback token refreshes when the keyring is unreadable, which is the failure shape a locked-keychain headless Mac produces. The Mac seat reports 0.156.1, eleven minors behind.",
+      "source": "packs/2026-11-06-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Codex",
+        "auth",
+        "usage PROXY honesty",
+        "version drift"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-noninteractive-no-overwrite-claude-json-2026-11-06",
+      "date": "2026-11-06",
+      "displayDate": "Nov 6, 2026",
+      "title": "Claude Code 2.1.318: non-interactive launches no longer overwrite an invalid ~/.claude.json with defaults, and claude -p-only homes now keep a backup",
+      "href": "https://github.com/anthropics/claude-code/releases/tag/v2.1.318",
+      "why": "Every routine and CoS kick shares one macOS home. On 2.1.221 a half-written or invalid ~/.claude.json could be silently replaced by defaults, dropping trusted folders and MCP servers without any failing exit. After upgrade the start fails closed with restore instructions, and a home that only runs claude -p gets a fresh backup before the last good one is deleted, so the watchdog sees a real failure instead of a quietly reset seat.",
+      "source": "packs/2026-11-06-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "routines",
+        "config integrity",
+        "watchdog"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "muse-no-allowance-402-billing-denied-2026-11-05",
       "date": "2026-11-05",
