@@ -1,8 +1,62 @@
 {
-  "updatedAt": "2026-11-07T02:45:47Z",
+  "updatedAt": "2026-11-08T01:46:57Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "claude-deny-instead-of-prompting-2026-11-07",
+      "date": "2026-11-07",
+      "displayDate": "Nov 7, 2026",
+      "title": "Claude Code 2.1.319: permissions.denyInsteadOfPrompting denies a tool that would wait on a permission prompt and lets the turn continue",
+      "href": "https://github.com/anthropics/claude-code/releases/tag/v2.1.319",
+      "why": "Unattended CoS and routine kicks already have --permission-mode dontAsk on 2.1.221 for parent -p runs. The new settings key applies in terminal sessions, subagents and teammates: a call that would sit on a prompt is denied and the turn continues, so a nested Dual-LGTM or long-job subagent is less likely to hang a pane until the watchdog calls it stalled. Apply after upgrading the shared Mac seat.",
+      "source": "packs/2026-11-07-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "permissions",
+        "unattended",
+        "watchdog",
+        "routines",
+        "subagents"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-ai-login-fallback-ant-auth-console-billing-2026-11-07",
+      "date": "2026-11-07",
+      "displayDate": "Nov 7, 2026",
+      "title": "Claude Code 2.1.319: warn when a claude.ai login ends and the seat continues on ant auth login, and name the billed Console org at startup",
+      "href": "https://github.com/anthropics/claude-code/releases/tag/v2.1.319",
+      "why": "Usage-dashboard honesty depends on knowing which credential is actually billed. After upgrade, an expired claude.ai login that silently keeps working via ant auth login (Console-org billing) is warned, and startup names the Console organization being billed, so probes and operators can stop attributing spend to the subscription surface. Complements the 11-04 loginExpiresAt probe, which only says when a sign-in ends.",
+      "source": "packs/2026-11-07-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "usage",
+        "honesty",
+        "auth"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-401-retry-refresh-other-sessions-2026-11-07",
+      "date": "2026-11-07",
+      "displayDate": "Nov 7, 2026",
+      "title": "Claude Code 2.1.319: a request that kept 401-failing no longer refreshes login on every retry and 401s other sessions",
+      "href": "https://github.com/anthropics/claude-code/releases/tag/v2.1.319",
+      "why": "Many routine and Dual-LGTM claude -p kicks share one macOS login. On 2.1.221 a single stuck 401 could refresh login on every retry and knock other parallel jobs into 401s, which looks like a fleet-wide auth outage to the watchdog. After upgrade that refresh storm is fixed, so one bad kick is less likely to poison siblings. Distinct from the 11-04 card about signing in again making other jobs exit Not logged in.",
+      "source": "packs/2026-11-07-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "auth",
+        "concurrency",
+        "routines",
+        "watchdog"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "codex-0167-auth-refresh-keyring-2026-11-06",
       "date": "2026-11-06",
