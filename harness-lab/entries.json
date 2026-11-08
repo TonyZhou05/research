@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-08T01:46:57Z",
+  "updatedAt": "2026-11-08T07:21:57Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
@@ -105,7 +105,7 @@
         "Mac CLI",
         "seat rotation"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-p-stops-rewriting-claude-json-2026-11-05",
@@ -189,7 +189,7 @@
         "watchdog",
         "auth"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-auth-login-expires-at-usage-probe-2026-11-04",
@@ -221,7 +221,7 @@
         "watchdog",
         "crash loop"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-p-exit0-lost-transcript-disk-preflight-2026-11-03",
@@ -238,7 +238,7 @@
         "routines",
         "exit codes"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-permissionrequest-hook-allow-ignored-headless-2026-11-02",
