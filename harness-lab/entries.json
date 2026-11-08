@@ -1,8 +1,62 @@
 {
-  "updatedAt": "2026-11-08T01:46:57Z",
+  "updatedAt": "2026-11-08T21:55:10Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "claude-retry-watchdog-needs-outer-timeout-2026-11-08",
+      "date": "2026-11-08",
+      "displayDate": "Nov 8, 2026",
+      "title": "CLAUDE_CODE_RETRY_WATCHDOG \u2014 pair with a hard outer timeout before 2.1.311",
+      "href": "https://github.com/anthropics/claude-code/releases/tag/v2.1.311",
+      "why": "Amends the unattended-seat retry-watchdog card. Release notes for 2.1.311 say that on older versions a request the API marked not to retry could be retried for minutes, or indefinitely in unattended retry mode. On an older seat, pair the env var with a hard outer timeout (or upgrade first) so a routine kick cannot hang until the tmux watchdog notices. appliedToPlaybook false.",
+      "source": "packs/2026-11-08-web-harness-lab-pack",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "retries",
+        "watchdog",
+        "routines",
+        "amendment"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-p-exit0-empty-stdout-startup-failure-2026-11-08",
+      "date": "2026-11-08",
+      "displayDate": "Nov 8, 2026",
+      "title": "claude -p could exit 0 with no output when startup failed (fixed 2.1.314)",
+      "href": "https://github.com/anthropics/claude-code/releases/tag/v2.1.314",
+      "why": "Release notes for 2.1.314 say claude -p used to exit 0 with no output when startup failed. Routine kicks and EM proof that treat exit 0 as success could log a clean run that never happened. On older seats, treat empty stdout or a missing JSON result as failure regardless of exit code. Distinct from the disk-full transcript and API-error cards. appliedToPlaybook false.",
+      "source": "packs/2026-11-08-web-harness-lab-pack",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "exit codes",
+        "EM",
+        "routines",
+        "honesty"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-orphaned-shell-children-on-self-exit-2026-11-08",
+      "date": "2026-11-08",
+      "displayDate": "Nov 8, 2026",
+      "title": "Claude Code 2.1.316 \u2014 shell commands could be left running when Claude exits by itself",
+      "href": "https://github.com/anthropics/claude-code/releases/tag/v2.1.316",
+      "why": "Release notes say Claude Code could leave shell commands running on macOS/Linux when it exits by itself (for example credentials refused). On older seats a tmux pane can stay busy or keep a heartbeat fresh after the agent is gone. Until the seat is upgraded, the watchdog should check for orphaned child processes when the Claude PID is gone instead of trusting pane activity alone. Not reproduced on this seat. appliedToPlaybook false.",
+      "source": "packs/2026-11-08-web-harness-lab-pack",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "tmux",
+        "watchdog",
+        "orphans",
+        "long jobs"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "claude-deny-instead-of-prompting-2026-11-07",
       "date": "2026-11-07",
