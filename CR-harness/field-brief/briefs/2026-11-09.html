@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief deep edition 2026-11-09 — CR-Harness and agent-control scout ideas.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-11-09 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-11-09.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-11-09 · ET</p>
+    <h1>Field Brief — stale instructions hide cost, and intervene with a causal estimate</h1>
+    <p class="lede">Monday edition. Two new watch cards from Friday&rsquo;s later arXiv batch (the Monday announcement is not out yet): coding agents follow stale <code>AGENTS.md</code>/<code>CLAUDE.md</code> guidance and never repair the file, while task success hides extra tool-call cost; and a causal framework for deciding, mid-trajectory, whether an audit or steering intervention is worth it. Three adjacent papers stay as pointers.</p>
+    <p class="zh">十一月九日简报 · 新增两张观察卡片。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-11-06.html">2026-11-06</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout"><strong>Honesty.</strong> Written the morning of 9 Nov 2026 from one light web scout. Friday&rsquo;s morning brief covered the early-November authorization and harness-ablation papers; this edition picks up Friday-announced work that landed after that scout. The Monday arXiv batch had not been announced yet (typically ~3pm ET). I read arXiv abstracts only and quote the authors&rsquo; numbers without re-running them. No cards retired. No <span class="pill">candidate_intent</span> added or dropped. Board: 25 cards (8 candidate_intent + 17 watch), still above the 8&ndash;12 target.</div>
+
+  <section>
+    <h2>1 · Stale instruction files: task success hides documentation-debt interest</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.09802" rel="noopener noreferrer">arXiv:2611.09802</a>. Repository instruction files such as <code>AGENTS.md</code> and <code>CLAUDE.md</code> are read in every coding-agent session. When they fall behind the code they become documentation debt, and the interest is the cost added to every later run. Evaluations that check only task success can miss that cost, so the stale file persists. The authors study three real-world stale instructions from active open-source repositories, each a different kind of guidance: a test command, a code location, and a procedure for adding a component. Agents completed 22 maintenance tasks under three versions of each instruction (left stale, corrected to the current path, and removed), with the code and the task held fixed, and the authors analyze 732 trajectories of two models at the level of individual tool calls. Agents followed stale guidance when it was relevant to their tasks, sometimes even when correct information was available elsewhere. On the stale test command, Claude Sonnet 5.5 needed about two extra tool calls per run &mdash; a third more than with the corrected command; in the other two cases, no difference was detected. Agents generally recovered from the immediate failures, but none repaired the underlying instruction file. Correcting the instructions eliminated operations on obsolete paths; removing them prevented most.</p>
+    <p><strong>For CR:</strong> a win/loss or &ldquo;task passed&rdquo; grade will hide the same tax. ETL should count extra tool calls and obsolete-path operations, not just match outcome. A stale cockpit note or outdated <code>legal_actions</code> comment is a harness defect the agent is unlikely to fix on its own &mdash; pairs with <strong>harness-is-the-model-action-log</strong> (grade the action log) and <strong>arcbench-rules-under-compaction</strong> (keeping a rule in context is not the same as following it).</p>
+  </section>
+
+  <section>
+    <h2>2 · Knowing when to intervene: treat the audit as a causal question</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.09792" rel="noopener noreferrer">arXiv:2611.09792</a>. Static agent benchmarks do not say whether an intervention partway through a trajectory &mdash; verifying the current output or steering the agent, by a human, a costlier model, or slower supervision &mdash; would improve the final outcome. The authors treat that as a causal-inference problem: the effect of intervening depends on the current context and on the agent&rsquo;s future behavior. They present a framework for evaluating the causal effects of randomized interventions inside agent trajectories. From a relatively small dataset of trajectories collected under randomized interventions such as verification or screening, they estimate the dynamic causal effect of a rich class of contextual intervention policies. The same structural parameters can build safety leaderboards that rank the risk of various agentic actions for audit prioritization. Applied to &tau;-bench Retail, ToolSandbox, and ImpossibleBench, intervention effects varied substantially across agent actions and states. The abstract does not report a single headline percentage; the claim is methodological.</p>
+    <p><strong>For CR:</strong> this is the eval question behind the escalate-vs-act gate at <code>decision_point</code>. Does intervening (Jev fallback, dual-LGTM, a human review) improve the match from this state, and which actions are worth the audit budget? Grade intervention policies on their causal effect, not only overall win rate. Pairs with <strong>stepgate-step-level-escalation</strong>, <strong>reflex-jev-selective-control</strong>, and the Jev router shortlist.</p>
+  </section>
+
+  <section>
+    <h2>Pointers (not carded)</h2>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2611.09088" rel="noopener noreferrer">When Routine Operations Break Architectural Pattern Relationships</a> (PatternOps): across five released harnesses, a routine operation (reapplying a plugin or saving an allow rule) silently broke a Guardrail Enforcement Point relationship &mdash; policy stopped evaluating edits while every plugin stayed active, and a prohibited edit executed. Pattern relationships are properties of the running system and its history, not of the source tree. Left as a pointer so the oversized board does not grow a third card today; relevant to how CR should regression-test <code>legal_actions</code> after config changes.</li>
+      <li><a href="https://arxiv.org/abs/2611.09218" rel="noopener noreferrer">BOXBOX</a>: agent-triggered harness revision with kernel-managed hot reload during a long-running software-performance task (PerfRace). Reports Speedup@4h of 1.70&times; vs 1.54&times; for the strongest baseline (Frozen Harness / offline Harness Evolution / Harness Scaling). Overlaps the already-watched <strong>exo-runtime-harness-self-revision</strong> and <strong>kpharness-knowledge-probing-revisions</strong> cards.</li>
+      <li><a href="https://arxiv.org/abs/2611.08946" rel="noopener noreferrer">Flex-RSI</a>: a recursive-self-improvement benchmark in which an executor updates the solution and an improver may revise the harness itself; paired runs show that editing the harness contributes to the gains. Adjacent to BOXBOX / Exo / KPHarness, no new CR experiment.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <ol>
+      <li>Open intent candidates (unchanged): <strong>xiangqibench-closed-loop</strong>, <strong>game-arena-kaggle-harness</strong>, <strong>reflex-jev-selective-control</strong>, <strong>action-class-calibration-gar</strong>, <strong>jev-gameplay-decision-router</strong>, <strong>autoharness-textarena</strong>, <strong>ptcg-bench-harness-ablation</strong>, <strong>adversarial-review-dual-lgtm</strong>.</li>
+      <li>The board is at 25 cards, over the 8&ndash;12 target; retiring older watch cards is left for Tongli.</li>
+    </ol>
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON: <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-11-09 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-11-06.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>

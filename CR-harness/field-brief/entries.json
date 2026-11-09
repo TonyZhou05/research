@@ -1,11 +1,49 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-11-06T10:52:45-05:00",
+  "updatedAt": "2026-11-09T10:40:16-05:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-11-06.html",
+  "briefEdition": "briefs/2026-11-09.html",
   "entries": [
+    {
+      "id": "stale-instruction-files-docs-debt",
+      "title": "Stale instruction files: agents follow outdated AGENTS.md/CLAUDE.md and never repair them, while task success hides the extra tool-call cost",
+      "date": "2026-11-09",
+      "summary": "arXiv:2611.09802. Repository instruction files (AGENTS.md, CLAUDE.md) are read in every coding-agent session; when they fall behind the code they become documentation debt whose interest is paid on every later run. The authors study three real-world stale instructions from active open-source repositories (a test command, a code location, and a procedure for adding a component). Agents completed 22 maintenance tasks under three versions of each instruction (left stale, corrected to the current path, and removed), with code and task held fixed, yielding 732 tool-call-level trajectories from two models. Agents followed stale guidance when it was relevant to the task, sometimes even when correct information was available elsewhere. On the stale test command, Claude Sonnet 5.5 needed about two extra tool calls per run — a third more than with the corrected command; the other two cases showed no detectable difference. Agents generally recovered from the immediate failures, but none repaired the underlying instruction file. Correcting the instructions eliminated operations on obsolete paths; removing them prevented most.",
+      "tags": [
+        "eval",
+        "documentation-debt",
+        "instruction-files",
+        "action_trace",
+        "harness"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.09802"
+      ],
+      "why_it_matters_for_cr": "CR evals that score only match outcome will miss the same hidden cost. ETL should count extra tool calls and obsolete-path operations, not just win/loss — and a stale cockpit or legal_actions note should be treated as a harness defect the agent is unlikely to fix on its own.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "knowing-when-to-intervene-causal",
+      "title": "Knowing when to intervene: estimate the causal effect of mid-trajectory audit or steering, not just end-of-episode scores",
+      "date": "2026-11-09",
+      "summary": "arXiv:2611.09792. Static agent benchmarks do not say whether an audit intervention — verifying the current output or steering the agent, by a human, a costlier model, or slower supervision — would improve the final outcome at a given point in a trajectory. The authors frame that as a causal-inference question and present a framework for evaluating the causal effects of randomized interventions inside agent trajectories. From a relatively small dataset of trajectories collected under randomized interventions such as verification or screening, they estimate the dynamic causal effect of a rich class of contextual intervention policies. The same structural parameters can build safety leaderboards that rank the risk of agentic actions for audit prioritization. Applied to τ-bench Retail, ToolSandbox, and ImpossibleBench, intervention effects varied substantially across agent actions and states. The abstract reports no single headline percentage; the claim is methodological.",
+      "tags": [
+        "eval",
+        "intervention",
+        "causal",
+        "decision_point",
+        "audit"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.09792"
+      ],
+      "why_it_matters_for_cr": "This is the right eval question for CR's escalate-vs-act gate at decision_point: does intervening (Jev fallback, dual-LGTM, human review) improve the match from this state, and which actions are worth the audit budget? Grade intervention policies on causal effect, not only overall win rate.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "acca-assurance-conditioned-authority",
       "title": "ACCA: keep effective authority tied to currently applicable assurance, with epoch-bound stale-action rejection",
