@@ -1,8 +1,25 @@
 {
-  "updatedAt": "2026-11-08T23:14:17Z",
+  "updatedAt": "2026-11-09T21:51:08Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "tmux-38-pane-last-output-time-2026-11-09",
+      "date": "2026-11-09",
+      "displayDate": "Nov 9, 2026",
+      "title": "tmux 3.8 \u2014 pane_last_output_time and pane_output_generation for the watchdog",
+      "href": "https://raw.githubusercontent.com/tmux/tmux/master/CHANGES",
+      "why": "The tmux watchdog decides whether a long CLI job is stalled by comparing heartbeat files and pane captures. tmux 3.8 adds format variables for when a pane last produced output and a counter that changes with output, so the watchdog can read them with tmux display -p instead of diffing capture-pane text, which avoids false stalled verdicts when a screen redraws the same text. On MacBookPro (tmux 3.7b) both print empty, so the Mac needs the 3.8 upgrade first. appliedToPlaybook false.",
+      "source": "packs/2026-11-09-web-harness-lab-pack",
+      "tags": [
+        "tmux",
+        "watchdog",
+        "heartbeats",
+        "long jobs",
+        "upgrade"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "claude-retry-watchdog-needs-outer-timeout-2026-11-08",
       "date": "2026-11-08",
