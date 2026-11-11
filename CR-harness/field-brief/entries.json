@@ -1,11 +1,49 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-11-09T10:40:16-05:00",
+  "updatedAt": "2026-11-10T20:40:48-05:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-11-09.html",
+  "briefEdition": "briefs/2026-11-10.html",
   "entries": [
+    {
+      "id": "value-policy-dissociation-llm-agents",
+      "title": "Value-policy dissociation: LLM agents encode which action is better yet pick the worse one",
+      "date": "2026-11-10",
+      "summary": "arXiv:2611.10457 (submitted 7 Nov 2026). Tests whether bad sequential decisions come from failing to represent consequences or failing to use them. In Qwen2.5-7B-Instruct, Qwen2.5-32B-Instruct and GPT-OSS-20B on a partially observed Grid environment and WebShop, the relative values of candidate actions are linearly decodable from intermediate hidden states, including where the policy prefers a worse action (value-policy dissociation). Direct interventions along the readout direction have limited, inconsistent effects; Natural Value Transport, learned from hidden-state shifts that follow action-value differences, influences action preferences more consistently at later layers. A closed-loop controller using the readout as a sensor and NVT as an actuator improved task outcomes. Abstract only; open-weight models and white-box access.",
+      "tags": [
+        "decision_point",
+        "action-value",
+        "interpretability",
+        "agents",
+        "eval"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.10457"
+      ],
+      "why_it_matters_for_cr": "CR cannot touch hidden states on hosted models, but the finding reframes the decision_point audit: a wrong move is not proof the model did not see the better option. Pair legal_actions logging with an explicit candidate-value readout (a scored menu step) and report cases where the stated value ranks a move above the one taken. It also fits the escalate-vs-act gate: a gap between stated value and chosen action is a cheaper trigger than raw confidence.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "identity-preservation-model-transition-drift",
+      "title": "Model transitions change what an agent actually does, even with identical persona, memory and rules, and verbal compliance hides it",
+      "date": "2026-11-10",
+      "summary": "arXiv:2611.10628 (submitted 7 Nov 2026). Tests the assumption that reloading the same persona, memory and rules onto a new backend model preserves agent behaviour. Across 5,760 compliance-testing runs in 12 regulated domains with three open-weight models, some model transitions produce significant behavioural drift and others do not, even with identical external state. Every model claims full policy compliance, yet actual decisions under pressure differ, and the ordering of most-compliant model can change with the same state. Recommends action-level empirical testing for model transitions. Abstract only; open-weight models, compliance-testing domains rather than games.",
+      "tags": [
+        "model-swap",
+        "regression",
+        "action_trace",
+        "compliance",
+        "eval"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.10628"
+      ],
+      "why_it_matters_for_cr": "CR already argues for reporting model+harness pairs; this is direct evidence that a model upgrade under a frozen harness needs its own action-level regression, and that asking the model whether it follows the rules proves nothing. Same discipline applies to our fleet seats when a CLI model default changes.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "stale-instruction-files-docs-debt",
       "title": "Stale instruction files: agents follow outdated AGENTS.md/CLAUDE.md and never repair them, while task success hides the extra tool-call cost",
