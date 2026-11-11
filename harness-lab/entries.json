@@ -1,8 +1,42 @@
 {
-  "updatedAt": "2026-11-09T21:51:08Z",
+  "updatedAt": "2026-11-11T01:39:31Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "watchdog-functional-liveness-canary-ack-file-2026-11-10",
+      "date": "2026-11-10",
+      "displayDate": "Nov 10, 2026",
+      "title": "Watchdog liveness canary: inject a task that must touch an ack file",
+      "href": "https://matthewrandallsmith.com/loom/",
+      "why": "Our watchdog checks are passive (pane text, heartbeat files, JSONL mtime, process table), so a wedged message pump can look healthy to all of them. A canary sends one line through the same input path as real kicks asking the agent to run one command that touches an ack file, then checks that the file's mtime moved; two consecutive misses justify a non-destructive recycle, and destructive actions still need a definitive positive signal. It certifies the whole path. Needs a dedicated ack path and a dry-run first. Single practitioner write-up, not reproduced here. appliedToPlaybook false.",
+      "source": "packs/2026-11-10-web-harness-lab-pack",
+      "tags": [
+        "watchdog",
+        "canary",
+        "liveness",
+        "tmux",
+        "long jobs"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "launchd-keepalive-tmux-detached-respawn-loop-2026-11-10",
+      "date": "2026-11-10",
+      "displayDate": "Nov 10, 2026",
+      "title": "launchd KeepAlive plus a detached tmux launcher loops; use RunAtLoad and a has-session guard",
+      "href": "https://news.creeta.com/en/claude-code-launchd-tmux-respawn-loop/",
+      "why": "A LaunchAgent that starts a seat with tmux new-session -d under KeepAlive tracks the tmux client, which exits 0 immediately, so launchd relaunches it in a loop until its own throttling slows it. Rule for our plists: launchd only bootstraps (RunAtLoad, no KeepAlive) behind an idempotent tmux has-session guard, and restart policy lives in the watchdog with a restart cap. Cheap lint to add beside the Weekday-spelling lint. Not reproduced on this Mac. appliedToPlaybook false.",
+      "source": "packs/2026-11-10-web-harness-lab-pack",
+      "tags": [
+        "launchd",
+        "tmux",
+        "watchdog",
+        "respawn",
+        "plist lint"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "tmux-38-pane-last-output-time-2026-11-09",
       "date": "2026-11-09",
