@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-11T01:39:31Z",
+  "updatedAt": "2026-11-11T16:58:05Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
@@ -70,7 +70,7 @@
         "routines",
         "amendment"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-p-exit0-empty-stdout-startup-failure-2026-11-08",
@@ -88,7 +88,7 @@
         "routines",
         "honesty"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-orphaned-shell-children-on-self-exit-2026-11-08",
@@ -534,7 +534,7 @@
       "displayDate": "Oct 7, 2026",
       "title": "tmux-resurrect restores seat sessions, layouts and working dirs after a Mac restart, while leaving agent CLIs to the watchdog",
       "href": "https://github.com/tmux-plugins/tmux-resurrect",
-      "why": "The watchdog restarts a dead pane, but nothing rebuilds the seat sessions, windows and working directories after a reboot. tmux-resurrect saves that layout (prefix + Ctrl-s) and restores it (prefix + Ctrl-r), including exact pane layouts. By default it only relaunches a conservative program list (vi, less, top and similar), so claude, codex and muse are not re-run on restore unless added to @resurrect-processes. Leaving them out lets the watchdog start the CLIs with its proof checks instead of a blind double-start. tmux plugins are not installed on the Mac yet, so try it on one seat first.",
+      "why": "The watchdog restarts a dead pane, but nothing rebuilds the seat sessions, windows and working directories after a reboot. tmux-resurrect saves that layout (prefix + Ctrl-s) and restores it (prefix + Ctrl-r), including exact pane layouts. By default it only relaunches a conservative program list (vi, less, top and similar), so claude, codex and muse are not re-run on restore unless added to @resurrect-processes. Leaving them out lets the watchdog start the CLIs with its proof checks instead of a blind double-start. tmux plugins are not installed on the Mac yet, so try it on one seat first. Retired 2026-11-11: unused; not applied to the playbook.",
       "source": "packs/2026-10-07-muse-harness-lab-pack.md",
       "tags": [
         "tmux",
@@ -617,7 +617,7 @@
       "displayDate": "Oct 5, 2026",
       "title": "Codex otel.metrics_exporter defaults to statsig, so set it explicitly in user config",
       "href": "https://developers.openai.com/codex/config-reference",
-      "why": "The config reference lists otel.metrics_exporter as none, statsig, otlp-http, or otlp-grpc, defaulting to statsig, and says a project-local .codex/config.toml can't set otel. For honest usage numbers, each Mac's user-level ~/.codex/config.toml should point Codex metrics at a local collector or turn them off rather than leave the implicit default.",
+      "why": "The config reference lists otel.metrics_exporter as none, statsig, otlp-http, or otlp-grpc, defaulting to statsig, and says a project-local .codex/config.toml can't set otel. For honest usage numbers, each Mac's user-level ~/.codex/config.toml should point Codex metrics at a local collector or turn them off rather than leave the implicit default. Retired 2026-11-11: unused; not applied to the playbook.",
       "source": "packs/2026-10-05-web-harness-lab-pack.md",
       "tags": [
         "usage",
@@ -823,7 +823,7 @@
       "displayDate": "Oct 3, 2026",
       "title": "--exclude-dynamic-system-prompt-sections for multi-machine -p cache",
       "href": "https://code.claude.com/docs/en/cli-reference",
-      "why": "Moves per-machine sections (cwd/env/memory paths/git) out of the system prompt into the first user message so the same scheduled task reuses the prompt cache across Mac/box seats. Only with the default system prompt (ignored with --system-prompt). Pair with --bare on fleet collect/EM kicks. Confirmed in local Claude 2.1.221 --help.",
+      "why": "Moves per-machine sections (cwd/env/memory paths/git) out of the system prompt into the first user message so the same scheduled task reuses the prompt cache across Mac/box seats. Only with the default system prompt (ignored with --system-prompt). Pair with --bare on fleet collect/EM kicks. Confirmed in local Claude 2.1.221 --help. Retired 2026-11-11: unused; not applied to the playbook.",
       "source": "packs/2026-10-03-web-harness-lab-pack.md",
       "tags": [
         "Claude",
@@ -1299,7 +1299,7 @@
       "displayDate": "Sep 24, 2026",
       "title": "Claude gateway \u2014 BASE_URL alone under-counts usage",
       "href": "https://code.claude.com/docs/en/gateways",
-      "why": "Claude Code docs: setting only ANTHROPIC_BASE_URL still uses the saved claude.ai subscription credential, so a usage proxy can silently under-count. Honest fleet metering needs a gateway credential (gateway /login or ANTHROPIC_AUTH_TOKEN for a self-hosted gateway) when routing through a proxy. Lab KEEP for usage-dashboard honesty; no secrets published. appliedToPlaybook false.",
+      "why": "Claude Code docs: setting only ANTHROPIC_BASE_URL still uses the saved claude.ai subscription credential, so a usage proxy can silently under-count. Honest fleet metering needs a gateway credential (gateway /login or ANTHROPIC_AUTH_TOKEN for a self-hosted gateway) when routing through a proxy. Lab KEEP for usage-dashboard honesty; no secrets published. appliedToPlaybook false. Retired 2026-11-11: unused; not applied to the playbook.",
       "source": "packs/2026-09-24-dsh-harness-lab-pack",
       "tags": [
         "usage",
