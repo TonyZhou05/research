@@ -1,11 +1,91 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-11-10T20:40:48-05:00",
+  "updatedAt": "2026-11-15T08:44:01-05:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-11-10.html",
+  "briefEdition": "briefs/2026-11-15.html",
   "entries": [
+    {
+      "id": "so-arena-capability-vs-reliability",
+      "title": "SO-Arena: strong System One accuracy does not mean reliable decisions — option-order flips and missed abstention lag the leaderboard",
+      "date": "2026-11-15",
+      "summary": "arXiv:2611.15777 (submitted 11 Nov 2026; Li, Dong, Feng, Li, Wang). A System One benchmark of 2,919 tasks across 11 domains and five capability families (semantic understanding, knowledge and reasoning, safety and policy compliance, evidence assessment, and agent task completion), mixing 2,300 static decisions with 282 tool-use episodes and 337 text-based web tasks. Besides accuracy, the authors score decision reliability as stability under controlled option-set changes and recognition that no valid option is present when the correct option is removed. Across 21 models, they report that scaling and extra reasoning help unevenly across domains, and that the best-performing System One model ranks only seventh on reliability.",
+      "tags": [
+        "typed-decision",
+        "Jev",
+        "calibration",
+        "eval",
+        "legal-actions"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.15777",
+        "https://lichenlillc.github.io/SO-Arena/",
+        "https://huggingface.co/datasets/SO-Arena/SO-Arena"
+      ],
+      "why_it_matters_for_cr": "CR legal_actions lists have an arbitrary order, and sometimes the right move is to abstain or escalate rather than pick from a bad menu. SO-Arena turns those two properties into a scored reliability axis, separate from task success — a template for logging flip rate under permutation and missing-option recognition at decision_point, next to the IJev card already on the board.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "jev-style-confidence-is-dispersion",
+      "title": "Jev-style confidence is a dispersion formula, not accuracy — and bundling questions or permuting options can flip the answer",
+      "date": "2026-11-15",
+      "summary": "arXiv:2611.12521 (submitted 9 Nov 2026; Delaunay). An open, deterministic audit of five open-weight System 1 models (0.8B to 27B) plus generative System 2 baselines. The authors report that the provider confidence field is an exact closed-form dispersion transform (1−H(p)/ln K on sub-10B models, and normalized margin on Clef-27B) rather than empirical accuracy. Bundling multiple questions in one request caused directional cross-question interference (11.7%–22.4% binary flips on Tev1-0.8B, versus 0.1%–0.2% on Tev1-4B). Models with at least 4B parameters were faster and better calibrated under adversarial syntactic shifts (ECE_w 0.030–0.087) than single-token log-probability (ECE_w 0.144) and structured JSON (ECE_w 0.378) System 2 baselines. For an inline prompt-injection guardrail task (N=250), they report 0.988–0.998 AUROC and up to 95.2% recall with 0.0% false alarms on standard and hard benign queries at 48–60 ms. Code is public.",
+      "tags": [
+        "Jev",
+        "confidence-gate",
+        "calibration",
+        "typed-decision",
+        "eval"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.12521",
+        "https://github.com/j2launay/jev-decision-models-xai"
+      ],
+      "why_it_matters_for_cr": "CR already gates on a Jev confidence_floor. If the provider confidence field is normalized entropy, not P(correct), the floor should be set and reported against max probability or a calibrated score, not the raw field. Isolated (not bundled) questions at decision_point, and a permutation flip-rate check, belong in the eval next to the IJev card.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "s1-evo-evidence-competition-attacks",
+      "title": "S1-Evo: untrusted context can flip typed System-1 choices, including through the confidence gate, and some flips become end-to-end agent violations",
+      "date": "2026-11-15",
+      "summary": "arXiv:2611.16937 (submitted 12 Nov 2026; Wang, Li, Zhou, Lou, Li). The authors argue that attacks built for token-by-token System-2 models mismatch typed System-1 interfaces, which score rules and options in one pass and often sit behind a confidence gate. S1-Evo perturbs untrusted fields to induce evidence competition with the original task evidence, distills verified flips from seed tasks into experience cards, and retrieves them at test time. Across four benchmarks and three S1 models, they report 71.99% mean attack success and 57.47% high-confidence attack success on jev-1.14, and up to 24.00% end-to-end agent violations.",
+      "tags": [
+        "Jev",
+        "typed-decision",
+        "confidence-gate",
+        "security",
+        "harness"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.16937"
+      ],
+      "why_it_matters_for_cr": "If CR puts Jev or another typed gate on decision_point, the legal_actions menu and rules are not the only inputs that matter: an untrusted observation, tool return, or note can move both the choice and the confidence over the floor. Treat those fields as an attack surface in ETL, and score high-confidence flips, not only raw accuracy.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "mmdm-multitask-decision-making",
+      "title": "MMDM: System-1 models handle knowledge items better than option-logic, constraints, and complete multi-select recovery",
+      "date": "2026-11-15",
+      "summary": "arXiv:2611.14309 (submitted 10 Nov 2026; Shen, Zong, Guo, Zhang, Guo, Cheng). A 5,448-question System-1 benchmark across 16 task categories, with single-select, multi-select, and soft-label items, option spaces from 2 to 1,024, and inputs up to 64,817 tokens, including agent state tracking and tool/skill selection. Evaluating 28 decision models, the authors report that models can do well on common knowledge yet struggle with interdependent options, constrained decisions, and multi-select completeness: Perplexity Decider-V1.2 reaches 78.75% Hard Single-select accuracy on world knowledge but only 53.95% on option logic and 47.95% on constraint planning, and the best Hard Multi-select accuracy across all models is 36.81%. Dataset and toolkit are public.",
+      "tags": [
+        "typed-decision",
+        "eval",
+        "legal-actions",
+        "tool-selection",
+        "Jev"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.14309",
+        "https://mmdm-benchmark.github.io/"
+      ],
+      "why_it_matters_for_cr": "CR legal_actions can be a large menu with constraints (elixir, cycle, already-played). Multi-select completeness (every legal or every useful action, not just the top one) and constraint-aware choice are the hard parts of a typed menu. MMDM is a public yardstick for those failure modes, next to SO-Arena's reliability axis.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "value-policy-dissociation-llm-agents",
       "title": "Value-policy dissociation: LLM agents encode which action is better yet pick the worse one",

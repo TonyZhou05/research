@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief catch-up edition 2026-11-15 — CR-Harness and agent-control scout ideas, covering the Nov 11–13 gap.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-11-15 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-11-15.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-11-15 · ET</p>
+    <h1>Field Brief — System One reliability, confidence that is not accuracy, and attacks that clear the gate</h1>
+    <p class="lede">Sunday catch-up edition covering the missed weekday slots of 11–13 Nov (no per-day backfill). Four new watch cards from public arXiv in the gap after the 10 Nov edition: a System One benchmark that splits capability from reliability, an audit showing Jev-style confidence is a dispersion formula, an attack that flips typed decisions through the confidence gate, and a large multitask decision-model eval whose hardest items are option logic, constraints, and complete multi-select.</p>
+    <p class="zh">十一月十五日补发简报 · 覆盖十一至十三日缺口 · 新增四张观察卡片。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-11-10.html">2026-11-10</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout"><strong>Honesty.</strong> The 11–13 Nov morning slots were missed because the Mac was offline; Manage asked for one fresh edition covering the gap, not a backfill of each day. This scout used public arXiv abstracts (and selected HTML sections) for items submitted about 8–12 Nov, including cs.LG / cs.CL as well as cs.AI — two of the cards (2611.12521, 2611.14309) were submitted on 9–10 Nov but would have been easy to miss in a cs.AI-only pass. I quote the authors&rsquo; numbers without re-running them. No cards retired. No <span class="pill">candidate_intent</span> added or dropped. Board: 31 cards (8 candidate_intent + 23 watch), still above the 8&ndash;12 target; retiring older watch cards is left for Tongli.</div>
+
+  <section>
+    <h2>1 · SO-Arena: strong System One accuracy does not mean reliable decisions</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.15777" rel="noopener noreferrer">arXiv:2611.15777</a> (submitted 11 Nov 2026; Li, Dong, Feng, Li, Wang). The authors introduce SO-Arena, a System One benchmark of 2,919 tasks across 11 domains and five capability families, mixing 2,300 static decisions with 282 tool-use episodes in native simulators and 337 text-based web tasks. Besides accuracy, they score decision reliability in two ways: whether the decision stays stable when the option set is changed in a controlled way (including reordering), and whether the model recognizes that no valid option is present when the correct option is removed. Across 21 models, they report that the gains from scaling and extra reasoning vary a lot by domain, and — more to the point for a typed menu — that the best-performing System One model ranks only seventh on reliability. A public site and dataset accompany the paper.</p>
+    <p><strong>For CR:</strong> <code>legal_actions</code> lists have an arbitrary order, and sometimes the right move is to abstain or escalate rather than pick from a bad menu. SO-Arena turns those two properties into a scored reliability axis, separate from task success. That is a template for logging permutation flip rate and missing-option recognition at <code>decision_point</code>, next to the IJev card already on the board.</p>
+    <p><strong>Suggested next step:</strong> On a fixed set of saved CR decision points, permute the legal-action list and also drop the chosen action from the menu; report flip rate and whether the model abstains or invents when no good option remains.</p>
+  </section>
+
+  <section>
+    <h2>2 · Jev-style confidence is a dispersion formula, not accuracy</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.12521" rel="noopener noreferrer">arXiv:2611.12521</a> (submitted 9 Nov 2026; Delaunay). An open audit of five open-weight System 1 models (0.8B to 27B) plus generative System 2 baselines. The authors report that the provider <code>confidence</code> field is an exact closed-form dispersion transform — one minus normalized Shannon entropy on the sub-10B models, and a normalized margin on Clef-27B — rather than empirical accuracy. Bundling several questions in one request caused directional cross-question interference (11.7%–22.4% binary flips on Tev1-0.8B, versus 0.1%–0.2% on Tev1-4B). In the paper body, permuting the option list caused 11.1% flips on Tev1-0.8B and 2.9% on Tev1-4B. Models with at least 4B parameters were faster and better calibrated under adversarial syntactic shifts (ECE<sub>w</sub> 0.030–0.087) than single-token log-probability (0.144) and structured JSON (0.378) System 2 baselines. Code is at <a href="https://github.com/j2launay/jev-decision-models-xai" rel="noopener noreferrer">j2launay/jev-decision-models-xai</a>.</p>
+    <p><strong>For CR:</strong> The fleet already gates on a Jev <code>confidence_floor</code>. If that field is normalized entropy, not P(correct), the floor should be set and reported against max probability or a calibrated score, not the raw provider number. Isolated (not bundled) questions at <code>decision_point</code>, and a permutation flip-rate check, belong in the eval next to IJev.</p>
+    <p><strong>Suggested next step:</strong> Log both provider confidence and max probability on CR decision points, and compare which one better ranks correct versus incorrect choices before touching the floor.</p>
+  </section>
+
+  <section>
+    <h2>3 · S1-Evo: untrusted context can flip typed System-1 choices, including through the confidence gate</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.16937" rel="noopener noreferrer">arXiv:2611.16937</a> (submitted 12 Nov 2026; Wang, Li, Zhou, Lou, Li). The authors argue that attacks written for token-by-token System-2 models do not match typed System-1 interfaces, which score rules and options in one pass and often sit behind a confidence gate. S1-Evo perturbs untrusted fields so that injected evidence competes with the original task evidence, distills verified flips from seed tasks into experience cards, and retrieves them at test time. Across four benchmarks and three S1 models, they report 71.99% mean attack success and 57.47% high-confidence attack success on jev-1.14, and up to 24.00% end-to-end agent violations in two dual-system workflows.</p>
+    <p><strong>For CR:</strong> If Jev or another typed gate sits on <code>decision_point</code>, the legal menu and rules are not the only inputs that matter. An untrusted observation, tool return, or note can move both the choice and the confidence over the floor. Treat those fields as an attack surface in ETL, and score high-confidence flips, not only raw accuracy.</p>
+    <p><strong>Suggested next step:</strong> In replay, append a short untrusted note to otherwise clean observations and count how often the gated choice changes while reported confidence stays above the floor. No need to reproduce the authors&rsquo; search procedure.</p>
+  </section>
+
+  <section>
+    <h2>4 · MMDM: knowledge is easier than option logic, constraints, and complete multi-select</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.14309" rel="noopener noreferrer">arXiv:2611.14309</a> (submitted 10 Nov 2026; Shen, Zong, Guo, Zhang, Guo, Cheng). MMDM is a 5,448-question System-1 benchmark across 16 task categories, with single-select, multi-select, and soft-label items, option spaces from 2 to 1,024, and inputs up to 64,817 tokens, including agent state tracking and tool/skill selection. Evaluating 28 decision models, the authors report that models can do well on common knowledge yet struggle with interdependent options, constrained decisions, and recovering a complete valid set: Perplexity Decider-V1.2 reaches 78.75% Hard Single-select accuracy on world knowledge but only 53.95% on option logic and 47.95% on constraint planning, and the best Hard Multi-select accuracy across all models is 36.81%. The dataset and toolkit are public at <a href="https://mmdm-benchmark.github.io/" rel="noopener noreferrer">mmdm-benchmark.github.io</a>.</p>
+    <p><strong>For CR:</strong> A <code>legal_actions</code> menu can be large and constrained (elixir, cycle, already-played). Picking the single top action is not the same as recovering every legal or every useful one, or checking that a plan still satisfies the constraints. MMDM is a public yardstick for those failure modes, next to SO-Arena&rsquo;s reliability axis.</p>
+    <p><strong>Suggested next step:</strong> When a CR state has several jointly legal useful actions, score whether a typed selector ranks all of them above the illegal or dominated ones, not only whether argmax is a legal move.</p>
+  </section>
+
+  <section>
+    <h2>Also seen (not carded)</h2>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2611.11499" rel="noopener noreferrer">JoMoHa</a> (submitted 8 Nov 2026): joint RL of a task model and an executable harness-generation policy; the authors say naive alternating training produces progressive model–harness incompatibility. Adjacent to the Exo / KPHarness self-revision cards.</li>
+      <li><a href="https://arxiv.org/abs/2611.12300" rel="noopener noreferrer">Reconfigurable Action Theories</a> (submitted 9 Nov 2026): a formal language in which loading or unloading harness modules is itself an action. Theory-heavy; useful later if CR starts swapping tool or rule modules mid-match.</li>
+      <li><a href="https://arxiv.org/abs/2610.21412" rel="noopener noreferrer">JevAgentHarness</a> (submitted 15 Oct 2026, older than this window and missed earlier): a confidence-threshold cascade that delegates routine tool choices to a decision model and falls back to the LLM below the threshold. Pairs with the REFLEX / Jev router cards; not added this edition because it sits outside the catch-up window.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <ol>
+      <li>Open intent candidates (unchanged): <strong>xiangqibench-closed-loop</strong>, <strong>game-arena-kaggle-harness</strong>, <strong>reflex-jev-selective-control</strong>, <strong>action-class-calibration-gar</strong>, <strong>jev-gameplay-decision-router</strong>, <strong>autoharness-textarena</strong>, <strong>ptcg-bench-harness-ablation</strong>, <strong>adversarial-review-dual-lgtm</strong>.</li>
+    </ol>
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON: <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-11-15 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-11-10.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>
