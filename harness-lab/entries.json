@@ -1,8 +1,81 @@
 {
-  "updatedAt": "2026-11-11T16:58:05Z",
+  "updatedAt": "2026-11-15T13:43:12Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "codex-0169-exec-untrusted-dir-requires-trust-2026-11-15",
+      "date": "2026-11-15",
+      "displayDate": "Nov 15, 2026",
+      "title": "Codex 0.169.0 \u2014 codex exec keeps project config and MCP disabled in untrusted directories even with workspace-write",
+      "href": "https://github.com/openai/codex/releases/tag/rust-v0.169.0",
+      "why": "Unattended Codex seats use codex exec. After an upgrade to 0.169.0, project configuration and MCP servers stay disabled in a directory that is not already trusted, even when the kick passes --sandbox workspace-write. A kick that relied on project MCP or config would silently run without them. Before upgrading, mark the seat directories trusted or pass --trust on codex exec or codex review so project trust is saved explicitly. Mac seat is still on 0.156.1. Not reproduced on this seat. appliedToPlaybook false.",
+      "source": "packs/2026-11-15-web-harness-lab-pack",
+      "tags": [
+        "Mac CLI",
+        "Codex",
+        "exec",
+        "trust",
+        "MCP",
+        "unattended",
+        "upgrade"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-p-silent-model-switch-text-output-2026-11-15",
+      "date": "2026-11-15",
+      "displayDate": "Nov 15, 2026",
+      "title": "Claude Code 2.1.323 \u2014 claude -p could silently use another model in text output when settings blocked the requested one",
+      "href": "https://code.claude.com/docs/en/changelog",
+      "why": "Usage notes and EM proof treat the requested model as the one that ran. On 2.1.221, text-output claude -p can switch to another model with no warning when settings block the requested one, so a PROXY or run note would attribute tokens to the wrong model. After upgrade it warns on stderr. Until then, read the model actually used from the JSON or result metadata, not from the kick's --model flag alone. Not reproduced on this seat. appliedToPlaybook false.",
+      "source": "packs/2026-11-15-web-harness-lab-pack",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "usage",
+        "honesty",
+        "EM",
+        "unattended"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-p-hook-progress-heartbeat-30s-2026-11-15",
+      "date": "2026-11-15",
+      "displayDate": "Nov 15, 2026",
+      "title": "Claude Code 2.1.323 \u2014 progress heartbeat every 30s while hooks run long in claude -p",
+      "href": "https://code.claude.com/docs/en/changelog",
+      "why": "Routine kicks and EM proof run unattended claude -p on the Mac, and a long PreToolUse or PostToolUse hook can leave the pane and heartbeat file quiet long enough for the tmux watchdog to treat the turn as hung. 2.1.323 emits a progress heartbeat every 30 seconds while hooks run long in claude -p and SDK sessions, so a host will not end the turn as hung. Until the seat is upgraded from 2.1.221, a long hook with no pane output should not be enough on its own to recycle the seat. Not reproduced on this seat. appliedToPlaybook false.",
+      "source": "packs/2026-11-15-web-harness-lab-pack",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "hooks",
+        "heartbeat",
+        "watchdog",
+        "unattended"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-auth-status-short-command-lock-hang-2026-11-15",
+      "date": "2026-11-15",
+      "displayDate": "Nov 15, 2026",
+      "title": "Claude Code 2.1.325 \u2014 claude auth status and other short commands could leave a lock that hung the next session",
+      "href": "https://code.claude.com/docs/en/changelog",
+      "why": "The usage probe and other short CLI checks can run claude auth status just before a claude -p kick. On 2.1.221, that short command can leave a lock behind on a Console profile and make the next session hang for about a minute, which looks like a stalled kick to the watchdog and delays the routine. Until upgrade, do not run those short commands immediately before a claude -p kick, or allow about a minute before treating the hang as a stall. Whether the fleet usage probe currently calls claude auth status was not checked on this run. appliedToPlaybook false.",
+      "source": "packs/2026-11-15-web-harness-lab-pack",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "usage",
+        "locks",
+        "watchdog",
+        "unattended"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "watchdog-functional-liveness-canary-ack-file-2026-11-10",
       "date": "2026-11-10",
