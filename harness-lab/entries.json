@@ -1,8 +1,65 @@
 {
-  "updatedAt": "2026-11-15T13:43:12Z",
+  "updatedAt": "2026-11-18T23:48:03Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "claude-p-settings-fetch-stall-hang-2026-11-18",
+      "date": "2026-11-18",
+      "displayDate": "Nov 18, 2026",
+      "title": "Claude Code 2.1.327 \u2014 claude -p could hang before its first request when the fetch of a model's settings stalled",
+      "href": "https://code.claude.com/docs/en/changelog",
+      "why": "Unattended routine and EM kicks use claude -p on the Mac. On 2.1.221, a stalled fetch of model settings (for example at a proxy) can hang the kick before any model request, so the pane and log stay quiet and the tmux watchdog can treat a settings-fetch stall as a hung turn. After 2.1.327 it goes on without those settings after 10 seconds. Until the seat is upgraded, a claude -p kick with no first request should not be recycled on silence alone if a settings fetch could still be waiting; after upgrade, 10 seconds plus the usual log/process checks is enough.",
+      "source": "packs/2026-11-18-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "claude -p",
+        "settings",
+        "hang",
+        "watchdog",
+        "unattended",
+        "upgrade"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-headless-resume-same-uuid-message-loss-2026-11-18",
+      "date": "2026-11-18",
+      "displayDate": "Nov 18, 2026",
+      "title": "Claude Code 2.1.327 \u2014 headless sessions could lose stored messages on resume when a message was sent again with the same UUID after the process was killed",
+      "href": "https://code.claude.com/docs/en/changelog",
+      "why": "A watchdog or outer timeout can kill a stuck claude -p / headless process and retry. On 2.1.221, if the retry resends a message with the same UUID, a resume can drop stored messages, so the follow-up turn looks like a clean start and the lost work is invisible in the transcript the watchdog later scans. After 2.1.327 that path is fixed. Until upgrade, a killed headless retry should use a fresh message id (or a fresh session) rather than resending the same UUID.",
+      "source": "packs/2026-11-18-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "headless",
+        "resume",
+        "watchdog",
+        "unattended",
+        "upgrade"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-allowedtools-incomplete-rule-warning-2026-11-18",
+      "date": "2026-11-18",
+      "displayDate": "Nov 18, 2026",
+      "title": "Claude Code 2.1.326 \u2014 startup warning when an --allowedTools, --disallowedTools or --tools value has an entry that doesn't look like a complete rule",
+      "href": "https://code.claude.com/docs/en/changelog",
+      "why": "Scripted claude -p kicks already pass explicit --allowedTools / --disallowedTools. On 2.1.221, an incomplete rule can be accepted with no warning, so a kick may run with a weaker allow/deny set than the script meant. After 2.1.326, start-up warns when an entry doesn't look like a complete rule. Until upgrade, treat those flags as easy to typo silently; after upgrade, fail the kick if that warning appears.",
+      "source": "packs/2026-11-18-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "allowedTools",
+        "settings",
+        "unattended",
+        "upgrade"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "codex-0169-exec-untrusted-dir-requires-trust-2026-11-15",
       "date": "2026-11-15",
