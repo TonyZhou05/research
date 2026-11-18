@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief edition 2026-11-18 — CR-Harness and agent-control scout ideas, covering the Nov 16–18 Mac-offline gap.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-11-18 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-11-18.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-11-18 · ET</p>
+    <h1>Field Brief — harness invariants, approval that must complete, and safety harnesses that evolve under fire</h1>
+    <p class="lede">Wednesday catch-up edition covering the missed slots of 16–18 Nov (no per-day backfill). Four new watch cards from public arXiv after the 15 Nov edition: a catalogue of harness decisions written as testable invariants, an audit that treats human approval as refusal safety plus authorization completeness, a unifying framework for self-improving harnesses, and a staged method that evolves an executable safety harness against adaptive injection attacks.</p>
+    <p class="zh">十一月十八日补发简报 · 覆盖十六至十八日缺口 · 新增四张观察卡片。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-11-15.html">2026-11-15</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout"><strong>Honesty.</strong> The 16–18 Nov morning slots were missed because the Mac was offline; one fresh edition for today covers the gap, with no backfill of fake dates. This scout used public arXiv abstracts. Two of the cards were submitted just before or on the morning of the 15 Nov edition and were missed then: <em>Anatomy of an Agent Harness</em> (2611.19960, 15 Nov 07:05 ET) and <em>Auditable Authorization</em> (2611.19237, 14 Nov). I quote the authors&rsquo; numbers without re-running them. No cards retired. No <span class="pill">candidate_intent</span> added or dropped. Board: 35 cards (8 candidate_intent + 27 watch), still above the 8&ndash;12 target; retiring older watch cards is left for Tongli.</div>
+
+  <section>
+    <h2>1 · Anatomy of an Agent Harness: write the hidden decisions down as invariants to test</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.19960" rel="noopener noreferrer">arXiv:2611.19960</a> (submitted 15 Nov 2026; Joshi). The author treats a harness as the program around a language model that builds each request, runs the tools the model asks for, decides what the model may do without asking, stores the conversation, recovers from failures, and shows a person what happened. Most of those choices live in code and are rarely written down, so every harness meets the same corner cases again. The paper records them as invariants: a system model with trust boundaries; 30 decision cards in six groups, each with options and costs, an invariant, the corner cases that break it, a test, and an evidence tag; six cause classes for failures; a test method built on scripted providers, recorded behaviour, and planted changes; and a checklist. The cards come from one desktop harness (Crewroom, the author&rsquo;s own), manual tests of ten other harnesses, and open-source harnesses used as reference; some patterns were adopted from those, so the catalogue is not independent of them. Of 83 invariant clauses, 56 are tagged Tested, 12 Believed, and 15 Open. Applied by the builder, with no second rater, to that same harness as a worked example: of 30 items, 11 hold, 14 do not, and 5 were not tested. The paper makes no claims about answer quality, cost, or other platforms, and does not rank other harnesses.</p>
+    <p><strong>For CR:</strong> CR already treats <code>legal_actions</code>, frozen state, and replayable records as contract, but many neighbouring decisions (who may act without asking, how a failed tool call is retried, what is shown versus what ran) still live in code. This catalogue is a checklist for those corners, not a leaderboard.</p>
+    <p><strong>Suggested next step:</strong> Map the 30 cards onto the CR runtime, mark which invariants are already tested in replay, and add a test for the first Open or untested clause that touches approval, retry, or visible-versus-executed state.</p>
+  </section>
+
+  <section>
+    <h2>2 · Auditable authorization: rejected work must stop, and approved work must finish</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.19237" rel="noopener noreferrer">arXiv:2611.19237</a> (submitted 14 Nov 2026; Deng, Lu, Chen, Wen, Wang, Meng, Yu, Liang, Han, Hong, Yu). The authors argue that a visible human approval is control only if rejected work stops and authorized work completes. They formalize refusal safety and bounded authorization completeness, and audit three execution boundaries: the model selects a call, the harness schedules and resumes it, and the workflow routes the decision to a protected effect. Experiments use three models, five prompt arms, four runtime approval designs, two additional framework replays, and 100 public workflow sources, with paired decisions, exact traces, and native business-state witnesses. They report that the paired model panel leaves seven of 300 approvals unfinished despite zero denied effects; parallel confirmation loses an approved branch in three tasks per model; restoration omits 336 of 672 CrewAI approvals; and four of 59 comparable n8n workflows execute after Reject. Comparing intent, generated calls, dispatch, and native effects identifies the first observable divergence and its repair target.</p>
+    <p><strong>For CR:</strong> Dual-LGTM and other human gates on irreversible or out-of-contract actions are not enough unless the runtime can prove both sides: a Reject never reaches the engine, and an Approve is actually applied (or is still on a pending-work ledger). A paired decision plus a native-state witness is the audit contract, not a checkbox in the transcript.</p>
+    <p><strong>Suggested next step:</strong> On saved CR traces that went through a human or policy gate, join intent, dispatched action, and engine state, and count Approves that never took effect and Rejects that still did.</p>
+  </section>
+
+  <section>
+    <h2>3 · Harnesses that improve themselves: modular, gated updates beat a full rewrite</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.22299" rel="noopener noreferrer">arXiv:2611.22299</a> (submitted 17 Nov 2026; Shah, Kathrotia). The authors treat the agent harness — context and memory, multi-turn control, sandboxed tool actions, and pre-stop verification — as the runtime that often decides whether a model succeeds. They present a unifying framework that pairs four editable runtime components (context and state, agent control, action interfaces, and verification and recovery) with a four-stage loop that diagnoses failures, proposes code patches, validates candidates, and deploys updates. They argue that full-harness rewrites overfit or break across modules, while modular updates with validation gates generalize across models and bound token cost, and they list defenses against prompt bloat, benchmark gaming, and evaluator tampering. Experiments on SWE-bench Lite are reported as showing that gated modular evolution outperforms prompt reflection and full-harness rewrites across models and repositories at a fraction of the token cost; the abstract does not give numerical scores, and none are invented here.</p>
+    <p><strong>For CR:</strong> This sits next to the Masked Erosion and AutoHarness cards already on the board. A self-revision loop that can rewrite legality or guard code needs frozen guard text and an acceptance gate that is not task success alone. Modular patches with a validation gate are the safer shape if CR ever lets a harness rewrite itself.</p>
+    <p><strong>Suggested next step:</strong> If a CR self-revision trial is run, restrict patches to one of the four component surfaces, keep guard rules frozen, and accept a candidate only when a held-out replay (including a weaker model) does not drop legality checks.</p>
+  </section>
+
+  <section>
+    <h2>4 · Evolution Under Fire: evolve the safety harness against adaptive injection, not a static list of rules</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.22583" rel="noopener noreferrer">arXiv:2611.22583</a> (submitted 17 Nov 2026; Wang, Liu, Bi, Nakka, Zhou, Sch&uuml;tze, Ma). Tool-using agents read untrusted emails, pages, and documents, so malicious instructions and the real task arrive on the same channel. The authors introduce Evolution Under Fire, which evolves a complete executable safety harness from execution evidence with a utility-constrained, Pareto-scheduled tree search, while keeping the task model, benchmark, tools, and evaluator fixed, then evolves adaptive stressors that guide a later harness stage. On AgentDyn with GPT-4o-mini, an evolved harness is reported to cut attack success from 50.4% to 3.0%, improving clean and attacked utility over the initial harness and beating reproduced defenses on the security&ndash;utility trade-off. On Agent-SafetyBench with Qwen2.5-7B-Instruct, harness evolution cuts attack success from 82.6% to 62.0% while retaining helpfulness and runtime validity. Evolved harnesses also transfer without further evolution to Qwen3.5-35B-A3B, cutting attack success from 32.1% to 0.9% while improving attacked-task utility.</p>
+    <p><strong>For CR:</strong> The 15 Nov S1-Evo card showed that untrusted observations can flip a typed, confidence-gated choice. This paper is the complementary harness-side move: treat the safety layer as something that should be improved against adaptive attacks, with utility held in the loop, rather than as a frozen list of filters. Any such evolution still needs a gate that cannot silently delete a legality check (see Masked Erosion).</p>
+    <p><strong>Suggested next step:</strong> In replay, attach a short untrusted observation (as in the S1-Evo next step) and score both attack success and task utility before and after any candidate safety-harness patch; do not accept a patch that raises utility by weakening a legality or abstain rule.</p>
+  </section>
+
+  <section>
+    <h2>Also seen (not carded)</h2>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2611.22991" rel="noopener noreferrer">RagHarnessDebugger</a> (submitted 17 Nov 2026): a Jev-guided harness that records every repair decision on ContractNLI and audits missed repairs; the authors report policy-acceptance gaps of 77% and 76% of available but unrealised repairs, and a revised harness that improved accuracy 3.6 / 3.7 points over a BM25-only baseline. Adjacent to the Jev router and decision-record cards; not added this edition to keep the deep set at four.</li>
+      <li><a href="https://arxiv.org/abs/2611.21688" rel="noopener noreferrer">DeltaHarness</a> (submitted 16 Nov 2026): execution-guided policy search that adapts a tool-execution harness from cold-start measurements; latency gains are reported on a video-editing task. Weaker CR fit than the four cards above.</li>
+      <li><a href="https://arxiv.org/abs/2611.20670" rel="noopener noreferrer">Who Bears the Excess?</a> (submitted 16 Nov 2026): a legal imputation rule for when an agent leaves its documented authority perimeter. Useful context for the delegation record, not a CR eval design.</li>
+      <li><a href="https://arxiv.org/abs/2611.15006" rel="noopener noreferrer">EvoX</a> (submitted 11 Nov 2026, just before the 15 Nov window): treats the harness as an operational policy with action realization, execution continuity, and outcome grounding; 56.2% success on 691 common task&ndash;model pairs, about 3.0 points above the average of five other harnesses. Noted now rather than backfilled.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <ol>
+      <li>Open intent candidates (unchanged): <strong>xiangqibench-closed-loop</strong>, <strong>game-arena-kaggle-harness</strong>, <strong>reflex-jev-selective-control</strong>, <strong>action-class-calibration-gar</strong>, <strong>jev-gameplay-decision-router</strong>, <strong>autoharness-textarena</strong>, <strong>ptcg-bench-harness-ablation</strong>, <strong>adversarial-review-dual-lgtm</strong>.</li>
+    </ol>
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON: <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-11-15 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-11-10.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>

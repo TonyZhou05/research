@@ -1,11 +1,87 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-11-15T08:44:01-05:00",
+  "updatedAt": "2026-11-18T18:48:54-05:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-11-15.html",
+  "briefEdition": "briefs/2026-11-18.html",
   "entries": [
+    {
+      "id": "anatomy-agent-harness-invariants",
+      "title": "Anatomy of an Agent Harness: write hidden harness decisions down as invariants to test",
+      "date": "2026-11-18",
+      "summary": "arXiv:2611.19960 (submitted 15 Nov 2026; Joshi). A catalogue of harness decisions — building each request, running tools, deciding what the model may do without asking, storing the conversation, recovering from failures, and showing a person what happened — written as invariants to test. It gives a system model with trust boundaries; 30 decision cards in six groups, each with options and costs, an invariant, corner cases, a test and an evidence tag; six cause classes; a test method on scripted providers, recorded behaviour and planted changes; and a checklist. Of 83 invariant clauses, 56 are tagged Tested, 12 Believed and 15 Open. Applied by the builder, with no second rater, to the author's Crewroom harness: of 30 items, 11 hold, 14 do not and 5 were not tested. The paper does not rank other harnesses or claim answer quality or cost.",
+      "tags": [
+        "harness",
+        "invariants",
+        "eval",
+        "legal_actions",
+        "approval"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.19960"
+      ],
+      "why_it_matters_for_cr": "CR already treats legal_actions, frozen state, and replayable records as contract, but neighbouring decisions (who may act without asking, how a failed tool is retried, what is shown versus what ran) still live in code. This catalogue is a checklist for those corners, not a leaderboard.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "auditable-authorization-refusal-completeness",
+      "title": "Auditable authorization: rejected work must stop, and approved work must finish, across model, harness, and workflow",
+      "date": "2026-11-18",
+      "summary": "arXiv:2611.19237 (submitted 14 Nov 2026; Deng, Lu, Chen, Wen, Wang, Meng, Yu, Liang, Han, Hong, Yu). Formalizes refusal safety and bounded authorization completeness, and audits three execution boundaries: the model selects a call, the harness schedules and resumes it, and the workflow routes the decision to a protected effect. Experiments use three models, five prompt arms, four runtime approval designs, two additional framework replays, and 100 public workflow sources. The paired model panel leaves seven of 300 approvals unfinished despite zero denied effects; parallel confirmation loses an approved branch in three tasks per model; restoration omits 336/672 CrewAI approvals; and four of 59 comparable n8n workflows execute after Reject.",
+      "tags": [
+        "harness",
+        "approval",
+        "audit",
+        "legal_actions",
+        "eval"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.19237"
+      ],
+      "why_it_matters_for_cr": "Human or policy gates on irreversible or out-of-contract CR actions are not enough unless the runtime can prove both sides: a Reject never reaches the engine, and an Approve is actually applied or remains on a pending-work ledger. A paired decision plus a native-state witness is the audit contract, not a checkbox in the transcript.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "self-improving-harness-framework",
+      "title": "Harnesses that improve themselves: a unifying framework with modular, gated updates rather than a full rewrite",
+      "date": "2026-11-18",
+      "summary": "arXiv:2611.22299 (submitted 17 Nov 2026; Shah, Kathrotia). A unifying architectural framework for self-improving agent harnesses, pairing four editable runtime components (context and state, agent control, action interfaces, and verification and recovery) with a four-stage loop that diagnoses failures, proposes code patches, validates candidates, and deploys updates. The authors argue that full-harness rewrites overfit or break across modules, while modular updates with validation gates generalize across models and bound token cost, and they describe defenses against prompt bloat, benchmark gaming, and evaluator tampering. Experiments on SWE-bench Lite are reported as showing that gated modular evolution outperforms prompt reflection and full-harness rewrites at a fraction of the token cost; the abstract does not give numerical scores.",
+      "tags": [
+        "harness",
+        "self-improvement",
+        "acceptance-gate",
+        "review",
+        "eval"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.22299"
+      ],
+      "why_it_matters_for_cr": "Sits next to the Masked Erosion and AutoHarness cards. A self-revision loop that can rewrite legality or guard code needs frozen guard text and an acceptance gate that is not task success alone. Modular patches with a validation gate are the safer shape if CR ever lets a harness rewrite itself.",
+      "status": "watch",
+      "thin": false
+    },
+    {
+      "id": "evolution-under-fire-safety-harness",
+      "title": "Evolution Under Fire: evolve an executable safety harness against adaptive injection stressors, holding utility in the loop",
+      "date": "2026-11-18",
+      "summary": "arXiv:2611.22583 (submitted 17 Nov 2026; Wang, Liu, Bi, Nakka, Zhou, Schütze, Ma). A staged framework that couples safety-harness evolution with adaptive stressor evolution. Utility-constrained, Pareto-scheduled tree search evolves complete executable safety harnesses from execution evidence while keeping the task model, benchmark, tools, and evaluator fixed; adaptive stressor evolution then discovers utility-preserving attacks that guide a later harness stage. On AgentDyn with GPT-4o-mini, an evolved harness reduces attack success from 50.4% to 3.0% and improves clean and attacked utility over the initial harness. On Agent-SafetyBench with Qwen2.5-7B-Instruct, attack success falls from 82.6% to 62.0% while helpfulness and runtime validity are retained. Evolved harnesses transfer without further evolution to Qwen3.5-35B-A3B, cutting attack success from 32.1% to 0.9% while improving attacked-task utility.",
+      "tags": [
+        "harness",
+        "safety",
+        "eval",
+        "injection",
+        "self-improvement"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.22583"
+      ],
+      "why_it_matters_for_cr": "Complements the 15 Nov S1-Evo card: untrusted observations can flip a typed, confidence-gated choice, so the safety layer should be improved against adaptive attacks with utility held in the loop, rather than treated as a frozen list of filters. Any such evolution still needs a gate that cannot silently delete a legality check.",
+      "status": "watch",
+      "thin": false
+    },
     {
       "id": "so-arena-capability-vs-reliability",
       "title": "SO-Arena: strong System One accuracy does not mean reliable decisions — option-order flips and missed abstention lag the leaderboard",
