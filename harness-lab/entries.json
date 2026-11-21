@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-21T00:46:06Z",
+  "updatedAt": "2026-11-21T07:04:54Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
@@ -19,7 +19,7 @@
         "EM",
         "upgrade"
       ],
-      "appliedToPlaybook": false
+      "appliedToPlaybook": true
     },
     {
       "id": "claude-json-settings-concurrent-save-reset-2026-11-20",
