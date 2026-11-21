@@ -1,8 +1,44 @@
 {
-  "updatedAt": "2026-11-21T00:43:33Z",
+  "updatedAt": "2026-11-21T00:46:06Z",
   "title": "Harness Lab",
   "blurb": "Curated tips and methods that make this Field Brief / EM fleet stronger \u2014 Grok bots, Mac CLIs, vault, routines, and launch standards. Keep only what we can apply; not generic AI news.",
   "entries": [
+    {
+      "id": "claude-resume-empty-session-invalid-timestamp-2026-11-20",
+      "date": "2026-11-20",
+      "displayDate": "Nov 20, 2026",
+      "title": "Claude Code 2.1.330 \u2014 --continue / --resume could open an empty session or fail when the last saved message had a missing or invalid timestamp",
+      "href": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "why": "grok-tmux-watchdog --on-stale resumes the same session and EM follow-ups reuse session ids. On 2.1.221 a resume can silently open an empty session, so the follow-up runs without its history and looks like progress. Until upgrade, after a watchdog or manual resume, confirm the resumed turn still sees prior context (for example the transcript did not restart) before trusting its output. Release notes only; not reproduced.",
+      "source": "packs/2026-11-20-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "resume",
+        "watchdog",
+        "EM",
+        "upgrade"
+      ],
+      "appliedToPlaybook": false
+    },
+    {
+      "id": "claude-json-settings-concurrent-save-reset-2026-11-20",
+      "date": "2026-11-20",
+      "displayDate": "Nov 20, 2026",
+      "title": "Claude Code 2.1.329 / 2.1.330 \u2014 ~/.claude.json could reset to defaults on a stalled or locked save, and concurrent processes could lose user-settings changes",
+      "href": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "why": "The Mac can run several Claude processes at once (routine claude -p kicks, EM seats, the usage probe). On 2.1.221, a save that hits a network stall or file lock can reset ~/.claude.json to defaults, and concurrent saves can drop user-settings changes, so a later unattended kick can start with lost trust/settings state and look like an auth or config failure. Until upgrade, keep a dated copy of ~/.claude.json and ~/.claude/settings.json before batch kicks and stagger Claude process starts; fixed after 2.1.330. Extends the 11-05/11-06 ~/.claude.json cards. Release notes only; not reproduced.",
+      "source": "packs/2026-11-20-web-harness-lab-pack.md",
+      "tags": [
+        "Mac CLI",
+        "Claude",
+        "settings",
+        "concurrency",
+        "unattended",
+        "upgrade"
+      ],
+      "appliedToPlaybook": false
+    },
     {
       "id": "claude-p-settings-fetch-stall-hang-2026-11-18",
       "date": "2026-11-18",
