@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Field Brief edition 2026-11-20 — CR-Harness and agent-control scout ideas, one edition after the Nov 19–20 Mac-offline gap.">
+  <meta name="theme-color" content="#101828">
+  <meta name="author" content="Tongli Zhou">
+  <title>Field Brief · 2026-11-20 — Tongli Zhou</title>
+  <link rel="canonical" href="https://tonyzhou05.github.io/research/CR-harness/field-brief/briefs/2026-11-20.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #101828; --paper: #f4efe6; --paper-2: #ebe4d8;
+      --cream: #fbf7f0; --ink: #161410; --ink-soft: #5c564c; --ink-faint: #8a8378;
+      --line: #d9d0c3; --accent: #e87324; --accent-dark: #b7480d;
+      --serif: "Fraunces", Iowan Old Style, Charter, Georgia, serif;
+      --sans: "IBM Plex Sans", Inter, ui-sans-serif, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-dark); text-underline-offset: 2px; }
+    a:hover { color: var(--ink); }
+    .topnav { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .topnav-inner { width: min(860px, calc(100% - 40px)); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; padding: 12px 0; font-size: 0.92rem; }
+    .topnav .brand { font-family: var(--mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; }
+    .topnav a:hover, .topnav a[aria-current="page"] { color: var(--accent-dark); }
+    .shell { width: min(860px, calc(100% - 40px)); margin: 0 auto; }
+    header.hero { padding: 36px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 8px; }
+    h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .lede { color: var(--ink-soft); max-width: 66ch; margin: 0 0 12px; }
+    .zh { color: var(--ink-faint); font-size: 0.92rem; margin: 0 0 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 22px; }
+    .meta strong { color: var(--ink); }
+    .callout { background: #fff7ed; border: 1px solid #f0d2b0; border-radius: 12px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink-soft); }
+    .callout strong { color: var(--ink); }
+    section { margin: 0 0 36px; }
+    h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+    h3 { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; margin: 18px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul { margin: 0 0 14px; padding-left: 1.25rem; }
+    li { margin: 4px 0; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #d1fae5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 3px 9px; margin: 0 6px 6px 0; color: #065f46; }
+    .pill.watch { background: #e0e7ff; border-color: #c7d2fe; color: #3730a3; }
+    .cite { font-size: 0.9rem; color: var(--ink-soft); }
+    code { font-family: var(--mono); font-size: 0.86em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 48px; color: var(--ink-faint); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Hub">
+    <div class="topnav-inner">
+      <a class="brand" href="/research/">TZ / Research</a>
+      <a href="/research/">Hub</a>
+      <a href="/research/usage/">Usage</a>
+      <a href="/research/harness/">Harness</a>
+      <a href="/research/harness-lab/">Lab</a>
+      <a href="/research/CR-harness/">CR-Harness</a><a href="/research/dattri-llm/">Dattri-llm</a>
+      <a href="/research/CR-harness/field-brief/" aria-current="page">Field Brief / Scout</a>
+    </div>
+  </nav>
+
+<main class="shell">
+  <header class="hero">
+    <p class="kicker">Deep brief · 2026-11-20 · ET</p>
+    <h1>Field Brief — failed calls that hide in the score, recovery that needs a ledger, and auditing where state moves</h1>
+    <p class="lede">Friday edition after the 19–20 Nov Mac-offline gap (no backfill for 19 Nov). Four new watch cards from public arXiv submitted after the 18 Nov edition&rsquo;s set: a supply-chain game arena whose silent API failures and same-seed reruns overturned its own conclusions, a fault-injection study separating duplicate suppression from recovery, a state-transfer audit design for agent harnesses, and a declared reversibility vocabulary for agent actions.</p>
+    <p class="zh">十一月二十日简报 · 十九日未补发 · 新增四张观察卡片。</p>
+    <div class="meta">
+      <span>Author <strong>Tongli Zhou (TonyZhou05)</strong></span>
+      <span>Cards <strong><a href="/research/CR-harness/field-brief/">entries.json →</a></strong></span>
+      <span>Cadence <strong>daily</strong></span>
+      <span>Previous <strong><a href="2026-11-18.html">2026-11-18</a></strong></span>
+    </div>
+  </header>
+
+  <div class="callout"><strong>Honesty.</strong> The 19 and 20 Nov morning slots were missed because the Mac was offline; this is one edition for 20 Nov, and 19 Nov is not backfilled. This scout used public arXiv abstracts only (search sorted by submission date, 17&ndash;19 Nov). I quote the authors&rsquo; numbers without re-running them. No cards retired. No <span class="pill">candidate_intent</span> added or dropped. Board: 39 cards (8 candidate_intent + 31 watch), above the 8&ndash;12 target; retiring older watch cards is left for Tongli.</div>
+
+  <section>
+    <h2>1 · MANGO Arena: failed calls hid inside the metric, and same-seed reruns did not agree</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.23613" rel="noopener noreferrer">arXiv:2611.23613</a> (submitted 17 Nov 2026; Amar). The authors built an open-source testbed in which four LLM agents each run one company in a serial supply chain adapted from MANGO, a classroom factory-management game. The environment enforces hard rules (a truck limit, a no-credit cash constraint and production capacity), logs every blocked attempt to break them, and gives agents a public message board on which side payments are explicitly forbidden. In a pilot with three small reasoning models, two scripted reference policies, two conditions (with and without a supplier fire) and three demand seeds, all LLM agents amplified demand variability as it moved upstream, by 7 to 25 times at the Retailer and 13 to 179 times at the Supplier, largely by ordering in batches. Real rule violations were rare (at most 7 of 288 decisions per model) and no agent proposed a money side deal. The pilot&rsquo;s main lesson is about evaluation: API failures (rate limits and runaway hidden reasoning) entered the metrics silently as &ldquo;no order&rdquo; decisions, and rerunning games with the same seeds and no failed calls changed upstream bullwhip by up to 17 times. With three seeds, conclusions about how a disruption affects a given model did not survive a rerun.</p>
+    <p><strong>For CR:</strong> CR evals also turn a model call into a game move. A failed or timed-out call must be logged as a failure, never as a legal no-op or default action, and a result built on three seeds should be rerun before it is believed.</p>
+    <p><strong>Suggested next step:</strong> In CR eval reports, count failed / timed-out calls separately from chosen no-op or wait actions, and rerun one headline comparison with the same seeds to measure run-to-run spread before quoting a difference.</p>
+  </section>
+  <section>
+    <h2>2 · Idempotency is not recovery: suppressing duplicates is different from knowing what happened</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.23353" rel="noopener noreferrer">arXiv:2611.23353</a> (submitted 17 Nov 2026; Xu). When a language-model agent&rsquo;s tool call is interrupted, the action may already have changed an external system without confirmation; retrying risks duplication, and assuming success may conceal an action that never occurred. The author studies these failures in a controlled agent runtime that combines authorization, an action ledger, target-side idempotency, reconciliation and evidence sealing, injecting ten single-host fault classes and comparing four configurations and three ablations against a target-side oracle that is separate from the runtime ledger. On each of Windows and Linux, 7,513 trials used 96 captured model responses from 24 constructed cases. In 200 known crash-and-replay pairs, the full configuration recorded 0/200 repeated effects versus 117/200 for each simpler baseline. A ledger ablation had 170/170 orphaned effects (versus 0/170) and 200/300 recovery successes (versus 300/300). Disabling reconciliation left 100/100 known post-effect crash outcomes ambiguous despite no observed duplicates. The full runtime had about one-seventh of fail-open throughput, and injected evidence-write faults left 75/100 trials per platform unresolved. The author limits the claims to the tested benchmark.</p>
+    <p><strong>For CR:</strong> When a CR runner or watchdog restarts mid-turn, "don't send the action twice" is not enough: the runner must also be able to tell whether the action reached the engine. That needs a pending-action ledger and a check against engine state, not just a dedupe key.</p>
+    <p><strong>Suggested next step:</strong> For the CR action path, write a pending entry before dispatch and reconcile against engine state after any crash or timeout; in a replay, kill the runner between dispatch and acknowledgement and count duplicated, lost and ambiguous actions.</p>
+  </section>
+  <section>
+    <h2>3 · State-transfer auditing: the failures happen where state moves, so record those moves</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.23346" rel="noopener noreferrer">arXiv:2611.23346</a> (submitted 17 Nov 2026; Shah, Kathrotia). Long-horizon agents across codebases, browsers and infrastructure rely on an execution harness to move state between the working context, session history, persistent memory and the external environment. Conventional traces log prompts and tool calls, but the authors argue critical failures occur during state transfers: a transfer can admit unchecked content (indirect prompt injections, unverified memory writes), rewrite state lossily (context compaction dropping user constraints, memory consolidation stripping source authority) or restore state incompletely (workspace rollbacks leaving aborted cache state active on the inference server). They present a state-transfer audit architecture: at each boundary an audit point specifies the minimal hash-chained record the harness emits, separating low-overhead deterministic checks from model-based semantic checks. They argue the same records needed for causal failure attribution also supply the durable state for runtime controls &mdash; least-privilege capabilities, replay-resistant authorization outside the prompt, information-flow control, obligation monitors and transactional recovery. A reference middleware evaluated across 240 multi-step fault-injection trajectories is reported to localize root causes and catch cross-transfer violations missed by lifecycle and tool-only logs, at microsecond deterministic overhead.</p>
+    <p><strong>For CR:</strong> CR traces already record observations and actions; the risky moments the paper names — compaction that drops a rule, a memory note that loses its source, a restore that leaves stale state — are exactly where a CR run could silently change what the agent was allowed to do.</p>
+    <p><strong>Suggested next step:</strong> Add a hash-chained record at the CR summary/compaction step and at any state restore, and check in replay that the frozen rule text and legal-action contract are byte-identical across each transfer.</p>
+  </section>
+  <section>
+    <h2>4 · Reversibility classes: whether an action can be undone is a property to declare and test</h2>
+    <p><span class="pill watch">watch</span> <a href="https://arxiv.org/abs/2611.22075" rel="noopener noreferrer">arXiv:2611.22075</a> (submitted 17 Nov 2026; Waghmare, Sufi). Tool-using agents change files, databases, access rights and public information, yet permission to call a tool does not establish whether a mistake can be undone. The authors present Reversibility Classes, a declared five-level vocabulary with argument-sensitive rules, conservative defaults and an explicit prior-state capture contract. The pinned implementation and evidence-linked registry cover 536 tools across 20 MCP servers. All 738 rule-case checks conform to declared expectations, while native annotation mapping differs from draft registry labels for 118 of 481 comparable tools. One AI-assisted reviewer approved 148 ratings, 75 matching the registry, which the authors note is not independent agreement. On 2,158 recorded runs, the session guard gates the associated action in all 29 attributable attack-positive runs, compared with 18 for a read/write proxy, while adding nine approval points across 1,209 benign runs. Controlled file, Git, SQLite and three-browser experiments show that recovery depends on captured state, later changes, editor storage and recovery route, and expose a Git merge-state exception. The evidence supports making recovery assumptions explicit and testable; it does not establish registry-wide accuracy, reduced production harm or general recovery reliability.</p>
+    <p><strong>For CR:</strong> The fleet's GREEN / YELLOW / RED gate is a reversibility judgement made by hand. A declared, argument-sensitive class with "capture prior state first" as a contract is a way to make that judgement testable for CR tooling and bot actions, and shows a read/write split misses cases.</p>
+    <p><strong>Suggested next step:</strong> Tag the CR harness's own side-effecting tools (writes, pushes, engine resets) with a reversibility class and the prior state each must capture, and check one recorded run where a read/write split would have let an irreversible action through.</p>
+  </section>
+
+  <section>
+    <h2>Also seen (not carded)</h2>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2611.24924" rel="noopener noreferrer">AHE-Beta</a> (submitted 18 Nov 2026): a requirement-centred harness-evolution loop (simulated users raise requirements as issues, team-based changes, merge only on a verified requirement plus review); reported pass@1 21.9% → 33.3% on held-out tasks with 40.8% fewer tokens, and 31 of 48 blind human A/B pairs preferred. Sits next to the 18 Nov self-improving-harness card; not carded to avoid a second harness-evolution card in a row.</li>
+      <li><a href="https://arxiv.org/abs/2611.25380" rel="noopener noreferrer">Beyond Weight Updates</a> (submitted 19 Nov 2026): evolves the harness (prompt, tool schemas, skills, planning scaffold) with GEPA while the policy stays frozen; reported to recover most weight-update gains at a fraction of compute on SWE-bench Verified, OfficeBench and Terminal-Bench. Same theme as above.</li>
+      <li><a href="https://arxiv.org/abs/2611.23403" rel="noopener noreferrer">Tracking Representations in LLM Reasoning Traces for Iterated Games</a> (submitted 17 Nov 2026): interpretability study of LLM agents in iterated incomplete-information games; once a model commits early to a wrong belief about the game it rarely recovers, visible in both trace and activations. Interesting for CR belief tracking, but no harness-side method yet.</li>
+      <li><a href="https://arxiv.org/abs/2611.22901" rel="noopener noreferrer">Done, But Still Working</a> (submitted 17 Nov 2026): anytime evaluation of when coding agents should stop, by replaying about 6,000 recorded runs; stopping after the same patch passes twice saved 23% in a preregistered replication, but non-inferiority on quality was not established. Relevant to the fleet's coding loop more than to CR.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Intent shortlist (human gate)</h2>
+    <ol>
+      <li>Open intent candidates (unchanged): <strong>xiangqibench-closed-loop</strong>, <strong>game-arena-kaggle-harness</strong>, <strong>reflex-jev-selective-control</strong>, <strong>action-class-calibration-gar</strong>, <strong>jev-gameplay-decision-router</strong>, <strong>autoharness-textarena</strong>, <strong>ptcg-bench-harness-ablation</strong>, <strong>adversarial-review-dual-lgtm</strong>.</li>
+    </ol>
+    <p>Full card set: <a href="/research/CR-harness/field-brief/">/research/CR-harness/field-brief/</a> · JSON: <a href="/research/CR-harness/field-brief/entries.json">entries.json</a>.</p>
+  </section>
+</main>
+
+
+<footer>
+  <div class="shell">
+    Field Brief · 2026-11-20 · Tongli Zhou ·
+    <a href="/research/CR-harness/field-brief/">Scout index</a> ·
+    <a href="2026-11-18.html">Previous brief</a> ·
+    <a href="/research/CR-harness/">CR-Harness</a> ·
+    <a href="/research/">Hub</a>
+  </div>
+</footer>
+</body>
+</html>

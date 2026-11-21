@@ -1,11 +1,83 @@
 {
   "title": "The Field Brief",
   "blurb": "Daily scout surface for CR-Harness and adjacent agent-control research. Public sources only. Not an hourly Cao-style feed — refresh ~daily. Lives under CR-Harness (not hub homepage).",
-  "updatedAt": "2026-11-18T18:48:54-05:00",
+  "updatedAt": "2026-11-20T19:50:21-05:00",
   "timezone": "America/Toronto",
   "cadence": "daily",
-  "briefEdition": "briefs/2026-11-18.html",
+  "briefEdition": "briefs/2026-11-20.html",
   "entries": [
+    {
+      "id": "mango-arena-seed-rerun-silent-failures",
+      "title": "MANGO Arena: silent API failures became \"no order\" moves, and same-seed reruns changed the headline metric up to 17×",
+      "date": "2026-11-20",
+      "summary": "arXiv:2611.23613 (submitted 17 Nov 2026; Amar). An open-source testbed where four LLM agents each run one company in a serial supply chain adapted from the MANGO classroom game; the environment enforces hard rules (truck limit, no-credit cash constraint, production capacity), logs every blocked attempt to break them, and offers a message board on which side payments are forbidden. In a pilot with three small reasoning models, two scripted reference policies, two conditions (with and without a supplier fire) and three demand seeds, all LLM agents amplified demand variability upstream (7–25× at the Retailer, 13–179× at the Supplier); real rule violations were rare (at most 7 of 288 decisions per model) and no agent proposed a side deal. The authors' main lesson is about method: API failures (rate limits and runaway hidden reasoning) entered the metrics silently as \"no order\" decisions, and rerunning games with the same seeds and no failed calls changed upstream bullwhip by up to 17×, so with three seeds conclusions about a disruption did not survive a rerun.",
+      "tags": [
+        "eval",
+        "reproducibility",
+        "seeds",
+        "honesty",
+        "multi-agent"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.23613"
+      ],
+      "why_it_matters_for_cr": "CR evals also turn a model call into a game move. A failed or timed-out call must be logged as a failure, never as a legal no-op or default action, and a result built on three seeds should be rerun before it is believed.",
+      "status": "watch"
+    },
+    {
+      "id": "idempotency-is-not-recovery-action-ledger",
+      "title": "Idempotency Is Not Recovery: an action ledger plus reconciliation, not duplicate suppression alone, recovers interrupted tool actions",
+      "date": "2026-11-20",
+      "summary": "arXiv:2611.23353 (submitted 17 Nov 2026; Xu). When a tool call is interrupted, the action may already have changed the outside system; retrying risks duplication and assuming success can hide an action that never happened. The author tests a runtime combining authorization, an action ledger, target-side idempotency, reconciliation and evidence sealing, injecting ten single-host fault classes and judging with a target-side oracle separate from the runtime ledger (7,513 trials on each of Windows and Linux, from 96 captured model responses over 24 constructed cases). In 200 known crash-and-replay pairs the full configuration had 0/200 repeated effects versus 117/200 for each simpler baseline; a ledger ablation left 170/170 orphaned effects; disabling reconciliation left 100/100 post-effect crash outcomes ambiguous despite no observed duplicates. The full runtime ran at about one-seventh of fail-open throughput, and injected evidence-write faults left 75/100 trials per platform unresolved.",
+      "tags": [
+        "recovery",
+        "ledger",
+        "idempotency",
+        "fault-injection",
+        "tools"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.23353"
+      ],
+      "why_it_matters_for_cr": "When a CR runner or watchdog restarts mid-turn, \"don't send the action twice\" is not enough: the runner must also be able to tell whether the action reached the engine. That needs a pending-action ledger and a check against engine state, not just a dedupe key.",
+      "status": "watch"
+    },
+    {
+      "id": "state-transfer-audit-harness",
+      "title": "State-transfer auditing: log what crosses context, memory, history and environment boundaries, not just prompts and tool calls",
+      "date": "2026-11-20",
+      "summary": "arXiv:2611.23346 (submitted 17 Nov 2026; Shah, Kathrotia). Long-horizon agents rely on a harness to move state between the working context, session history, persistent memory and the external environment. The authors argue many failures happen at those transfers: unchecked content admitted (indirect prompt injection, unverified memory writes), state rewritten lossily (compaction dropping user constraints, memory consolidation stripping source authority) or restored incompletely (rollbacks leaving aborted state active). They define an audit point at each transfer boundary with a minimal hash-chained record, separating cheap deterministic checks from model-based semantic checks, and argue the same records supply what runtime controls need (least privilege, replay-resistant authorization outside the prompt, information-flow control, obligation monitors, transactional recovery). A reference middleware evaluated on 240 multi-step fault-injection trajectories is reported to localize root causes and catch cross-transfer violations that lifecycle and tool-only logs miss, at microsecond deterministic overhead.",
+      "tags": [
+        "harness",
+        "audit",
+        "compaction",
+        "memory",
+        "replay"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.23346"
+      ],
+      "why_it_matters_for_cr": "CR traces already record observations and actions; the risky moments the paper names — compaction that drops a rule, a memory note that loses its source, a restore that leaves stale state — are exactly where a CR run could silently change what the agent was allowed to do.",
+      "status": "watch"
+    },
+    {
+      "id": "reversibility-classes-agent-actions",
+      "title": "Reversibility Classes: declare whether an agent action can be undone, with argument-sensitive rules and a prior-state capture contract",
+      "date": "2026-11-20",
+      "summary": "arXiv:2611.22075 (submitted 17 Nov 2026; Waghmare, Sufi). Permission to call a tool does not establish whether a mistake can be undone. The authors present Reversibility Classes: a declared five-level vocabulary with argument-sensitive rules, conservative defaults and an explicit prior-state capture contract, with a pinned implementation and evidence-linked registry covering 536 tools across 20 MCP servers. All 738 rule-case checks conform to declared expectations, while native annotation mapping differs from draft registry labels for 118 of 481 comparable tools; one AI-assisted reviewer approved 148 ratings, 75 matching the registry (not independent agreement). On 2,158 recorded runs the session guard gated the associated action in all 29 attributable attack-positive runs, versus 18 for a read/write proxy, while adding nine approval points across 1,209 benign runs. File, Git, SQLite and browser experiments show recovery depends on captured state, later changes and recovery route, with a Git merge-state exception. The authors say this does not establish registry-wide accuracy or reduced production harm.",
+      "tags": [
+        "reversibility",
+        "approval",
+        "GYR",
+        "MCP",
+        "agent-control"
+      ],
+      "source_urls": [
+        "https://arxiv.org/abs/2611.22075"
+      ],
+      "why_it_matters_for_cr": "The fleet's GREEN / YELLOW / RED gate is a reversibility judgement made by hand. A declared, argument-sensitive class with \"capture prior state first\" as a contract is a way to make that judgement testable for CR tooling and bot actions, and shows a read/write split misses cases.",
+      "status": "watch"
+    },
     {
       "id": "anatomy-agent-harness-invariants",
       "title": "Anatomy of an Agent Harness: write hidden harness decisions down as invariants to test",
